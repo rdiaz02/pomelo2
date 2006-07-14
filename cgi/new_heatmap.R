@@ -333,7 +333,7 @@ heatmap.2.ed <- function (x, Rowv = NULL, Colv = if (symm) "Rowv" else NULL,
 
 
 
-results.file <- read.table("multest_parallel.res", header = TRUE, skip = 13, sep="\t")
+results.file <- read.table("multest_parallel.res", header = TRUE, skip = 13, sep="\t", comment.char = "")
 heatmapOpts  <- read.table("heatmapOpts", header = TRUE, sep = "\t")
 #class.names  <- read.table("class_labels", header = FALSE, sep = "\t")
 class.names <- scan("class_labels", sep = "\t", what = "char", strip.white = TRUE)

@@ -45,6 +45,9 @@ library(papply)
 mpi.spawn.Rslaves(nslaves = mpi.universe.size())
 mpi.remote.exec(rm(list = ls(env = .GlobalEnv), envir =.GlobalEnv))
 mpi.remote.exec(library(survival))
+sink(file = "mpiOK")
+cat("MPI started OK\n")
+sink()
 
 
 
@@ -105,8 +108,13 @@ geneNames <- read.table("geneNames")[, 1]
 
 
 coxph.fit.pomelo0 <- function (x, y, init = NULL,
-                              control, method = "effron",  rownames = NULL) {
+                              control, method = "efron",  rownames = NULL) {
     warnStatus <- 0
+    naindex <- which(is.na(x))
+    if(length(naindex)) {
+        x <- x[-naindex]
+        y <- y[naindex, ]
+    }
     x <- as.matrix(x) ## this ain't very efficient
     n <- nrow(y)
     if (is.matrix(x)) 
@@ -223,6 +231,8 @@ cox.parallel <- function(x, time, event, MaxIterationsCox = 200) {
     return(res.mat)
 }
 
+save.image()
+
 rescox <- cox.parallel(t(xdata), Time, Event, MaxIterationsCox = 200)  
 
 p.values.original <- data.frame(
@@ -252,7 +262,6 @@ idtype <- scan("idtype", what = "char", n = 1)
 system(paste("/http/pomelo2/cgi/generate_table_Cox.py", idtype, organism))
 
 cat("\nmultest_parallel.res\n", file = "pomelo.msg", append = TRUE)
-
 
 
 #### lanzar como:
