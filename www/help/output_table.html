@@ -1,0 +1,92 @@
+<html>
+<script type="text/javascript" language="javascript">
+	function open_main_help(){
+                window.open("http://pomelo2.bioinfo.cnio.es/help/pomelo2-help.html","fullHelp","scrollbars=YES,resizable=YES")
+	}
+</script>
+<style type="text/css">
+	DIV.Title_box
+	{
+		font-weight: bold; 
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		LEFT: 6.5%;
+		TOP: 1.1em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 18em;
+		Z-INDEX:2;
+		
+	}
+	DIV.full_box
+	{
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		TOP: 0.3em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(238,243,226);
+		Z-INDEX:1;
+	}
+</style>
+<TITLE> Pomelo II: output table</TITLE>
+
+<Body background="http://pomelo2.bioinfo.cnio.es/fondo3.jpg">
+	
+	<div id = "results_title" class="Title_box">
+		Help on: Output table
+	</div>
+	<div id = "results" class="full_box" >
+	     <br>
+	     <div id = "help-cnotents" style="position:relative; margin-left:5%; margin-right:5%">
+	     <B>What is the output table?</B>
+	     <br>
+	     The output table is a table containing the results of the test you have launched.	     
+	     <br>
+	     <br>
+	     <B>What do the values that appear mean?</B>
+	     <br>
+	     The header indicates: the test used, the number of permutations (if permutation test)
+	     and the covariables that were used (only for annova limma, more information in full help).
+	     The actual table contains: table row number, Gene Name, row number (corresponds to order 
+	     used in your file), unadjusted p-value (p-value with no multiple testing correction), 
+	     FDR-indep (FDR-adjusted p-value), observed statistic (depends on test used, see full help)
+	     and absoulte observed statistic.
+	     <br><i>More information in full help.</i>
+	     <br>
+	     <br>
+	     <B>Reorder table and download?</B>
+	     <br>
+	     If you wish to reorder the table, you will find a drop down list at the bottom of the 
+	     table with different ordering options.
+	     To download text version of the table and other files, you must click on the "Download output files" 
+	     button at the bottom of the table.	     
+	     <br>
+	     <br>
+	     </div >
+	     <center>
+	     <input type="button" name="close" value=" Close help window " OnClick="window.close();">
+	     <input type="button" name="help"  value=" Open full help "    OnClick="open_main_help();">
+	     <br><br>
+	     </center>
+	</div>
+</Body>
+</html>

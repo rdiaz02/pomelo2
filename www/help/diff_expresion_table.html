@@ -1,0 +1,89 @@
+<html>
+<script type="text/javascript" language="javascript">
+	function open_main_help(){
+                window.open("http://pomelo2.bioinfo.cnio.es/help/pomelo2-help.html","fullHelp","scrollbars=YES,resizable=YES")
+	}
+</script>
+<style type="text/css">
+	DIV.Title_box
+	{
+		font-weight: bold; 
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		LEFT: 6.5%;
+		TOP: 1.1em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 18em;
+		Z-INDEX:2;
+		
+	}
+	DIV.full_box
+	{
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		TOP: 0.3em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(238,243,226);
+		Z-INDEX:1;
+	}
+</style>
+<TITLE> Pomelo II: Differential expression table help</TITLE>
+
+<Body background="http://pomelo2.bioinfo.cnio.es/fondo3.jpg">
+	
+	<div id = "results_title" class="Title_box">
+		Help on: Differential expression table
+	</div>
+	<div id = "results" class="full_box" >
+	     <br>
+	     <div id = "help-cnotents" style="position:relative; margin-left:5%; margin-right:5%">
+	     <B>How does the differential expression table work?</B>
+	     <br>
+	     After making a class comparison (Compare classes box), a table should appear showing the genes that 
+	     are differentially expressed. The genes that are up-regulated will have a green class1 > class2 and 
+	     the ones that are down-regulated will have a red class1 &lt; class2.
+	     <br>
+	     <br>
+	     <B>What is the differential expression criteria?</B>
+	     <br>
+	     If a gene has a FDR value below the FDR value that appears in orange in the differntial expression 
+	     criteria section, it is considered to be differentially expressed. The FDR limit can be changed
+	     in the differntial expression criteria section.  
+	     <br>
+	     <br>
+	     <B>Why do no genes appear after I have made a class comparison?</B>
+	     <br>
+	     The table only shows genes that are differentially expressed in at least one of the class comparisons. If
+	     no genes appear, it means that none of the genes are differentially expressed in the class comparisons 
+	     you have calculated so far.
+	     <br>
+	     <br>
+	     </div >
+	     <center>
+	     <input type="button" name="close" value=" Close help window " OnClick="window.close();">
+	     <input type="button" name="help"  value=" Open full help " OnClick="open_main_help();">
+	     <br><br>
+	     </center>
+	</div>
+</Body>
+</html>

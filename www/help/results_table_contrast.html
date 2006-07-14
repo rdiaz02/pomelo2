@@ -1,0 +1,79 @@
+<html>
+<script type="text/javascript" language="javascript">
+	function open_main_help(){
+                window.open("http://pomelo2.bioinfo.cnio.es/help/pomelo2-help.html","fullHelp","scrollbars=YES,resizable=YES")
+	}
+</script>
+<style type="text/css">
+	DIV.Title_box
+	{
+		font-weight: bold; 
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		LEFT: 6.5%;
+		TOP: 1.1em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 15em;
+		Z-INDEX:2;
+		
+	}
+	DIV.full_box
+	{
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		TOP: 0.3em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(238,243,226);
+		Z-INDEX:1;
+	}
+</style>
+<TITLE> Pomelo II: Results table help</TITLE>
+
+<Body background="http://pomelo2.bioinfo.cnio.es/fondo3.jpg">
+	
+	<div id = "results_title" class="Title_box">
+		Help on: Results table
+	</div>
+	<div id = "results" class="full_box" >
+	     <br>
+	     <div id = "help-cnotents" style="position:relative; margin-left:5%; margin-right:5%">
+	     <B>What should appear in the  results tables section?</B>
+	     <br>
+	     Each time you make a class comparison, a link to a table containing the output from that comparison will appear.
+	     <br>
+	     <br>
+	     <B>What do the class comparison results tables contain?</B>
+	     <br>
+	     The results tables contain the same information as any other Pomelo test:
+	     Gene Name, Row number, unadj.p, FDR_indep, Obs_stat and abs(Obs_stat).
+	     <br>
+	     <br>
+	     </div >
+	     <center>
+	     <input type="button" name="close" value=" Close help window " OnClick="window.close();">
+	     <input type="button" name="help"  value=" Open full help " OnClick="open_main_help();">
+	     <br><br>
+	     </center>
+	</div>
+</Body>
+</html>

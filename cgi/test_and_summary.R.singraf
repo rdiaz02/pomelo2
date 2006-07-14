@@ -1,0 +1,88 @@
+library(GDD)
+##################################  Functions #################################
+
+# Output error to file
+caughtError <- function(message) {
+    sink(file = "errCovariables")
+    cat(message)
+    sink()
+    quit(save = "no", status = 11, runLast = TRUE)
+}
+###############################################################################
+num.cols.covariables <- count.fields("covariables", sep = "\t",
+                                   quote = "",
+                                   comment.char = "#",
+                                   blank.lines.skip = TRUE, skip=1)
+
+# Check all rows have same number of columns
+if(length(unique(num.cols.covariables)) > 1) {
+    message <-
+    paste("The number of columns in your covariables file\n",
+          "is not the same for all rows (subjects).\n",
+          "We find the following number of columns\n",
+          paste(num.cols.covariables, collapse = ", "))
+    caughtUserError(message)
+}
+
+
+
+# Try to read data
+trycovarb <- try(
+                 covariables.table <- read.table("covariables", header
+                                                 = TRUE, sep="\t",
+                                                 strip.white = TRUE)
+                 )
+
+# If data is not read terminate
+if(class(trycovarb) == "try-error")
+  caughtError("Unable to read covariables file. Please check you have introduced a valid file.")
+
+if (any(is.na(covariables.table)) || any(covariables.table == "na") ||
+  any(covariables.table == "NA" ) || any(covariables.table == ""))
+  caughtError("Covariables file contains missing values. Either remove that covariable (column) or correct this problem.")
+
+# Get data dimensions
+table.dimensions <- dim(covariables.table)
+# Get covariable names
+covariable.names <- colnames(covariables.table)
+
+# Write covariable names to file
+sink("names_covariables")
+cat(paste(covariable.names,collapse="\t"))
+sink()
+
+# Count number of subjects in class labels
+num.subjects <- count.fields("../class_labels", sep = "\t",
+                                   quote = "",
+                                   comment.char = "#",
+                                   blank.lines.skip = TRUE)
+
+# If not same number of subjects terminate
+if (table.dimensions[1] != num.subjects) {
+  err.message <-
+    paste("The number of subjects in the covariables file (",
+          table.dimensions[1],") is not the same as the number of subjects in the expression file (",
+          num.subjects,").")
+  caughtError(err.message)
+  
+}
+# Write summary of each covariable
+sink("covariable_summary")
+for (i in 1:table.dimensions[2]){
+  cat(paste(covariable.names[i],"\n"))
+  cat(paste(is.factor(covariables.table[,i]),"\n"))
+  print(summary(covariables.table[,i]))
+  GDD(file = covariable.names[i], w=370, h=320, type = "png", ps = 16)
+  if (is.factor(covariables.table[,i])){
+    plot(covariables.table[,i])
+  }else{
+    plot(density(covariables.table[,i]))
+    
+  }
+  dev.off()
+  
+}
+sink()
+
+# Remove old error message if it exists
+dummy.var <- try(system("rm errCovariables"))

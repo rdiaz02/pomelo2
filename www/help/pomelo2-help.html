@@ -1,0 +1,1054 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="">
+  <style type="text/css">
+        TABLE.example
+	{
+	        WIDTH:                                 90%;
+                MARGIN-LEFT:                           5%;	
+	}
+        DIV.color 
+        {
+                BACKGROUND:                        #ff6600;
+                PADDING:                             0.5em;
+                BORDER:                               none;
+                WIDTH:                                 60%;                
+                MARGIN-LEFT:                           14%;
+        }
+        DIV.actual_text
+        {
+                MARGIN-LEFT:                            5%;
+                WIDTH:                                 90%;
+        }
+        i
+        {
+                 FONT:                  900 12px/14px arial;
+        }
+        DIV.Main_title
+        {
+                VERTICAL-ALIGN:                     middle;
+                FONT-WEIGHT:                           900; 
+                FONT-SIZE:                             2em;
+                TEXT-ALIGN:                         center;
+                BORDER-RIGHT:     rgb(34,139,34) 7px solid;
+                BORDER-TOP:         rgb(0,139,0) 7px solid;
+                BORDER-BOTTOM:    rgb(34,139,34) 7px solid;
+                BORDER-LEFT:        rgb(0,139,0) 7px solid;
+                PADDING-RIGHT:                         7px;                
+                PADDING-LEFT:                          7px;
+                PADDING-BOTTOM:                        7px;
+                PADDING-TOP:                           7px;
+                LEFT:                                0.87%;
+                TOP:                                    1%;
+                FLOAT:                                none;
+                MARGIN:                                2px;
+                POSITION:                         relative;
+                BACKGROUND-COLOR:          rgb(154,205,50); 
+                WIDTH:                                 96%;
+                HEIGHT:                              4.4em;
+        }
+        DIV.Title_box
+        {
+                FONT-WEIGHT:                          bold; 
+                TEXT-ALIGN:                         center;
+                BORDER-RIGHT:     rgb(34,139,34) 3px solid;
+                BORDER-TOP:         rgb(0,139,0) 3px solid;
+                BORDER-BOTTOM:    rgb(34,139,34) 3px solid;
+                BORDER-LEFT:        rgb(0,139,0) 3px solid;
+                PADDING-RIGHT:                         3px;                
+                PADDING-LEFT:                          3px;
+                PADDING-BOTTOM:                        3px;
+                PADDING-TOP:                           3px;
+                LEFT:                                 6.5%;
+                TOP:                                 1.1em;
+                FLOAT:                                none;
+                VISIBILITY:                        visible;
+                MARGIN:                                2px;
+                POSITION:                         relative;
+                BACKGROUND-COLOR:          rgb(154,205,50); 
+                WIDTH:                                20em;
+                Z-INDEX:                                 2;
+                
+        }
+        DIV.results_box
+        {
+                BORDER-RIGHT:     rgb(34,139,34) 3px solid;
+                BORDER-TOP:         rgb(0,139,0) 3px solid;
+                BORDER-BOTTOM:    rgb(34,139,34) 3px solid;
+                BORDER-LEFT:        rgb(0,139,0) 3px solid;
+                PADDING-RIGHT:                         3px;                
+                PADDING-LEFT:                          3px;
+                PADDING-BOTTOM:                        3px;
+                PADDING-TOP:                           3px;
+                TOP:                                 0.3em;
+                FLOAT:                                none;
+                VISIBILITY:                        visible;
+                MARGIN:                                2px;
+                POSITION:                         relative;
+                BACKGROUND-COLOR:         rgb(238,243,226);
+                Z-INDEX:                                 1;
+        
+	}
+        </style>
+  <title>POMELO II General help</title>
+</head>
+
+<body background="http://pomelo2.bioinfo.cnio.es/fondo3.jpg">
+
+<div id="titulo_upload" class="Main_title">
+<img src="http://pomelo2.bioinfo.cnio.es/pomelo2.gif" align="left"
+border="0"> <img src="http://pomelo2.bioinfo.cnio.es/pomelo2.gif"
+align="right" border="0"> <span style="position:relative; top:15%">POMELO II
+<br>
+(THE RETURN OF THE POMELO)</span></div>
+
+<div id="results_title" class="Title_box">
+Help index for Pomelo II</div>
+
+<div id="results" class="results_box">
+<br>
+<tableofcontents>
+<ul compact="compact">
+  <li><a href="#toc2">Introduction to Pomelo II</a></li>
+  <li><a href="#toc3">FDR and adjusted p-values</a></li>
+  <li><a href="#toc4">Tests available</a>
+    <ul compact="compact">
+      <li><a href="#toc5">t-test (Permutations)</a></li>
+      <li><a href="#toc6">Anova (Permutations)</a></li>
+      <li><a href="#toc7">Regression (Permutations)</a></li>
+      <li><a href="#toc8">FisherIxJ</a></li>
+      <li><a href="#toc9">Cox model</a></li>
+      <li><a href="#toc10">t-test (limma)</a></li>
+      <li><a href="#toc11">Paired t-test (limma)</a></li>
+      <li><a href="#toc12">Anova, linear models (limma)</a></li>
+    </ul>
+  </li>
+  <li><a href="#toc13">Limma tests vs permutation tests</a></li>
+  <li><a href="#toc14">Using additional covariables</a></li>
+  <li><a href="#toc15">Program input</a>
+    <ul compact="compact">
+      <li><a href="#toc16">Necessary data files for each test</a></li>
+      <li><a href="#toc17">Data format for gene expression data</a></li>
+      <li><a href="#toc18">Data format for class labels and censored
+        indicators</a></li>
+      <li><a href="#toc19">Data format for Fisher's exact test on contingency
+        tables</a></li>
+      <li><a href="#toc20">Data format for paired indicator</a></li>
+      <li><a href="#toc21">Data format for additional covariables</a></li>
+    </ul>
+  </li>
+  <li><a href="#toc22">Output files</a></li>
+  <li><a href="#toc23">Examples and data sets</a></li>
+  <li><a href="#toc24">Code, authors and acknowledgements</a></li>
+  <li><a href="#toc25">Terms of use: NO WARRANTY</a></li>
+  <li><a href="#toc26">Terms of use: citation</a></li>
+  <li><a href="#toc27">Privacy and Security</a></li>
+  <li><a href="#toc28">Copyright and license</a></li>
+</ul>
+</tableofcontents>
+<CENTER>
+<input type="button" name=" Download " value="  Download pdf version of help  " 
+       onClick="window.open('http://pomelo2.bioinfo.cnio.es/help/pomelo2-help.pdf')">
+</CENTER>
+<br><br><br>
+</div>
+
+<div id="results_title" class="Title_box">
+<a name="toc2">Introduction to Pomelo II</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<br>
+<b>(Or, for old-time Pomelo users: Why you should switch to Pomelo II)</b>
+
+<p>Pomelo II is a new and much improved incarnation of Pomelo, a tool for
+finding differentially expressed genes, and genes that are of potential
+interest because they are related to an outcome of interest (e.g., type of
+cancer, survival).</p>
+
+<p>The main features that differentiate Pomelo II from its ancestor, Pomelo,
+are:</p>
+<ul>
+  <li>Much faster than Pomelo. The underlying C++ code has now been
+    parallelized for the permutation computations. For the longer problems
+    you can expect up to a 40 to 60 (or 90 to 110, depending on the hardware
+    where we are running Pomelo II) fold increase in speed. Whenever you run
+    Pomelo II you will be using between about 60 (or 120) CPUs
+  simultaneously.</li>
+  <li>Customizable heatmaps for the results that include a dendrogram of the
+    displayed genes. This allows "similar genes" to be grouped together in
+    the figures, thus simplifying interpretation.  You select the genes to
+    plot based on different criteria (unadjusted p-value, FDR-adjusted
+    p-value, ...).</li>
+  <li>If you use any of the currently standard identifiers for your gene IDs
+    for either human, mouse, or rat genomes, you can obtain additional
+    information by clicking on the names in the output tables and figures.
+    This information is based on that provided by our <a
+    href="http://idconverter.bioinfo.cnio.es">IDConverter</a> tool.</li>
+  <li>Tables of results are now sortable according to different criteria
+    (unadjusted p-value, FDR-adjusted p-value, ...).</li>
+  <li>New non-permutation methods have been added (t-limma, anova-limma and
+    paired t-limma).</li>
+  <li>It is now possible to use additional covariables (with anova-limma). 
+    That is, you can now add more information, such as: subject
+    age, sex, country, or any other characteristic that might vary expression
+    data.</li>
+  <li>We now only provide FDR-adjusted p-values (see below).</li>
+</ul>
+</div>
+<br>
+<br>
+</div>
+
+<div id="results_title" class="Title_box">
+<a name="toc3">FDR and adjusted p-values</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<p>So as to control multiple testing effects, we provide FDR-adjusted
+p-values, which we calculate using the approach of <b>Benjamini &amp;
+Hochberg</b> (1995; J. Royal Statistical Society B, 57:289-300).
+FWER-correction is no longer provided. We think that control of the FDR
+(False Discovery Rate) is probably more relevant for most genomic and
+proteomics research than control of the FWER (Family-Wise Error Rate); in
+addition, use of the maxT FWER control procedure requires that the subset
+pivotality assumption holds, which is not the case with some of the tests
+available in Pomelo.</p>
+
+<p>Finally, even if the assumptions of the Benjamini and Hochberg's FDR
+procedure are not satistified, the error is often small (Reiner, A., D.
+Yekutieli, and Y. Benjamini, 2003, "Identifying differentially expressed
+genes using false discovery rate controlling procedures", Bioinformatics 19,
+368-375) and, overall, this method is competitive to other alternatives such
+as Benjamini &amp; Yekutieli's or permutation-based approaches.</p>
+
+<p>More extensive details on hypothesis testing and multiple testing
+correction are provided in the <a
+href="http://pomelo.bioinfo.cnio.es/help/multest-help.html">help for Pomelo
+I</a>.</p>
+</div>
+<br>
+<br>
+</div>
+
+<div id="results_title" class="Title_box">
+<a name="toc4">Tests available</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<h3><a name="toc5"></a><a name="t.test">t-test (Permutations)</a></h3>
+
+<p>The all-famous t-test. Used to compare an interval variable (one where
+distances between levels make sense) between two groups. For example, we
+could compare gene expression data between two types of patients. We use here
+the test statistic for the case where we do not assume equal variances in the
+two groups. We compute the usual t-statistic, but p-values are obtained by
+permutation testing.</p>
+
+<h3><a name="toc6"></a><a name="Anova">Anova (Permutations)</a></h3>
+
+<p>Analysis of variance. We compare between more than two groups the value of
+an interval data, such as the gene expression among five types of cancer. The
+statistic is your usual ANOVA F-ratio and p-values are obtained using a
+permutation test.</p>
+
+<h3><a name="toc7"></a><a name="Regression">Regression (Permutations)</a></h3>
+
+<p>Linear regression. We try to predict the (interval scaled) values of a
+dependent variable based on the values of an independent, interval scaled
+variable. A typical example is predicting the expression levels of a protein
+using gene expression data. (Thus, note here that the "independent" variable
+is gene expression). We compute the usual ordinary least-squares regression
+coefficient and obtain the p-value using a permutation test.</p>
+
+<h3><a name="toc8"></a><a name="contigency.table">FisherIxJ</a></h3>
+
+<p>Non permutation method for contingency tables. It obtains the unadjusted
+p-value using Fisher's exact test. This test would be the one to use if we
+have, say, different classes of patients (e.g., six types of cancers) and for
+a set of 1000 markers we can have either presence/absence of each marker in
+each patient (this would yield 1000 contingency tables of dimensions 6x2
+---each marker by each cancer type), or we can have several levels of
+(unordered) expression, say four types of expression (which would yield 1000
+6x4 tables).</p>
+
+<p>If the markers have more than two levels of expression and these are
+ordered (say, from less to more) other tests could be more powerful, such as
+the Cochran-Armitage test (which we have not implemented). Another
+alternative with categorical response data are logistic and multinomial
+models (which we have not implemented).</p>
+
+<p>Please note that FisherIxJ is a test that is rarely used, almost never
+with gene-expression arrays. We implemented FisherIxJ for some people who
+were using tissue arrays (that yielded pressence/absence values).</p>
+</div>
+
+<div class="actual_text">
+<h3><a name="toc9" id="toc9"></a><a name="Cox" id="Cox">Cox model</a></h3>
+
+<p>A widely used model for survival data. With survival data we often have
+censored observations (e.g., a patient that is not yet dead, and all we know
+is that it lived for at least 100 days after initiation of the treatment).</p>
+
+<p>Currently, the Cox model included here works with interval-scaled
+covariates; if you pass it a categorical covariate, it can ONLY have two
+possible values; otherwise, you will get meaningless results (it will be
+treated as an interval scaled covariate).</p>
+
+<p>The Cox model implemented only works with right-censored observations, not
+left-censored or doubly-censored ones. As well, it is of course your
+responsibility to make sure that assumptions about censoring (e.g., lifetimes
+and censoring times are independent, etc) are reasonable. Statistics and
+p-values are computed in the "usual way"; the statistic we return is the Wald
+statistic and the p-value is from a Wald test.</p>
+
+<h3><a name="toc10" id="toc10"></a><a name="t-test (limma)"
+id="t-test (limma)">t-test (limma)</a></h3>
+
+<p>The limma t-test is a non-permutation method used to compare gene
+expression data between two groups. When performing a test on one particular
+gene, this test borrows information from all the other genes to obtain better
+estimates of the variance, using an empirical bayes method.</p>
+
+<p><a name="merging" id="merging">Please note that all three limma-based
+tests make several assumptions; most of them are fairly reasonable and seem
+to hold in practice. However, notice that, for the empirical bayes procedure
+to work, it is assumed that the error variance of all genes comes from the
+same distribution; this assumption is clearly violated if the expression
+levels for different genes are the result of <i>merging (averaging) over
+different number of spots</i>. For instance, if you plan to use the
+limma-based tests, you <i>do not want to use merge in </i></a><a
+href="http://prep.bioinfo.cnio.es">preP</a> if the number of replicates per
+gene (or clone) is different among genes (clones).</p>
+
+<p></p>
+
+<h3><a name="toc11" id="toc11"></a><a name="Paired t-test (limma)" 
+				      id="Paired t-test (limma)">Paired t-test
+                                      (limma)</a></h3>
+
+<p>This test is the same test as the limma t-test, but it is to be used when
+samples are paired. If samples are paired, you will want to use a paired
+t-test (or a <a href="#linear_model">linear model, as explained below</a>).
+Suppose we want to perform a t-test to compare tumor vs non-tumor samples
+from the same subjects. Each of the samples belonging to the same person
+should be similar, as they are from the same subject and, of course, the
+samples are naturally paired (each pair tumor/non-tumor comes from the same
+subject). By using a paired t-test, we take pairing into account decreasing
+the variance of our estimates (generally, taking pairing into account leads
+to smaller estimates of the error variance, and thus larger test
+statistics).</p>
+
+<p>Pairing comes in many forms and flavors. In general, you have pairing
+whenever there is a feature of your design or sampling scheme that leads to
+pairs of your two conditions to share some (generally random) characteristic.
+This shared characteristic will lead to the pairs showing correlation in
+expression. For instance, in the two samples from the same subject example,
+each pair of samples shares that they come from the same subject, where the
+subject characteristics themselves are not something that interest us <i>per
+se</i>, but will induce a correlation between the two observations in the
+same subject. Similarly, if we sample families, and we choose pairs of
+siblings, one with cancer and one without, we have again pairing (brothers or
+sisters are likely to resemble each other by virtue of them being, well,
+brothers/sisters). Another example of pairing would arise if we take samples
+from two cell lines every hour. If there are any circadian patterns in gene
+expression, then the two samples (one from each cell line) at each hour will
+show correlated gene expression; thus, the two samples from every hour are
+paired, and the data ought to be analyzed with a paired t-test.</p>
+</div>
+
+<div class="actual_text">
+<p>Please, see <a href="#merging">caveat about merging</a>.</p>
+
+<h3><a name="toc12" id="toc12"></a><a name="Anova, linear models (limma)"
+id="Anova, linear models (limma)">Anova, linear models (limma)</a></h3>
+
+<p>Non permutation method used to compare gene expression data between two or
+more groups. Linear models are a more general type of models that include, as
+particular cases, ANOVA and multiple regression. We use here the
+functionality provided by limma, and thus return empirical bayes adjusted
+estimates (i.e., we use information from all genes to obtain better estimates
+of variances).</p>
+
+<p>Once the test results have been calculated (i.e., after obtaining the
+F-statistic and associated p-value for the test of global differences between
+groups), this method gives us the option to individually compare classes
+(t-test) and draw venn diagrams with the class comparisons.</p>
+
+<p>Please, see <a href="#merging">caveat about merging</a>.</p>
+</div>
+
+<p><br>
+<br>
+</p>
+</div>
+
+<div id="results_title" class="Title_box">
+<a name="toc13">Limma tests vs permutation tests</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<p>With permutation tests we obtain the p-value by comparing the observed
+statistic (e.g., the observed t-statistic) from our data against a null
+distribution obtained from the actual data themselves (e.g., we randomly
+permute the class labels, and compute the t-statistic for the permuted data,
+and we repeat this, for instance, 50000 times, so that we can obtain the null
+distribution of the statistic under the hypothesis that the class labels were
+assigned randomly, regardless of gene expression).</p>
+
+<p>In contrast, when using limma we use the standard distributions for
+computing the p-values (i.e., we compare the observed t-statistic agains the
+expected t-statistic under the null hypothesis by comparing with the
+t-distribution with a given degrees of freedom). As explained above, limma
+does not directly compute the t-statistic with the usual formula, but rather
+uses a "moderated statistic", where the estimate of the variance for every
+gene is "moderated" using information from all other genes. This is done
+using a specific model for the variances with an empirical bayes procedure as
+explained in <a href="http://www.statsci.org/smyth/pubs/ebayes.pdf">Smyth, G.
+K. (2004). Linear models and empirical Bayes methods for assessing
+differential expression in microarray experiments. Statistical Applications
+in Genetics and Molecular Biology 3, No. 1, Article 3</a>. What you will
+notice is that extremely small variances are pulled towards the much more
+frequent larger values and extremely larger variances are pulled towards
+smaller values. Moderated statistics have been shown repeatedly to work
+better (in several senses) with microarray data. The differences are most
+noticeable with small sample sizes.</p>
+</div>
+<br>
+<br>
+</div>
+
+<div id="results_title" class="Title_box">
+<a name="toc14">Using additional covariables</a></div>
+<a name="linear_model"></a>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<p>What Pomelo tries to do is "detect" genes that are different using as a
+criteria gene expression data difference among two or more classes. Since
+<i>most likely our data is not homogeneous </i> (homogeneous meaning all
+subjects of the same age, country, ... ), we may find that the differences
+due to different classes are "blurred" by other differences.  By using
+additional covariables, we can add this information to our study and thus
+enable a more complete analysis. (If there is a factor, say age, that
+accounts for some relevant portion of the variation in the gene expression
+data, but you don't use it in your analyses, then what you are doing is
+adding that variation, that is explained by age, to the error term. And,
+among other consequences, the larger the error term, the smaller the
+statistic).</p>
+
+<p>Although additional covariables can be very useful, if the covariable you
+try to add is the same as the class file, pomelo can do nothing with this.
+<i>Eg.</i> If you are comparing two classes and you add a covariable
+indicating that all subjects of one class are male and all subjects of the
+other are female, pomelo has no way of knowing which differences belong to
+the covariable and which to the class difference. In this case, sex and class
+are completely confounded. Any differences in expression could be explained
+either by differences in the class variable you are interested, or by
+differences in sex.</p>
+
+<p>Additional covariables can only be used with "Anova, linear models
+(limma)".</p>
+</div>
+<br>
+<br>
+</div>
+
+<div id="results_title" class="Title_box">
+<a name="toc15">Program input</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<h3><a name="toc16">Necessary data files for each test</a></h3>
+
+<p>The files <i>"Gene expression data"</i> and <i>"Class labels or dependent
+variable"</i> are required for all tests. Files which are only necessary for
+certain tests are: <i>"Censored indicator file"</i> (Cox test), <i>"Paired
+indicator file"</i> (paired t-test) and <i>"Additional covariables file"</i>
+(optional for anova-limma).</p>
+<dl>
+  <dt><a name="covar.file">Gene expression data</a></dt>
+    <dd>The file with the expression data (e.g., you microarray data). In
+      this file, rows represent variables (generally genes) and columns are
+      subjects or arrays. We want to find those variables that are most
+      distinctly expressed among groups (e.g., a t-test or Anova) or that are
+      most related to, say, survival (e.g., Cox model).</dd>
+  <dt><br>
+  <a name="class.labels">Class labels</a> or dependent variable</dt>
+    <dd>These are generally the class labels (e.g., healthy or affected, or
+      different types of cancer) that group the samples, or the survival
+      times of patients, or another dependent continuous variable (if
+      regression models). In our analyses we want to find which of the genes
+      shows differential expression between the classes given here, or if a
+      given dependent variable (e.g., survival time, expression of certain
+      protein) is significantly related to the expression of some gene.</dd>
+  <dt><br>
+  <a name="censored.indicator">Censored indicator</a></dt>
+    <dd>For survival data only. An observation is censored if the time of
+      occurrence of the event (usually death) has not yet been observed. We
+      will represent uncensored observations with a 1 (because we have
+      observed the time of death) and censored observations with a 0 (meaning
+      that the survival time given is only a lower bound).</dd>
+  <dt><br>
+  <a name="paired.indicator">Paired indicator</a></dt>
+    <dd>This file is only necessary for paired t-test. It is used to indicate
+      which subjects are paired. Two subjects are paired if they share some
+      common characteristic that we think may imply similar gene expression
+      traits (e.g., two samples from the same subject would be paired).</dd>
+  <dt><br>
+  <a name="additional.covariables">Additional covariables</a></dt>
+    <dd>You may use this file if you wish to add more information to your
+      analysis (such as subject age, weight, ...). You will be offered this
+      option after having launched a <i>limma anova test</i>.</dd>
+</dl>
+
+<h3><a name="toc17"></a><a name="requirements">Data format for gene expression
+data</a></h3>
+
+<p>The file for the gene expression should be formated as:</p>
+<ul>
+  <li>Data should conform to the "genes in rows, patients (or classes) in
+    columns". In other words, each row of the data file is supposed to
+    represent a different gene or variable and we will carry-out <b>one test
+    for each row</b>.</li>
+  <li>Use tab (\t) as the field separator within rows.</li>
+  <li>Use newline (\n) between rows. It is also convenient to finish each
+    file with one (\n).</li>
+  <li>The first column is assumed to contain the ID information for genes,
+    marker, or whatever. This will be used to label the output (but it also
+    means that whatever is in the first column is not used in the
+  analyses).</li>
+  <li>You can have an arbitrary number of rows with comments. These rows must
+    always start with an "#".</li>
+  <li>Array names: if you want to name your arrays (useful for the output of
+    the analyses) do as follows:
+    <ol>
+      <li>Place a line that starts with "#";</li>
+      <li>After the "#" put "Name" or "NAME" or "name" (don't say we don't
+        give you choices);</li>
+      <li>Write the array names (separated by tabs).</li>
+    </ol>
+  </li>
+  <li>There should be no rows with non-numeric data (except for the comments
+    and name rows). In particular, eliminate initial rows that contain things
+    such as headers with the IDs of patients.</li>
+  <li><b>Missing values</b> can be coded in three different ways: a) as "NA";
+    b) with one empty space (i.e., " "); c) as nothing (i.e, simply leave
+    these places empty).</li>
+  <li>This is a small gene expression data file using "NA" for missing values:
+    <div class="color" >
+    <table class="example">
+    <tr><td>gene1</td><td>23.4</td><td>45.6</td><td>NA</td><td>76</td><td>85.6</td></tr>
+    <tr><td>genW@</td><td>NA</td><td>34</td><td>23</td><td>NA</td><td>13</td></tr>
+    <tr><td>geneX#</td><td>23</td><td>25.6</td><td>29.4</td><td>13.2</td><td>NA</td></tr> 
+    </table>
+    </div>
+  </li>
+  <li>This is the same file using nothing for missing values:
+
+    <div class="color">
+    <table class="example">
+    <tr><td>gene1</td><td>23.4</td><td>45.6</td><td>&nbsp;</td><td>76</td><td>85.6</td></tr>
+    <tr><td>genW@</td><td>&nbsp;</td><td>34</td><td>23</td><td>&nbsp;</td><td>13</td></tr>
+    <tr><td>geneX#</td><td>23</td><td>25.6</td><td>29.4</td><td>13.2</td><td>&nbsp;</td></tr>
+    </table>
+    </div>
+  </li>
+  <li>This is the same file using nothing for missing values and a first row
+    with array identifiers:
+
+    <div class="color">
+    <table class="example">
+    <tr><td>#name</td><td>s1</td><td>s2</td><td>s3</td><td>s4</td><td>s5</td></tr>
+    <tr><td>gene1</td><td>23.4</td><td>45.6</td><td>&nbsp;</td><td>76</td><td>85.6</td></tr>
+    <tr><td>genW@</td><td>&nbsp;</td><td>34</td><td>23</td><td>&nbsp;</td><td>13</td></tr>
+    <tr><td>geneX#</td><td>23</td><td>25.6</td><td>29.4</td><td>13.2</td><td>&nbsp;</td></tr>
+    </table>
+    </div>
+  </li>
+  <li>Beware that <b>some spreadsheet programs (such as Excel)</b> will give
+    you a lot of headaches if you use nothing as a missing value code when
+    the missing values are at the end of the row. That is because for those
+    lines or rows those programs truncate the row at the last valid
+    observation (i.e., they discard the last trailing tabulators that
+    separate empty space), so you will have a file where different rows have
+    different number of values. And Pomelo will rightfully complain and will
+    not run. For example, the last file, if it came from Excel, would
+    probably have five columns in the last row (and not six columns, as it
+    should), and Pomelo would give you an error message and stop till you fix
+    it.  Solutions? Use NA for passing missing values to Pomelo, or do not
+    pass those files through spreadsheets.</li>
+</ul>
+
+<h3><a name="toc18">Data format for class labels and censored
+indicators</a></h3>
+
+<p>Separate values by tab (\t), and finish the file with a carriage return or
+newline. No missing values are allowed here. Class labels can be anything you
+wish; they can be integers, they can be words, whatever. Of course, if you
+are using regression or Cox model, your dependent variable must be a number.
+And if you are using a t-test there can only be two classes.</p>
+
+<p>This is a simple example of class labels file:</p>
+
+<div class="color">
+<table class="example">
+<tr><td>CL1</td><td>CL2</td><td>CL1</td><td>CL4</td><td>CL2</td><td>CL2</td>
+<td>CL1</td><td>CL4</td></tr>
+</table>
+</div>
+
+<h3><a name="toc19">Data format for Fisher's exact test on contingency
+tables</a></h3>
+
+<p>The <b>class labels</b>, as above, can be any arbitrary coding. The values
+in the <b>gene expression</b> data file should be consecutive integers that start
+at 0 (i.e., do <b>NOT</b> use negative intergers, or you'll get errors). This
+is an example file:</p>
+
+<div class="color">
+<table class="example">
+  <tr><td>#gene</td><td>c1</td><td>c1</td><td>c2</td><td>c2</td><td>c3</td><td>c3</td></tr>
+  <tr><td>gene1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>        
+  <tr><td>gene2</td><td>NA</td><td>2</td><td>NA</td><td>1</td><td>0</td><td>0</td></tr>        
+  <tr><td>gene3</td><td>NA</td><td>1</td><td>2</td><td>NA</td><td>0</td><td>0</td></tr>        
+  <tr><td>gene4</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td><td>0</td></tr>        
+  <tr><td>gene5</td><td>1</td><td>0</td><td>0</td><td>2</td><td>1</td><td>2</td></tr>        
+  <tr><td>gene6</td><td>2</td><td>1</td><td>1</td><td>2</td><td>0</td><td>0</td></tr>        
+  <tr><td>gene7</td><td>2</td><td>1</td><td>1</td><td>0</td><td>2</td><td>0</td></tr>        
+  <tr><td>gene8</td><td>2</td><td>2</td><td>0</td><td>0</td><td>NA</td><td>NA</td></tr>
+</table>
+</div>
+
+<p>As you can see, most of these rows would yield (if we used the first row
+as the class labels) 3x2 tables or 3x3 tables (e.g., 3rd or 5th rows).</p>
+
+<h3><a name="toc20">Data format for paired indicator</a></h3>
+
+<p>The format should be the same as for class labels, except that we will
+place the same integer at the places where the two paired subjects are. We
+can choose any integer we want.</p>
+
+<p>This is a simple example of a paired indicator file:</p>
+
+<div class="color">
+<table class="example">
+  <tr><td>&nbsp;&nbsp;4</td><td>32</td><td>&nbsp;&nbsp;4</td><td>&nbsp;&nbsp;8</td><td>32</td>
+  <td>&nbsp;&nbsp;8</td><td>22</td><td>22</td></tr>
+</table>
+</div>
+
+<p>In the example file, the first and the third subject are paired (integer
+used 4, although we could have used any other), the second subject is
+associated to the fifth (integer used 32) and so on.</p>
+
+<h3><a name="toc21">Data format for additional covariables</a></h3>
+
+<p>Each row of the file represents a subject and each column an additional
+covariable. The format must be as follows: tab (\t) separated fields, a first
+row with the names of the columns (covariables) and the following rows with
+each subject's covariable value.</p>
+
+<p>This is a simple example of a additional covariables file:</p>
+
+<div class="color">
+<table class="example">
+    <tr><td>Age&nbsp;&nbsp;&nbsp;&nbsp;</td><td>Country</td><td>Weight</td></tr>
+    <tr><td>20&nbsp;&nbsp;</td><td>Spain</td><td>76&nbsp;&nbsp;</td></tr>
+    <tr><td>46&nbsp;&nbsp;</td><td>Germany</td><td>100&nbsp;&nbsp;</td></tr>
+    <tr><td>33&nbsp;&nbsp;</td><td>England</td><td>88&nbsp;&nbsp;</td></tr>
+    <tr><td>59&nbsp;&nbsp;</td><td>Spain</td><td>79&nbsp;&nbsp;</td></tr>
+    <tr><td>61&nbsp;&nbsp;</td><td>England</td><td>65&nbsp;&nbsp;</td></tr>
+    <tr><td>24&nbsp;&nbsp;</td><td>Spain</td><td>58&nbsp;&nbsp;</td></tr>
+    <tr><td>80&nbsp;&nbsp;</td><td>Germany</td><td>90&nbsp;&nbsp;</td></tr>
+    <tr><td>59&nbsp;&nbsp;</td><td>England</td><td>72&nbsp;&nbsp;</td></tr>
+</table>
+</div>
+
+<p>The order of the subjects <i>must be exactly the same</i> as the order in
+the expression data file. That means, the covariable values (age,
+country,...) of the first subject (i.e. row), must belong to the subject in
+the first column of the expression, etc.</p>
+
+<p>The data can be of two types: numeric (age, weight, ...) or non-numeric
+(country, ...). When the data is read, you will be taken to a page where you
+will be able to see if it has been read correctly. Be careful, if your data
+does not have the correct format, it can be <i>incorrectly read</i>, meaning
+a non-numeric variable can be read as numeric or vice versa. If this happens
+<em>all further analyses will be wrong!</em></p>
+</div>
+<br>
+<br>
+</div>
+
+<div id="results_title" class="Title_box">
+<a name="toc22">Output files</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<p>Once the program has finished running, you will get a table with the
+output from the run and a heatmap.</p>
+
+<p>The results table contains a header indicating the test you have used,
+number of permutations and which covariables where used (if any).</p>
+
+<p>The table shows an index corresponding to the original ordering in the
+data file, gene names, p-values (undajusted), FDR-adjusted p-values, and
+statistics (and the absolute value of the statistic). For Fisher's IxJ tests
+the columns names statistic and abs(statistic) really have no meaning.</p>
+
+<p>The figure is a heatmap where you can filter how and which genes to plot.
+For now the color scale goes from yellow to blue (green is the mix of yellow
+and blue); missing values are shown as white. Both tables and heatmap are
+clickable and will take you to a page with additional information (our <a
+href="http://idclight.bioinfo.cnio.es">IDConverter Light</a>, based on <a
+href="http://idconverter.bioinfo.cnio.es">IDConverter</a>).</p>
+
+<p>If you have run an "Anova, linear models (limma)" test, the output will
+also contain a Class compare section containing a button. By clicking on the
+button we will be taken to a class compare page, where we will be able to
+compare classes individually.</p>
+
+<p>The observed test statistics are:</p>
+<dl>
+  <dt>t-test (Permutations)</dt>
+    <dd>The difference of means divided by the square root of the sum of the
+      sample variances of each of the means. (So just the usual <em>t</em>
+      for the unequal variance case).</dd>
+  <dt>Anova (Permutations)</dt>
+    <dd>The usual <em>F-statistic</em> (mean squares model/mean squares
+      error).</dd>
+  <dt>Regression (Permutations)</dt>
+    <dd>The coefficient divided by its standard error (i.e., the typical
+      <em>t-statistic</em>).</dd>
+  <dt>Cox model</dt>
+    <dd>The Wald statistic (the estimate of the coefficient divided by its
+      standard error).</dd>
+  <dt>t-test (limma)</dt>
+    <dd>Moderated <em>t-statistic</em>.</dd>
+  <dt>Paired t-test (limma)</dt>
+    <dd>Moderated <em>t-statistic</em> for paired subjects.</dd>
+  <dt>Anova, linear models (limma)</dt>
+    <dd>Moderated <em>F-statistic</em>.</dd>
+</dl>
+</div>
+<br>
+<br>
+</div>
+
+<div id="results_title" class="Title_box">
+<a name="toc23">Examples and data sets</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<p>In <a href="http://pomelo2.bioinfo.cnio.es/Examples/index.html">this
+page</a> there are a few examples. Data sets to play with Pomelo II can be
+obtained from the Examples pages for <a
+href="http://signs.bioinfo.cnio.es/Examples/index.html">SignS</a> and <a
+href="http://genesrf.bioinfo.cnio.es/Examples/index.html">GeneSrF</a>.</p>
+</div>
+<br>
+<br>
+</div>
+
+<div id="results_title" class="Title_box">
+<a name="toc24">Code, authors and acknowledgements</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<p>The code underlying these tests is written in C++ and R. The C++ code was
+originally written by <a href="http://ligarto.org/rdiaz">Ramón
+Díaz-Uriarte</a> and has been parallelized with <a
+href="http://www.lam-mpi.org">LAM/MPI</a> by <a
+href="mailto:ermorrissey%%cnio.es">Edward Morrissey</a> (substitute the "%%"
+by "@"). All of the multiple testing functions have been written from
+scratch, although some algorithms have been based on Westfall &amp; Young
+(1993) or the documentation for the <a
+href="http://www.bioconductor.org/packages/release/html/multtest.html">"multtest"
+package</a> for R, some inspiration has been obtained from the above package
+(and a lot of testing has been done using multtest as a benchmark). Moreover,
+we have taken C code from <a href="http://www.R-project.org/">R</a> for
+Fisher's exact tests (<a name="mehta">fexact.c</a>; the latter is based on
+Mehta and Patel's algorithm). The code for Cox model is from R, library
+survival. </p>
+
+<p>All three limma tests have been written using limma R package [Smyth, G.
+K. (2005). Limma: linear models for microarray data. In: 'Bioinformatics and
+Computational Biology Solutions using R and Bioconductor'. R. Gentleman, V.
+Carey, S. Dudoit, R. Irizarry, W. Huber (eds), Springer, New York, pages
+397--420].</p>
+
+
+<p>We have also used the GNU scientific library, <a
+href="http://www.gnu.org/software/gsl/gsl">GSL</a>.</p>
+
+
+<p>The CGI has been written by Edward Morrissey and Ramón Díaz-Uriarte using
+<a href="http://www.python.org">Python</a>. The heatmaps use <a
+href="http://cran.r-project.org">R</a> and the R packages <a
+href="http://www.rosuda.org/R/GDD/">GDD</a> by Simon Urbanek and <a
+href="http://www.maths.lancs.ac.uk/Software/Imagemap/">imagemap</a> by Barry
+Rowlingson.</p>
+
+
+<p> The code from R and the survival, limma, GDD, and imagemap packages, and the
+GSL are all <a href="http://www.fsf.org/philosophy/free-sw.html">free
+software</a> released under <a
+href="http://www.gnu.org/copyleft/gpl.html">GNU's General Public License</a>.
+Our C++ is thus also released under the GPL. The CGI code is released under
+the <a href="http://www.affero.org/oagpl.html">Affero GPL</a>.</p>
+
+<p>This application is running on a cluster of machines using <a
+href="http://www.debian.org">Debian GNU/Linux</a> as operating system, <a
+href="http://www.apache.org">Apache</a> as web server, <a
+href="http://www.linuxvirtualserver.org">Linux Virtual Server</a> for web
+server load-balancing, with <a href="http://linux-ha.org">heartbeat</a> and
+<a href="http://www.drbd.org">drbd</a> for high-availability of both services
+and storage, and <a href="http://www.lam-mpi.org">LAM/MPI</a> for
+parallelization.</p>
+
+<p><b>Funding</b> partially provided by Project TIC2003-09331-C02-02 of the
+Spanish Ministry of Education and Science. This application is running on a
+cluster of machines purchased with funds from the <a
+href="http://www.rticcc.org/">RTICCC</a>.</p>
+</div>
+<br>
+<br>
+</div>
+
+<div id="results_title" class="Title_box">
+<a name="toc25"></a><a name="terms.use">Terms of use: NO WARRANTY</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<ul>
+  <li>You acknowledge that this Software is experimental in nature and is
+    supplied "AS IS", without obligation by the authors
+    or the CNIO to provide accompanying services or
+    support. The entire risk as to the quality and performance of the
+    Software is with you. The CNIO and the authors expressly disclaim any and
+    all warranties regarding the software, whether express or implied,
+    including but not limited to warranties pertaining to merchantability or
+    fitness for a particular purpose.</li>
+</ul>
+<br>
+</div>
+<br>
+<br>
+</div>
+
+
+<div id="results_title" class="Title_box">
+<a name="toc26"></a><a name="citation">Terms of use: citation</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+<div class="actual_text">
+  <p>If you use Pomelo II for any publication, we would appreciate if you
+    could let us know and that you cite our program (you know, "credit where
+    credit is due"). For now, you can give the main web site: <a
+    href="http://pomelo2.bioinfo.cnio.es">http://pomelo2.bioinfo.cnio.es</a>).</p>
+  <p>We appreciate if you give us feedback concerning bugs, errors or
+    misconfigurations. Complaints or suggestions are welcome.</p>
+<br>
+</div>
+<br>
+<br>
+</div>
+
+<div id="results_title" class="Title_box">
+<a name="toc27"></a><a name="privacy">Privacy and Security</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<p>Uploaded data set are saved in temporary directories in the server.
+These data are accessible from the internet until they are erased (five days now).
+The same as you do, anybody can access those directories, <em>if</em> they known
+their names, which are made of 20 random digits, so they should not be easy to 
+guess. </p>
+
+<p>In any case, you should keep in mind that communications between the
+client (your computer) and the server are not encripted at all, thus it is
+also possible for somebody else to look at your data while you are uploading
+or dowloading them.</p>
+
+<p>Again, all responsibility for access to your data is yours. We do not
+offer any warranties that your data will be kept confidential or that
+nobody will break into our system. We suggest you rename the rows, columns,
+and other identifiers, so that they are meaningless to anybody but you.</p>
+<br>
+</div>
+<br>
+<br>
+</div>
+
+<!-- <div id="results_title" class="Title_box"> -->
+<!-- <a name="toc23"></a><a name="warranty">Disclaimer</a></div> -->
+
+<!-- <div id="results" class="results_box"> -->
+<!-- <br> -->
+
+
+<!-- <div class="actual_text"> -->
+<!-- <p>This software is experimental in nature and is supplied "AS IS", without -->
+<!-- obligation by the authors or the CNIO the to provide accompanying services or -->
+<!-- support. The entire risk as to the quality and performance of the software is -->
+<!-- with you. The authors expressly disclaim any and all warranties regarding the -->
+<!-- software, whether express or implied, including but not limited to warranties -->
+<!-- pertaining to merchantability or fitness for a particular purpose.<br> -->
+<!-- <\!--     (If you are lost using these types of applications, or new, you -\-> -->
+<!--  <\!--       might want to read  -\-> -->
+<!--  <\!--       <a href="http://www.catb.org/~esr/faqs/smart-questions.html"> -\-> -->
+<!--  <\!--  How To Ask Questions The Smart Way</a>, by Eric Raymond.) -\-> -->
+<!-- </p> -->
+<!-- </div> -->
+<!-- <br> -->
+<!-- <br> -->
+<!-- </div> -->
+
+<div id="results_title" class="Title_box">
+<a name="toc28">Copyright and license</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<br>
+This document is copyrighted. Copyright © 2005, 2006 Ramón Díaz-Uriarte, 
+Edward R. Morrissey. But you can do many things with this document,
+because of its license.</div>
+<br>
+<br>
+
+<center>
+<!-- Creative Commons License -->
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/"><img alt="Creative Commons License" border="0" src="somerights20.gif" /></a><br />
+<span class="license">This document is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/">Creative Commons License</a></span>.
+<!-- /Creative Commons License -->
+</center>
+
+
+
+
+<p><font size="-2">(The manner we specify for attribution is that you write out our
+	names,  that you link to our web pages, and that you link to
+	this page itself. Please, give credit where credit is due).</font></p>
+
+<!-- /Creative Commons License -->
+
+<!--
+
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <Work rdf:about="">
+<dc:title>Pomelo II help</dc:title>
+<dc:date>2006</dc:date>
+<dc:description>Pomelo II help</dc:description>
+<dc:creator><Agent>
+<dc:title>Ramón Díaz-Uriarte, Edward R. Morrissey</dc:title>
+</Agent></dc:creator>
+<dc:rights><Agent>
+<dc:title>Ramón Díaz-Uriarte, Edward R. Morrissey</dc:title>
+</Agent></dc:rights>
+<dc:type
+rdf:resource="http://purl.org/dc/dcmitype/Text"
+/>
+<license
+rdf:resource="http://creativecommons.org/licenses/by-nc-sa/2.5/"
+/>
+</Work>
+
+<License
+rdf:about="http://creativecommons.org/licenses/by-nc-sa/2.5/">
+<permits
+rdf:resource="http://web.resource.org/cc/Reproduction"
+/>
+<permits
+rdf:resource="http://web.resource.org/cc/Distribution"
+/>
+<requires
+rdf:resource="http://web.resource.org/cc/Notice"
+/>
+<requires
+rdf:resource="http://web.resource.org/cc/Attribution"
+/>
+<prohibits
+rdf:resource="http://web.resource.org/cc/CommercialUse"
+/>
+<permits
+rdf:resource="http://web.resource.org/cc/DerivativeWorks"
+/>
+<requires
+rdf:resource="http://web.resource.org/cc/ShareAlike"
+/>
+</License>
+
+</rdf:RDF>
+
+-->
+
+
+
+
+</div>
+<!-- Created: Wed Jul 24 15:37:41 CEST 2002 -->
+<!-- hhmts start -->
+<!-- Last modified: Sat Dec 31 04:13:05 CET 2005 -->
+<!-- hhmts end -->
+
+<div style="position:relative;top:2.2em">
+
+<table border="0" width="100%" cellspacing="0">
+  <tbody>
+    <tr>
+      <td align="left"><font size="2"><a
+        href="http://bioinfo.cnio.es">Bioinformatics Unit</a></font></td>
+      <td align="right"><font size="2"> Send comments to the <a
+        href="mailto:ermorrissey@cnio.es">webmaster</a>. Last rev. May 24th,
+        2006</font></td>
+      <td align="right" width="200"><a
+        href="http://asterias.bioinfo.cnio.es"><img
+        src="http://pomelo2.bioinfo.cnio.es/asterias_app.png" width="200"
+        height="40" border="0"></a></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+</body>
+</html>

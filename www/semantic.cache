@@ -1,0 +1,62 @@
+;; Object www/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "www/"
+  :tables (list 
+   (semanticdb-table "index.html"
+    :major-mode 'html-mode
+    :tags '(("function change_help(text){
+		document.getElementById(\"help_text\").innerHTML = text;
+	}
+
+	function help_text(case_text){
+		var text
+		switch(case_text){
+			case 0:
+				text = \"Move mouse over item to get added information.\"
+				break;
+			case 1:
+				text = \"Upload your data files.\"
+				break;
+			case 2:
+				text = \"Choose the type of test you wish to run and the number of permutations.\"
+				break;
+			case 3:
+				text = \"Choose the appropriate options to be able to show gene information from the database.\"
+				break;
+			case 4:
+				text = \"covariate file\"
+				break;
+			case 5:
+				text = \"class label or dependent variables (including survival time)\"
+				break;
+			case 6:
+				text = \"censored indicator\"
+				break;
+			case 7:
+				text = \"Launch Pomelo II\"
+				break;	
+			case 8:
+				text = \"Select test\"
+				break;
+			case 9:
+				text = \"Number of permutations\"
+				break;
+			case 10:
+				text = \"Type of gene ID\"
+				break;
+			case 11:
+				text = \"Organism\"
+				break;	
+		}
+
+		change_help(text)
+	}" section nil nil [15 2993]) ("POMELO II" section nil nil [2993 3028]) ("POMELO II <br>
+		(THE RETURN OF THE POMELO)" section nil nil [3028 3034]))
+    :file "index.html"
+    :pointmax 6768
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre3"
+  :semanticdb-version "2.0pre3"
+  )

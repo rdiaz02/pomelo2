@@ -1,0 +1,419 @@
+<HTML>
+<HEAD>
+<script type="text/javascript" language="javascript">
+        function getArrayIndex(arr, val) {
+	  index = -1 
+	  for (i = 0; i < arr.length; i++) {
+	      if (arr[i] == val) { index = i; break }   
+	  }
+	  return(index)
+	}
+
+        function open_help(help_html){
+	        var page_URL = "http://pomelo2.bioinfo.cnio.es/help/" + help_html
+		window.open(page_URL, help_html, "width=750, height=600, scrollbars=YES, resizable=YES")
+	}
+
+	function send_request(req_string){
+	var strSubmit = 'tmp_dir=_SUBS_DIR_/&';
+	
+	if (req_string == "refresh"){
+		strSubmit = strSubmit + "cgi_option=refresh&"
+	}
+	if (req_string == "class_comp"){
+	
+		var option1 = document.table_form.class1
+		var option2 = document.table_form.class2
+		var index1  = option1.selectedIndex
+		var index2  = option2.selectedIndex
+		var class1  = option1.options[index1].value
+		var class2  = option2.options[index2].value;
+		strSubmit   = strSubmit + "cgi_option=class_comp&class1=" + class1 +"&class2=" + class2 + "&"
+
+	}
+	if (req_string == "draw_venn"){
+	
+		var radio1 = document.table_form.venn1
+		var radio2 = document.table_form.venn2
+		var radio3 = document.table_form.venn3
+		var class1 = Radio_value(radio1)
+		var class2 = Radio_value(radio2)
+		var class3 = Radio_value(radio3)
+		strSubmit  = strSubmit + "cgi_option=draw_venn&contr1=" + class1 +"&contr2=" + class2
+		strSubmit  = strSubmit + "&contr3=" + class3 + "&"
+
+	}
+	if (req_string == "change_FDR"){
+		var newFDR = document.table_form.max_FDR.value
+		strSubmit  = strSubmit + "cgi_option=changeFDR&newFDR=" + newFDR + "&"
+
+	}
+	
+	prompt_answer = true
+	if (req_string == "clear_all"){	
+		prompt_answer = confirm("Are you sure you want to clear all your contrasts?")
+		strSubmit     = strSubmit + "cgi_option=clear_all&"
+
+	}
+	if (prompt_answer){
+	sndReq(strSubmit)
+	}
+
+	}
+
+	function insert_elemnts(text_string){
+	        string_array       = text_string.split("&&")
+		index_venn_diagr   = getArrayIndex(string_array, "venn_diagr")
+		index_indv_tables  = getArrayIndex(string_array, "indv_table")
+		index_contr_tables = getArrayIndex(string_array, "contrast_table")
+		index_radio_opts   = getArrayIndex(string_array, "radio_opt")
+		index_FDR_value    = getArrayIndex(string_array, "FDR")
+			
+		if (index_venn_diagr   != -1){
+		      document.getElementById("venn_diagram").innerHTML   = string_array[index_venn_diagr + 1];
+		}
+		if (index_indv_tables  != -1){
+		      document.getElementById("table_swap").innerHTML     = string_array[index_indv_tables + 1];
+		}
+		if (index_contr_tables != -1){
+		      document.getElementById("diff_exp_table").innerHTML = string_array[index_contr_tables + 1];      
+		}
+		if (index_radio_opts   != -1){
+		      document.getElementById("venn_radio").innerHTML     = string_array[index_radio_opts + 1];
+		}
+		if (index_FDR_value    != -1){
+		      document.getElementById("current_FDR").innerHTML    = string_array[index_FDR_value + 1];
+		}
+		<!--else{document.getElementById("table_swap").innerHTML     = text_string}-->
+				
+	}
+	
+	function block_buttons(option){
+	        if (option=="block"){
+			document.table_form.draw_venn.disabled      = true
+			document.table_form.comp_button.disabled    = true
+			document.table_form.new_FDR_button.disabled = true
+			document.table_form.clear_button.disabled = true
+		}
+		if (option=="unblock"){
+		        document.table_form.draw_venn.disabled      = false
+			document.table_form.comp_button.disabled    = false
+			document.table_form.new_FDR_button.disabled = false
+			document.table_form.clear_button.disabled = false
+		}
+		
+	}
+		
+	function createRequestObject() {
+		var ro;
+		try{
+			ro = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		catch(e1){
+			try{
+				ro = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch(e2){
+				try{
+					ro = new XMLHttpRequest();
+				}
+				catch(e3){
+					ro = null
+					alert("Please update your web browser to its latest version to use full application functionality")
+				}	
+			}
+		}
+		return ro;
+
+	}
+	
+	var http = createRequestObject();
+		
+	function sndReq(form_string) {
+	        block_buttons("block")
+		http.open('post', 'http://pomelo2.bioinfo.cnio.es/cgi-bin/Anova_contrasts.cgi',true);
+		http.onreadystatechange = handleResponse;
+
+		http.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+		http.send(form_string);
+	}
+		
+	function handleResponse() {
+		if(http.readyState == 4){
+			var response = http.responseText;
+			insert_elemnts(response)
+			block_buttons("unblock")
+		}
+	}
+	
+function Radio_value(radio) {
+//a variable that will hold the index number of the selected radio button
+var theone
+for (i=0;i<radio.length;i++){
+if (radio[i].checked==true){
+theone=radio[i].value
+break //exist for loop, as target acquired.
+}
+}
+return(theone)
+}
+
+</script>
+<style type="text/css">
+	DIV.Main_title
+	{
+		VERTICAL-ALIGN: middle;
+		FONT-WEIGHT: 900; 
+		FONT-SIZE: 2em;
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 7px solid;
+		BORDER-TOP: rgb(0,139,0) 7px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 7px solid;
+		BORDER-LEFT: rgb(0,139,0) 7px solid;
+		PADDING-RIGHT: 7px;		
+		PADDING-LEFT: 7px;
+		PADDING-BOTTOM: 7px;
+		PADDING-TOP: 7px;
+		LEFT: 0.87%;
+		TOP: 1%;
+		FLOAT: none;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 96%;
+		HEIGHT: 4.4em;
+	}
+	DIV.Help_box
+	{
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		LEFT: 0.4%;
+		TOP: 2.5em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(238,243,226);
+		WIDTH: 98%;
+		HEIGHT: 5%; 
+	
+	}
+	DIV.Title_box
+	{
+		font-weight: bold; 
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		LEFT: 6.5%;
+		TOP: 1.1em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 10em;
+		Z-INDEX:2;
+		
+	}
+	DIV.results_box
+	{
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		TOP: 0.3em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(238,243,226);
+		Z-INDEX:1;
+	}
+	
+	IMG.question
+	{
+	        CURSOR: pointer; 
+	}
+
+
+</style>
+
+<TITLE> POMELO II Class comparison</TITLE>
+</HEAD>
+<BODY background="http://pomelo2.bioinfo.cnio.es/fondo3.jpg">
+<div id = "titulo_upload" class="Main_title">
+<img SRC="http://pomelo2.bioinfo.cnio.es/pomelo2.gif" align=left border=0>
+<img SRC="http://pomelo2.bioinfo.cnio.es/pomelo2.gif" align=right border=0>
+<span style="position:relative; top:15%">
+	POMELO II <br>
+	(THE RETURN OF THE POMELO)
+</span >
+</div>
+<FORM action="/" method="POST" name="table_form" onsubmit="return false;">
+	<div id = "results_title" class="Title_box">
+	Compare classes		
+	</div>
+	<INPUT TYPE="hidden" NAME="Temp_dir" VALUE="_TEMP_DIR_">
+	<div id = "results" class="results_box" >
+		<br>
+	<table style="position:relative; left:2%">
+	        <tr>
+		<td>
+		<img SRC="http://pomelo2.bioinfo.cnio.es/question_mark_cut.png" border=0 class="question" 
+		onClick="open_help('class_compare.html')">
+		</td>
+		<td>
+		<B>
+		Choose classes you wish to compare:
+		</B>
+		</td></tr>
+	</table>
+	
+		<br>
+	<Center>
+		Class		
+		<SELECT NAME="class1" SIZE="1">
+		_REPLACE_OPTS_
+		</SELECT>
+		
+		vs Class
+
+		<SELECT NAME="class2" SIZE="1">
+		_REPLACE_OPTS_
+		</SELECT>		
+		<br>
+		<br>
+		<input type="button" name="comp_button" value=" Calculate comparison " 
+		OnClick="send_request('class_comp');">
+		<input type="button" name="clear_button" value=" Clear all comparisons " 
+		OnClick="send_request('clear_all');">
+	</center>	
+
+	<table style="position:relative; left:2%">
+	        <tr>
+		<td>
+		<img SRC="http://pomelo2.bioinfo.cnio.es/question_mark_cut.png" border=0 class="question" 
+		onClick="open_help('results_table_contrast.html')">
+		</td>
+		<td>
+		<B>
+		Results Tables:
+		</B>
+		</td></tr>
+	</table>
+	<div id="table_swap" style="position:relative; left:2%">
+	No class contrasts have been calculated yet.
+	</div>
+	<br>
+	<br>
+	</div>
+	
+	<div id = "heatmap_title" class="Title_box">
+		Differential expression
+	</div>
+	
+	<div id = "contrast_comp" class="results_box" >
+		<br>
+		<table style="position:relative; left:2%">
+		    <tr>
+		    <td>
+		    <img SRC="http://pomelo2.bioinfo.cnio.es/question_mark_cut.png" border=0 class="question" 
+		    onClick="open_help('FDR_limit.html')">
+		    </td>
+		    <td align="left">
+		    <B>Differntial expession criteria:</B></td></tr>
+		</table>
+		<div id = "current_FDR" style="position:relative; left:2%">
+		</div>		
+
+		<table style="position:relative; left:2%">
+		    <tr><td>
+		    FDR < <INPUT TYPE="text" NAME="max_FDR">
+		    <input type="button" name="new_FDR_button" value="Change criteria" OnClick="send_request('change_FDR');">
+		    </td></tr>
+		</table>
+		<table style="position:relative; left:2%">
+		    <tr>
+		    <td>
+		    <img SRC="http://pomelo2.bioinfo.cnio.es/question_mark_cut.png" border=0 class="question" 
+		    onClick="open_help('venn_diagram.html')">
+		    </td>
+		    <td>
+		    <B>Venn diagram:</B>
+		    </td></tr>
+		</table>
+
+		<center>
+		
+		<div id = "venn_radio">					
+		Choose contrast 1:<input name="venn1" value="None" type="radio" checked="checked">  None <br>
+		Choose contrast 2:<input name="venn2" value="None" type="radio" checked="checked">  None <br>
+		Choose contrast 2:<input name="venn3" value="None" type="radio" checked="checked">  None <br>		
+		</div>
+		
+		<input type="button" name="draw_venn" value=" Draw Venn diagram " OnClick="send_request('draw_venn');">
+		<br><br>
+		<div id = "venn_diagram">
+		No diagram has been drawn yet.
+		</div>
+
+		<br>
+		</center>
+
+		<br>
+		<table style="position:relative; left:2%">
+		    <tr>
+		    <td>
+		    <img SRC="http://pomelo2.bioinfo.cnio.es/question_mark_cut.png" border=0 class="question" 
+		    onClick="open_help('diff_expresion_table.html')">
+		    </td>
+		    <td>
+		    <B>Differential expression table:</B>
+		    </td></tr>
+		</table>
+		<div id = "diff_exp_table" style="position:relative; left:2%">
+		No class contrasts have been calculated yet.		       
+		</div>
+		<br><br>	
+	</div>
+
+
+
+	<div style="position:relative;top:2.2em">
+	
+		<table border=0 width="100%" cellspacing=0>
+			<tr>
+				<td align=left><font size=2>
+					<a href="http://bioinfo.cnio.es">Bioinformatics Unit</a></font>
+				</td>
+				<td align=right><font size=2>
+					&nbsp;Send comments to the <a href="mailto:ermorrissey@cnio.es">webmaster</a>.
+					Last rev. Mar 13th, 2006</font>
+				</td>
+				<TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.bioinfo.cnio.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		
+			</tr>
+		</table>
+		<br>
+	</div>
+</FORM>
+</BODY>
+<script type="text/javascript" language="javascript">
+send_request("refresh")
+</script>
+</HTML>

@@ -1,0 +1,4 @@
+make -f Paral_Makefile
+scp multest_paral  10.2.1.67:~/.
+scp multest_paral  10.2.1.43:~/.
+#mpiexec multest_paral FisherIxJ minP 10 DATA_EXMP/data.fisher.2.txt DATA_EXMP/labels.fisher.names.txt

@@ -1,0 +1,159 @@
+# ****************************************************************************************************
+# ******************************    Functions start here    ******************************************
+
+# Output error to file
+caughtError <- function(message) {
+    sink(file = "pomelo.msg")
+    cat(message)
+    sink()
+    quit(save = "no", status = 11, runLast = TRUE)
+}
+
+# T-test using limma
+t.test.limma <- function(edf1, class.labels){  
+  Class  <- factor(class.labels)
+  new.Class <- covariables.model.matrix(Class)
+  #Class <- covariables.model.matrix(Class)
+  #design <- model.matrix(~ .,Class)
+  design <- model.matrix(~ Class)
+  fit    <- lmFit(edf1, design)
+  fit    <- eBayes(fit)
+  return(fit)
+}
+
+# Recieve class labels, look for covariables and return class and
+# covar or just class
+covariables.model.matrix <- function(class.labels){
+  tryread.covars <- try(
+      Chosen.covariables <- scan("COVARIABLES/chosen_covariables", sep = "\t", what = "char", strip.white = TRUE)
+      )
+  if (class(tryread.covars)=="try-error")
+    {
+      
+      class.lables.covariables <- class.labels
+      
+    }else{
+      
+      covariables.table        <- read.table("COVARIABLES/covariables", header= TRUE, sep="\t",
+                                             strip.white = TRUE)
+      covariable.columns       <- which(colnames(covariables.table)==Chosen.covariables)
+      Class                    <- class.labels
+      class.lables.covariables <- cbind(Class, covariables.table[covariable.columns])
+    }
+  return(class.lables.covariables)
+}
+
+
+
+# Paired T-test limma
+paired.t.test.limma <- function(edf1, class.labels, paired.vector){  
+  Class  <- factor(class.labels)
+  paired <- factor(paired.vector)
+  design <- model.matrix(~ Class + paired)
+  fit    <- lmFit(edf1, design)
+  fit    <- eBayes(fit)
+  return(fit)
+}
+
+# Anova test limma
+anova.test.limma <- function(edf1, class.labels){  
+  Class  <- factor(class.labels)
+  design <- model.matrix(~ Class + 0)
+  #design <- model.matrix(~ group)
+  fit    <- lmFit(edf1, design)
+  save(fit,file="fitdata.Rdata")
+  fit.A  <- eBayes(fit)
+  return(fit.A)
+}
+
+# Get results table and produce multest_parallel.res file with the
+# same layout as other Pomelo II outputs.
+results.to.file <- function(results.table, test.type, num.genes, num.columns){
+  sink("multest_parallel.res")
+  cat(" Function call:                   \tlimma_functions.R\n")
+  cat(" Data file:                    \t\tcovariate\n")
+  cat(" Class file:                   \t\tclass_labels\n")
+  text.numVariables <- paste(" Number of variables or genes:\t\t", num.genes, "\n")
+  cat(text.numVariables)
+  text.numColumns   <- paste(" Number of columns:     \t\t", num.columns, "\n")
+  cat(text.numColumns)
+  text.testType     <- paste(" Type of test:             \t\t", test.type, "\n")
+  cat(text.testType)
+  cat(" MinP or MaxT?:                \t\tmaxT\n")
+  cat(" Permutations used:            \t\tNon permutation method\n")
+  cat(" Random seed:                  \t\tNone\n\n")
+  cat("###############################################################\n\n\n")
+  if ( test.type=="Anova_limma")
+    cat("Row\tID\tunadj.p\tFDR_indep\tobs_stat\tabs(obs_stat)\n")
+  else
+    cat("Row\tID\tunadj.p\tFDR_indep\tobs_stat\tabs(obs_stat)\tB\n")
+  sink()
+  write.table( results.table, 'multest_parallel.res', quote=FALSE,
+               sep='\t'     , append=TRUE           , col.names=FALSE )
+}
+# ******************************    End of functions    **********************************************
+# ****************************************************************************************************
+
+library(limma)
+sink("mpiOK")
+cat("Dummy file so as to not trigger an mpi error message\n")
+sink()
+# Read gene expression data and class labels
+tryCovar <- try (edf1          <- read.table("covariate", sep = "\t",
+                                             row.names = 1))
+if(class(tryCovar) == "try-error")
+  caughtError("Multest crashed trying to run limma Anova test.\n This is most likely due to invalid data (Such as repeated gene names,etc).\n") 
+
+class.labels  <- scan("class_labels", what='character(0)', sep="\t")
+if (class.labels[length(class.labels)]==""){class.labels <- class.labels[-length(class.labels)]}
+
+# Get test type
+test.type     <- scan("testtype", what='character(0)')
+# Calculate number of genes and classes
+covariate.dim <- dim(edf1)
+num.genes     <- covariate.dim[1]
+num.columns   <- covariate.dim[2]
+
+# If test type is t_limma do t_limma test
+if (test.type == "t_limma"){
+  tryTest <- try(fit <- t.test.limma(edf1, class.labels))
+  if(class(tryTest) == "try-error")
+    caughtError("Multest crashed trying to run limma t test.\n This is most likely due to invalid data.\n") 
+}
+
+# If test type is t_limma_paired do t_limma_paired test
+if (test.type == "t_limma_paired"){
+  paired.vector <- scan("paired_indicator")
+  tryTest <- try(fit <- paired.t.test.limma(edf1, class.labels, paired.vector))
+  if(class(tryTest) == "try-error")
+    caughtError("Multest crashed trying to run paired limma t test.\n This is most likely due to invalid data.\n") 
+}
+
+# If test type is Anova_limma do Anova_limma test
+if (test.type == "Anova_limma"){
+  tryTest <- try(fit <- anova.test.limma(edf1, class.labels))
+  if(class(tryTest) == "try-error")
+    caughtError("Multest crashed trying to run Anova limma test.\n This is most likely due to invalid data.\n") 
+}
+
+# Create results table (either F test or t test)
+array.rownum  <- sequence(num.genes)
+if (test.type == "Anova_limma"){
+  results.table <- cbind(unadj.p   = fit$F.p.value,
+                         FDR_indep = round(p.adjust(fit$F.p.value, method ="BH"),8),
+                         obs_stat  = fit$F,
+                         obs_stat  = abs(fit$F))
+}else{
+  results.table <- cbind(unadj.p   = fit$p.value[,2],
+                         FDR_indep = round(p.adjust(fit$p.value[,2], method ="BH"),8),
+                         obs_stat  = fit$t[,2],
+                         obs_stat  = abs(fit$t[,2]),
+                         B         = fit$lods[,2])
+}
+
+gene.names    <- fit$genes
+results.table <- cbind(gene.names, results.table)
+rownames(results.table) <- array.rownum
+
+# Write table to file
+results.to.file(results.table, test.type, num.genes, num.columns)

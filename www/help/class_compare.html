@@ -1,0 +1,90 @@
+<html>
+<script type="text/javascript" language="javascript">
+	function open_main_help(){
+                window.open("http://pomelo2.bioinfo.cnio.es/help/pomelo2-help.html","fullHelp","scrollbars=YES,resizable=YES")
+	}
+</script>
+<style type="text/css">
+	DIV.Title_box
+	{
+		font-weight: bold; 
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		LEFT: 6.5%;
+		TOP: 1.1em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 15em;
+		Z-INDEX:2;
+		
+	}
+	DIV.full_box
+	{
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		TOP: 0.3em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(238,243,226);
+		Z-INDEX:1;
+	}
+</style>
+<TITLE> Pomelo II: Contrast compare help</TITLE>
+
+<Body background="http://pomelo2.bioinfo.cnio.es/fondo3.jpg">
+	
+	<div id = "results_title" class="Title_box">
+		Help on: Class compare
+	</div>
+	<div id = "results" class="full_box" >
+	     <br>
+	     <div id = "help-cnotents" style="position:relative; margin-left:5%; margin-right:5%">
+	     <B>How to make a class comparison?</B>
+	     <br>
+	     To compare two classes, you must choose the two classes from the list and click on calculate comparison.
+	     <br>
+	     <br>
+	     <B>What happens after a class comparison?</B>
+	     <br>
+	     Once you have made a class comparison a link to a table with FDR, pvalue, etc will appear 
+	     below "Results Tables:". This comparison will also appear in the differential expression section. 
+	     <br><br>
+	     <B>Clear all comparisons</B><br>
+	     If you wish to erase all comparisons and start comparisons again, click on clear all comparisons. 
+	     <br><br>
+	     <B>Is this the same as a limma t-test between the two classes?</B><br>
+	     Not exactly. Limma methods borrow information from gene expression data across all classes. So even
+	     if we just compare two classes, we will also be using information from the other classes. This means 
+	     that the results from a class comparison should be better than a limma t-test of those two classes. <br><br>
+	     <B>You can not ...</B><br>
+	     Compare class0 with class1 and then class1 with class0.<br>
+	     Compare the same classes.    
+	     <br>
+	     <br>
+	     </div >
+	     <center>
+	     <input type="button" name="close" value=" Close help window " OnClick="window.close();">
+	     <input type="button" name="help" value=" Open full help " OnClick="open_main_help();">
+	     <br><br>
+	     </center>
+	</div>
+</Body>
+</html>

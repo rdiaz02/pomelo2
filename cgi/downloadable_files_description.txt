@@ -1,0 +1,47 @@
+This is a file that contains the filename (exactly as it appears in linux), name you want 
+to give it and file description. Do not erase this example. If youn insert _checked_, the
+file will appear checked.
+Example:
+****************************************************************************************
+covariate
+Data Expression file
+This is the gene expression file you have
+used to launch your test.
+****************************************************************************************
+End of Example
+****************************************************************************************
+multest_parallel.res
+Pomelo raw unordered output
+File containing the ouput in tab separated format.
+The gene order is exactly the same as the expression 
+file you first uploaded.
+****************************************************************************************
+covariate
+Data Expression file
+This is the gene expression file you have
+used to launch your test.
+****************************************************************************************
+class_labels
+Class labels or dependent variable
+The class labels or dependent variable file 
+you used to launch Pomelo II in the first place.
+****************************************************************************************
+First_image.png
+Initial heatmap
+This is the heatmap that appears when you first launch Pomelo II.
+It contains a maximum of 50 genes with unadjusted p-value below 0.05
+and FDR p-value below 0.15.
+****************************************************************************************
+results.pomelo.txt
+Results table
+Pomelo II ouput table in text format.
+_checked_
+****************************************************************************************
+fitdata.Rdata
+R data file
+**For R programming** This data file contains "fit", an object resulting from
+applying lmFit to the gene expression data, using a model matrix calculated with the 
+class labels (and additional covariables, if you have used any) with no intercept. 
+eBayes function has not yet been applied. This is used by Pomelo to later calculate 
+class comparisons.
+****************************************************************************************

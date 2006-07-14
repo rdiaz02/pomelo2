@@ -1,0 +1,54 @@
+> invisible(options(echo = TRUE))
+> ### timings: 30000 x 100: scan: 20 sec; read.table: 140 sec;
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> caughtUserError <- function(message) {
++     sink(file = "errorInput")
++     cat(message)
++     sink()
++     quit(save = "no", status = 11, runLast = TRUE)
++ }
+> 
+> 
+> num.cols.covariate <- count.fields("covarR", sep = "\t",
++                                    quote = "",
++                                    comment.char = "#")
+> 
+> if(length(unique(num.cols.covariate)) > 1) {
++     message <-
++     c("The number of columns in your covariate file\n",
++           "is not the same for all rows (genes).\n",
++           "We find the following number of columns\n",
++           paste(num.cols.covariate, collapse = ", "))
++     caughtUserError(message)
++ }
+> 
+> tryxdata <- try(
++                 xdata <- scan("covarR", what = double(0), sep = "\t")
++                 )
+Read 613094 items
+> if(class(tryxdata) == "try-error")
++     caughtUserError("The array data file is not of the appropriate format. Most likely there are non-numeric values.\n")
+> 
+> xdata <- matrix(xdata, nrow = length(num.cols.covariate), byrow = TRUE)
+> 
+> 
+> ## zz: que leemos aqui????
+> trycl <- try(
++              Class <- scan("class_labels", sep = "\t", what = double(0), strip.white = TRUE)
++              )
+Read 87 items
+> ## to prevent problems with a space at end of classes
+> 
+> if(class(trycl) == "try-error")
++     caughtUserError("The continuous dependent variable (or survival time) file is not of the appropriate format (most likely, it is a non-numeric variable)\n")
+> 
+> if(Class[length(Class)] == "") Class <- factor(Class[-length(Class)])
+Error in if (Class[length(Class)] == "") Class <- factor(Class[-length(Class)]) : 
+	missing value where TRUE/FALSE needed
+Execution halted

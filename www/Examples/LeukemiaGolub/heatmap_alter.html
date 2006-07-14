@@ -1,0 +1,324 @@
+ <html>
+	<script type="text/javascript" language="javascript">
+		function clickDraw(docForm){
+			//docForm = document.getElementById("heatmap_alter")
+			var strSubmit = 'tmp_dir=/http/pomelo2/www/Examples/LeukemiaGolub/&';
+			var formElem;
+			var strLastElemName = '';
+			for (i = 0; i < docForm.elements.length; i++) {
+				formElem = docForm.elements[i];
+				if (formElem.length != 0){
+					strSubmit += formElem.name + '=' + escape(formElem.value) + '&'
+				}
+			}
+			sndReq(strSubmit)
+		}
+
+		function createRequestObject() {
+			var ro;
+			var browser = navigator.appName;
+			if(browser == "Microsoft Internet Explorer"){
+				ro = new ActiveXObject("Microsoft.XMLHTTP");
+			}else{
+				ro = new XMLHttpRequest();
+			}
+			return ro;
+		}
+		
+		var http = createRequestObject();
+		
+		function sndReq(form_string) {
+			http.open('post', 'http://pomelo2.bioinfo.cnio.es/cgi-bin/draw_heatmap.cgi',true);
+			http.onreadystatechange = handleResponse;
+			var browser = navigator.appName;
+// 			if(browser == "Microsoft Internet Explorer"){
+			http.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+			http.send(form_string);
+			document.getElementById("cgi").style.visibility="hidden"
+			document.getElementById("loading").style.visibility="visible"
+		}
+		
+		function handleResponse() {
+			if(http.readyState == 4){
+				var response = http.responseText;
+// 				alert("Ya ha llegado")
+				document.getElementById("MAP").innerHTML = response;
+				document.getElementById("cgi").style.visibility="visible"
+				document.getElementById("loading").style.visibility="hidden"
+			}
+		}
+	</script>
+
+<style type="text/css">
+	DIV.Main_title
+	{
+		VERTICAL-ALIGN: middle;
+		FONT-WEIGHT: 900; 
+		FONT-SIZE: 2em;
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 7px solid;
+		BORDER-TOP: rgb(0,139,0) 7px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 7px solid;
+		BORDER-LEFT: rgb(0,139,0) 7px solid;
+		PADDING-RIGHT: 7px;		
+		PADDING-LEFT: 7px;
+		PADDING-BOTTOM: 7px;
+		PADDING-TOP: 7px;
+		LEFT: 0.4%;
+		TOP: 1%;
+		FLOAT: none;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 98%;
+		HEIGHT: 4.4em;
+	}
+	DIV.Title_box
+	{
+		font-weight: bold; 
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		LEFT: 6.5%;
+		TOP: 1.1em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 20em;
+		Z-INDEX:2;
+		
+	}
+	DIV.full_box
+	{
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+/* 		LEFT: 8%; */
+		TOP: 0.3em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(238,243,226);
+/* 		WIDTH: 85%; */
+		Z-INDEX:1;
+	}
+
+
+</style>
+<TITLE> Pomelo II: modify heatmap </TITLE>
+
+<Body background="http://pomelo.bioinfo.cnio.es/bg/fondo3.jpg">
+	<div id = "titulo_upload" class="Main_title">
+		<img SRC="http://pomelo2.bioinfo.cnio.es/pomelo2.gif" align=left border=0>
+		<img SRC="http://pomelo2.bioinfo.cnio.es/pomelo2.gif" align=right border=0>
+		<span style="position:relative; top:15%">
+		POMELO II <br>
+		(THE RETURN OF THE POMELO)
+		</span >
+	</div>
+<form method="post" action="/" enctype="multipart/form-data" name="heatmap_alter">
+	
+		<div id = "results_title" class="Title_box">
+			Select values to redraw heatmap
+		</div>
+		<div id = "results" class="full_box" >
+			<br>
+			<br>
+			<div id="loading" style="visibility:hidden;position:relative;left:40%">
+              	 		Creating new heatmap ...
+			</div>	
+			<div id="cgi">
+			<table style="position:relative; left:34%">
+				<tr>
+					<td align=right>
+						all with unadj-p < 
+					</td>
+					<td>
+						<input type="text" name="below_unadj-p" value = "0.05" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align=right>
+						all with FDR <
+					</td>
+					<td>
+						<input type="text" name="below_FDR" value="0.15" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align=right>
+						all with abs(obs_stat) >
+					</td>
+					<td>
+						<input type="text" name="above_abs_obs_stat" value="0.0" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align=right>
+						all with obs_stat >
+					</td>
+					<td>
+						<input type="text" name="above_obs_stat"  value="-100000000" size="10"  />
+					</td>
+				</tr>
+				<tr>
+					<td align=right>
+						all with obs_stat <
+					</td>
+					<td>
+						<input type="text" name="below_obs_stat" value="10000000000" size="10"  />
+					</td>
+				</tr>
+				<tr>
+					<td align=right>
+						Max number of genes =
+					</td>
+					<td>
+						<input type="text" name="max_genes" value="50" size="10"  />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="right">
+						<br>
+						<input type="button" name="draw" value=" Draw new heatmap  " OnClick="clickDraw(heatmap_alter);">
+	
+					</td>
+				</tr>
+			</table>
+</form>
+		</div>
+		<br>
+		<center>
+		<div id="MAP" >
+			<img src="First_image.png" usemap="#First_image"  ISMAP>
+
+<map name="First_image">
+
+<area shape="rect" coords="160,655,790,666" href="#" title="G1556"  >
+
+<area shape="rect" coords="160,643,790,655" href="#" title="G808"  >
+
+<area shape="rect" coords="160,631,790,643" href="#" title="G2124"  >
+
+<area shape="rect" coords="160,620,790,631" href="#" title="G1778"  >
+
+<area shape="rect" coords="160,608,790,620" href="#" title="G1413"  >
+
+<area shape="rect" coords="160,597,790,608" href="#" title="G829"  >
+
+<area shape="rect" coords="160,585,790,597" href="#" title="G378"  >
+
+<area shape="rect" coords="160,573,790,585" href="#" title="G108"  >
+
+<area shape="rect" coords="160,562,790,573" href="#" title="G2664"  >
+
+<area shape="rect" coords="160,550,790,562" href="#" title="G2663"  >
+
+<area shape="rect" coords="160,538,790,550" href="#" title="G896"  >
+
+<area shape="rect" coords="160,527,790,538" href="#" title="G1448"  >
+
+<area shape="rect" coords="160,515,790,527" href="#" title="G937"  >
+
+<area shape="rect" coords="160,503,790,515" href="#" title="G2921"  >
+
+<area shape="rect" coords="160,492,790,503" href="#" title="G566"  >
+
+<area shape="rect" coords="160,480,790,492" href="#" title="G2600"  >
+
+<area shape="rect" coords="160,469,790,480" href="#" title="G766"  >
+
+<area shape="rect" coords="160,457,790,469" href="#" title="G1911"  >
+
+<area shape="rect" coords="160,445,790,457" href="#" title="G1665"  >
+
+<area shape="rect" coords="160,434,790,445" href="#" title="G2198"  >
+
+<area shape="rect" coords="160,422,790,434" href="#" title="G1754"  >
+
+<area shape="rect" coords="160,410,790,422" href="#" title="G1920"  >
+
+<area shape="rect" coords="160,399,790,410" href="#" title="G1006"  >
+
+<area shape="rect" coords="160,387,790,399" href="#" title="G984"  >
+
+<area shape="rect" coords="160,375,790,387" href="#" title="G1598"  >
+
+<area shape="rect" coords="160,364,790,375" href="#" title="G1060"  >
+
+<area shape="rect" coords="160,352,790,364" href="#" title="G2489"  >
+
+<area shape="rect" coords="160,341,790,352" href="#" title="G2939"  >
+
+<area shape="rect" coords="160,329,790,341" href="#" title="G2386"  >
+
+<area shape="rect" coords="160,317,790,329" href="#" title="G2851"  >
+
+<area shape="rect" coords="160,306,790,317" href="#" title="G1817"  >
+
+<area shape="rect" coords="160,294,790,306" href="#" title="G2829"  >
+
+<area shape="rect" coords="160,282,790,294" href="#" title="G1524"  >
+
+<area shape="rect" coords="160,271,790,282" href="#" title="G1334"  >
+
+<area shape="rect" coords="160,259,790,271" href="#" title="G1995"  >
+
+<area shape="rect" coords="160,247,790,259" href="#" title="G1037"  >
+
+<area shape="rect" coords="160,236,790,247" href="#" title="G1042"  >
+
+<area shape="rect" coords="160,224,790,236" href="#" title="G394"  >
+
+<area shape="rect" coords="160,213,790,224" href="#" title="G1834"  >
+
+<area shape="rect" coords="160,201,790,213" href="#" title="G839"  >
+
+<area shape="rect" coords="160,189,790,201" href="#" title="G1909"  >
+
+<area shape="rect" coords="160,178,790,189" href="#" title="G2266"  >
+
+<area shape="rect" coords="160,166,790,178" href="#" title="G2702"  >
+
+<area shape="rect" coords="160,154,790,166" href="#" title="G3046"  >
+
+<area shape="rect" coords="160,143,790,154" href="#" title="G561"  >
+
+<area shape="rect" coords="160,131,790,143" href="#" title="G717"  >
+
+<area shape="rect" coords="160,119,790,131" href="#" title="G523"  >
+
+<area shape="rect" coords="160,108,790,119" href="#" title="G2645"  >
+
+<area shape="rect" coords="160,96,790,108" href="#" title="G2002"  >
+
+<area shape="rect" coords="160,84,790,96" href="#" title="G2801"  >
+
+</map>
+
+
+		</div>
+		<br><br>
+		</center>
+	
+	<br>
+	
+
+</div>
+
+</Body>
+</html>
