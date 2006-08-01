@@ -4,7 +4,7 @@ caughtUserError <- function(message) {
     sink(file = "errorInput")
     cat(message)
     sink()
-    quit(save = "no", status = 11, runLast = TRUE)
+#    quit(save = "no", status = 11, runLast = TRUE)
 }
 
 
@@ -51,7 +51,11 @@ trycl <- try(
 if(class(trycl) == "try-error")
     caughtUserError("The continuous dependent variable (or survival time) file is not of the appropriate format (most likely, it is a non-numeric variable)\n")
 
-if(Class[length(Class)] == "") Class <- factor(Class[-length(Class)])
+if(is.na(Class[length(Class)])) Class <- factor(Class[-length(Class)])
+
+if(any(is.na(Class)))
+    caughtUserError("The continuous dependent variable (or survival time)
+file contain missing values; that is not allowed\n")
 
 if(length(Class) != dim(xdata)[2]) {
     emessage <- paste("The class file and the covariate file\n",
