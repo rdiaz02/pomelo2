@@ -51,7 +51,7 @@ trycl <- try(
 if(class(trycl) == "try-error")
     caughtUserError("The continuous dependent variable (or survival time) file is not of the appropriate format (most likely, it is a non-numeric variable)\n")
 
-if(is.na(Class[length(Class)])) Class <- factor(Class[-length(Class)])
+if(is.na(Class[length(Class)])) Class <- Class[-length(Class)]
 
 if(any(is.na(Class)))
     caughtUserError("The continuous dependent variable (or survival time)
