@@ -1,5 +1,5 @@
 library(GDD)
-library(car)
+#library(car)
 ##################################  Functions #################################
 
 # Output error to file

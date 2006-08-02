@@ -6,8 +6,13 @@
 		window.open(page_URL, "help", "width=750, height=600, scrollbars=YES, resizable=YES")
 	}
 	function newheatmap(){
-		//var options="left=100,top=100,width=800,height=435"
                 window.open("http://pomelo2.bioinfo.cnio.es/tmp/_NUMBERS_/heatmap_alter.html","Redraw_heatmap","scrollbars=YES,resizable=YES")
+	}
+	function PaLS_window(){
+	        window.open("http://pomelo2.bioinfo.cnio.es/cgi-bin/Send_to_Pals.cgi?tmp_dir=_NUMBERS_","SendPaLS","scrollbars=YES,resizable=YES")
+	}
+	function download_window(){
+	        window.open("http://pomelo2.bioinfo.cnio.es/cgi-bin/download_files.cgi?cgi_action=showFiles&tmp_dir=_TEMP_DIR_&","Download","scrollbars=YES,resizable=YES")
 	}
 	function change_table(form_name){
 		option = form_name.order_table
@@ -205,12 +210,11 @@
 					<OPTION VALUE="p.v.sort.row.d.html">Row number descending</OPTION>
 					<OPTION VALUE="p.v.sort.row.a.html">Row number ascending</OPTION>
 				</SELECT>
-			<!-- <a href="results.pomelo.txt">Download table</a> -->
 			<br><br>
-			<!-- 	<img SRC="http://pomelo2.bioinfo.cnio.es/download_files.png" border=0 class="question"  -->
-			<!-- 		    onClick="window.open('http://pomelo2.bioinfo.cnio.es/cgi-bin/download_files.cgi?cgi_action=showFiles&tmp_dir=_TEMP_DIR_&')"> -->
 		<input type="button" name=" Download " value=" Download output files " 
-		       onClick="window.open('http://pomelo2.bioinfo.cnio.es/cgi-bin/download_files.cgi?cgi_action=showFiles&tmp_dir=_TEMP_DIR_&')">
+		       onClick="download_window()">
+		<input type="button" name=" gotoList " value=" Send genes to PaLS " 
+		       onClick="PaLS_window()">
 		</center>
 		<br>
 		<br>

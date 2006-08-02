@@ -9,41 +9,12 @@ caughtError <- function(message) {
     quit(save = "no", status = 11, runLast = TRUE)
 }
 
-# Recieve class labels, look for covariables and return model matrix 
-covariables.model.matrix <- function(class.labels, test.type){
-  tryread.covars <- try(
-                        Chosen.covariables <- scan("COVARIABLES/chosen_covariables", sep = "\t", what = "char", strip.white = TRUE)
-                        ) 
-  # Make factor
-  Class <- factor(class.labels)
-  # Make model matrix. Either just class labels or covariables and class labels
-  if (test.type=="t"){
-      design.matrix <- model.matrix(~ Class)
-      design.list   <- list(design.matrix)
-  }
-  if (test.type=="anova"){
-    if (class(tryread.covars)=="try-error"){
-      design.matrix.NO.intercept <- model.matrix(~ Class + 0)
-      design.matrix.intercept    <- model.matrix(~ Class)
-      design.list                <- list(design.matrix.intercept, design.matrix.NO.intercept)
-    }else{
-      covariables.table          <-  read.table("COVARIABLES/covariables", header= TRUE, sep="\t",
-                                                strip.white = TRUE)
-      covariable.columns         <- which(colnames(covariables.table)%in% Chosen.covariables)
-      covariables.matrix         <- cbind(Class, covariables.table[covariable.columns])
-      design.matrix.NO.intercept <- model.matrix(~ . + 0, covariables.matrix)
-      design.matrix.intercept    <- model.matrix(~ .    , covariables.matrix)
-      design.list                <- list(design.matrix.intercept, design.matrix.NO.intercept)
-    }
-  }
-  return(design.list)
-}
-
 # T-test using limma
 t.test.limma <- function(edf1, class.labels){  
-  design.list <- covariables.model.matrix(class.labels, "t")
-  fit         <- lmFit(edf1, design.list[[1]])
-  fit         <- eBayes(fit)
+  Class  <- factor(class.labels)
+  design <- model.matrix(~Class)
+  fit    <- lmFit(edf1, design)
+  fit    <- eBayes(fit)
   return(fit)
 }
 
@@ -59,28 +30,12 @@ paired.t.test.limma <- function(edf1, class.labels, paired.vector){
 
 # Anova test limma
 anova.test.limma <- function(edf1, class.labels){  
-    design.list <- covariables.model.matrix(class.labels, "anova")
-    fit    <- lmFit(edf1, design.list[[2]])
-    save(fit, file="fitdata.Rdata")
-    # Make factor
-    #arreglado class labels con numeros por clases
-    class.labels.aux <- paste("Class",class.labels,sep="")
-    Class <- factor(class.labels.aux)    
- #   Class <- factor(class.labels)
-    d0     <- design.list[[1]]
-    #This is the part for obtaining the contrasts 
-    colnames(d0)[1:nlevels(Class)] <- c("Intercept", levels(Class)[-1])
-
-    constructContrasts <- paste("makeContrasts(",
-                                paste(levels(Class)[-1], collapse = ", "),
-                                ", levels = d0)", collapse = "")
-  
-    contrasts.d0   <- eval(parse(text = constructContrasts))
-    # End  part for obtaining the contrasts
-    lima.mod.0    <- lmFit(edf1, d0)
-    lima.mod.0.cr <- contrasts.fit(lima.mod.0, contrasts.d0)
-    fit.A         <- eBayes(lima.mod.0.cr)
- # }
+  Class  <- factor(class.labels)
+  design <- model.matrix(~ Class + 0)
+  #design <- model.matrix(~ group)
+  fit    <- lmFit(edf1, design)
+  save(fit,file="fitdata.Rdata")
+  fit.A  <- eBayes(fit)
   return(fit.A)
 }
 
@@ -111,14 +66,14 @@ results.to.file <- function(results.table, test.type, num.genes, num.columns){
 }
 # ******************************    End of functions    **********************************************
 # ****************************************************************************************************
-options(contrasts = c("contr.treatment", "contr.poly"))
+
 library(limma)
 sink("mpiOK")
 cat("Dummy file so as to not trigger an mpi error message\n")
 sink()
 # Read gene expression data and class labels
 tryCovar <- try (edf1          <- read.table("covariate", sep = "\t",
-                                             row.names = 1, quote=""))
+                                             row.names = 1))
 if(class(tryCovar) == "try-error")
   caughtError("Multest crashed trying to run limma Anova test.\n This is most likely due to invalid data (Such as repeated gene names,etc).\n") 
 

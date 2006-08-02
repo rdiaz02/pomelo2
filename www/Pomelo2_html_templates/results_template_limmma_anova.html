@@ -11,7 +11,12 @@
 	function classcomp(){
                 window.open("http://pomelo2.bioinfo.cnio.es/tmp/_NUMBERS_/class_compare.html","Compare_classes","scrollbars=YES,resizable=YES")
 	}
-	
+	function PaLS_window(){
+	        window.open("http://pomelo2.bioinfo.cnio.es/cgi-bin/Send_to_Pals.cgi?tmp_dir=_NUMBERS_","SendPaLS","scrollbars=YES,resizable=YES")
+	}
+	function download_window(){
+	        window.open("http://pomelo2.bioinfo.cnio.es/cgi-bin/download_files.cgi?cgi_action=showFiles&tmp_dir=_TEMP_DIR_&","Download","scrollbars=YES,resizable=YES")
+	}
 	function change_table(form_name){
 		option = form_name.order_table
 		index = option.selectedIndex
@@ -229,8 +234,9 @@
 				</SELECT>
 			<br><br>
 		<input type="button" name=" Download " value=" Download output files " 
-		       onClick="window.open('http://pomelo2.bioinfo.cnio.es/cgi-bin/download_files.cgi?cgi_action=showFiles&tmp_dir=_TEMP_DIR_&')">
-			<!-- <a href="results.pomelo.txt">Download table</a> -->
+		       onClick="download_window()">
+		<input type="button" name=" gotoList " value=" Send genes to PaLS " 
+		       onClick="PaLS_window()">
 		</center>
 		<br>
 		<br>

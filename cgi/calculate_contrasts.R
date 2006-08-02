@@ -78,7 +78,7 @@ FDR.by.sign.p <- non.zero.FDR*my.sign(as.numeric(results.table[,4]))
 
 # See if contrast_compare.res exists
 tryTest  <- try(header.string              <- scan(file="contrast_compare.res",sep ="\t",what="character(0)",nlines=1))
-tryTest  <- try(contrast.compare           <- read.table(file="contrast_compare.res",sep = "\t",row.names=1,skip=1))
+tryTest  <- try(contrast.compare           <- read.table(file="contrast_compare.res",sep = "\t",row.names=1,skip=1, quote=""))
 tryDummy <- try(colnames(contrast.compare) <- header.string)
 
 if(class(tryTest) == "try-error"){

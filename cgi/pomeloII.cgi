@@ -487,7 +487,8 @@ touchPomrunning = os.system("/bin/touch /http/pomelo2/www/Pom.running.procs/Pom.
 dummy = os.system('ln -s /http/pomelo2/bin/multest_paral ' + tmpDir + '/multest_paral')
 
 # If not limma tests then just launch, if limma see further on
-if test_type not in limma_covariable_tests:
+#if test_type not in limma_covariable_tests:
+if test_type != "Anova_limma":
     tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmpDir + ' ' + test_type + ' ' + str(num_permut) +'&')
     
 createResultsFile = os.system("/bin/touch " + tmpDir + "/results.txt")
@@ -502,7 +503,8 @@ shutil.copy("/http/pomelo2/www/Pomelo2_html_templates/results-pre.html", tmpDir)
 os.system("cd " + tmpDir + "; /bin/sed 's/sustituyeme/" +
           newDir + "/g' results-pre.html > results.html; rm results-pre.html")
 
-if test_type not in limma_covariable_tests:
+#if test_type not in limma_covariable_tests:
+if test_type != "Anova_limma":
     ##############    Redirect to checkdone.cgi    ##################
     print "Location: "+ getQualifiedURL("/cgi-bin/pomelo_checkdone.cgi") + "?newDir=" + newDir, "\n\n"
 else:
