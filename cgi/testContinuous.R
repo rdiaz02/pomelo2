@@ -1,45 +1,6 @@
-### timings: 30000 x 100: scan: 20 sec; read.table: 140 sec;
+CGIDIR <- "../../../cgi"
 
-caughtUserError <- function(message) {
-    sink(file = "errorInput")
-    cat(message)
-    sink()
-#    quit(save = "no", status = 11, runLast = TRUE)
-}
-
-
-num.cols.covariate <- count.fields("covarR", sep = "\t",
-                                   quote = "",
-                                   comment.char = "#")
-
-gene.names  <- scan("gene_names",what='character(0)',sep="\t")
-
-if(length(unique(num.cols.covariate)) > 1) {
-    message <-
-    c("The number of columns in your covariate file\n",
-          "is not the same for all rows (genes).\n",
-          "We find the following number of columns\n",
-          paste(num.cols.covariate, collapse = ", "))
-    caughtUserError(message)
-}
-
-# Check no repeated gene names
-if(length(unique(gene.names)) != length(gene.names)) {
-    message <-
-    paste("At least one of the gene names in the gene\n",
-          "expression data file is repeated.\n",
-          "Please fix this problem and try again.\n")
-    caughtUserError(message)
-}
-
-
-tryxdata <- try(
-                xdata <- scan("covarR", what = double(0), sep = "\t")
-                )
-if(class(tryxdata) == "try-error")
-    caughtUserError("The array data file is not of the appropriate format. Most likely there are non-numeric values.\n")
-
-xdata <- matrix(xdata, nrow = length(num.cols.covariate), byrow = TRUE)
+source(paste(CGIDIR, "/testInputCommon.R", sep = ""))
 
 
 ## zz: que leemos aqui????
@@ -66,22 +27,8 @@ if(length(Class) != dim(xdata)[2]) {
     caughtUserError(emessage)  
 }
 
-if(!(is.numeric(xdata))) {
-    caughtUserError("Your covariate file contains non-numeric data. \n That is not allowed.\n")
-}
-
 if(!(is.numeric(Class))) {
     caughtUserError("Your continuous dep. variable file contains non-numeric data. \n That is not allowed.\n")
-}
-
-
-num.mis <- apply(xdata, 1, function(x) sum(is.na(x)))
-
-if (any(num.mis == dim(xdata)[2])) {
-    caughtUserError(paste("\n Some genes have all values missings.",
-                          "This is not allowed.\n",
-                          "\The genes that show this problem are ",
-                          paste(which(num.mis == dim(xdata)[2]), collapse = " "), "\n"))
 }
 
 vararray <- apply(xdata, 1, var)

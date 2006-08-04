@@ -1,11 +1,8 @@
-# Function that prints the string it recieves, writes it to a file and
-# terminates R script 
-caughtUserError <- function(message) {
-    sink(file = "errorInput")
-    cat(message)
-    sink()
-    quit(save = "no", status = 11, runLast = TRUE)
-}
+CGIDIR <- "../../../cgi"
+
+source(paste(CGIDIR, "/testInputCommon.R", sep = ""))
+
+
 check.class.size <- function(x, xdata.matrix, Class) {
     cols.class   <- which(Class==x)
     number.cases <- length(cols.class)
@@ -19,47 +16,6 @@ check.class.size <- function(x, xdata.matrix, Class) {
     }
   
 }
-
-
-num.cols.covariate <- count.fields("covarR", sep = "\t",
-                                   quote = "",
-                                   comment.char = "#",
-                                   blank.lines.skip = TRUE)
-
-gene.names  <- scan("gene_names", what='character(0)', sep="\t")
-
-
-# Check all rows have same number of columns
-if(length(unique(num.cols.covariate)) > 1) {
-    message <-
-    paste("The number of columns in your covariate file\n",
-          "is not the same for all rows (genes).\n",
-          "We find the following number of columns\n",
-          paste(num.cols.covariate, collapse = ", "))
-    caughtUserError(message)
-}
-
-# Check no repeated gene names
-if(length(unique(gene.names)) != length(gene.names)) {
-    message <-
-    paste("At least one of the gene names in the gene\n",
-          "expression data file is repeated.\n",
-          "Please fix this problem and try again.\n")
-    caughtUserError(message)
-}
-
-
-
-# Try read covariate data
-tryxdata <- try(
-                xdata <- scan("covarR", what = double(0), sep = "\t")
-                )
-
-# If error data does not have good format
-if(class(tryxdata) == "try-error")
-    caughtUserError("The array data file is not of the appropriate format. Most likely there are non-numeric characters\n")
-# Transform covariates to matrix
-xdata <- matrix(xdata, nrow = length(num.cols.covariate), byrow = TRUE)
 
 # Read class data
 trycl <- try(
@@ -82,9 +38,12 @@ tryttype <- try(
 
 
 if (ttype == "t_limma"||ttype == "t_limma_paired" || ttype == "Anova_limma" ){
-  Classes <- levels(Class)
-  sapply(Classes,function(x,xdata,Class)
-  check.class.size(x,xdata,Class), xdata = xdata, Class = Class)
+    
+    if(length(gene.names) < 2)
+        caughtUserError("For all limma tests you need at least two genes")
+    Classes <- levels(Class)
+    sapply(Classes,function(x,xdata,Class)
+           check.class.size(x,xdata,Class), xdata = xdata, Class = Class)
  
 }
 
@@ -106,26 +65,12 @@ if(length(Class) != dim(xdata)[2]) {
     caughtUserError(emessage)  
   }
 
-# Check covariate contains only numeric data
-if(!(is.numeric(xdata))) {
-    caughtUserError("Your covariate file contains non-numeric data. \n That is not allowed.\n")
-}
 
 # Check each class has more than two samples
 if (min(tclass) < 2) {
     caughtUserError("At least one class has less than 2 samples. This is not allowed")
 }
 
-# Get total number of missing values
-num.mis <- apply(xdata, 1, function(x) sum(is.na(x)))
-
-# Check all elements in a row are not missing 
-if (any(num.mis) == dim(xdata)[2]) {
-    caughtUserError(paste("\n Some genes have all values missings.",
-                          "This is not allowed.\n",
-                          "\The genes that show this problem are ",
-                          paste(which(num.mis == dim(xdata)[2]), collapse = " "), "\n"))
-}
 
 # For permutation tests check no permutation can leave a class with a
 # single value (due to missing values) 
@@ -144,13 +89,13 @@ if( (ttype != "FisherIxJ")) {
     vararray <- apply(xdata, 1, var, na.rm = TRUE)
 
 # Check gene variance is not too small (close to zero) 
-if(any(vararray < 1e-9)) {
-    caughtUserError(paste("Some genes are constant for all samples. This leads to",
-                          "variances = 0 and is probably not what you want. Please",
-                          "remove these genes and try again.",
-                          "The genes with constat values are in positions ",
-                          paste(which(vararray < 1e-9), collapse = " ")))
-}
+    if(any(vararray < 1e-9)) {
+        caughtUserError(paste("Some genes are constant for all samples. This leads to",
+                              "variances = 0 and is probably not what you want. Please",
+                              "remove these genes and try again.",
+                              "The genes with constat values are in positions ",
+                              paste(which(vararray < 1e-9), collapse = " ")))
+    }
 }
 
 # Data tests sepcific to paired limma t-test
