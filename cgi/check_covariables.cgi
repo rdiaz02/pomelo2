@@ -5,6 +5,7 @@ import os
 import random
 import sys
 import parse_contrs_comp
+import shutil
 
 ################################ Functions ############################################################
 
@@ -196,6 +197,9 @@ def r2html(tmp_dir, newDir):
 
 		
 ##################################################################################
+#************  SELENIUM STUFF **************
+covariable_sel_file ="/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/covariables.anova"
+#*******************************************
 form    = cgi.FieldStorage()
 tmp_dir = form['tmp_dir'].value
 os.chdir(tmp_dir)
@@ -203,6 +207,7 @@ cgi_option = form['cgi_option'].value
 f = open("testtype");test_type = f.read().strip();f.close()  
 num_permut = 10000
 newDir = tmp_dir.split("/")[-1]
+
 
 # If they have chosen to continue without covariables
 if cgi_option == "continue":
@@ -216,7 +221,11 @@ if cgi_option == "continue":
 
 # If they have sent covariables
 if cgi_option=="check_covariables":
-    fileUpload("covariables",form,tmp_dir)
+    # Selenium if *********
+    if os.path.exists('SELENIUM_TEST'):
+        shutil.copy(covariable_sel_file,"COVARIABLES/covariables")
+    else:
+        fileUpload("covariables",form,tmp_dir)
     dummy = os.system('cp /http/pomelo2/cgi/test_and_summary.R COVARIABLES/' + '/. ; chmod 777 COVARIABLES/test_and_summary.R')
     Rcommand = "cd " + tmp_dir + "/COVARIABLES; /usr/bin/R CMD BATCH --no-restore --no-readline --no-save -q test_and_summary.R "
     dummy = os.system(Rcommand)

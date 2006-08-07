@@ -1,0 +1,658 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>test_mas_completo</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">test_mas_completo</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/PomeloII_selenium_index.html</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>testtype</td>
+	<td>label=Anova, linear models (limma)</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Start Pomelo II']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('no_covariables.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>helpWindow</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>helpWindow</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>What happens if I don't use additional covariables? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('add_covariables.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>helpWindow</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>helpWindow</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>What format should my input file have? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>comp_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Check covariables</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('check_covariables.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>helpWindow</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>helpWindow</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Have they been correctly read? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('df_table.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>helpWindow</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>helpWindow</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>What is the df table for? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>Age</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Covariable name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>35000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('output_table.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>help</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>help</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>What do the values that appear mean? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Covariables used: Age</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('heatmap_help.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>help</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>help</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Why do only a few genes appear or none at all? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>draw</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>Redraw_heatmap</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>Redraw_heatmap</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>draw</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('redraw_heatmap.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>help</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>help</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>How do I redraw the heatmap? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>close</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.table_form.elements[' gotoList ']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>SendPaLS</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>SendPaLS</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('send_PaLs.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>help</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>help</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>What is PaLS? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>SendPaLS</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>draw</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>With the parameters</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>16 genes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>close</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>btn_clascomp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>Compare_classes</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>Compare_classes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>class2</td>
+	<td>label=B</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>comp_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>A-B</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>class2</td>
+	<td>label=C</td>
+</tr>
+<tr>
+	<td>chooseCancelOnNextConfirmation</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>clear_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertConfirmation</td>
+	<td>Are you sure you want to clear all your contrasts?</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>comp_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>A-C</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>class1</td>
+	<td>label=B</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>comp_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>B-C</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.table_form.venn1[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.table_form.venn2[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.table_form.venn3[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>draw_venn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Up-regulated</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('class_compare.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>class_compare.html</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>class_compare.html</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>Compare_classes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('results_table_contrast.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>results_table_contrast.html</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>results_table_contrast.html</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>What do the class comparison results tables contain? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>Compare_classes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('FDR_limit.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>FDR_limit.html</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>FDR_limit.html</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>How can I change it? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>Compare_classes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('venn_diagram.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>venn_diagram.html</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>venn_diagram.html</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>What do each of the three diagrams represent? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>Compare_classes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('class_compare.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>class_compare.html</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>class_compare.html</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>How to make a class comparison? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>Compare_classes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('diff_expresion_table.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>diff_expresion_table.html</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>diff_expresion_table.html</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Why do no genes appear after I have made a class comparison? </td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>Compare_classes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>max_FDR</td>
+	<td>0.15</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>new_FDR_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForTextPresent</td>
+	<td>Gene 29</td>
+	<td></td>
+</tr>
+<tr>
+	<td>close</td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

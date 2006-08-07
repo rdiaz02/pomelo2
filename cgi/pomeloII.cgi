@@ -22,12 +22,18 @@ Pom_MAX_time = 3600 * 12 ## 12 hours is max duration allowed for any process
 MAX_covariate_size = 363948523L ## a 500 * 40000 array of floats
 MAX_time_size = 61897L
 
+#************  SELENIUM STUFF **************
+covariate_sel_file = "/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/EXPRESSION_Anova-limma"
+class_lab_sel_file = "/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/CLASS_LABELS_Anova-limma"
+
+#*******************************************
+
 acceptedIDTypes        = ('None', 'cnio', 'affy', 'clone', 'acc', 'ensembl', 'entrez', 'ug', 'swissp', 'rsdna', 'rspep')
 acceptedOrganisms      = ('None', 'Hs', 'Mm', 'Rn')
 acceptedTests          = ('t', 'FisherIxJ', 'Anova', 'Cox', 'Regres', 't_limma', 't_limma_paired','Anova_limma')
 permutation_tests      = ('t', 'Anova', 'Regres')
 testDiscrete_tests     = ('t', 'FisherIxJ', 'Anova', 't_limma', 't_limma_paired','Anova_limma')
-limma_covariable_tests = ('Anova_limma') #limma_covariable_tests = ('t_limma','Anova_limma')
+limma_covariable_tests = ('Anova_limma') 
 
 def add_to_log(application, tmpDir, error_type,error_text):
     date_time = time.strftime('%Y\t%m\t%d\t%X')
@@ -294,6 +300,10 @@ if test_type == 't_limma_paired':
 if(fs.getfirst("covariate2")!= None):
     prep_tmpdir = fs.getfirst("covariate2")
     shutil.copy("/http/prep/www/tmp/" + prep_tmpdir +"/outdata.txt",tmpDir + "/covariate")
+# Selenium if *********
+elif(fs.has_key("selenium_indicator")):
+    shutil.copy(covariate_sel_file,tmpDir + "/covariate")
+    os.system("touch " + tmpDir + "/SELENIUM_TEST")
 else:
     ## Uploading files and checking not abusively large
     fileUpload('covariate')
@@ -313,7 +323,12 @@ if os.stat(tmpDir + '/survival_time')[ST_SIZE] > MAX_time_size:
     cgi_error_page("INPUT ERROR", err_msg)
     sys.exit()
 
-fileUpload('class_labels')
+# Selenium if *********
+if(fs.has_key("selenium_indicator")):
+    shutil.copy(class_lab_sel_file,tmpDir + "/class_labels")
+else:
+    fileUpload('class_labels')
+    
 if os.stat(tmpDir + '/class_labels')[ST_SIZE] > MAX_time_size:
     shutil.rmtree(tmpDir)
     err_msg = "<p> Class labels file way too large. </p>"
