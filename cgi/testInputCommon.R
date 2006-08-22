@@ -24,7 +24,7 @@ num.cols.covariate <- count.fields("covarR", sep = "\t",
                                    comment.char = "#",
                                    blank.lines.skip = TRUE)
 
-gene.names  <- scan("gene_names", what='character(0)', sep="\t")
+gene.names  <- scan("gene_names", what='character(0)', sep="\t", quote = "")
 
 
 # Check all rows have same number of columns
