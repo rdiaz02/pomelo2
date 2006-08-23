@@ -439,7 +439,6 @@ for nr in range(0, len(all_covar_lines)):
         line_splitted  = line.split('\t', 1)
         gene_name_splt = line_splitted[0]
         line_splitted  = line_splitted[-1]
-        gene_name_list.append(gene_name_splt)
         if line_splitted.find(',') >= 0:
             err_msg = '<p> You have "," in the data matrix.</p>'
             err_msg = err_msg + '<p> You probably are using "," instead of "." for the'
@@ -450,6 +449,8 @@ for nr in range(0, len(all_covar_lines)):
         else:
             if line_splitted.rstrip():
                 covarR.write(line_splitted)
+		gene_name_list.append(gene_name_splt)
+
 covarR.close()
 gene_name_file = open(tmpDir + '/gene_names', mode = 'w')
 string_genes   = '\t'.join(gene_name_list)

@@ -32,10 +32,16 @@ if(Class[length(Class)] == "") Class <- factor(Class[-length(Class)])
 
 tclass <- table(Class)
 
+
+
 tryttype <- try(
 	 ttype <- scan("testtype", what = "char")
          )
 
+# Check each class has more than two samples
+if (min(tclass) < 2) {
+    caughtUserError("At least one class has less than 2 samples. This is not allowed")
+}
 
 if (ttype == "t_limma"||ttype == "t_limma_paired" || ttype == "Anova_limma" ){
     
@@ -64,13 +70,6 @@ if(length(Class) != dim(xdata)[2]) {
                       "Please fix this problem and try again.\n")
     caughtUserError(emessage)  
   }
-
-
-# Check each class has more than two samples
-if (min(tclass) < 2) {
-    caughtUserError("At least one class has less than 2 samples. This is not allowed")
-}
-
 
 # For permutation tests check no permutation can leave a class with a
 # single value (due to missing values) 
