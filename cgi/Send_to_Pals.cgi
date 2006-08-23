@@ -5,7 +5,7 @@ import cgitb;cgitb.enable()
 import sys
 
 #################  Functions   ##################################################
-def write_to_file_ramon(cgi_dict):
+def write_to_file(cgi_dict):
     """Write the cgi_dict values to be read by R later"""
     ## First define a set of predefined values. Will overwrite with
     ## stuff from the cgi, o.w. write those to the file
@@ -111,7 +111,7 @@ if not form.has_key("ajax"):
       print template_Pals
       sys.exit()
 chk_form(form)
-tmp = write_to_file_ramon(form)
+tmp = write_to_file(form)
 r_file = "/http/pomelo2/cgi/Pals_gene_filter.R "
 
 

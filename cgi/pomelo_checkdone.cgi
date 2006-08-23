@@ -124,7 +124,7 @@ def printOKRun():
     f=open(tmpDir + "/testtype")
     test_type = f.read().strip()
     f.close()
-    draw_heatmaptable = "cd " + tmpDir + "; python /http/pomelo2/cgi/heatmap_draw_script_ramon.py;" 
+    draw_heatmaptable = "cd " + tmpDir + "; python /http/pomelo2/cgi/heatmap_draw_script.py;" 
     # Cox script draws its own tables
     if test_type != "Cox":
 	    draw_heatmaptable = draw_heatmaptable + "python2.4 /http/pomelo2/cgi/generate_table.py"
