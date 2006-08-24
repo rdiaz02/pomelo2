@@ -128,7 +128,7 @@ def fileUpload(fieldName):
     srvfile.write(fileString)
     srvfile.close()
     os.chmod(fileInServer, 0666)
-    if not fieldName == "survival_time":  ### zzz ???
+    if not fieldName == "censored_indicator":  ### zzz ???
         if os.path.getsize(fileInServer) == 0:
             err_msg = "<p> The "+ fieldName + " file you entered is empty </p>"
             err_msg = err_msg + "<p> Please enter a file with something in it.</p>"
@@ -315,8 +315,8 @@ else:
         sys.exit()
 
 
-fileUpload('survival_time')
-if os.stat(tmpDir + '/survival_time')[ST_SIZE] > MAX_time_size:
+fileUpload('censored_indicator')
+if os.stat(tmpDir + '/censored_indicator')[ST_SIZE] > MAX_time_size:
     shutil.rmtree(tmpDir)
     err_msg = "<p> Censored indicator file way too large. </p>"
     err_msg = err_msg + "<p> Censored indicator files this size are not allowed.</p>"
@@ -364,7 +364,7 @@ dummy = os.system("cd " + tmpDir +";/bin/sed 's/\.$//g'  class_labels > tmpcllb;
 fileNamesBrowser = open(tmpDir + '/fileNamesBrowser', mode = 'w')
 if(fs.getfirst("covariate2")== None):
     fileNamesBrowser.write(fs['covariate'].filename + '\n')
-fileNamesBrowser.write(fs['survival_time'].filename + '\n')
+fileNamesBrowser.write(fs['censored_indicator'].filename + '\n')
 fileNamesBrowser.write(fs['class_labels'].filename + '\n')
 fileNamesBrowser.close()
 

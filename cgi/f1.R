@@ -63,7 +63,7 @@ if(!length(Time)) caughtUserError("No survival time  file\n")
 if(is.na(Time[length(Time)])) Time <- Time[-length(Time)]
 
 tryevent <- 
-    try(Event <- scan("survival_time", sep = "\t", strip.white = TRUE))
+    try(Event <- scan("censored_indicator", sep = "\t", strip.white = TRUE))
 if(class(tryevent) == "try-error")
     caughtUserError("The status file is not of the appropriate format\n")
 
