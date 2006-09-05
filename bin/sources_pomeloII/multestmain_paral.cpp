@@ -184,7 +184,8 @@ int main(int argc, char *argv[])
 	// Get number of permutations input by user, calculate number of permutations 
 	// per node (matrix num rows) and recalculate total permutations. 
 	unsigned int aux_num_permut= static_cast<unsigned int> (atoi(argv[3]));
-	unsigned int matrix_numrows = (int)floor(aux_num_permut/(numberOFcpu-1));
+	unsigned int matrix_numrows = static_cast<unsigned int>(floor(atof(argv[3])/(numberOFcpu-1)));
+//	unsigned int matrix_numrows = static_cast<unsigned int>(std::floor(aux_num_permut/(numberOFcpu-1)));
 	unsigned int num_permut     = matrix_numrows*(numberOFcpu-1);
 	
 	// Some general variables
@@ -727,7 +728,9 @@ if (test_type!="FisherIxJ") MPI::COMM_WORLD.Reduce(aux_counter_unadjusted, sum_c
 		results_out << order_stat_decreasing[i] + 1 << "\t";
 // 		results_out.width(num_spaces);
 		results_out << aux_ID[ order_stat_decreasing[i] ]<< "\t";
-// 		results_out.width(15);
+ 		results_out.width(30);
+		cout <<  unadjusted_p_value[i] << "\t";
+		cout <<  FDR_indep_p_values[i] << "\n";
 		results_out << unadjusted_p_value[i] << "\t";
 		//results_out.width(10);
 		//results_out << adjusted_p_value[i] << "\t";

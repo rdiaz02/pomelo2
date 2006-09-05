@@ -340,7 +340,11 @@ class.names <- scan("class_labels", sep = "\t", what = "char", strip.white = TRU
 if(class.names[length(class.names)] == "") class.names <- class.names[-length(class.names)]
 
 # Add FDR value to gene name
-results.file$ID <- paste(results.file$ID,"(" ,results.file$FDR_indep,")")
+FDR.changed  <- round(results.file$FDR_indep,3)
+FDR.changed[which(FDR.changed<0.001)] <- '<0.001'
+#results.file$ID <- paste(results.file$ID,"(" ,results.file$FDR_indep,")",sep="")
+results.file$ID <- paste(results.file$ID,"(" ,FDR.changed,")",sep="")
+
 
 ## testing
 ##save(file = "test.RData", results.file, heatmapOpts)
