@@ -1,0 +1,3 @@
+Go to the next directory, make the binary
+(make -f  Paral_Makefile)
+and copy the binary executable here.
