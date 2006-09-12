@@ -1,10 +1,12 @@
 /***************************************************************************
-    multtestmain.cpp: main program for multiple testing adjustments.
+    multestmain_paral.cpp: main program for multiple testing adjustments.
 ***************************************************************************/ 
 /***************************************************************************
     begin                : Thu Jul 11 19:21:37 CEST 2002
-    copyright            : (C) 2002, 2003 by Ramón Díaz-Uriarte
-    email                : rdiaz@cnio.es
+    copyright            : (C) 2002, 2003, 2004 by Ramón Díaz-Uriarte,
+                               2005, 2006  by Edward R. Morrissey and
+                                           Ramon Diaz-Uriarte
+    email                : rdiaz02@gmail.com, ermorrissey@cnio.es
 ***************************************************************************/
 /***************************************************************************
  *                                                                         *
@@ -201,7 +203,8 @@ int main(int argc, char *argv[])
 
       cout << "\n\nPomelo, v.1.1, a program to find differentially expressed genes, \n";
       cout << "including multiple testing adjustments.\n";
-      cout << "\nCopyright, (C),  2002, 2003, 2004, by Ramón Díaz-Uriarte \n";
+      cout << "\nCopyright, (C),  2002-2004, by Ramón Díaz-Uriarte \n";
+      cout << "\n2005, 2006 by Edward R. Morrissey and Ramón Díaz-Uriarte \n";
       cout << "(Other files copyright of their respective authors. Please\n";
       cout << "see the README file for details. You should have received the\n";
       cout << "README file along with the source code.)\n";
@@ -732,10 +735,12 @@ if (test_type!="FisherIxJ") MPI::COMM_WORLD.Reduce(aux_counter_unadjusted, sum_c
 		cout <<  unadjusted_p_value[i] << "\t";
 		cout <<  FDR_indep_p_values[i] << "\n";
 		results_out << unadjusted_p_value[i] << "\t";
+		cout << unadjusted_p_value[i] << "\t";
 		//results_out.width(10);
 		//results_out << adjusted_p_value[i] << "\t";
 // 		results_out.width(10);
 		results_out << FDR_indep_p_values[i] << "\t";
+		cout << FDR_indep_p_values[i] << "\n";
 // 		results_out.width(10);
 // 		results_out << FDR_dep_p_values[i] << "\t";
 // 		results_out.width(10);

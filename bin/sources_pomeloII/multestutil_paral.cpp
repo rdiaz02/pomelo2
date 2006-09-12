@@ -1,12 +1,13 @@
 /***************************************************************************
-                          multestutil.cpp  - utilities for multiple testing
-                             -------------------
-    begin                : Thu Jul 11 2002
-    copyright            : (C) 2002, 2003 by Ramon Diaz-Uriarte
-    email                : rdiaz@cnio.es
- ***************************************************************************/
-
-
+    multestutil_paral.cpp: utlities et al. for multiple testing
+***************************************************************************/ 
+/***************************************************************************
+    begin                : Thu Jul 11 19:21:37 CEST 2002
+    copyright            : (C) 2002, 2003, 2004 by Ramón Díaz-Uriarte,
+                               2005, 2006  by Edward R. Morrissey and
+                                           Ramon Diaz-Uriarte
+    email                : rdiaz02@gmail.com, ermorrissey@cnio.es
+***************************************************************************/
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,7 +28,7 @@
 
 #include"multestutil_paral.h"
 #include"readMissing.h" //need to know about input_data_struct
-#include"Coxfit_paral.h" // for "historical" reasons this is separate
+#include"Coxfit_paral.h"  
 
 extern "C" {
   #include"fisher2.h" //The C code, modified from R, for Fisher's test.

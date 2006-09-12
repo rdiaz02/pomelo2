@@ -1,3 +1,27 @@
 Go to the next directory, make the binary
-(make -f  Paral_Makefile)
+(make)
 and copy the binary executable here.
+
+
+You need to have LAM/MPI installed (the makefile will try calling mpiCC)
+to compile, and an existing LAM/MPI universe for it to run.
+
+
+
+This is the (only) help for the usage of the stand-alone Pomelo II:
+
+
+USAGE:
+multest test maxT/minP nperm covariate_data class_data censored_data
+      test:  type of test; one of:
+      FisherIxJ: minP Fisher's exact test for IxJ contingency "
+                       tables (I, J >= 2);
+      t:         t-test (welch's);
+      Anova:     ANOVA;
+      Cox:       Cox regression (survival analysis);
+      Regres:    linear regression;
+      maxT/minP:      this makes no difference; we use FDR now.
+      nperm:          number of permutations
+      covariate_data: rows are genes, columns are conditions.
+      class_data:     classification or dependent variable, regression, Cox).
+      [censored_data]: if survival data, the censoring indicator.

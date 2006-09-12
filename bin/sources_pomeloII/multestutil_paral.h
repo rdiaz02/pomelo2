@@ -2,7 +2,9 @@
                           multestutil.h  -  description
                              -------------------
     begin                : Wed Jul 17 2002
-    copyright            : (C) 2002 by Ramon Diaz
+    copyright            : (C) 2002, 2003, 2004 by Ramon Diaz-Uriarte
+                               2005, 2006 by Edward R. Morrissey and
+                                             Ramon Diaz-Uriarte
     email                : rdiaz@cnio.es
  ***************************************************************************/
 
