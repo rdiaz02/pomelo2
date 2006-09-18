@@ -1,2 +1,3 @@
 tmp
-www/tmp
+www/tmp/*
+./www/tmp/*
