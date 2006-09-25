@@ -80,9 +80,9 @@ def numeric_table(table):
     table_mean   = "<tr><td>Mean Value:</td><td>&nbsp;</td><td align=\"right\">"    + summary_values[3] + "</td></tr>"
     table_min    = "<tr><td>Minimum Value:</td><td>&nbsp;</td><td>" + summary_values[0] + "</td></tr>"
     table_max    = "<tr><td>Maximum Value:</td><td>&nbsp;</td><td>" + summary_values[5] + "</td></tr>"
-    table_1qurt  = "<tr><td>25% bellow(1st Quartile):</td><td>&nbsp;</td><td>"    + summary_values[1] + "</td></tr>"
-    table_median = "<tr><td>50% bellow(median):</td><td>&nbsp;</td><td>"    + summary_values[2] + "</td></tr>"
-    table_3qurt  = "<tr><td>75% bellow(3rd Quartile):</td><td>&nbsp;</td><td>"    + summary_values[4] + "</td></tr></table>\n"
+    table_1qurt  = "<tr><td>25% below(1st Quartile):</td><td>&nbsp;</td><td>"    + summary_values[1] + "</td></tr>"
+    table_median = "<tr><td>50% below(median):</td><td>&nbsp;</td><td>"    + summary_values[2] + "</td></tr>"
+    table_3qurt  = "<tr><td>75% below(3rd Quartile):</td><td>&nbsp;</td><td>"    + summary_values[4] + "</td></tr></table>\n"
     html_table   =  table_start +  table_min + table_max +  table_mean + table_1qurt + table_median + table_3qurt
 
     # In the end

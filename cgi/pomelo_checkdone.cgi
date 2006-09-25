@@ -104,7 +104,7 @@ def mpi_error():
 
 def multest_error():
     error_text = "<p> PomeloII crashed. </p>"
-    error_text = error_text + "<p> Bellow is the output from the execution: </p>"
+    error_text = error_text + "<p> Below is the output from the execution: </p>"
     pom_out = open(tmpDir + "/pomelo.msg")
     lines = pom_out.readlines()
     pom_out.close()

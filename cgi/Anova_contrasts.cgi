@@ -96,7 +96,7 @@ def read_FDR():
 	except:
 		file_FDR = "0.05"
 
-	html_FDR = "Genes are considered differentially expressed, for the diagram and table bellow, when: <B style = 'position:relative; left:2%; color:ff6600' > FDR < " + file_FDR + "</B>"
+	html_FDR = "Genes are considered differentially expressed, for the diagram and table below, when: <B style = 'position:relative; left:2%; color:ff6600' > FDR < " + file_FDR + "</B>"
 	
 	return html_FDR
 
