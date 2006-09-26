@@ -40,6 +40,7 @@ def table_gen_sort(l1, l2, l3, l4, l5, l6, l7,
     fout.write('Chosen test type: ' + test_type + '<br>' )
     fout.write(permut_text + '<br>')
     fout.write('Covariables used: Selected test does not allow additional covariables<br>')
+    fout.write('Survival time: <a href="./class_labels" target="classWindow">Click here</a><br>')
     fout.write('<br><table>')
  
     outstring = "<tr><td>&nbsp;</td><td width=150><b>Gene Name</b></td><td width=150><b>Row number</b></td><td width=150><b>unadj.p</b></td><td width=150><b>FDR_indep</b></td><td width=150><b>Obs_stat</b></td><td width=150><b>abs(Obs_stat)</b></td><td width=150><b>Warning</b></td></tr>\n"
@@ -75,7 +76,7 @@ def linkGene(geneName, idtype, organism):
     else:
 	link_gn = ''.join(['http://idclight.bioinfo.cnio.es/IDClight.prog?idtype=',
                         idtype, '&id=', geneName, '&internal=0&org=',
-                        organism])
+                        organism,"\' target=\'icl_window\'"])
         return ("<a href='" + link_gn + "'>" + geneName + "</a>")
 
 

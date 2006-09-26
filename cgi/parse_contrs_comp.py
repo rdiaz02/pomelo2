@@ -42,7 +42,7 @@ def linkGene(geneName, idtype, organism):
     else:
 	link_gn = ''.join(['http://idclight.bioinfo.cnio.es/IDClight.prog?idtype=',
                         idtype, '&id=', geneName, '&internal=0&org=',
-                        organism])
+                        organism, "\' target=\'icl_window\'"])
         return ("<a href='" + link_gn + "'>" + geneName + "</a>")
 
 def parse_contrasts(contr_text_lines, FDR_limit, idtype, organism):
