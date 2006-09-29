@@ -28,7 +28,7 @@ class_lab_sel_file = "/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/CLASS_LABE
 
 #*******************************************
 
-acceptedIDTypes        = ('None', 'cnio', 'affy', 'clone', 'acc', 'ensembl', 'entrez', 'ug', 'swissp', 'rsdna', 'rspep')
+acceptedIDTypes        = ('None', 'cnio', 'affy', 'clone', 'acc', 'ensembl', 'entrez', 'ug', 'swissp', 'rsdna', 'rspep', 'hugo')
 acceptedOrganisms      = ('None', 'Hs', 'Mm', 'Rn')
 acceptedTests          = ('t', 'FisherIxJ', 'Anova', 'Cox', 'Regres', 't_limma', 't_limma_paired','Anova_limma')
 permutation_tests      = ('t', 'Anova', 'Regres')
