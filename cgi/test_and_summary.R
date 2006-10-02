@@ -56,16 +56,12 @@ sink("names_covariables")
 cat(paste(covariable.names,collapse="\t"))
 sink()
 
-# Count number of subjects in class labels
-num.subjects <- count.fields("../class_labels", sep = "\t",
-                                   quote = "",
-                                   comment.char = "#",
-                                   blank.lines.skip = TRUE)
 
 Class <- factor(scan("../class_labels", sep = "\t", what = "char", strip.white = TRUE))
 # To prevent problems with a space at end of classes
 if(Class[length(Class)] == "") Class <- factor(Class[-length(Class)])
 
+num.subjects <- length(Class)
 
 # If not same number of subjects terminate
 if (table.dimensions[1] != num.subjects) {
