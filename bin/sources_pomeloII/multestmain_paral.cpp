@@ -727,27 +727,25 @@ if (test_type!="FisherIxJ") MPI::COMM_WORLD.Reduce(aux_counter_unadjusted, sum_c
 	results_out << endl;
 	
 	for (unsigned int i = 0; i < aux_num_rows; i++) {
-// 		results_out.width(8);
-		results_out << order_stat_decreasing[i] + 1 << "\t";
-// 		results_out.width(num_spaces);
-		results_out << aux_ID[ order_stat_decreasing[i] ]<< "\t";
- 		results_out.width(30);
-		cout <<  unadjusted_p_value[i] << "\t";
-		cout <<  FDR_indep_p_values[i] << "\n";
-		results_out << unadjusted_p_value[i] << "\t";
-		cout << unadjusted_p_value[i] << "\t";
-		//results_out.width(10);
-		//results_out << adjusted_p_value[i] << "\t";
-// 		results_out.width(10);
-		results_out << FDR_indep_p_values[i] << "\t";
-		cout << FDR_indep_p_values[i] << "\n";
-// 		results_out.width(10);
-// 		results_out << FDR_dep_p_values[i] << "\t";
-// 		results_out.width(10);
-		results_out << observed_test_statistic[ order_stat_decreasing[i] ] << "\t";
-// 		results_out.width(10);
-		if(test_type != "FisherIxJ") results_out <<  ordered_observed_test_statistic[i] <<endl;
-		else results_out <<  observed_test_statistic[ order_stat_decreasing[i] ] << endl;
+	  results_out << order_stat_decreasing[i] + 1 << "\t";
+	  results_out << aux_ID[ order_stat_decreasing[i] ]<< "\t";
+	  results_out.width(30);
+	  cout <<  unadjusted_p_value[i] << "\t";
+	  results_out.width(30); results_out.precision(26);	  
+	  cout <<  FDR_indep_p_values[i] << "\n";
+	  results_out.width(30); results_out.precision(26);	  
+	  results_out << unadjusted_p_value[i] << "\t";
+	  results_out.width(30); results_out.precision(26);	  
+	  cout << unadjusted_p_value[i] << "\t";
+	  results_out.width(30); results_out.precision(26);	  
+	  results_out << FDR_indep_p_values[i] << "\t";
+	  results_out.width(30); results_out.precision(26);	  
+	  cout << FDR_indep_p_values[i] << "\n";
+	  results_out.width(30); results_out.precision(26);	  
+	  results_out << observed_test_statistic[ order_stat_decreasing[i] ] << "\t";
+	  results_out.width(30); results_out.precision(26);	  
+	  if(test_type != "FisherIxJ") results_out <<  ordered_observed_test_statistic[i] <<endl;
+	  else results_out <<  observed_test_statistic[ order_stat_decreasing[i] ] << endl;
 	}
 	
 	
