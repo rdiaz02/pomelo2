@@ -31,6 +31,14 @@ covariables.model.matrix <- function(class.labels, test.type){
       covariables.table          <-  read.table("COVARIABLES/covariables", header= TRUE, sep="\t",
                                                 strip.white = TRUE)
       covariable.columns         <- which(colnames(covariables.table)%in% Chosen.covariables)
+      if(length(covariable.columns) < 1) {
+        caughtError("The names of the chosen do not match the names of the additional covariates. Most likely, your add. covars. did not have a first row with names.")
+      }
+      if(length(Class) != dim(covariables.table[covariable.columns])[1]) {
+      if(length(covariable.columns) < 1) {
+        caughtError("Different number of samples in array data and additional covariates. Most likely, your add. covars. did not have a first row with names.")
+      }
+
       covariables.matrix         <- cbind(Class, covariables.table[covariable.columns])
       ## make sure we do not get numeric values that are way out there
       numeric.vars <- which(unlist(lapply(covariables.matrix, function(x) is.numeric(x))))
