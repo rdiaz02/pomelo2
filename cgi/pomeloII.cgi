@@ -13,14 +13,15 @@ import random
 ##import re
 from stat import ST_SIZE
 import fcntl
-#import cgitb;cgitb.enable() ## zz: eliminar for real work?
+import cgitb; cgitb.enable() ## zz: eliminar for real work?
 sys.stderr = sys.stdout
 
-MAX_poms = 15 ## Max number of pomelo2 running
+MAX_poms = 25 ## Max number of pomelo2 running
 MAX_time = 3600 * 24 * 5 ## 5 is days until deletion of a tmp directory
 Pom_MAX_time = 3600 * 12 ## 12 hours is max duration allowed for any process
 MAX_covariate_size = 363948523L ## a 500 * 40000 array of floats
 MAX_time_size = 61897L
+MAX_PERMUT = 90000000  ## maximum number of permutations
 
 #************  SELENIUM STUFF **************
 covariate_sel_file = "/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/EXPRESSION_Anova-limma"
@@ -279,6 +280,11 @@ test_type  = radioUpload('testtype', acceptedTests)
 
 if test_type in permutation_tests:
     num_permut = valueNumUpload('num_permut', 'int' , 1000)
+    if num_permut > MAX_PERMUT: ## zz: do this with javascript!
+        shutil.rmtree(tmpDir)
+        err_msg = "<p> Too many permutations (the max is " + str(MAX_PERMUT) + "). </p>"
+        cgi_error_page("INPUT ERROR", err_msg)
+        sys.exit()
 else:
     num_permut = 200000
 
