@@ -1,0 +1,86 @@
+<html>
+<script type="text/javascript" language="javascript">
+	function open_main_help(){
+                window.open("http://pomelo2.bioinfo.cnio.es/help/pomelo2-help.html","fullHelp","scrollbars=YES,resizable=YES")
+	}
+</script>
+<style type="text/css">
+	DIV.Title_box
+	{
+		font-weight: bold; 
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		LEFT: 6.5%;
+		TOP: 1.1em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 15em;
+		Z-INDEX:2;
+		
+	}
+	DIV.full_box
+	{
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		TOP: 0.3em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(238,243,226);
+		Z-INDEX:1;
+	}
+</style>
+<TITLE> Pomelo II: Changing FDR help</TITLE>
+
+<Body background="http://pomelo2.bioinfo.cnio.es/fondo3.jpg">
+	
+	<div id = "results_title" class="Title_box">
+		Help on: Changing FDR 
+	</div>
+	<div id = "results" class="full_box" >
+	     <br>
+	     <div id = "help-cnotents" style="position:relative; margin-left:5%; margin-right:5%">
+	     <B>What is the FDR limit for?</B>
+	     <br>
+	     A gene with a FDR value below the FDR limit is considered to be differentially expressed. 
+	     This is used for the differential expression table and to draw Venn diagrams.
+	     <br>
+	     <br>
+	     <B>What FDR limit is being used?</B>
+	     <br>
+	     The FDR limit being used is written in orange. By default the limit is set at 0.05
+	     <br>
+	     <br>
+	     <B>How can I change it?</B>
+	     <br>
+	     You must type the new value in the textbox and click on Change criteria. The new value should 
+	     appear written in orange. This will also automatically redraw diagrams and recalculate the 
+	     differential expression table.
+	     <br>
+	     <br>
+	     </div >
+	     <center>
+	     <input type="button" name="close" value=" Close help window " OnClick="window.close();">
+	     <input type="button" name="help" value=" Open full help " OnClick="open_main_help();">
+	     <br><br>
+	     </center>
+	</div>
+</Body>
+</html>

@@ -1,0 +1,18 @@
+multest_paral: readMissing.o Coxfit_paral.o multestutil_paral.o multestmain_paral.o fisher2.o
+	mpiCC -o multest_paral readMissing.o multestutil_paral.o multestmain_paral.o fisher2.o Coxfit_paral.o -lm -lgsl -lgslcblas -O3 -ffloat-store -Wall
+
+multestmain_paral.o: multestmain_paral.cpp
+	mpiCC -c multestmain_paral.cpp -Wall -O3 -ffloat-store -DALONE_COMPILE
+
+multestutil_paral.o: multestutil_paral.cpp
+	mpiCC -c multestutil_paral.cpp -Wall -O3 -ffloat-store
+
+Coxfit_paral.o: Coxfit_paral.cpp
+	mpiCC -c Coxfit_paral.cpp -Wall -O3 -ffloat-store
+
+readMissing.o: readMissing.cpp
+	mpiCC -c readMissing.cpp -Wall -O3 -ffloat-store
+
+fisher2.o: fisher2.c
+	mpicc -c fisher2.c -Wall -O3 -ffloat-store
+

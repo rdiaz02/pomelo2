@@ -1,0 +1,247 @@
+<HTML>
+<HEAD>
+<script type="text/javascript" language="javascript">
+
+        list_variables = [_VARIABLE_LIST_]
+	list_values    = [_VALUES_LIST_]
+	max_df         = _MAX_DF_
+
+        function open_help(help_html){
+	        var page_URL = "http://pomelo2.bioinfo.cnio.es/help/" + help_html
+		window.open(page_URL, "helpWindow", "width=750, height=600, scrollbars=YES, resizable=YES")
+	}	
+	function open_graph(){
+	        var page_URL = "http://pomelo2.bioinfo.cnio.es/tmp/_NUMBERS_/COVARIABLES/scatterPlot.png"
+		window.open(page_URL, "graph_window", "scrollbars=YES, resizable=YES")
+	}
+	
+	function list_position(name){
+		var position
+		for (i=0;i<list_variables.length;i++){
+		        if (list_variables[i]==name){ position = i; break }
+		}
+		return(position)
+	}
+	
+	function make_table_alter_button(){
+	        var html_table = "<table style=\"position:relative; left:4% \"><tr><td><B>Covariable name</B></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><B>Degrees of freedom used</B></td></tr>"
+		var total_df = 0
+		for (i=0;i<list_values.length;i++){
+		       if (list_values[i]!=0){
+		             total_df   = total_df   + list_values[i]
+			     html_row   = "<tr><td>" + list_variables[i] + "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" + list_values[i] + "</td></tr>"
+			     html_table = html_table + html_row
+		       }
+		}
+		html_last_line0 = "<tr><td colspan=3>___________________________</td></tr>"
+		html_last_line1 = "<tr><td><B>Total used</B></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><B>" + total_df + "</B></td></tr>" 
+		html_last_line2 = "<tr><td><B>Maximum allowed</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B></td><td><B>" + max_df   + "</B></td></tr>" 
+		html_table      = html_table + html_last_line0 + html_last_line1 + html_last_line2 + "</table>"
+		if (max_df<total_df){
+			html_table = html_table + " The number of total degrees of freedom (" + total_df + ") is greater than the limit (" + max_df + ").<br>"
+			html_table = html_table + " To continue you must remove at least one covariable."
+			//Deactivate button
+			document.covariable_form.submit_button.disabled      = true
+		}
+		else if (total_df==0){
+		        html_table = "No covariables selected."
+			document.covariable_form.submit_button.disabled      = true
+		
+		}
+		else{
+		        //Activate button
+			document.covariable_form.submit_button.disabled      = false
+		}				
+		return(html_table)
+	}
+	
+	// Main javascript function
+	function box_changed(name, value){
+	        var position = list_position(name)
+		//alert(position)
+		//alert(list_variables[position])	
+		if (list_values[position]==0) {list_values[position] = value }
+		else { list_values[position] = 0 }
+		
+		html_table = make_table_alter_button()
+		//alert(list_values)
+		document.getElementById("chosen_covar_table").innerHTML   = html_table
+	}
+	
+</script>
+<style type="text/css">
+	DIV.Main_title
+	{
+		VERTICAL-ALIGN: middle;
+		FONT-WEIGHT: 900; 
+		FONT-SIZE: 2em;
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 7px solid;
+		BORDER-TOP: rgb(0,139,0) 7px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 7px solid;
+		BORDER-LEFT: rgb(0,139,0) 7px solid;
+		PADDING-RIGHT: 7px;		
+		PADDING-LEFT: 7px;
+		PADDING-BOTTOM: 7px;
+		PADDING-TOP: 7px;
+		LEFT: 0.87%;
+		TOP: 1%;
+		FLOAT: none;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 96%;
+		HEIGHT: 4.4em;
+	}
+	DIV.Title_box
+	{
+		font-weight: bold; 
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		LEFT: 6.5%;
+		TOP: 1.1em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 15em;
+		Z-INDEX:2;
+		
+	}
+	DIV.results_box
+	{
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+/* 		LEFT: 8%; */
+		TOP: 0.3em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(238,243,226);
+/* 		WIDTH: 85%; */
+		Z-INDEX:1;
+	}
+
+	IMG.question
+	{
+	        CURSOR: pointer; 
+	}
+
+</style>
+
+<TITLE> POMELO II Covariables</TITLE>
+</HEAD>
+<BODY background="http://pomelo2.bioinfo.cnio.es/fondo3.jpg">
+	<div id = "titulo_upload" class="Main_title">
+		<img SRC="http://pomelo2.bioinfo.cnio.es/pomelo2.gif" align=left  border=0>
+		<img SRC="http://pomelo2.bioinfo.cnio.es/pomelo2.gif" align=right border=0>
+		<span style="position:relative; top:15%">
+		POMELO II <br>
+		(THE RETURN OF THE POMELO)
+		</span >
+	</div>
+<FORM action="check_covariables.cgi" method="POST" name="covariable_form">
+	<div id = "results_title" class="Title_box">
+		Check and choose covariables
+	</div>
+	<INPUT TYPE="hidden" NAME="cgi_option" VALUE = "covar_launch">
+	<INPUT TYPE="hidden" NAME="tmp_dir" VALUE = "_SUBS_DIR_">
+	<div id = "results" class="results_box" >
+	<br><br>
+	<table style="position:relative; left:4%">
+	    <tr>
+	    <td>
+	    <img SRC="http://pomelo2.bioinfo.cnio.es/question_mark_cut.png" border=0 class="question" 
+	    onClick="open_help('check_covariables.html')">
+	    </td>
+	    <td>
+	    <B>Check covariables are read properly and choose which to use:</B>
+	    
+	    
+	    </td></tr>
+	</table>
+
+	<br>
+	_SUMMARY_TABLE_
+	<br>
+<!--	<table style="position:relative; left:4%">
+	    <tr>
+	    <td>
+	    <img SRC="http://pomelo2.bioinfo.cnio.es/question_mark_cut.png" border=0 class="question" 
+	    onClick="open_help('diff_expresion_table.html')">
+	    </td>
+	    <td>
+	    <B>Check graph to make sure chosen covariables are not correlated (similar):</B>
+	    </td></tr>
+	</table>		
+	<br>
+	<center>
+	<input type="button" name="graph_open" value=" Open covariable compare graph  " OnClick="open_graph();">
+	</center>
+	<br>
+	<br>-->
+	<br>
+	<br>
+	</div>
+	<div id = "launch_covar" class="Title_box">
+		Launch test
+	</div>
+	<div id = "results" class="results_box" >
+	<br><br>
+	<table style="position:relative; left:4%">
+	    <tr>
+	    <td>
+	    <img SRC="http://pomelo2.bioinfo.cnio.es/question_mark_cut.png" border=0 class="question" 
+	    onClick="open_help('df_table.html')">
+	    </td>
+	    <td>
+	    <B>df table:</B>
+	    </td></tr>
+	</table>
+	<center>
+	<div id = "chosen_covar_table">
+	No covariables selected.
+	</div>
+
+	<br>
+	<br>
+
+	<INPUT TYPE = "submit" name = "submit_button" VALUE = " Send selected covariables " disabled = true>
+	</center>
+	<br>
+	</div>
+
+	<div style="position:relative;top:2.2em">
+	
+		<table border=0 width="100%" celllspacing=0>
+			<tr>
+				<td align=left><font size=2>
+					<a href="http://bioinfo.cnio.es">Bioinformatics Unit</a></font>
+				</td>
+				<td align=right><font size=2>
+					&nbsp;Send comments to the <a href="mailto:ermorrissey@cnio.es">webmaster</a>.
+					Last rev. Apr 27th, 2006</font>
+				</td>
+				<TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.bioinfo.cnio.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		
+			</tr>
+		</table>
+		<br>
+	</div>
+</FORM>
+</BODY>
+</HTML>

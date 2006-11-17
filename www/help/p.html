@@ -1,0 +1,587 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<style type="text/css">
+                 body { margin-left: 10%; margin-right: 10%; color: black; background: white;}
+                 h1 { margin-left: -8%;}
+                 h2,h3,h4,h5,h6 { margin-left: -4%; }
+div.box { border: solid; border-width: thin; width: 100%; padding: 0.2em; }
+div.color {background: rgb(204,204,255);
+           padding: 0.5em;
+           border: none;
+           }
+body { font-family: Verdana, sans-serif; }
+h1,h2 { font-family: Verdana, sans-serif; }
+pre { font-family: monospace; }
+               </style>
+
+
+  <head>
+    <title>Help for Pomelo II</title>
+  </head>
+
+
+  <body background="cnio_tiled_nj.gif">
+
+
+<center>
+<!-- Creative Commons License -->
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.0/"><img alt="Creative Commons License" border="0" src="somerights20.gif" /></a><br />
+<span class="license">This document is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Creative Commons License</a></span>.
+<!-- /Creative Commons License -->
+</center>
+<!--
+
+<rdf:RDF xmlns="http://web.resource.org/cc/"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <Work rdf:about="">
+<dc:title>Pomelo II</dc:title>
+<dc:date>2005</dc:date>
+<dc:description>Help for Pomelo II: finding differentially expressed genes.</dc:description>
+<dc:creator><Agent>
+<dc:title>Ramón Díaz-Uriarte, Edward Morrissey</dc:title>
+</Agent></dc:creator>
+<dc:rights><Agent>
+<dc:title>Ramón Díaz-Uriarte</dc:title>
+</Agent></dc:rights>
+<dc:type
+rdf:resource="http://purl.org/dc/dcmitype/Text"
+/>
+<license
+rdf:resource="http://creativecommons.org/licenses/by-nc-sa/2.0/"
+/>
+</Work>
+
+<License
+rdf:about="http://creativecommons.org/licenses/by-nc-sa/2.0/">
+<permits
+rdf:resource="http://web.resource.org/cc/Reproduction"
+/>
+<permits
+rdf:resource="http://web.resource.org/cc/Distribution"
+/>
+<requires
+rdf:resource="http://web.resource.org/cc/Notice"
+/>
+<requires
+rdf:resource="http://web.resource.org/cc/Attribution"
+/>
+<prohibits
+rdf:resource="http://web.resource.org/cc/CommercialUse"
+/>
+<permits
+rdf:resource="http://web.resource.org/cc/DerivativeWorks"
+/>
+<requires
+rdf:resource="http://web.resource.org/cc/ShareAlike"
+/>
+</License>
+
+</rdf:RDF>
+
+-->
+<br />
+<hr><center>
+<h1><a name=toc1>Help for Pomelo II</a></h1>
+</center>
+
+<tableofcontents>
+<ul compact>
+<li><a href="#toc2">Introduction to Pomelo II</a></li>
+<li><a href="#toc3">Procedures implemented</a></li>
+<li><a href="#toc4">Program input</a></li>
+  <ul compact>
+  <li><a href="#toc5">Data files and format</a></li>
+    <ul compact>
+    <li><a href="#toc6">Data files</a></li>
+    </ul>
+  <li><a href="#toc7">Data format for gene expression data</a></li>
+  <li><a href="#toc8">Data format for class labels and censored indicators</a></li>
+  <li><a href="#toc9">Data format for Fisher's exact test on contingency tables</a></li>
+  </ul>
+<li><a href="#toc10">Tests available</a></li>
+  <ul compact>
+  <li><a href="#toc11">Contingency table (Fisher's test)</a></li>
+  <li><a href="#toc12">t</a></li>
+  <li><a href="#toc13">ANOVA</a></li>
+  <li><a href="#toc14">Regression</a></li>
+  <li><a href="#toc15">Cox model</a></li>
+  </ul>
+<li><a href="#toc16">Number of permutations</a></li>
+<li><a href="#toc17">How long does it take?</a></li>
+<li><a href="#toc18">Output files</a></li>
+<li><a href="#toc19">Examples and data sets</a></li>
+<li><a href="#toc20">Code, authors and acknowledgements</a></li>
+<li><a href="#toc21">Terms of use</a></li>
+<li><a href="#toc22">Privacy and	Security</a></li>
+<li><a href="#toc23">Disclaimer</a></li>
+  <ul compact>
+  <li><a href="#toc24">Copyright</a></li>
+  </ul>
+</ul>
+</tableofcontents>
+
+
+<h2><a name=toc2>Introduction to Pomelo II</a></h2>
+
+<p>Pomelo II is a new and much improved incarnation of Pomelo, a tool
+for finding differentially expressed genes, and genes that are of
+potential interest because they are related to an outcome of interest
+(e.g., type of cancer, survival).</p>
+
+<p>The main features that differentiation Pomelo II from its ancestor,
+Pomelo, are:</p>
+
+<ul>
+
+  <li>Much faster than Pomelo. The underlying C++ code has now been
+parallelized for the permutation computations. For the longer problems
+you can expect up to a 40 to 50 fold increase in speed. Whenever you run
+Pomelo II you will be using between 60 and 66 CPUs simultaneously.</li>
+
+
+<li>Customizable heatmaps for the results that include a dendrogram of the displayed
+genes. This allows "similar genes" to be grouped together in the figures, thus
+simplifying interpretation.  You select the genes to plot based on different criteria (p-value, adjusted
+p-value, statistic, etc). </li>
+
+
+<li>If you use any of the currently standard identifiers for your gene
+IDs for either human, mouse, or rat genomes, you can obtain additional
+information by clicking on the names in the output tables and
+figures. This information is based on that provided by our <a
+href="http://idconverter.bioinfo.cnio.es">IDConverter</a> tool.</li>
+
+
+      <li>Tables of results are now sortable according to different
+      criteria (e.g., p-value, statistic, adjusted p-value,
+      name).</li>
+
+
+
+
+<li>We only provide now FDR-adjusted p-values. FWER-correction is no
+longer provided. We think that control of the FDR (False Discovery
+Rate) is probably more relevant for most genomic and proteomics
+research than control of the FWER (Family-Wise Error Rate); in
+addition, use of the maxT FWER control procedure requires that the
+subset pivotality assumtion holds, which is not the case with some of
+the tests available in Pomelo.</li>
+
+<li>Only the FDR-adjusted p-values from the approach of <b>Benjamini &
+Hochberg (1995;</b> J. Royal Statistical Society B, 57:289-300) are
+shown. Even if the assumptions of this procedure are not satistified,
+the error is often small (Reiner, A., D. Yekutieli, and Y. Benjamini,
+2003, "Identifying differentially expressed genes using false
+discovery rate controlling procedures", Bioinformatics 19, 368-375)
+and, overall, this method is competitive to other alternatives such as
+Benjamini & Yekutieli's or permutation-based approaches.</li>
+
+
+
+    </ul>
+
+
+
+<p>More extensive details on hypothesis testing and multiple
+    testing correction are provided in
+    the <a
+    href="http://pomelo.bioinfo.cnio.es/help/multest-help.html">help
+    for Pomelo</a>. By now, we expect essentially everybody is well
+    convinced of the need to account for multiple testing.</p>
+
+
+
+
+
+    <h2><a name=toc3>Procedures implemented</a></h2> 
+
+    <p>Pomelo II provides control of multiple testing using the FDR
+    method of <a name="BH"> <b>Benjamini & Hochberg (1995;</b></a>
+    J. Royal Statistical Society B, 57:289-300).  This procedure
+    offers strong control of the FDR only under independence and some
+    specific types of positive dependence of the tests
+    statistics but has been shown to perform very well under a wide
+    range of types of covariance among test statistics (Reiner, A., D. Yekutieli, and Y. Benjamini,
+2003, "Identifying differentially expressed genes using false
+discovery rate controlling procedures", Bioinformatics 19, 368-375).</p>
+
+    <p>The FDR procedure uses unadjusted p-values and we compute these
+	unadjusted p-values using random permutations; thus, since the
+	p-values are obtained from a permutation test, they do not
+	depend on distributions such as the t or the normal ---they
+	are "distribution free"). Note that for Fisher's exact test
+	for contingency tables the exact p-value for an IxJ
+	contingency table is computed directly using a fast
+	algorithm ---due to Mehta and Patel; we use the C code as
+	implemented in R.
+
+    
+    
+
+</p>
+	
+    <h2><a name=toc4>Program input</a></h2>
+    <h3><a name=toc5>Data files and format</a></h3>
+    <h4><a name=toc6>Data files</a></h4>
+    <p> The files "Gene expression data" and "Class labels or dependent variable" are required. In
+      addition, if your data are survival data, you need to provide a file with the
+      "Censored indicators".</p>
+    <dl>
+      <dt><a name="covar.file">Gene expression data</a></dt> <dd>The
+	file with the expression data (e.g., you micorarray data). In
+	this file, rows represent variables (generally genes) and
+	columns are subjects or arrays. We want to find those
+	variables that are most distinctly expressed among groups
+	(e.g., a <i>t-test</i> or ANOVA) or that are most related to,
+	say, survival (e.g., Cox model).</dd>
+
+      <dt><br><a name="class.labels">Class labels</a> or dependent
+	variable</dt><dd>These are generally the class labels (e.g.,
+	healthy or affected, or different types of cancer) that group
+	the samples, or the survival times of patients, or another
+	dependent continuous variable (if regression models). In our
+	analyses we want to find which of the genes shows differential
+	expression between the classes given here, or if a given
+	dependent variable (e.g., survival time, expression of certain
+	protein) is significantly related to the expression of some gene.</dd>
+
+
+      <dt><br><a name="censored.indicator">Censored indicator</a></dt><dd> For survival 
+	data only. An observation is censored
+	if the time of occurrence of the event (usually death) has not yet been observed.
+	We will represent uncensored observations with a 1 (because we do have observed the
+	time of death) and censored observations with a 0 (meaning that the survival time
+	given is only a lower bound).</dd>
+      </dl>
+    
+
+    <h3><a name=toc7><a name="requirements">Data format for gene expression data</a></a></h3>
+    <p> The file for the gene expression should be formated as:</p>
+    <ul>
+      <li>Data should conform to the "genes in rows,  patients (or classes) in columns".
+	  In other words, each row of the data file is supposed to represent a different gene
+	  or variable and we will carry-out <b>one test for each row</b>.</li>
+      <li>Use tab (\t) as the field separator within rows.</li>
+      <li>Use newline (\n) between rows. It is also convenient to finish each
+	      file with one (\n).</li>
+      <li>The first column is assumed to contain the ID information for genes, marker,
+	or whatever. This will be used to label the output (but it also means that whatever is
+	in the first column is not used in the analyses).</li>
+      <li>You can have an arbitrary number of rows with comments. These rows must always start
+	with an "#".</li>
+      <li>Array names: if you want to name your arrays (useful for the output of
+	the analyses) do as follows:
+	<ol>
+	  <li>Place a line that starts with "&#035;";</li>
+	  <li>After the "&#035;" put "Name" or "NAME" or "name" (don't say we
+	    don't give you choices);</li>
+	  <li>Write the array names (separated by tabs).</li>
+	</ol>
+
+      <li>There should be no rows with non-numeric data (except for
+	  the comments and name rows). In particular,
+	  eliminate initial rows that contain things such as headers with the IDs of
+	  patients.</li>
+
+      <li><b>Missing values</b> can be coded in three different ways: a) as "NA"; b) with one 
+	  empty space (i.e., " "); c) as nothing (i.e, simply leave these places empty).</li>
+      <li> This is a small covariate data file using "NA" for missing values:
+	<div class="color">
+	  <pre>
+gene1	23.4	45.6	NA	76	85.6
+genW@	NA	34	23	NA	13
+geneX#	23	25.6	29.4	13.2	NA   </pre> </div>
+	</li>
+      <li> This is the same file using nothing for missing values:
+	<div class="color">
+<pre>
+gene1	23.4	45.6	  	76	85.6
+genW@	  	34	23	  	13
+genX#	23	25.6	29.4	13.2	     </pre> </div>
+      </li>
+      <li> This is the same file using nothing for missing values and
+      a first row with array identifiers:
+	<div class="color">
+<pre>
+#name     s1      s2      s3      s4      s5
+gene1	23.4	45.6	  	76	85.6
+genW@	  	34	23	  	13
+genX#	23	25.6	29.4	13.2	     </pre> </div>
+      </li>
+
+	  
+	<li>Beware that <b>some spreadsheet programs (such as
+	Excel)</b> will give you a lot of headaches if you use nothing
+	as a missing value code when the missing values are at the end
+	of the row. That is because for those lines or rows those
+	programs truncate the row at the last valid observation (i.e.,
+	they discard the last trailing tabulators that separate empty
+	space), so you will have a file where different rows have
+	different number of values. And Pomelo will rightfully
+	complain and will not run. 
+	For example, the last file, if it came from Excel, would
+	probably have five columns in the last row (and not six
+	columns, as it should), and Pomelo would give you an error
+	message and stop till you fix it.  Solutions? Use NA for
+	passing missing values to Pomelo, or do not pass those
+	files through spreadsheets.</li>
+    </ul>
+
+
+    <h3><a name=toc8>Data format for class labels and censored indicators</a></h3>
+    <p>Separate values by tab (\t), and finish the file with a carriage return or newline. 
+      No missing values are allowed here. Class labels can be anything you wish; they
+    can be integers, they can be words, whatever. Of course, if you are using regression or
+    Cox model, your dependent variable must be a number. And if you are using a t-test
+    there can only be two classes.</p> 
+    <p> This is a simple example of class labels file 
+	<div class="color">
+	  <pre> 
+CL1	CL2	CL1	CL4	CL2	CL2	CL1	CL4	  </pre>	</div>      
+    </p>
+
+    <h3><a name=toc9>Data format for Fisher's exact test on contingency tables</a></h3>
+    <p>The <b>class labels</b>, as above, can be any arbitrary coding. The values in the 
+      <b>covariate</b> data file should be consecutive integers that start at 0 (i.e., do <b>NOT</b>
+      use negative intergers, or you'll get errors). This is an example
+      file:</p>
+	<div class="color">
+<pre>
+#gene   c1      c1      c2      c2      c3      c3
+gene1	0	0	1	1	1	0	
+gene2	NA	2	NA	1	0	0	
+gene3	NA	1	2	NA	0	0	
+gene4	1	1	2	2	2	0	
+gene5	1	0	0	2	1	2	
+gene6	2	1	1	2	0	0	
+gene7	2	1	1	0	2	0	
+gene8	2	2	0	0	NA	NA</pre> </div>
+    <p>As you can see, most of these rows would yield (if we used the first row as
+      the class labels) 3x2 tables or 3x3 tables (e.g., 3rd or 5th rows). </p>
+      
+<h2><a name=toc10>Tests available</a></h2>
+    <h3><a name=toc11><a name="contigency.table">Contingency table (Fisher's test)</a></a></h3>
+    <p>For contingency tables. It obtains the unadjusted <i>p-value</i> using Fisher's exact
+	test. This test would be the one to use if we have, say, different classes of patients (e.g.,
+	six types of cancers) and for a set of 1000 markers we can have either presence/absence of each marker
+      in each patient (this
+	would yield 1000 contingency tables of dimensions 6x2 ---each marker by each cancer type),
+	or we can have several levels of (unordered) expression, say four types of expression (which
+	would yield 1000 6x4 tables). </p>
+    <p>If the markers have more than two levels of expression and
+	these are ordered (say, from less to more) other tests could be more powerful, such as the
+	Cochran-Armitage test (which we have not yet implemented). Another alternative with
+	categorical response data are logistic and multinomial models (which we are in the process of
+	implementing).</p>
+    <h3><a name=toc12><a name="t.test">t</a></a></h3>
+    <p>The all-famous <em>t-test</em>. Used to compare an interval variable (one where
+	distances between levels make sense) between two groups. For example, we could compare
+	gene expression data between two types of patients. We use here the test statistic for
+        the case where we do not assume equal variances in the two groups.</p>
+      
+    <h3><a name=toc13><a name="ANOVA">ANOVA</a></a></h3>
+    <p>Analysis of variance. We compare between two or more groups the value of an interval
+      data. For example, the gene expression among five types of cancer.</p>
+    <h3><a name=toc14><a name="Regression">Regression</a></a></h3>
+    <p>Linear regression. We try to predict the (interval scaled) values of a dependent
+      variable based on the values of an independent, interval scaled variable. A typical example
+      is predicting the expression levels of a protein using gene
+      expression data.</p>
+    <h3><a name=toc15><a name="Cox">Cox model</a></a></h3>
+    <p>A widely used model for survival data. With survival data we often have censored
+	observations (e.g., a patient that is not yet dead, and all we know is that it lived for at
+	least 100 days after initiation of the treatment).</p>
+    <p>Currently, the Cox model included here works with interval-scaled covariates; if you pass it a categorical covariate, it can ONLY
+      have two possible values; otherwise, you will get meaningless results (it will be treated as an interval
+      scaled covariate).</p>
+    <p>The Cox model implemented only works with right-censored observations, not left-censored or doubly-censored ones.
+      As well, it is of course your responsibility to make sure that assumptions about censoring (e.g., lifetimes and censoring
+      times are independent, etc) are reasonable.</p>
+
+
+    <h2><a name=toc16><a name="NumPermut">Number of permutations</a></a></h2>
+    <p>The default is set to 50000 random permutations. You probably don't want anything less than
+      10000, though for some cases (say, only a few variables) you could manage with as
+      few as 5000. Sometimes you might want to go up to 100000 permutations; this will give you
+      peace of mind. Execution time ought to increase
+      linearly with number of permutations, so you can get a very good idea of how long your
+      run of 50000 will last by executing one of 10000 or less and multiplying (this is not necessarily true
+      with minP).</p>
+    <p> With FDR the permutations are not used for the adjusted p-values, but the FDR is based
+      upon the unadjusted p-value, and thus you want to have a decent estimation of the
+      unadjusted p-values (recall that the unadjusted p-values are computed
+      using permutation tests).</p>
+    
+<!--     <h2><a name=toc17><a name="how-long">How long does it take?</a></a></h2>  -->
+<!--     <p>It depends on the test, the size of the file, and the number of permutations. The following -->
+<!--       examples might give you an idea (yes, some are "toy-examples"), since computing time -->
+<!--       increases linearly with number of permutations and subjects in most of these cases.</p> -->
+<!--     <ul> -->
+<!--       <li>A t-test with maxT for a file of 4300 genes by 41 patients can take around 45 minutes  -->
+<!-- 	for 100000 permutations. </li> -->
+<!--       <li>The same file with minP and 50000 permutations takes about 4 hours.</li> -->
+<!--       <li>An ANOVA for a toy data set of 10 variables, 25 subjects in four groups, with maxT and  -->
+<!-- 	500000 permutations takes 35 seconds. If we use minP (and 500000 permutations) it -->
+<!--       takes 4 minutes and 45 seconds. </li> -->
+<!--       <li>A Cox model in a toy data set of 10 variables and 25 subjects, using 50000 permutations, -->
+<!-- 	takes 30 seconds for maxT and 45 seconds for minP. </li> -->
+<!--       <li>A linear regression in the same toy data set as above, with 100000 permutations and -->
+<!-- 	maxT takes 12 seconds. </li> -->
+<!--       <li>A Fisher's exact test on a data set of 8 genes and 21 subjects, in what were mostly  -->
+<!-- 	4x3 contingency tables, using minP and 100000 permutations takes 29 minutes.</li> -->
+<!--     </ul> -->
+<!--     <p> As you can see, time varies widely, and some procedures can take a very long time -->
+<!--       (minP in general takes longer, and Fisher's exact test takes quite a long time).  -->
+<!--       You might want to do a few trial runs with a -->
+<!--       small number of permutations (say, 500 or 5000) before launching the "real thing".</p> -->
+
+<!--     <p> <b>Web application</b> To prevent tying up the system, we have set a limit -->
+<!--       on how long a single Pomelo process can run. That limit is set now to 12 hours. -->
+<!--       If this is not enough, please talk to us or  -->
+<!--       <a href="http://bioinfo.cnio.es/~rdiaz/Pomelo-stats-code.tar.gz">download</a> the -->
+<!--       source code for Pomelo and run it on your machine.</p> -->
+    <h2><a name=toc18>Output files</a></h2>
+
+    <p>The run of the program returns a table with the output from the
+    run and a heatmap. </p>
+    <p>The table shows an index corresponding to the original ordering
+    in the data file, gene names, p-values (undajusted),
+    FDR-adjusted p-values, and statistics (and the absolute value of
+    the statistic) (For Fisher's IxJ tests the columns names statistic
+    and abs(statistic) really have no meaning). </p>
+    <p>The figure is a
+    heatmap where you can filter how and which genes to plot. 
+    For now the color scale goes from yellow to blue (green is the mix of
+yellow and blue); missing values are shown as white.
+    Both
+    tables and heatmap are clickable and will take you to a page with
+    additional information
+    (our <a href="http://idclight.bioinfo.cnio.es">IDConverter
+    Light</a>, based on <a href="http://idconverter.bioinfo.cnio,es">IDConverter</a>).</p>
+
+    <p>The observed test statistics are:
+	<dl>
+	  <dt><br>t</dt> <dd>The difference of means divided by the
+	  square root of the sum of the sample variances of each of
+	  the means. (So just the usual <em>t</em> for the unequal
+	  variance case).</dd>
+	  <dt>ANOVA</dt><dd>The usual <em>F-ratio</em> (mean squares model/mean squares error).</dd>
+	  <dt>Regression</dt><dd> The coefficient divided by its standard error (i.e., the typical <em>t-statistic).</em></dd>
+	  <dt>Cox model</dt><dd>The Wald statistic (the estimate of the 
+	    coefficient divided by its standard error).</dd>
+	</dl>
+
+
+<h2><a name=toc19>Examples and data sets</a></h2>
+<p>In <a href="http://pomelo2.bioinfo.cnio.es/Examples">this page</a> there are a few examples.
+Data sets to play with Pomelo 2 can be obtained from the Examples pages for
+<a href="http://signs.bioinfo.cnio.es/Examples/index.html">SignS</a> and
+<a href="http://genesrf.bioinfo.cnio.es/Examples/index.html">GeneSrF</a>.</p>
+
+    <h2><a name=toc20>Code, authors and acknowledgements</a></h2>
+
+    <p>The code underlying these tests is written in C++. It was
+ originally written by <a href="http://ligarto.org/rdiaz">Ramón
+ Díaz-Uriarte</a> and has been parallelized with
+ <a href="http://www.lam-mpi.org">LAM/MPI</a> by 
+<a href="mailto:emorrissey%%gmail.com">Edward Morrissey</a>
+ (substitute the "%%" by "@").  All of the multiple testing functions
+ have been written from scratch, although some algorithms have been
+ based on Westfall & Young (1993) or the documentation for the
+      <a
+      href="http://www.bioconductor.org/packages/release/html/multtest.html">"multtest"
+      package</a> for R, some inspiration has been obtained from the
+      above package (and a lot of testing has been done using multtest
+      as a benchmark). Moreover, we have taken C code
+      from <a href="http://www.R-project.org/"> R</a> for fitting the
+      Cox model (coxfit2.c) and Fisher's exact tests
+      (<a name="mehta">fexact.c</a>; the latter is based on Mehta and
+      Patel's algorithm). We have also used the GNU scientific
+      library, <a href="http://www.gnu.org/software/gsl/gsl"> GSL</a>.
+      The code from R, and the GSL are all
+      <a href= "http://www.fsf.org/philosophy/free-sw.html">free software</a> released under 
+      <a href="http://www.gnu.org/copyleft/gpl.html">GNU's General Public License</a>. Our C++
+      will be made available once it is properly documented and
+      cleaned up.</p>
+
+<p>The CGI has been written by 
+Edward Morrissey and Ramón Díaz-Uriarte
+  using <a href="http://www.python.org">Python</a>. The heatmaps use
+  <a href="http://cran.r-project.org">R</a> and the R
+  packages <a href="http://www.rosuda.org/R/GDD/">GDD</a> by Simon Urbanek
+ and <a href="http://www.maths.lancs.ac.uk/Software/Imagemap/">imagemap</a> by
+Barry Rowlingson,  as well as
+  <a href="http://rpy.sourceforge.net/">Rpy ("R from Python")</a> the
+  Python interface to R.</p>
+
+
+<p>This application is running on a cluster of machines using <a
+href="http://www.debian.org">Debian GNU/Linux</a> as operating system, <a
+href="http://www.apache.org">Apache</a> as web server, <a
+href="http://www.linuxvirtualserver.org">Linux Virtual Server</a> for web server load-balancing, 
+with <a href="http://linux-ha.org">heartbeat</a>
+  and <a href="http://www.drbd.org">drbd</a> for high-availability of
+  both services and storage, and <a
+href="http://www.lam-mpi.org">LAM/MPI</a> for parallelization.</p>
+
+<p><b>Funding</b> partially provided by Project TIC2003-09331-C02-02 of the
+Spanish Ministry of Education and Science. This application is running on a
+cluster of machines purchased with funds from the 
+<a href="http://www.rticcc.org/">RTICCC</a>.</p> 
+
+
+    <h2><a name=toc21><a name="terms.use">Terms of use</a></a></h2>
+    <ul>
+      <li>You acknowledge that this Software is experimental in nature
+	and is supplied "AS IS", without obligation by the authors, the CNIO's
+	Bioinformatics Unit or the CNIO to provide accompanying
+	services or support. The entire risk as to the quality and performance of the
+	Software is with you. The CNIO and the authors expressly disclaim any and all
+	warranties regarding the software, whether express or implied, including but
+	not limited to warranties pertaining to merchantability or fitness for a
+	particular purpose.</li>
+      <li>If you use Pomelo II for any publication, we would appreciate if you
+	could let us know and if you cite our program (you know, "credit where
+	credit is due"). For now, you can give the main web site:
+	<a href="http://pomelo2.bioinfo.cnio.es">http://pomelo2.bioinfo.cnio.es</a>).</li>
+    <li>We appreciate if you give us feedback concerning bugs, errors or misconfigurations.
+	Complaints or suggestions are welcome.</li>
+    </ul>
+    <br>
+    
+    <h2><a name=toc22><a name="privacy">Privacy and	Security</a></a></h2>
+    <p>Uploaded data set are saved in temporary directories in the server and are
+      accessible through the web until they are erased after some time. Anybody can
+      access those directories, nevertheless the name of the directories are not
+      trivial, thus it is not easy for a third person to access your data.</p>
+    <p>In any case, you should keep in mind that communications between the client
+      (your computer) and the server are not encripted at all, thus it is also
+      possible for somebody else to look at your data while you are uploading or
+      dowloading them.</p>
+      <br>
+      
+    <h2><a name=toc23><a name="warranty">Disclaimer</a></a></h2>
+    <p>This software is experimental in nature and is supplied "AS IS", without
+      obligation by the authors or the CNIO the to provide accompanying services or
+      support. The entire risk as to the quality and performance of the software is
+      with you. The authors expressly disclaim any and all warranties regarding the
+      software, whether express or implied, including but not limited to warranties
+      pertaining to merchantability or fitness for a particular purpose.<br>
+      
+      <!--     (If you are lost using these types of applications, or new, you -->
+      <!--       might want to read  -->
+      <!--       <a href="http://www.catb.org/~esr/faqs/smart-questions.html"> -->
+      <!-- 	How To Ask Questions The Smart Way</a>, by Eric Raymond.) -->
+      
+      
+      
+<h3><a name=toc24>Copyright</a></h3>
+This document is copyrighted. Copyright © 2005 Ramón Díaz-Uriarte.
+<hr>
+
+
+
+<!-- Created: Wed Jul 24 15:37:41 CEST 2002 -->
+<!-- hhmts start -->Last modified: Sat Dec 31 04:13:05 CET 2005 <!-- hhmts end -->
+  </body>
+</html>

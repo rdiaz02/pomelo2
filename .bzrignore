@@ -1,0 +1,4 @@
+tmp
+www/Pom.running.procs/*
+www/tmp/*
+./www/tmp/*

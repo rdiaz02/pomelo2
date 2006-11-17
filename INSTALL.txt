@@ -1,0 +1,21 @@
+POMELO2 INSTALL GUIDE
+
+Place the pomelo2 folder wherever you want pomelo2 to live.
+Run the install_pomelo2.py and follow the instructions you are given.
+
+
+REQUIREMENTS
+
+Go to the Asterias project page (http://bioinformatics.org/asterias) for
+further details. You definitely need:
+
+- Python (>= 2.4)
+- LAM/MPI
+
+
+You can run Pomelo II standalone (i.e., just the C++, not the complete
+web-based application). This of course only provides you with some of the
+available tests in the full Pomelo II, and none of the useful figures, but
+you can do it. Go to the /bin directory and follow instructions there.
+
+

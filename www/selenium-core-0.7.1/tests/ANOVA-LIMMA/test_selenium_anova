@@ -1,0 +1,144 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>New Test</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">New Test</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>covariate</td>
+	<td>/home/ermorrissey/WEB_APP/COVARIABLES/ANOVA-LIMMA/EXPRESSION_Anova-limma</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>class_labels</td>
+	<td>/home/ermorrissey/WEB_APP/COVARIABLES/ANOVA-LIMMA/CLASS_LABELS_Anova-limma</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>testtype</td>
+	<td>label=Anova, linear models (limma)</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Start Pomelo II']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>covariables</td>
+	<td>/home/ermorrissey/WEB_APP/COVARIABLES/ANOVA-LIMMA/covariables.anova</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>comp_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>Country</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('df_table.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>helpWindow</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submit_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=exact:http://pomelo2.bioinfo.cnio.es/cgi-bin/pomelo_checkdone.cgi?newDir=6681301095702711546853371917</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>order_table</td>
+	<td>label=Name descending</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>btn_clascomp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>Compare_classes</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>Compare_classes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>class2</td>
+	<td>label=B</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>comp_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>class2</td>
+	<td>label=C</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>comp_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//img[@onclick="open_help('results_table_contrast.html')"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>results_table_contrast.html</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.table_form.venn1[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>document.table_form.venn2[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>draw_venn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Up-regulated</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

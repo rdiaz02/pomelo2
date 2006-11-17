@@ -1,0 +1,266 @@
+<HTML>
+<HEAD>
+<script type="text/javascript" language="javascript">
+        function open_help(help_html){
+	        var page_URL = "http://pomelo2.bioinfo.cnio.es/help/" + help_html
+		window.open(page_URL, "help", "width=750, height=600, scrollbars=YES, resizable=YES")
+	}
+	function newheatmap(){
+                window.open("http://pomelo2.bioinfo.cnio.es/tmp/_NUMBERS_/heatmap_alter.html","Redraw_heatmap","scrollbars=YES,resizable=YES")
+	}
+	function PaLS_window(){
+	        window.open("http://pomelo2.bioinfo.cnio.es/cgi-bin/Send_to_Pals.cgi?tmp_dir=_NUMBERS_","SendPaLS","scrollbars=YES,resizable=YES")
+	}
+	function download_window(){
+	        window.open("http://pomelo2.bioinfo.cnio.es/cgi-bin/download_files.cgi?cgi_action=showFiles&tmp_dir=_TEMP_DIR_&","Download","scrollbars=YES,resizable=YES")
+	}
+	function change_table(form_name){
+		option = form_name.order_table
+		index = option.selectedIndex
+		strSubmit = 'file_name=_TEMP_DIR_/' + option.options[index].value + '&'
+		sndReq(strSubmit)
+		document.table_form.order_table.disabled=true;
+	}
+	function createRequestObject() {
+		var ro;
+		try{
+			ro = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		catch(e1){
+			try{
+				ro = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch(e2){
+				try{
+					ro = new XMLHttpRequest();
+				}
+				catch(e3){
+					ro = null
+					alert("Please update your web browser to its latest version to use full application functionality")
+				}	
+			}
+		}
+		return ro;
+
+	}
+	
+	var http = createRequestObject();
+		
+	function sndReq(form_string) {
+		http.open('post', 'http://pomelo2.bioinfo.cnio.es/cgi-bin/change_table.cgi',true);
+		http.onreadystatechange = handleResponse;
+		var browser = navigator.appName;
+		http.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+		http.send(form_string);
+	}
+		
+	function handleResponse() {
+		if(http.readyState == 4){
+			var response = http.responseText;
+			document.getElementById("table_swap").innerHTML = response;
+			document.table_form.order_table.disabled=false;
+// 			document.getElementById("cgi").style.visibility="visible"
+// 			document.getElementById("loading").style.visibility="hidden"
+		}
+	}
+</script>
+<style type="text/css">
+	DIV.Main_title
+	{
+		VERTICAL-ALIGN: middle;
+		FONT-WEIGHT: 900; 
+		FONT-SIZE: 2em;
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 7px solid;
+		BORDER-TOP: rgb(0,139,0) 7px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 7px solid;
+		BORDER-LEFT: rgb(0,139,0) 7px solid;
+		PADDING-RIGHT: 7px;		
+		PADDING-LEFT: 7px;
+		PADDING-BOTTOM: 7px;
+		PADDING-TOP: 7px;
+		LEFT: 0.87%;
+		TOP: 1%;
+		FLOAT: none;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 96%;
+		HEIGHT: 4.4em;
+	}
+	DIV.Help_box
+	{
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		LEFT: 0.4%;
+		TOP: 2.5em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(238,243,226);
+		WIDTH: 98%;
+		HEIGHT: 5%; 
+	
+	}
+	DIV.Title_box
+	{
+		font-weight: bold; 
+		TEXT-ALIGN: center;
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+		LEFT: 6.5%;
+		TOP: 1.1em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(154,205,50); 
+		WIDTH: 10em;
+		Z-INDEX:2;
+		
+	}
+	DIV.results_box
+	{
+		BORDER-RIGHT: rgb(34,139,34) 3px solid;
+		BORDER-TOP: rgb(0,139,0) 3px solid;
+		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
+		BORDER-LEFT: rgb(0,139,0) 3px solid;
+		PADDING-RIGHT: 3px;		
+		PADDING-LEFT: 3px;
+		PADDING-BOTTOM: 3px;
+		PADDING-TOP: 3px;
+/* 		LEFT: 8%; */
+		TOP: 0.3em;
+		FLOAT: none;
+		VISIBILITY: visible;
+		MARGIN: 2px;
+		POSITION: relative;
+		BACKGROUND-COLOR: rgb(238,243,226);
+/* 		WIDTH: 85%; */
+		Z-INDEX:1;
+	}
+	IMG.question
+	{
+	        CURSOR: pointer; 
+	}
+
+
+</style>
+
+<TITLE> POMELO II Results</TITLE>
+</HEAD>
+<BODY background="http://pomelo2.bioinfo.cnio.es/fondo3.jpg">
+	<div id = "titulo_upload" class="Main_title">
+		<img SRC="http://pomelo2.bioinfo.cnio.es/pomelo2.gif" align=left border=0>
+		<img SRC="http://pomelo2.bioinfo.cnio.es/pomelo2.gif" align=right border=0>
+		<span style="position:relative; top:15%">
+		POMELO II <br>
+		(THE RETURN OF THE POMELO)
+		</span >
+	</div>
+<FORM action="dummy" method="POST" name="table_form">
+	<div id = "results_title" class="Title_box">
+		Table
+	</div>
+	<INPUT TYPE="hidden" NAME="Temp_dir" VALUE="_TEMP_DIR_">
+	<div id = "results" class="results_box" >
+		<br>
+		<table style="position:relative; left:2%">
+		    <tr>
+		    <td>
+		    <img SRC="http://pomelo2.bioinfo.cnio.es/question_mark_cut.png" border=0 class="question" 
+		    onClick="open_help('output_table.html')">
+		    </td>
+		    <td>
+		    <B>Output table:</B>
+		    </td></tr>
+		</table>		
+		<div id="table_swap" style="position:relative; left:2%">
+			_SPLIT_ME_
+		</div>
+		<br>
+		<br>
+		<Center>
+			Choose ordering option
+			
+				<SELECT NAME="order_table" SIZE="1" onChange="change_table(table_form)">
+					<OPTION VALUE="p.v.sort.FDR.a.html" DEFAULT=TRUE>FDR ascending</OPTION>
+					<OPTION VALUE="p.v.sort.FDR.d.html">FDR descending</OPTION>
+					<OPTION VALUE="p.v.sort.abso.d.html">abs(Obs_stat) descending</OPTION>
+					<OPTION VALUE="p.v.sort.abso.a.html">abs(Obs_stat) ascending</OPTION>
+					<OPTION VALUE="p.v.sort.obss.d.html">Obs_stat descending</OPTION>
+					<OPTION VALUE="p.v.sort.obss.a.html">Obs_stat ascending</OPTION>
+					<OPTION VALUE="p.v.sort.unadjp.a.html">unadj.p ascending</OPTION>
+					<OPTION VALUE="p.v.sort.unadjp.d.html">unadj.p descending</OPTION>
+					<OPTION VALUE="p.v.sort.name.d.html">Name descending</OPTION>
+					<OPTION VALUE="p.v.sort.name.a.html">Name ascending</OPTION>
+					<OPTION VALUE="p.v.sort.row.d.html">Row number descending</OPTION>
+					<OPTION VALUE="p.v.sort.row.a.html">Row number ascending</OPTION>
+				</SELECT>
+			<br><br>
+		<input type="button" name=" Download " value=" Download output files " 
+		       onClick="download_window()">
+		<input type="button" name=" gotoList " value=" Send genes to PaLS " 
+		       onClick="PaLS_window()">
+		</center>
+		<br>
+		<br>
+	</div>
+
+	<div id = "heatmap_title" class="Title_box">
+		Heatmap
+	</div>
+	
+	<div id = "heatmap" class="results_box" >
+	<br>
+	<br>
+		<table style="position:relative; left:4%">
+		    <tr>
+		    <td>
+		    <img SRC="http://pomelo2.bioinfo.cnio.es/question_mark_cut.png" border=0 class="question" 
+		         onClick="open_help('heatmap_help.html')">
+		    </td>
+		    <td>
+		    <B>Heatmap plot:</B>
+		    </td></tr>
+		</table>
+		<br><br>
+		<center>
+		_SPLIT_ME_
+		<br><br>
+		<input type="button" name="draw" value=" Edit heatmap  " OnClick="newheatmap();">
+		</center>
+		<br>
+	</div>
+	<div style="position:relative;top:2.2em">
+	
+		<table border=0 width="100%" celllspacing=0>
+			<tr>
+				<td align=left><font size=2>
+					<a href="http://bioinfo.cnio.es">Bioinformatics Unit</a></font>
+				</td>
+				<td align=right><font size=2>
+					&nbsp;Send comments to the <a href="mailto:ermorrissey@cnio.es">webmaster</a>.
+					Last rev. Jan 11th, 2006</font>
+				</td>
+				<TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.bioinfo.cnio.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		
+			</tr>
+		</table>
+		<br>
+	</div>
+</FORM>
+</BODY>
+</HTML>
