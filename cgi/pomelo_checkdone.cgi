@@ -16,6 +16,9 @@ import cgitb;cgitb.enable() ## zz: eliminar for real work?
 import fcntl
 sys.stderr = sys.stdout ## eliminar?
 
+
+import socket ## try to detect problems
+
 Pomelo_MAX_time = 8 * 3600 ## 8 hours is max duration allowd for any process
 
 # *************************************************************************************
@@ -105,12 +108,15 @@ def mpi_error():
 def multest_error():
     error_text = "<p> PomeloII crashed. </p>"
     error_text = error_text + "<p> Below is the output from the execution: </p>"
-    pom_out = open(tmpDir + "/pomelo.msg")
-    lines = pom_out.readlines()
-    pom_out.close()
-    lines = lines[:10]
-    text  = ''.join(lines)
-    error_text = error_text + text
+    if os.path.exists(tmpDir + "/pomelo.msg"):
+        pom_out = open(tmpDir + "/pomelo.msg")
+        lines = pom_out.readlines()
+        pom_out.close()
+        lines = lines[:10]
+        text  = ''.join(lines)
+        error_text = error_text + text
+        
+    error_text = error_text + '\n\n MACHINE: ' + str(socket.gethostname())
     html_error_page("MULTEST ERROR", error_text, tmpDir)
 
 
@@ -227,10 +233,13 @@ run_finished = os.path.exists(tmpDir + "/pomelo_run.finished")
 
 # If multest has finished
 if run_finished:
-    
     mpi_worked    = os.path.exists(tmpDir + "/mpiOK")
     results_exist = os.path.exists(tmpDir + "/multest_parallel.res")
-    
+    if (not mpi_worked) or (not results_exist):
+        time.sleep(30) ## otherwise, some of the ones below might not be created
+        mpi_worked    = os.path.exists(tmpDir + "/mpiOK")
+        results_exist = os.path.exists(tmpDir + "/multest_parallel.res")
+
     if not mpi_worked:
         close_lam_env()
         mpi_error()

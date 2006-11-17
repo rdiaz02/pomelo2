@@ -138,7 +138,7 @@ void sort_for_survival(const int &num_subjects, const int &num_genes,
   double *array_survival_time     = new double[num_subjects];
   int *tmp_censored_status      = new int[num_subjects];
   double *tmp_vector            = new double[length_data];
-  unsigned int *order_survival  = new unsigned int[num_subjects];
+  size_t *order_survival  = new size_t[num_subjects];
 
   valarray<int> tmp_missing = missing;
   for (int h = 0; h < num_subjects; ++h) 

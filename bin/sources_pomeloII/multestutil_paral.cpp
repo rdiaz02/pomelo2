@@ -720,7 +720,7 @@ void order_observed_statistics(valarray<unsigned int> &order_stat_decreasing,
 	 <<"      allocation failure in copy_of_observed_statistic\n";
     exit(1);
   }
-  unsigned int* order_stat = new unsigned int[num_vars];
+  size_t* order_stat = new size_t[num_vars];
   if(! copy_of_observed_statistic) {
     cout << "ERROR in order_observed_statistics: \n"
 	 <<"        allocation failure in order_stat\n";
@@ -809,7 +809,7 @@ void FDR_p_value(valarray <double> &FDR_indep_p_values,
   // - indep p-values
   // - arbitrary dependence struct.
 
-  unsigned int *order_unadjusted_p_value = new unsigned int[num_vars];
+  size_t* order_unadjusted_p_value = new size_t[num_vars];
   double* const tmp_p = new double[num_vars];
   for(int i = 0; i < num_vars; i++) tmp_p[i] = unadjusted_p_value[i];
 
