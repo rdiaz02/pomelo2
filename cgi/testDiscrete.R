@@ -19,7 +19,7 @@ check.class.size <- function(x, xdata.matrix, Class) {
 
 # Read class data
 trycl <- try(
-             Class <- factor(scan("class_labels", sep = "\t", what = "char", strip.white = TRUE))
+             Class <- factor(scan("class_labels", sep = "\t", what = "char", strip.white = TRUE, nlines = 1))
              )
 
 # Check class read worked
