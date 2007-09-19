@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import cgi
 import os
-# import cgitb;cgitb.enable()
+import cgitb;cgitb.enable()
 import img_map
 import whrandom
 import sys

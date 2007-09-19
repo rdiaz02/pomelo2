@@ -1,0 +1,295 @@
+	46 slaves are spawned successfully. 0 failed.
+master  (rank 0 , comm 1) of size 47 is running on: prot03 
+slave1  (rank 1 , comm 1) of size 47 is running on: prot03 
+slave2  (rank 2 , comm 1) of size 47 is running on: prot03 
+slave3  (rank 3 , comm 1) of size 47 is running on: prot04 
+slave4  (rank 4 , comm 1) of size 47 is running on: prot04 
+slave5  (rank 5 , comm 1) of size 47 is running on: prot05 
+slave6  (rank 6 , comm 1) of size 47 is running on: prot05 
+slave7  (rank 7 , comm 1) of size 47 is running on: prot06 
+slave8  (rank 8 , comm 1) of size 47 is running on: prot06 
+slave9  (rank 9 , comm 1) of size 47 is running on: prot07 
+slave10 (rank 10, comm 1) of size 47 is running on: prot07 
+slave11 (rank 11, comm 1) of size 47 is running on: prot08 
+slave12 (rank 12, comm 1) of size 47 is running on: prot08 
+slave13 (rank 13, comm 1) of size 47 is running on: prot09 
+slave14 (rank 14, comm 1) of size 47 is running on: prot09 
+slave15 (rank 15, comm 1) of size 47 is running on: prot10 
+slave16 (rank 16, comm 1) of size 47 is running on: prot10 
+slave17 (rank 17, comm 1) of size 47 is running on: prot11 
+slave18 (rank 18, comm 1) of size 47 is running on: prot11 
+slave19 (rank 19, comm 1) of size 47 is running on: prot12 
+slave20 (rank 20, comm 1) of size 47 is running on: prot12 
+slave21 (rank 21, comm 1) of size 47 is running on: prot13 
+slave22 (rank 22, comm 1) of size 47 is running on: prot13 
+slave23 (rank 23, comm 1) of size 47 is running on: prot16 
+slave24 (rank 24, comm 1) of size 47 is running on: prot16 
+slave25 (rank 25, comm 1) of size 47 is running on: prot20 
+slave26 (rank 26, comm 1) of size 47 is running on: prot20 
+slave27 (rank 27, comm 1) of size 47 is running on: prot21 
+slave28 (rank 28, comm 1) of size 47 is running on: prot21 
+slave29 (rank 29, comm 1) of size 47 is running on: prot22 
+slave30 (rank 30, comm 1) of size 47 is running on: prot22 
+slave31 (rank 31, comm 1) of size 47 is running on: prot23 
+slave32 (rank 32, comm 1) of size 47 is running on: prot23 
+slave33 (rank 33, comm 1) of size 47 is running on: prot24 
+slave34 (rank 34, comm 1) of size 47 is running on: prot24 
+slave35 (rank 35, comm 1) of size 47 is running on: prot25 
+slave36 (rank 36, comm 1) of size 47 is running on: prot25 
+slave37 (rank 37, comm 1) of size 47 is running on: prot26 
+slave38 (rank 38, comm 1) of size 47 is running on: prot26 
+slave39 (rank 39, comm 1) of size 47 is running on: prot27 
+slave40 (rank 40, comm 1) of size 47 is running on: prot27 
+slave41 (rank 41, comm 1) of size 47 is running on: prot28 
+slave42 (rank 42, comm 1) of size 47 is running on: prot28 
+slave43 (rank 43, comm 1) of size 47 is running on: prot30 
+slave44 (rank 44, comm 1) of size 47 is running on: prot30 
+slave45 (rank 45, comm 1) of size 47 is running on: prot02 
+slave46 (rank 46, comm 1) of size 47 is running on: prot02 
+$slave2
+[1] 0
+
+$slave4
+[1] 0
+
+$slave6
+[1] 0
+
+$slave8
+[1] 0
+
+$slave10
+[1] 0
+
+$slave12
+[1] 0
+
+$slave14
+[1] 0
+
+$slave17
+[1] 0
+
+$slave18
+[1] 0
+
+$slave21
+[1] 0
+
+$slave23
+[1] 0
+
+$slave27
+[1] 0
+
+$slave28
+[1] 0
+
+$slave32
+[1] 0
+
+$slave35
+[1] 0
+
+$slave36
+[1] 0
+
+$slave39
+[1] 0
+
+$slave40
+[1] 0
+
+$slave43
+[1] 0
+
+$slave44
+[1] 0
+
+$slave46
+[1] 0
+
+$slave1
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave2
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave3
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave4
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave5
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave6
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave7
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave8
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave9
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave10
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave11
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave12
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave13
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave14
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave15
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave16
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave17
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave18
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave19
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave20
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave21
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave22
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave23
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave24
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave25
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave26
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave27
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave28
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave29
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave30
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave31
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave32
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave33
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave34
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave35
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave36
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave37
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave38
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave39
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave40
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave41
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave42
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave43
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave44
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave45
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+
+$slave46
+ [1] "survival"  "splines"   "Rmpi"      "stats"     "graphics"  "grDevices"
+ [7] "utils"     "datasets"  "methods"   "base"     
+

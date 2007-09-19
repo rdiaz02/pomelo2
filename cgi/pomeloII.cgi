@@ -260,8 +260,10 @@ currentTmp = dircache.listdir("/http/pomelo2/www/tmp")
 for directory in currentTmp:
     tmpS = "/http/pomelo2/www/tmp/" + directory
     if (currentTime - os.path.getmtime(tmpS)) > MAX_time:
-        shutil.rmtree(tmpS)
-
+        try:
+            shutil.rmtree(tmpS)
+        except:
+            None
 
 ### Creating temporal directories
 newDir = str(random.randint(1, 10000)) + str(os.getpid()) + str(random.randint(1, 100000)) + str(int(currentTime)) + str(random.randint(1, 10000))
