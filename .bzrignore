@@ -2,3 +2,5 @@ tmp
 www/Pom.running.procs/*
 www/tmp/*
 ./www/tmp/*
+cgi/img_map.pyc
+cgi/img_map.pyc
