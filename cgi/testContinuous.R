@@ -31,7 +31,7 @@ if(!(is.numeric(Class))) {
     caughtUserError("Your continuous dep. variable file contains non-numeric data. \n That is not allowed.\n")
 }
 
-vararray <- apply(xdata, 1, var)
+vararray <- apply(xdata, 1, var, na.rm = TRUE)
 
 if(any(vararray < 1e-9)) {
     caughtUserError(paste("Some genes are constant for all samples. This leads to",
