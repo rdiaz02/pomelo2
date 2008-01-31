@@ -135,8 +135,8 @@ tryCovar <- try (edf1          <- read.table("covariate", sep = "\t",
 if(class(tryCovar) == "try-error")
   caughtError("Multest crashed trying to run limma Anova test.\n This is most likely due to invalid data (Such as repeated gene names,etc).\n") 
 
-class.labels  <- scan("class_labels", what='character(0)', sep="\t")
-if (class.labels[length(class.labels)]==""){class.labels <- class.labels[-length(class.labels)]}
+class.labels  <- factor(scan("class_labels", sep = "\t", what = "char", strip.white = TRUE, nlines = 1))
+if (class.labels[length(class.labels)] == ""){ class.labels <- class.labels[-length(class.labels)] }
 
 # Get test type
 test.type     <- scan("testtype", what='character(0)')
