@@ -170,7 +170,9 @@ def printOKRun():
     os.chdir(tmpDir)
     shutil.copyfile("pre-results.html","results.html")
     if os.path.exists('p.v.sort.FDR.d.html'):
-    	os.system('html2text -width 200 -nobs  -o results.pomelo.txt p.v.sort.FDR.d.html')
+        os.system('w3m -dump p.v.sort.FDR.d.html > results.pomelo.txt')
+##    	os.system('html2text -width 200 -nobs  -o results.pomelo.txt p.v.sort.FDR.d.html')
+##      html2text leaves weird characters sometimes
 
     
 def close_lam_env():

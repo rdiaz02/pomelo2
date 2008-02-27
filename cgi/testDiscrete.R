@@ -169,3 +169,10 @@ if(ttype == "Anova") {
     caughtUserError(emessage)
   }
 }
+
+
+if (ttype == "t_limma"||ttype == "t_limma_paired" || ttype == "Anova_limma" ){
+  edf1 <- as.data.frame(xdata)
+  rownames(edf1) <- gene.names
+  save(file = "edf1.for.limma.RData", edf1)
+}  

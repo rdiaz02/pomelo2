@@ -130,10 +130,14 @@ sink("mpiOK")
 cat("Dummy file so as to not trigger an mpi error message\n")
 sink()
 # Read gene expression data and class labels
-tryCovar <- try (edf1          <- read.table("covariate", sep = "\t",
-                                             row.names = 1, quote=""))
-if(class(tryCovar) == "try-error")
-  caughtError("Multest crashed trying to run limma Anova test.\n This is most likely due to invalid data (Such as repeated gene names,etc).\n") 
+# tryCovar <- try (edf1          <- read.table("covariate", sep = "\t",
+#                                             row.names = 1, quote=""))
+# if(class(tryCovar) == "try-error")
+#   caughtError("Multest crashed trying to run limma Anova test.\n This is most likely due to invalid data (Such as repeated gene names,etc).\n") 
+
+load("edf1.for.limma.RData")
+
+
 
 class.labels  <- factor(scan("class_labels", sep = "\t", what = "char", strip.white = TRUE, nlines = 1))
 if (class.labels[length(class.labels)] == ""){ class.labels <- class.labels[-length(class.labels)] }
