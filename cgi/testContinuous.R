@@ -5,18 +5,33 @@ source(paste(CGIDIR, "/testInputCommon.R", sep = ""))
 
 ## zz: que leemos aqui????
 trycl <- try(
-             Class <- scan("class_labels", sep = "\t", what = double(0), strip.white = TRUE)
+             Class <- scan("class_labels", sep = "\t", what = double(0), strip.white = TRUE,
+                           nlines = 1)
              )
 ## to prevent problems with a space at end of classes
+if(is.na(Class[length(Class)])) Class <- Class[-length(Class)]
+
 
 if(class(trycl) == "try-error")
     caughtUserError("The continuous dependent variable (or survival time) file is not of the appropriate format (most likely, it is a non-numeric variable)\n")
 
-if(is.na(Class[length(Class)])) Class <- Class[-length(Class)]
+
+
+if(any(Class == ""))
+  caughtUserError("The continuous dependent variable (or survival time)
+file contains blank/empty values; that is not allowed.
+Maybe there are trailing tabs or spaces at the end of the file?\n")
 
 if(any(is.na(Class)))
-    caughtUserError("The continuous dependent variable (or survival time)
-file contain missing values; that is not allowed\n")
+   caughtUserError("The continuous dependent variable (or survival time)
+file contains missing values; that is not allowed.
+Maybe there are trailing tabs or spaces at the end of the file?\n")
+
+
+
+#if(any(is.na(Class)))
+#    caughtUserError("The continuous dependent variable (or survival time)
+#file contain missing values; that is not allowed\n")
 
 if(length(Class) != dim(xdata)[2]) {
     emessage <- paste("The class file and the covariate file\n",

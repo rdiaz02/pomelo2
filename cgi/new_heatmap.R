@@ -366,15 +366,15 @@ if(dim(rowsuse)[1] > heatmapOpts$maxGenes) {
 	    	}
 
 if(dim(rowsuse)[1] < 2 ) {
-		   system('touch NoImagemapPossible')
-		   heatimagemap <- function(classname, pixelheight,
-		   		   pixelwidth, htmlname, imagename){}
-		   } else {
-
-	tmp         <- try(system('rm NoImagemapPossible',ignore.stderr = TRUE), silent=TRUE)
-	x           <- xdata[rowsuse[, 1], ]
-	rownames(x) <- as.character(rowsuse$ID)
-	genenames   <- as.character(rowsuse$ID)
+  system('touch NoImagemapPossible')
+  heatimagemap <- function(classname, pixelheight,
+                           pixelwidth, htmlname, imagename){}
+} else {
+  
+  tmp         <- try(system('rm NoImagemapPossible',ignore.stderr = TRUE), silent=TRUE)
+  x           <- xdata[rowsuse[, 1], ]
+  rownames(x) <- as.character(rowsuse$ID)
+  genenames   <- as.character(rowsuse$ID)
 
 # 	classname <- as.vector(class.names)
 

@@ -19,19 +19,33 @@ check.class.size <- function(x, xdata.matrix, Class) {
 
 # Read class data
 trycl <- try(
-             Class <- factor(scan("class_labels", sep = "\t", what = "char", strip.white = TRUE, nlines = 1))
+             Class <- factor(scan("class_labels", sep = "\t", what = "char", strip.white = TRUE,
+                                  nlines = 1))
              )
 
 # Check class read worked
 if(class(trycl) == "try-error")
     caughtUserError("The class file is not of the appropriate format\n")
 
+
 # To prevent problems with a space at end of classes
-if(Class[length(Class)] == "") Class <- factor(Class[-length(Class)])
+## if(Class[length(Class)] == "") Class <- factor(Class[-length(Class)])
+
+
+
+if(any(Class == ""))
+  caughtUserError("The class variable 
+file contains blank/empty values; that is not allowed.
+Maybe there are trailing tabs or spaces at the end of the file?\n")
+
+if(any(is.na(Class)))
+   caughtUserError("The class variable
+file contains missing values; that is not allowed.
+Maybe there are trailing tabs or spaces at the end of the file?\n")
+
 
 
 tclass <- table(Class)
-
 
 
 tryttype <- try(

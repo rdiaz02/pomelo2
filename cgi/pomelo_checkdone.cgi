@@ -185,7 +185,7 @@ def close_lam_env():
     except:
         None
     try:
-        os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*")
+        tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*")
     except:
         None
         
