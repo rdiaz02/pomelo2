@@ -41,9 +41,11 @@ covariables.model.matrix <- function(class.labels, test.type){
       covariables.matrix         <- cbind(Class, covariables.table[covariable.columns])
       ## make sure we do not get numeric values that are way out there
       numeric.vars <- which(unlist(lapply(covariables.matrix, function(x) is.numeric(x))))
-      scales <- sd(covariables.matrix[, numeric.vars])
-      scales[scales == 0] <- 1 ## prevent dividing by 0
-      covariables.matrix[, numeric.vars] <- scale(covariables.matrix[, numeric.vars], scale = scales)
+      if(length(numeric.vars > 0)) {
+        scales <- sd(covariables.matrix[, numeric.vars])
+        scales[scales == 0] <- 1 ## prevent dividing by 0
+        covariables.matrix[, numeric.vars] <- scale(covariables.matrix[, numeric.vars], scale = scales)
+      }
       design.matrix.NO.intercept <- model.matrix(~ . + 0, covariables.matrix)
       design.matrix.intercept    <- model.matrix(~ .    , covariables.matrix)
       design.list                <- list(design.matrix.intercept, design.matrix.NO.intercept)

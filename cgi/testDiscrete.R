@@ -29,7 +29,7 @@ if(class(trycl) == "try-error")
 
 
 # To prevent problems with a space at end of classes
-## if(Class[length(Class)] == "") Class <- factor(Class[-length(Class)])
+if(Class[length(Class)] == "") Class <- factor(Class[-length(Class)])
 
 
 
