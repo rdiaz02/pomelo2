@@ -1,7 +1,8 @@
 #!/usr/bin/python2.4
-## All this code is copyright Ramon Diaz-Uriarte. For security reasons, this is for
-## now confidential. No license is granted to copy, distribute, or modify it.
-## Once everything is OK, it will be distributed under the GPL.
+## All this code is copyright Ramon Diaz-Uriarte, and distributed under the
+## Affero GPL license
+
+import glob
 import sys
 import os
 import cgi 
@@ -170,7 +171,7 @@ def printOKRun():
     os.chdir(tmpDir)
     shutil.copyfile("pre-results.html","results.html")
     if os.path.exists('p.v.sort.FDR.d.html'):
-        os.system('w3m -dump p.v.sort.FDR.d.html > results.pomelo.txt')
+        os.system('w3m -config = "~/.w3m" -dump p.v.sort.FDR.d.html > results.pomelo.txt')
 ##    	os.system('html2text -width 200 -nobs  -o results.pomelo.txt p.v.sort.FDR.d.html')
 ##      html2text leaves weird characters sometimes
 
@@ -185,7 +186,10 @@ def close_lam_env():
     except:
         None
     try:
-        tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*")
+        ## probably redundant, and fills error logs.
+        numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*"))
+        if numPomelo > 1:
+            tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*")
     except:
         None
         
