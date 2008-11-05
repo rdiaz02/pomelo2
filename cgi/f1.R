@@ -175,16 +175,18 @@ coxph.fit.pomelo0 <- function (x, y, init = NULL,
         else which.sing <- rep(FALSE, nvar)
         infs <- abs(coxfit$u %*% var)
         if (maxiter > 1) {
-            if (coxfit$flag == 1000) { 
-                warning("Ran out of iterations and did not converge")
+            if (coxfit$flag == 1000) {
+              ## I comment out the warnings: we don't need
+              ## them and they fill up the logs
+##                warning("Ran out of iterations and did not converge")
                 warnStatus <- 2
             }
             else {
                 infs <- ((infs > control$eps) & infs > control$toler.inf * 
                   abs(coef))
                 if (any(infs)) {
-                  warning(paste("Loglik converged before variable ", 
-                    paste((1:nvar)[infs], collapse = ","), "; beta may be infinite. "))
+##                  warning(paste("Loglik converged before variable ", 
+##                    paste((1:nvar)[infs], collapse = ","), "; beta may be infinite. "))
                   warnStatus <- 1
               }
             }

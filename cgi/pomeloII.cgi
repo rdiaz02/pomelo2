@@ -507,6 +507,17 @@ if test_type=="Anova_limma":
     
 ##old macs issues
 dummy = os.system("cd " + tmpDir +"; /bin/sed 's/\\r\\n/\\n/g' covariate > tmpc; mv tmpc covariate; /bin/sed 's/\\r/\\n/g' covariate > tmpc; mv tmpc covariate")
+## are the Pom.whatever.@.hostanme being written?
+#test1 = os.system("/bin/touch /tmp/cucu")
+#test2 = os.system("/bin/touch " + tmpDir + "/cucurucucu")
+#test3 = os.system("/bin/touch /http/pomelo2/www/Pom.running.procs/Pom.cucu" + newDir)
+#test4 = os.system("/bin/touch /http/pomelo2/www/Pom.running.procs/Pom.coco." + newDir + "@")
+#test5 = os.system("/bin/touch /http/pomelo2/www/Pom.running.procs/Pom.cece." + newDir + "@")
+#test6 = os.system("/bin/touch /http/pomelo2/www/Pom.running.procs/Pom.cece." + newDir + "@" + socket.gethostname())
+
+## Yes, it does run, but another "deleter" is /http/mpi.log/buryPom.py. FIXME: buryPom might
+## do too much.
+
 touchPomrunning = os.system("/bin/touch /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "@" + socket.gethostname())
 dummy = os.system('ln -s /http/pomelo2/bin/multest_paral ' + tmpDir + '/multest_paral')
 
