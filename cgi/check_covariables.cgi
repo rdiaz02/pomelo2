@@ -7,6 +7,10 @@ import sys
 import parse_contrs_comp
 import shutil
 
+import cgitb; cgitb.enable() ## zz: eliminar for real work?
+sys.stderr = sys.stdout
+
+
 ################################ Functions ############################################################
 
 ## For redirections, from Python Cookbook

@@ -1,2 +1,2 @@
 maxUnadjp	maxFDR	minAbsObsrv	minObsrv	maxObsrv	maxGenes	Pixels	Colour	img_name
-0.05	0.15	0.0	-100000000.0	10000000000.0	20	auto	gr	heatmap836481
+0.2	0.4	0.0	-100000000.0	10000000000.0	50	auto	gr	heatmap383305

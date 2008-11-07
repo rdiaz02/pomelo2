@@ -25,7 +25,7 @@ if(length(unique(num.cols.covariables)) > 1) {
           "is not the same for all rows (subjects).\n",
           "We find the following number of columns\n",
           paste(num.cols.covariables, collapse = ", "))
-    caughtUserError(message)
+    caughtError(message)
 }
 
 # Try to read data
