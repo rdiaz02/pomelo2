@@ -7,7 +7,6 @@ You need to have LAM/MPI installed (the makefile will try calling mpiCC)
 to compile, and an existing LAM/MPI universe for it to run.
 
 
-
 This is the (only) help for the usage of the stand-alone Pomelo II:
 
 
