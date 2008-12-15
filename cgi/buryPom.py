@@ -114,7 +114,6 @@ signs_of_pomelo_life = ('PomeloII_Cox', 'limma_functions.R',
 def fcheck():
     rrunsFiles = glob.glob(theDir + '/Pom.*@*')
     for dirMachine in rrunsFiles:
-#        print 'dirMachine ' + str(dirMachine)
         Machine = dirMachine.split('@')[1]
         procs = os.popen("ssh " + MachineIP[Machine] + \
                          " 'ps -F -U www-data'").readlines()
@@ -125,16 +124,16 @@ def fcheck():
                 if alive:
                     os.system("touch buryPom.is.alive.sign." + the_sign + "IP." + MachineIP[Machine])
                     break
-                else: ## ok, no signs of life so far
-                    os.system("touch buryPom.is.dead.sign." + the_sign + "IP." + MachineIP[Machine])
-#                    pass
-            os.system("touch alive.is.now." + str(alive) + ".sign." + the_sign + "IP." + MachineIP[Machine])
-            if not alive:
-                os.system("touch buryPom.REMOVE.sign." + the_sign + "IP." + MachineIP[Machine])
-                try:
-                    os.remove(dirMachine)
-                except:
-                    None
+            if alive:
+                break
+        if not alive: ## if not Pomelo-associated activity with this machine
+            os.system("touch buryPom.REMOVE.sign." + the_sign + "IP." + MachineIP[Machine])
+            try:
+                os.remove(dirMachine)
+            except:
+                None
+
+
     
 os.system("touch buryPom_entering")
 fcheck()

@@ -17,7 +17,7 @@ import urllib
 import cgitb; cgitb.enable()
 sys.stderr = sys.stdout
 
-MAX_poms = 25 ## Max number of pomelo2 running
+MAX_poms = 50 ## Max number of pomelo2 running
 MAX_time = 3600 * 24 * 5 ## 5 is days until deletion of a tmp directory
 Pom_MAX_time = 3600 * 12 ## 12 hours is max duration allowed for any process
 MAX_covariate_size = 363948523L ## a 500 * 40000 array of floats

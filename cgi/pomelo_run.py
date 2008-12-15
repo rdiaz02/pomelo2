@@ -66,3 +66,5 @@ dummy   = os.system('cd ' + tmpDir + '; ' + 'touch pomelo_run.finished')
 collectZombies()
 
 
+### FIXME: delete myself; hard to do cause we are still running and
+### buryPom searches for pomelo_run.py as a sign of life.
