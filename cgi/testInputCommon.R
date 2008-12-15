@@ -18,6 +18,14 @@ caughtOurError <- function(message) {
     quit(save = "no", status = 11, runLast = TRUE)
 }
 
+print("\n\n")
+print(version)
+print("\n\n")
+print(system("hostname"))
+print("\n\n")
+print(Sys.getpid())
+print("\n\n")
+
 
 num.cols.covariate <- count.fields("covarR", sep = "\t",
                                    quote = "",
@@ -82,6 +90,6 @@ num.mis <- apply(xdata, 1, function(x) sum(is.na(x)))
 if (any(num.mis) == dim(xdata)[2]) {
     caughtUserError(paste("\n Some genes have all values missings.",
                           "This is not allowed.\n",
-                          "\The genes that show this problem are ",
+                          "The genes that show this problem are ",
                           paste(which(num.mis == dim(xdata)[2]), collapse = " "), "\n"))
 }

@@ -92,7 +92,7 @@ f.close()
 imagename = "heatmap" + str(whrandom.randint(1, 999999))
 write_to_file(form,imagename)
 
-Rcommand = "cd " + tmp_dir + "; " + "/usr/bin/R CMD BATCH --no-restore --no-readline --no-save -q new_heatmap.R 2> error.msg "
+Rcommand = "cd " + tmp_dir + "; " + "/http/R-pomelo2/bin/R CMD BATCH --no-restore --no-readline --no-save -q new_heatmap.R 2> error.msg "
 Rrun = os.system(Rcommand)
 
 if os.path.exists('NoImagemapPossible'):

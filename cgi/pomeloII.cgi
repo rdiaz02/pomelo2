@@ -13,7 +13,8 @@ import random
 ##import re
 from stat import ST_SIZE
 import fcntl
-import cgitb; cgitb.enable() ## zz: eliminar for real work?
+import urllib
+import cgitb; cgitb.enable()
 sys.stderr = sys.stdout
 
 MAX_poms = 25 ## Max number of pomelo2 running
@@ -22,6 +23,9 @@ Pom_MAX_time = 3600 * 12 ## 12 hours is max duration allowed for any process
 MAX_covariate_size = 363948523L ## a 500 * 40000 array of floats
 MAX_time_size = 61897L
 MAX_PERMUT = 90000000  ## maximum number of permutations
+
+R_pomelo_dir = '/http/R-pomelo2'
+
 
 #************  SELENIUM STUFF **************
 covariate_sel_file = "/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/EXPRESSION_Anova-limma"
@@ -307,7 +311,10 @@ if test_type == 't_limma_paired':
 
 if(fs.getfirst("covariate2")!= None):
     prep_tmpdir = fs.getfirst("covariate2")
-    shutil.copy("/http/prep/www/tmp/" + prep_tmpdir +"/outdata.txt",tmpDir + "/covariate")
+    urlretr = urllib.urlretrieve('http://prep.bioinfo.cnio.es/tmp' +
+                                 prep_tmpdir + '/outdata.txt',
+                                 filename = tmpDir + '/covariate')
+#    shutil.copy("/http/prep/www/tmp/" + prep_tmpdir +"/outdata.txt",tmpDir + "/covariate")
 # Selenium if *********
 elif(fs.has_key("selenium_indicator")):
     shutil.copy(covariate_sel_file,tmpDir + "/covariate")
@@ -472,7 +479,7 @@ gene_name_file.close()
 ## checking constant genes and missings is done with R zz
 if test_type in testDiscrete_tests:
     os.system('cp /http/pomelo2/cgi/testDiscrete.R ' + tmpDir + '/.')
-    Rcommand = "cd " + tmpDir + "; " + "/usr/bin/R CMD BATCH --no-restore --no-readline --no-save -q testDiscrete.R 2> error.msg "
+    Rcommand = "cd " + tmpDir + "; " + R_pomelo_dir + "/bin/R CMD BATCH --no-restore --no-readline --no-save -q testDiscrete.R 2> error.msg "
     Rrun = os.system(Rcommand)
     if os.path.exists(tmpDir + '/errorInput'):    
         rif = open(tmpDir + '/errorInput', mode = 'r')
@@ -483,7 +490,7 @@ if test_type in testDiscrete_tests:
         sys.exit()
 else:
     os.system('cp /http/pomelo2/cgi/testContinuous.R ' + tmpDir + '/.')
-    Rcommand = "cd " + tmpDir + "; " + "/usr/bin/R CMD BATCH --no-restore --no-readline --no-save -q testContinuous.R 2> error.msg "
+    Rcommand = "cd " + tmpDir + "; " + R_pomelo_dir + "/bin/R CMD BATCH --no-restore --no-readline --no-save -q testContinuous.R 2> error.msg "
     Rrun = os.system(Rcommand)
     if os.path.exists(tmpDir + '/errorInput'):
         rif = open(tmpDir + '/errorInput', mode = 'r')

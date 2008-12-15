@@ -115,7 +115,7 @@ tmp = write_to_file(form)
 r_file = "/http/pomelo2/cgi/Pals_gene_filter.R "
 
 
-Rcommand = "cd " + tmp_dir + "; /usr/bin/R CMD BATCH --no-restore --no-readline --no-save -q " + r_file
+Rcommand = "cd " + tmp_dir + "; /http/R-pomelo2/bin/R CMD BATCH --no-restore --no-readline --no-save -q " + r_file
 Rrun = os.system(Rcommand)
 f=open("gene.list.txt")
 gene_list = f.read()

@@ -106,7 +106,7 @@ def class_compare(class1, class2):
 	clas_comp="Class" + class1 + "-Class" +  class2
 	f.write(clas_comp)
 	f.close()
-	Rcommand = "cd " + tmp_dir + "; " + "/usr/bin/R CMD BATCH --no-restore --no-readline --no-save -q calculate_contrasts.R  2> error.msg "
+	Rcommand = "cd " + tmp_dir + "; " + "/http/R-pomelo2/bin/R CMD BATCH --no-restore --no-readline --no-save -q calculate_contrasts.R  2> error.msg "
 	Rrun         = os.system(Rcommand)
 	pyparsetable = "cd "+ tmp_dir + "; "+"/usr/bin/python2.4 /http/pomelo2/cgi/contrast_generate_table.py " + tmp_dir
 	dummy_run    = os.system(pyparsetable)
@@ -152,7 +152,7 @@ def drawDiagram(contr1,contr2,contr3):
 def draw_new_venn():
 	if os.path.exists("vennNames"):
 		os.system("rm venn*.png")
-		drawvenn = "cd " + tmp_dir + "; " + "/usr/bin/R CMD BATCH --no-restore --no-readline --no-save -q draw_venn.R 2> error.msg "
+		drawvenn = "cd " + tmp_dir + "; " + "/http/R-pomelo2/bin/R CMD BATCH --no-restore --no-readline --no-save -q draw_venn.R 2> error.msg "
 		dummy_run    = os.system(drawvenn)
 
 def change_FDR(new_FDR):

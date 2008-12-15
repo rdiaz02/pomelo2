@@ -231,7 +231,7 @@ if cgi_option=="check_covariables":
     else:
         fileUpload("covariables",form,tmp_dir)
     dummy = os.system('cp /http/pomelo2/cgi/test_and_summary.R COVARIABLES/' + '/. ; chmod 777 COVARIABLES/test_and_summary.R')
-    Rcommand = "cd " + tmp_dir + "/COVARIABLES; /usr/bin/R CMD BATCH --no-restore --no-readline --no-save -q test_and_summary.R "
+    Rcommand = "cd " + tmp_dir + "/COVARIABLES; /http/R-pomelo2/bin/R CMD BATCH --no-restore --no-readline --no-save -q test_and_summary.R "
     dummy = os.system(Rcommand)
     html_page = r2html(tmp_dir, newDir)        
     print "Content-type: text/html\n\n"

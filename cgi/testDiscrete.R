@@ -133,7 +133,7 @@ if(ttype == "t_limma_paired") {
     
     caughtUserError(paste("\n Paired indicator must contain only pairs of values.",
                           "This is not the case.\n",
-                          "\The numbers that have more or less than two values are: ",
+                          "The numbers that have more or less than two values are: ",
                           paste(names(which(paired.freq!=2)), collapse = " "), "\n"))
   }
   

@@ -13,9 +13,9 @@ import signal
 import re
 import tarfile
 import string
-import cgitb;cgitb.enable() ## zz: eliminar for real work?
+import cgitb;cgitb.enable() 
 import fcntl
-sys.stderr = sys.stdout ## eliminar?
+sys.stderr = sys.stdout 
 
 
 import socket ## try to detect problems

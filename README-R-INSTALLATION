@@ -1,0 +1,18 @@
+You need to have an executable R under (or linked to)
+/http/R-pomelo2
+(or you need to replace all entries with that by the approrpaite
+path to the executable)
+
+
+Packages:
+
+limma
+Rmpi
+rsprng
+papply
+survival
+imagemap (a tar.gz of imagemap to be installed is included)
+gtools
+gdata
+gplots
+GDD
