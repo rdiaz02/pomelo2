@@ -312,6 +312,10 @@ if(fs.getfirst("covariate2")!= None):
 elif(fs.has_key("selenium_indicator")):
     shutil.copy(covariate_sel_file,tmpDir + "/covariate")
     os.system("touch " + tmpDir + "/SELENIUM_TEST")
+# Uploading example data
+elif(fs.getfirst("covarex")!= None):
+    covar_ex_name = fs.getfirst("covarex")
+    shutil.copy("/http/pomelo2/www/Examples/Data/" + covar_ex_name, tmpDir + "/covariate")
 else:
     ## Uploading files and checking not abusively large
     fileUpload('covariate')
