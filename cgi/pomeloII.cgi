@@ -410,6 +410,7 @@ for Pomtouchfile in PomrunningFiles:
 		None
 
 # Check to see if a new pomelo can be run
+burying = os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py")
 numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom.*"))
 if numPomelo > MAX_poms:
     shutil.rmtree(tmpDir)
@@ -509,7 +510,7 @@ else:
 ## (it is created here).
 
 dummy = os.system('cp /http/pomelo2/cgi/new_heatmap.R ' + tmpDir + '/.')
-dummy = os.system('cp /http/pomelo2/cgi/f1.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/f1.R")
+dummy = os.system('cp /http/pomelo2/cgi/f1-pomelo.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/f1-pomelo.R")
 dummy = os.system('cp /http/pomelo2/cgi/limma_functions.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/limma_functions.R")
 if test_type=="Anova_limma":
     dummy = os.system('cp /http/pomelo2/cgi/draw_venn.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/draw_venn.R")

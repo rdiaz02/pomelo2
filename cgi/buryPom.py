@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
-##  BEWARE!!! THIS FILE MUST LIVE IN /http/mpi.log
+### There should be a link to this file in /http/mpi.log
 
+### There are better mechanisms, like in ADaCGH, and having each run
+### clean up after itself... But complicated with Pomelo II
 
 ## Based on bury them, but for Pomelo, which has the complications
 ## of being able to launch different types of jobs and uses somewhat
@@ -16,42 +18,42 @@ import shutil
 import os
 import time
 import glob
-import sys
 
 theDir = ('/http/pomelo2/www/Pom.running.procs')
 
 
 MachineIP = {
-    'prot01'  :  '192.168.2.1',
-    'prot02'  :  '192.168.2.2',
-    'prot03'  :  '192.168.2.3',
-    'prot04'  :  '192.168.2.4',
-    'prot05'  :  '192.168.2.5',
-    'prot06'  :  '192.168.2.6',
-    'prot07'  :  '192.168.2.7',
-    'prot08'  :  '192.168.2.8',
-    'prot09'  :  '192.168.2.9',
-    'prot10'  :  '192.168.2.10',
-    'prot11'  :  '192.168.2.11',
-    'prot12'  :  '192.168.2.12',
-    'prot13'  :  '192.168.2.13',
-    'prot14'  :  '192.168.2.14',
-    'prot15'  :  '192.168.2.15',
-    'prot16'  :  '192.168.2.16',
-    'prot17'  :  '192.168.2.17',
-    'prot18'  :  '192.168.2.18',
-    'prot19'  :  '192.168.2.19',
-    'prot20'  :  '192.168.2.20',
-    'prot21'  :  '192.168.2.21',
-    'prot22'  :  '192.168.2.22',
-    'prot23'  :  '192.168.2.23',
-    'prot24'  :  '192.168.2.24',
-    'prot25'  :  '192.168.2.25',
-    'prot26'  :  '192.168.2.26',
-    'prot27'  :  '192.168.2.27',
-    'prot28'  :  '192.168.2.28',
-    'prot29'  :  '192.168.2.29',
-    'prot30'  :  '192.168.2.30'
+    'karl01'  :  '192.168.7.1',
+    'karl02'  :  '192.168.7.2',
+    'karl03'  :  '192.168.7.3',
+    'karl04'  :  '192.168.7.4',
+    'karl05'  :  '192.168.7.5',
+    'karl06'  :  '192.168.7.6',
+    'karl07'  :  '192.168.7.7',
+    'karl08'  :  '192.168.7.8',
+    'karl09'  :  '192.168.7.9',
+    'karl10'  :  '192.168.7.10',
+    'karl11'  :  '192.168.7.11',
+    'karl12'  :  '192.168.7.12',
+    'karl13'  :  '192.168.7.13',
+    'karl14'  :  '192.168.7.14',
+    'karl15'  :  '192.168.7.15',
+    'karl16'  :  '192.168.7.16',
+    'karl17'  :  '192.168.7.17',
+    'karl18'  :  '192.168.7.18',
+    'karl19'  :  '192.168.7.19',
+    'karl20'  :  '192.168.7.20',
+    'karl21'  :  '192.168.7.21',
+    'karl22'  :  '192.168.7.22',
+    'karl23'  :  '192.168.7.23',
+    'karl24'  :  '192.168.7.24',
+    'karl25'  :  '192.168.7.25',
+    'karl26'  :  '192.168.7.26',
+    'karl27'  :  '192.168.7.27',
+    'karl28'  :  '192.168.7.28',
+    'karl29'  :  '192.168.7.29',
+    'karl30'  :  '192.168.7.30',
+    'karl31'  :  '192.168.7.31',
     }
 
 
@@ -80,7 +82,25 @@ MachineIP = {
 signs_of_pomelo_life = ('PomeloII_Cox', 'limma_functions.R',
                         'draw_venn.R', 'calculate_contrasts.R',
                         'heatimage.R', 'new_heatmap.R',
-                        'mpiexec multest_paral')
+                        'mpiexec multest_paral',
+                        'R-pomelo2',
+                        'testContinuous.R',
+                        'testDiscrete.R',
+                        'testInputCommon.R',
+                        'test_and_summary.R',
+                        'Pals_gene_filter.R',
+                        'f1-pomelo.R',
+                        'pomelo_run.py',
+                        'tryRpomelorun.py',
+                        'contrast_generate_table.py',
+                        'generate_table_Cox.py',
+                        'generate_table.py',
+                        'heatmap_draw_script.py',
+                        'img_map.py',
+                        'parse_contrs_comp.py',
+                        'pomeloII.cgi'
+                        )
+
 
 ## Maybe not looking hard enough?? FIXME
 ## what about f1.R?
@@ -89,65 +109,36 @@ signs_of_pomelo_life = ('PomeloII_Cox', 'limma_functions.R',
 
 ## and, I think, it deletes the very pom.running of itself,
 ## since not enough time to start the run  FIXME!!!!
-    
+## I think it works fine.
+
 def fcheck():
     rrunsFiles = glob.glob(theDir + '/Pom.*@*')
     for dirMachine in rrunsFiles:
-        print 'dirMachine ' + str(dirMachine)
+#        print 'dirMachine ' + str(dirMachine)
         Machine = dirMachine.split('@')[1]
         procs = os.popen("ssh " + MachineIP[Machine] + \
                          " 'ps -F -U www-data'").readlines()
-
         alive = False
         for line in procs:
-            if alive:
-                break
             for the_sign in signs_of_pomelo_life:
                 alive = line.find(the_sign) >= 0
-                print 'alive ' + str(alive) + '  with sign ' + the_sign
                 if alive:
-                    print 'the sign ' + the_sign
+                    os.system("touch buryPom.is.alive.sign." + the_sign + "IP." + MachineIP[Machine])
                     break
-        if not alive:
-            print 'not alive'
-            try:
-                os.remove(dirMachine)
-            except:
-                None
-
-##  FIXME: we'll have to incorporate the following, since its very nice extra
-                    ## info
-
-
-                    
-#                 ## were we done legitimately?
-#                 tmpDir = theDir.split('R.')[0] + 'tmp/' + t1[0].split('R.')[2]
-# 		## recall natural.death.pid and killed.pid only created after every 30" check.
-# 		## But python or the shell can take a while to complete several operations
-# 		## 
-# 		legitimate = os.path.exists(tmpDir + "/natural.death.pid.txt") or os.path.exists(tmpDir + "/killed.pid.txt") or R_done(tmpDir)
-                
-#                 if not legitimate:
-# 		## write the results file
-#                     out1 = open(tmpDir + "/natural.death.pid.txt", mode = "w")
-#                     out2 = open(tmpDir + "/kill.pid.txt", mode = "w")
-#                     out1.write('Process died without saying goodbye!!')
-#                     out2.write('Process died without saying goodbye!!')
-#                     out1.close()
-#                     out2.close()
-#                     outf = open(tmpDir + "/pre-results.html", mode = "w")
-#                     outf.write("<html><head><title> Some undiagnosed problem</title></head><body>\n")
-#                     outf.write("<h1> Some undiagnosed problem happened</h1>")
-#                     outf.write(" <p> Your process died unexpectedly, without giving")
-#                     outf.write(" any advanced notice or leaving much trace. ")
-#                     outf.write(" The error is being logged, but we would also ")
-#                     outf.write("appreciate if you can let us know of any circumstances or problems ")
-#                     outf.write("so we can diagnose the error.</p>")
-#                     outf.write("</body></html>")
-#                     outf.close()
-#                     shutil.copyfile(tmpDir + "/pre-results.html", tmpDir + "/results.html")
-
+                else: ## ok, no signs of life so far
+                    os.system("touch buryPom.is.dead.sign." + the_sign + "IP." + MachineIP[Machine])
+#                    pass
+            os.system("touch alive.is.now." + str(alive) + ".sign." + the_sign + "IP." + MachineIP[Machine])
+            if not alive:
+                os.system("touch buryPom.REMOVE.sign." + the_sign + "IP." + MachineIP[Machine])
+                try:
+                    os.remove(dirMachine)
+                except:
+                    None
+    
+os.system("touch buryPom_entering")
 fcheck()
+os.system("touch buryPom_exiting")
 
 
 # while True:

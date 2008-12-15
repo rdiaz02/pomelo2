@@ -8,9 +8,11 @@ import signal
 import shutil
 import sys
 import socket
+import random
+
+sys.path.append('/http/mpi.log')
 import counterApplications
-import random
-import random
+
 tmpDir = sys.argv[1]
 numtries = sys.argv[2]
 application = sys.argv[3]
@@ -67,18 +69,17 @@ time.sleep(random.uniform(0, 8)) ## to prevent truly simultaneous from crashing 
 
 for i in range(int(numtries)):
     os.system('touch ' + tmpDir + '/numtries_' + str(i)) ## debug
-    lamSuffix = str(int(time.time())) + str(os.getpid()) + \
-                str(random.randint(10, 999999))
+    lamSuffix = str(os.getpid()) + str(random.randint(1, 999999))
     lamenvfile = open(tmpDir + '/lamSuffix', mode = 'w')
     lamenvfile.write(lamSuffix)
     lamenvfile.flush()
     lamenvfile.close()
-    lamenv = os.putenv('LAM_MPI_SESSION_SUFFIX', lamSuffix)
+#    lamenv = os.putenv('LAM_MPI_SESSION_SUFFIX', lamSuffix)
 
-    fullRcommand = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '";' + '/usr/bin/lamboot -b -H /http/mpi.defs/lamb-host.' + socket.gethostname() + '.def; cd ' + tmpDir + '; sleep 40;' + R_Pomelo_dir + '/bin/R  --no-restore --no-readline --no-save --slave <f1.R >>f1.Rout 2> error.msg &'
+    fullRcommand = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '";' + '/usr/bin/lamboot -b -H /http/mpi.defs/lamb-host.' + socket.gethostname() + '.def; cd ' + tmpDir + '; sleep 40; ' + R_pomelo_dir + '/bin/R  --no-restore --no-readline --no-save --slave <f1-pomelo.R >>f1-pomelo.Rout 2> error.msg &'
+    
     counterApplications.add_to_LAM_SUFFIX_LOG(lamSuffix, application, tmpDir,
                                               socket.gethostname())
-
     Rrun = os.system(fullRcommand)
     os.system('touch ' + tmpDir + '/first_Rrun') ## debug
     time.sleep(100 + random.uniform(1, 12))

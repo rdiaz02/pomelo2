@@ -30,11 +30,14 @@ def collectZombies(k = 10):
             tmp = os.waitpid(-1, os.WNOHANG)
         except:
             None
-
-os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py")
-
 lamSuffix = str(os.getpid()) + str(random.randint(1, 999999))
 killedlamandr = os.system('/http/mpi.log/killOldLam.py')
+
+
+# os.system("cd " + tmpDir + "; touch about_to_call_buryPom")
+# os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py; touch just_called_buryPom")
+
+
 try:
     counterApplications.add_to_log('PomeloII', tmpDir, socket.gethostname())
 except:
@@ -43,8 +46,11 @@ except:
 if test_type in limma_tests:
     R_launch = R_pomelo_dir + "/bin/R CMD BATCH --no-restore --no-readline --no-save -q limma_functions.R"
     fullPomelocommand = "cd " + tmpDir + "; " + R_launch
-elif test_type!="Cox":
+elif test_type != "Cox":
     Pomelo_launch = "mpiexec multest_paral " + test_type + " maxT " + num_permut + " covariate class_labels "
+    ### FIXME: make this more robust!! We can use tryRpomeloerun.py, as below, as esqueleton.
+    ### or as common structure.
+    ### or even look at what is done with ADaCGH?
     fullPomelocommand = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '";' + '/usr/bin/lamboot -H /http/mpi.defs/lamb-host.' + socket.gethostname() + '.def; cd ' + tmpDir + '; ' + Pomelo_launch + " > pomelo.msg"
     lamenvfile = open(tmpDir + '/lamSuffix', mode = 'w')
     lamenvfile.write(lamSuffix)

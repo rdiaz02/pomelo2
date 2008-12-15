@@ -18,13 +18,24 @@ caughtOurError <- function(message) {
     quit(save = "no", status = 11, runLast = TRUE)
 }
 
+
+pid <- Sys.getpid()
+hostn <- system("hostname", intern = TRUE)
+
 print("\n\n")
 print(version)
 print("\n\n")
-print(system("hostname"))
+print(hostn)
 print("\n\n")
-print(Sys.getpid())
+print(pid)
 print("\n\n")
+
+sink(file = "testinInput_proc_info")
+cat(hostn)
+cat("  ")
+cat(pid)
+cat("\n")
+sink()
 
 
 num.cols.covariate <- count.fields("covarR", sep = "\t",
