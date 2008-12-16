@@ -252,6 +252,9 @@
 <br>
 </div>
 
+
+
+
 <div id = "titulo_test_opt" class="Title_box" onMouseOver="help_text(2)" onMouseOut = "help_text(0)">
   TEST OPTIONS
 </div>
@@ -333,6 +336,20 @@
 	</div>
 <br>
 <center>
+
+
+<!-- I think I do not need JS, but I can't do it otherwise. -->
+  <script Language="Javascript">
+    var args = getArgs();
+    if (args.add_covars_ex) {
+      document.write("<input type=\"hidden\" value =" + args.add_covars_ex + "  name=\"add_covars_ex\">");
+    }
+</script>
+
+
+<!-- <input type="hidden" name="add_covars_ex" value=add_covars_ex> -->
+
+
 	<input value="Start Pomelo II" type = "SUBMIT" onMouseOver="help_text(7)" onMouseOut = "help_text(0)">
 </center>
 	<div id = "formulario_idconv" class="Help_box">

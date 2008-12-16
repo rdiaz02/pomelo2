@@ -1,0 +1,26 @@
+- Actualizar versiones de selenium
+- Actualizar versiones de funkload tests
+- Scripts que borran, en Catón: tambien pomelo2
+- Walk-through example; y los data sets?
+- Añadir pagina de example data sets.
+- Poner URL de Edward (en help, donde "substitute")
+- Todas las fechas
+- Para usar test data sets: ejemplos de preP
+
+
+- Delete entries to "bioiformatics unit"
+
+
+
+
+Selenium issues:
+
+- No se ven los data sets uploaded
+- Nombres opciones poco claros
+- Solo un test
+
+
+
+
+
+- copyright notices

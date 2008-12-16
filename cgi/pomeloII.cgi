@@ -363,6 +363,9 @@ if os.stat(tmpDir + '/censored_indicator')[ST_SIZE] > MAX_time_size:
 # Selenium if *********
 if(fs.has_key("selenium_indicator")):
     shutil.copy(class_lab_sel_file,tmpDir + "/class_labels")
+elif(fs.getfirst("classex")!= None):
+    class_ex_name = fs.getfirst("classex")
+    shutil.copy("/http/pomelo2/www/Examples/Data/" + class_ex_name, tmpDir + "/class_labels")
 else:
     fileUpload('class_labels')
     
@@ -372,6 +375,7 @@ if os.stat(tmpDir + '/class_labels')[ST_SIZE] > MAX_time_size:
     err_msg = err_msg + "<p> Class labels files this size are not allowed.</p>"
     cgi_error_page("INPUT ERROR", err_msg)
     sys.exit()
+
 
 # Aqui hay que parsear el fichero de classes para que solo haya letras y numeros.
 dummy = os.system("cd " + tmpDir +"; /bin/sed 's/[^a-z^A-Z^\t^\r^0-9]/./g' class_labels > tmpcllb; mv tmpcllb class_labels;")
@@ -398,12 +402,16 @@ dummy = os.system("cd " + tmpDir +";/bin/sed 's/\.$//g'  class_labels > tmpcllb;
 ## Upload worked OK. We store the original names of the files in the
 ## browser for later report:
 ## We'll need to get this working for the validation data.zz
-fileNamesBrowser = open(tmpDir + '/fileNamesBrowser', mode = 'w')
-if(fs.getfirst("covariate2")== None):
-    fileNamesBrowser.write(fs['covariate'].filename + '\n')
-fileNamesBrowser.write(fs['censored_indicator'].filename + '\n')
-fileNamesBrowser.write(fs['class_labels'].filename + '\n')
-fileNamesBrowser.close()
+
+
+### We are not generating reports, are we? Comment out this code for now.
+
+# fileNamesBrowser = open(tmpDir + '/fileNamesBrowser', mode = 'w')
+# if(fs.getfirst("covariate2")== None):
+#     fileNamesBrowser.write(fs['covariate'].filename + '\n')
+# fileNamesBrowser.write(fs['censored_indicator'].filename + '\n')
+# fileNamesBrowser.write(fs['class_labels'].filename + '\n')
+# fileNamesBrowser.close()
 
 ## If a process lasts longer than the Pom_MAX_time, kill it and delete files asociated
 PomrunningFiles = dircache.listdir("/http/pomelo2/www/Pom.running.procs")
@@ -577,5 +585,13 @@ else:
     os.mkdir(covar_direc)
     os.chmod(covar_direc, 0770)
     
+    if fs.has_key('add_covars_ex'):
+        add_covars_name = fs.getfirst('add_covars_ex')
+        try:
+            shutil.copy("/http/pomelo2/www/Examples/Data/" + add_covars_name,
+                        tmpDir + "/COVARIABLES/covariables")
+        except:
+            cgi_error_page('EXAMPLE INPUT ERROR',
+                           'The file name for the covariables is wrong. Use a valid one.')
     ##############    Redirect to checkdone.cgi    ##################
     print "Location: "+ getQualifiedURL("/cgi-bin/add_covariables.cgi")  + "?newDir=" + newDir, "\n\n"
