@@ -130,6 +130,14 @@ f = open(covariables_cgi_template)
 template = f.read()
 f.close()
 template = template.replace("_SUBS_DIR_", tmpDir)
+
+if os.path.exists(tmpDir + '/COVARIABLES/added-example-covariables'):
+    name_example_added_covs = file(tmpDir + '/COVARIABLES/added-example-covariables').readline()
+    template = template.replace('<INPUT TYPE="file" NAME="covariables">',
+                                '<span style="color:red"> ' +
+                                name_example_added_covs +
+                                ' already loaded</span>')
+    
 templ_hmtl = "Content-type: text/html\n\n" + template
 print templ_hmtl
 

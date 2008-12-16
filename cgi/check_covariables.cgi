@@ -228,6 +228,8 @@ if cgi_option=="check_covariables":
     # Selenium if *********
     if os.path.exists('SELENIUM_TEST'):
         shutil.copy(covariable_sel_file,"COVARIABLES/covariables")
+    elif os.path.exists('COVARIABLES/added-example-covariables'):
+        pass
     else:
         fileUpload("covariables",form,tmp_dir)
     dummy = os.system('cp /http/pomelo2/cgi/test_and_summary.R COVARIABLES/' + '/. ; chmod 777 COVARIABLES/test_and_summary.R')

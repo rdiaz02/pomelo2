@@ -590,6 +590,8 @@ else:
         try:
             shutil.copy("/http/pomelo2/www/Examples/Data/" + add_covars_name,
                         tmpDir + "/COVARIABLES/covariables")
+            file(tmpDir + '/COVARIABLES/added-example-covariables',
+                 mode = 'wt').write(add_covars_name)
         except:
             cgi_error_page('EXAMPLE INPUT ERROR',
                            'The file name for the covariables is wrong. Use a valid one.')
