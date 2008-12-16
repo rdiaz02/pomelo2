@@ -1,5 +1,28 @@
 #!/usr/bin/python
 
+
+####  Copyright (C)  2003-2005, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
+####                 2005-2009, Edward R. Morrissey and 
+####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com> 
+
+#### This program is free software; you can redistribute it and/or
+#### modify it under the terms of the Affero General Public License
+#### as published by the Affero Project, version 1
+#### of the License.
+
+#### This program is distributed in the hope that it will be useful,
+#### but WITHOUT ANY WARRANTY; without even the implied warranty of
+#### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#### Affero General Public License for more details.
+
+#### You should have received a copy of the Affero General Public License
+#### along with this program; if not, you can download if
+#### from the Affero Project at http://www.affero.org/oagpl.html
+
+
+
+
+
 ### This file should be linked from /http/mpi.log, and that is
 ### where the call comes from
 
@@ -65,6 +88,10 @@ dummy   = os.system('cd ' + tmpDir + '; ' + 'touch pomelo_run.finished')
 
 collectZombies()
 
+burying = os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py")
+
 
 ### FIXME: delete myself; hard to do cause we are still running and
 ### buryPom searches for pomelo_run.py as a sign of life.
+### But we can minimize start-up time for other pomelos
+

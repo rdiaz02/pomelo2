@@ -1,6 +1,6 @@
-All of Pomelo II is Copyright (C) 2005, 2006 by Edward R. Morrissey and
-Ramon Diaz-Uriarte, except where otherwise noted (see specific files for
-details). The terms of the licenses are:
+All of Pomelo II is Copyright (C) 2005, 2006, 2007, 2008, 2009 by 
+Edward R. Morrissey and Ramon Diaz-Uriarte, except where otherwise 
+noted (see specific files for details). The terms of the licenses are:
 
 - The C++ for Pomelo II (everything under the ./bin directory) is under
 the GNU GPL version 2 or, at your option, any later version.

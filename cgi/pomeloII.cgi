@@ -1,4 +1,23 @@
 #!/usr/bin/python2.4
+
+####  Copyright (C)  2003-2005, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
+####                 2005-2009, Edward R. Morrissey and 
+####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com> 
+
+#### This program is free software; you can redistribute it and/or
+#### modify it under the terms of the Affero General Public License
+#### as published by the Affero Project, version 1
+#### of the License.
+
+#### This program is distributed in the hope that it will be useful,
+#### but WITHOUT ANY WARRANTY; without even the implied warranty of
+#### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#### Affero General Public License for more details.
+
+#### You should have received a copy of the Affero General Public License
+#### along with this program; if not, you can download if
+#### from the Affero Project at http://www.affero.org/oagpl.html
+
 import glob
 import socket
 import sys
@@ -314,7 +333,6 @@ if(fs.getfirst("covariate2")!= None):
     urlretr = urllib.urlretrieve('http://prep.bioinfo.cnio.es/tmp' +
                                  prep_tmpdir + '/outdata.txt',
                                  filename = tmpDir + '/covariate')
-#    shutil.copy("/http/prep/www/tmp/" + prep_tmpdir +"/outdata.txt",tmpDir + "/covariate")
 # Selenium if *********
 elif(fs.has_key("selenium_indicator")):
     shutil.copy(covariate_sel_file,tmpDir + "/covariate")

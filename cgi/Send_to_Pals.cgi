@@ -1,4 +1,25 @@
 #!/usr/bin/python
+
+####  Copyright (C)  2003-2005, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
+####                 2005-2009, Edward R. Morrissey and 
+####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com> 
+
+#### This program is free software; you can redistribute it and/or
+#### modify it under the terms of the Affero General Public License
+#### as published by the Affero Project, version 1
+#### of the License.
+
+#### This program is distributed in the hope that it will be useful,
+#### but WITHOUT ANY WARRANTY; without even the implied warranty of
+#### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#### Affero General Public License for more details.
+
+#### You should have received a copy of the Affero General Public License
+#### along with this program; if not, you can download if
+#### from the Affero Project at http://www.affero.org/oagpl.html
+
+
+
 import cgi
 import os
 import cgitb;cgitb.enable()

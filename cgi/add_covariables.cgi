@@ -1,7 +1,24 @@
 #!/usr/bin/python2.4
-## All this code is copyright Ramon Diaz-Uriarte. For security reasons, this is for
-## now confidential. No license is granted to copy, distribute, or modify it.
-## Once everything is OK, it will be distributed under the GPL.
+
+####  Copyright (C)  2003-2005, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
+####                 2005-2009, Edward R. Morrissey and 
+####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com> 
+
+#### This program is free software; you can redistribute it and/or
+#### modify it under the terms of the Affero General Public License
+#### as published by the Affero Project, version 1
+#### of the License.
+
+#### This program is distributed in the hope that it will be useful,
+#### but WITHOUT ANY WARRANTY; without even the implied warranty of
+#### MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#### Affero General Public License for more details.
+
+#### You should have received a copy of the Affero General Public License
+#### along with this program; if not, you can download if
+#### from the Affero Project at http://www.affero.org/oagpl.html
+
+
 import sys
 import os
 import cgi 
