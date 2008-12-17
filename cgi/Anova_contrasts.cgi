@@ -19,18 +19,13 @@
 #### from the Affero Project at http://www.affero.org/oagpl.html
 
 
-
-import cgitb; cgitb.enable()
-import sys
-
-sys.stderr = sys.stdout
-
 import cgi
 import os
 import random
+import sys
 import parse_contrs_comp
-
-print "hola"
+import cgitb; cgitb.enable()
+sys.stderr = sys.stdout
 
 ################################ Functions ############################################################
 
@@ -298,6 +293,5 @@ if  cgi_option=="clear_all":
 	clear_all()
 	
 
-os.system("touch aquiiiiiii")
 print "Content-type: text/html;charset=utf-8\n\n"
 print ajax_text
