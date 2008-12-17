@@ -95,7 +95,7 @@ for i in range(int(numtries)):
     lamenvfile.write(lamSuffix)
     lamenvfile.flush()
     lamenvfile.close()
-#    lamenv = os.putenv('LAM_MPI_SESSION_SUFFIX', lamSuffix)
+    lamenv = os.putenv('LAM_MPI_SESSION_SUFFIX', lamSuffix)
 
     fullRcommand = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '";' + '/usr/bin/lamboot -b -H /http/mpi.defs/lamb-host.' + socket.gethostname() + '.def; cd ' + tmpDir + '; sleep 40; ' + R_pomelo_dir + '/bin/R  --no-restore --no-readline --no-save --slave <f1-pomelo.R >>f1-pomelo.Rout 2> error.msg &'
     
@@ -106,11 +106,13 @@ for i in range(int(numtries)):
     time.sleep(100 + random.uniform(1, 12))
     collectZombies()
 
+### FIXME: but who generates RterminatedOK!!!???
     if os.path.exists(tmpDir + "/RterminatedOK"):
         startedOK = True
         break
 
     if os.path.exists(tmpDir + "/mpiOK"):
+        lamenv = os.putenv('LAM_MPI_SESSION_SUFFIX', lamSuffix)
         if int(os.popen('lamnodes | wc').readline().split()[0]) > MIN_LAM_NODES:
             ## debug
             os.system('echo "' + str(int(os.popen('lamnodes | wc').readline().split()[0])) + '" > ' + tmpDir + '/MIN_LAM_NODES_CHECK')

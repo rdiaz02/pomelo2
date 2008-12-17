@@ -10,6 +10,9 @@
 - Como es posible que min(xdata) no falle en antiguo pomelo?
   hay NAs!!!
 
+- Quien genera RterminatedOK?? Look at genesrf!!! should be in f1-pomelo.R
+
+- Why did the previous Cox work OK???
 
 Selenium issues:
 

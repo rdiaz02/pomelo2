@@ -27,6 +27,11 @@ rm(list = ls())
 # resources  taken up by Rmpi (slaves, memory, etc...)
 ## But does it really do it??
 .Last <- function(){
+    RterminatedOK <- file("RterminatedOK", "w")
+    cat("\nNormal termination\n", file = RterminatedOK)
+    flush(RterminatedOK)
+    close(RterminatedOK)
+
     try(sink()) ## in case we are bailing out from within sink
     save.image()
     if (is.loaded("mpi_initialize")){ 
