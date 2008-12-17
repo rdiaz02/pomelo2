@@ -20,13 +20,17 @@
 
 
 
+import cgitb; cgitb.enable()
+import sys
+
+sys.stderr = sys.stdout
 
 import cgi
 import os
-#import cgitb;cgitb.enable()
 import random
-import sys
 import parse_contrs_comp
+
+print "hola"
 
 ################################ Functions ############################################################
 
@@ -89,9 +93,7 @@ def refresh(redraw, radio_link, do_table, do_FDR):
 	if do_FDR == "updateFDR":
 		FDR_value   = read_FDR()
 		return_text = return_text + "&&FDR&&" + FDR_value
-		
 	return_text = return_text + "&&"
-	
 	return return_text
 
 def venn_drawing_html():
@@ -261,9 +263,11 @@ def clear_all():
 		
 ##################################################################################
 
+
 form    = cgi.FieldStorage()
 tmp_dir = form['tmp_dir'].value
 os.chdir(tmp_dir)
+
 cgi_option = form['cgi_option'].value
 
 if cgi_option=="refresh":
@@ -293,6 +297,7 @@ if cgi_option=="draw_venn":
 if  cgi_option=="clear_all":
 	clear_all()
 	
-	
+
+os.system("touch aquiiiiiii")
 print "Content-type: text/html;charset=utf-8\n\n"
 print ajax_text

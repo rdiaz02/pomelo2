@@ -1,0 +1,14 @@
+From/http/mpi.log you must link
+
+tryRpomelorun.py -> /http/pomelo2/cgi/tryRpomelorun.py*
+pomelo_run.py -> /http/pomelo2/cgi/pomelo_run.py*
+buryPom.py -> /http/pomelo2/cgi/buryPom.py*
+
+
+and you need the file
+
+app_caught_error under /http/mpi.log
+
+
+Need also "counterApplications.py" under /http/mpi.log
+

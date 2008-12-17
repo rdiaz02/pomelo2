@@ -54,7 +54,12 @@ results.table    <- cbind(  unadj.p       = fit2$p.value,
                             abs.obs.stat  = abs(fit2$t),
                             B             = fit2$lods)
 # Get gene names
-gene.names              <- fit2$genes
+### I think there's been a change in limma:
+## this used to work
+# gene.names              <- fit2$genes
+# but now, it is a data frame so do:
+gene.names <- fit2$genes[, 1]
+
 # Get number of genes
 num.genes               <- length(gene.names)
 # Add gene names and numbers to table

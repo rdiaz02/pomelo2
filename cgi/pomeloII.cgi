@@ -340,7 +340,13 @@ elif(fs.has_key("selenium_indicator")):
 # Uploading example data
 elif(fs.getfirst("covarex")!= None):
     covar_ex_name = fs.getfirst("covarex")
-    shutil.copy("/http/pomelo2/www/Examples/Data/" + covar_ex_name, tmpDir + "/covariate")
+    try:
+        shutil.copy("/http/pomelo2/www/Examples/Data/" + covar_ex_name, tmpDir + "/covariate")
+    except:
+        cgi_error_page('EXAMPLE INPUT ERROR',
+                       'The file name for the expression data is wrong. Use a valid one.')
+        sys.exit()
+
 else:
     ## Uploading files and checking not abusively large
     fileUpload('covariate')
@@ -365,7 +371,12 @@ if(fs.has_key("selenium_indicator")):
     shutil.copy(class_lab_sel_file,tmpDir + "/class_labels")
 elif(fs.getfirst("classex")!= None):
     class_ex_name = fs.getfirst("classex")
-    shutil.copy("/http/pomelo2/www/Examples/Data/" + class_ex_name, tmpDir + "/class_labels")
+    try:
+        shutil.copy("/http/pomelo2/www/Examples/Data/" + class_ex_name, tmpDir + "/class_labels")
+    except:
+        cgi_error_page('EXAMPLE INPUT ERROR',
+                       'The file name for the class labels is wrong. Use a valid one.')
+        sys.exit()
 else:
     fileUpload('class_labels')
     
