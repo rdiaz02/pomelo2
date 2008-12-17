@@ -1,18 +1,14 @@
 - Actualizar versiones de selenium
-- Actualizar versiones de funkload tests
-- Scripts que borran, en Catón: tambien pomelo2
-- Walk-through example; y los data sets?
 - Añadir pagina de example data sets.
 - Poner URL de Edward (en help, donde "substitute")
 - Todas las fechas
-- Para usar test data sets: ejemplos de preP
-- Ejemplos con Cox data
 
 - Delete entries to "bioiformatics unit"
 
 - Verify all links do work
 
-- Linea models with only two initial classes and verify contrasts
+- Como es posible que min(xdata) no falle en antiguo pomelo?
+  hay NAs!!!
 
 
 Selenium issues:
@@ -25,4 +21,3 @@ Selenium issues:
 
 
 
-- copyright notices

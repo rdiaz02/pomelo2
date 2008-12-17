@@ -358,7 +358,18 @@ else:
         sys.exit()
 
 
-fileUpload('censored_indicator')
+if(fs.getfirst("censoredex")!= None):
+    censored_name = fs.getfirst("censoredex")
+    try:
+        shutil.copy("/http/pomelo2/www/Examples/Data/" + 
+                    censored_name, tmpDir + "/censored_indicator")
+    except:
+        cgi_error_page('EXAMPLE INPUT ERROR',
+                       'The file name for the cnesored status indicator is wrong. Use a valid one.')
+        sys.exit()
+else:
+    fileUpload('censored_indicator')
+
 if os.stat(tmpDir + '/censored_indicator')[ST_SIZE] > MAX_time_size:
     shutil.rmtree(tmpDir)
     err_msg = "<p> Censored indicator file way too large. </p>"

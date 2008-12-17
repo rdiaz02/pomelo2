@@ -153,8 +153,8 @@ if(ttype == "t_limma_paired") {
 
 # Data tests sepcific to Fisher test
 if(ttype == "FisherIxJ") {
-	 minX <- min(xdata) 
-	 maxX <- max(xdata)
+	 minX <- min(xdata, na.rm = TRUE) 
+	 maxX <- max(xdata, na.rm = TRUE)
 	 
 	 if(minX != 0) 
 	 	 caughtUserError(paste("For Fisher's test, the data should be consecutive integers that start at 0;",
