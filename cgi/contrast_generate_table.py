@@ -130,6 +130,12 @@ dummy_file = open(tmpDir + "dummy.html" , "w")
 dummy_file.write(html_table)
 dummy_file.close()
 
+### The above seems wrong: this seems the correct version  FIXME
+dummy_file = open(tmpDir + "/dummy.html" , "w")
+dummy_file.write(html_table)
+dummy_file.close()
+
+
 # Change html to txt
 html_to_text = "cd " + tmpDir + "; html2text -width 200 -nobs  -o " + contrast_classes + ".txt dummy.html; rm dummy.html" 
 os.system(html_to_text)
@@ -138,7 +144,12 @@ html_page = html_page.replace("_TABLE_REPLACE_", html_table)
 html_page = html_page.replace("_DOWNLOADFILE_" , contrast_classes + ".txt")
 
 new_file_name = tmpDir + contrast_classes  + ".html"
+html_file = open(new_file_name, "w")
+html_file.write(html_page)
+html_file.close()
 
+### The above seems wrong: this seems the correct version  FIXME
+new_file_name = tmpDir + "/" + contrast_classes  + ".html"
 html_file = open(new_file_name, "w")
 html_file.write(html_page)
 html_file.close()

@@ -75,6 +75,15 @@ cat("MPI started OK\n")
 sink()
 
 
+hostn <- system("hostname", intern = TRUE)
+pid <- Sys.getpid()
+sink(file = "current_R_proc_info")
+cat(hostn)
+cat("  ")
+cat(pid)
+cat("\n")
+sink()
+
 
 
 

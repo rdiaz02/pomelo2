@@ -1,3 +1,4 @@
+- Permitir coger del preP!!!!
 - Actualizar versiones de selenium
 - Añadir pagina de example data sets.
 - Poner URL de Edward (en help, donde "substitute")

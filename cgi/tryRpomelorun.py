@@ -106,7 +106,6 @@ for i in range(int(numtries)):
     time.sleep(100 + random.uniform(1, 12))
     collectZombies()
 
-### FIXME: but who generates RterminatedOK!!!???
     if os.path.exists(tmpDir + "/RterminatedOK"):
         startedOK = True
         break
@@ -119,7 +118,7 @@ for i in range(int(numtries)):
             startedOK = True
             break
     try:
-        lamkill = os.system('lamhalt; lamwipe')
+        lamkill = os.system('export LAM_MPI_SESSION_SUFFIX=' + lamSuffix + '; lamhalt -H; lamwipe -H')
     except:
         None
 
@@ -139,6 +138,12 @@ for i in range(int(numtries)):
    
    
 if not startedOK:
+    ## Just in case ...
+    try:
+        lamkill = os.system('export LAM_MPI_SESSION_SUFFIX=' + lamSuffix + '; lamhalt -H; lamwipe -H')
+    except:
+        None
+
     ## Logging
     try:
         counterApplications.add_to_MPIErrorLog(application, tmpDir,

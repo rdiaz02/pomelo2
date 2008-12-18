@@ -234,7 +234,7 @@ if not os.path.isdir(tmpDir):
 
 
 
-# If file pomelo_run.finished exists, multest has finished 
+# If file pomelo_run.finished exists, it has finished 
 run_finished = os.path.exists(tmpDir + "/pomelo_run.finished")
 
 # If multest has finished
@@ -242,10 +242,19 @@ if run_finished:
     mpi_worked    = os.path.exists(tmpDir + "/mpiOK")
     results_exist = os.path.exists(tmpDir + "/multest_parallel.res")
     if (not mpi_worked) or (not results_exist):
-        time.sleep(30) ## otherwise, some of the ones below might not be created
+        time.sleep(30) ## some of the ones below might not have been created
         mpi_worked    = os.path.exists(tmpDir + "/mpiOK")
         results_exist = os.path.exists(tmpDir + "/multest_parallel.res")
 
+    ## we can try here launching it again. something like
+# need to get tmpDir (known), test_type and num_permut, to call pomelo_run        
+#     else if ((not mpi_worked) or (not results_exist)):
+#         if number_relaunchs < max_num_relaunchs:
+#             number_relaunchs += 1
+#             relaunch it
+#         else:
+#             pass
+        
     if not mpi_worked:
         close_lam_env()
         mpi_error()
@@ -270,5 +279,6 @@ elif (time.time() - os.path.getmtime(tmpDir + "/covariate")) > Pomelo_MAX_time:
     printPomKilled()
     print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/'+ newDir + '/results.html \n\n'
     sys.exit()
+
 
 relaunchCGI()
