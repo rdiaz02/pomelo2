@@ -330,7 +330,7 @@ if test_type == 't_limma_paired':
 
 if(fs.getfirst("covariate2")!= None):
     prep_tmpdir = fs.getfirst("covariate2")
-    urlretr = urllib.urlretrieve('http://prep.bioinfo.cnio.es/tmp' +
+    urlretr = urllib.urlretrieve('http://prep.bioinfo.cnio.es/tmp/' +
                                  prep_tmpdir + '/outdata.txt',
                                  filename = tmpDir + '/covariate')
 # Selenium if *********
