@@ -3,7 +3,7 @@ import cgi
 import os
 import cgitb;cgitb.enable()
 import img_map
-import whrandom
+import random
 import sys
 
 colourValues = ("rg","topo","gr")
@@ -89,7 +89,7 @@ f=open("organism")
 organism = f.read().strip()
 f.close()
 
-imagename = "heatmap" + str(whrandom.randint(1, 999999))
+imagename = "heatmap" + str(random.randint(1, 999999))
 write_to_file(form,imagename)
 
 Rcommand = "cd " + tmp_dir + "; " + "/http/R-pomelo2/bin/R CMD BATCH --no-restore --no-readline --no-save -q new_heatmap.R 2> error.msg "
