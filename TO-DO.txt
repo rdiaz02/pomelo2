@@ -1,17 +1,6 @@
-- Permitir coger del preP!!!!
 - Verify all links do work
 
-- Como es posible que min(xdata) no falle en antiguo pomelo?
-  hay NAs!!! Con categóricos
-
-- Why did the previous Cox work OK???
-
-Selenium issues:
-
-- No se ven los data sets uploaded
-- Nombres opciones poco claros
-- Solo un test
-
+- Poner nuevo control de mpi, etc: pomelo2_run.py
 
 
 
