@@ -4,7 +4,7 @@
 /***************************************************************************
     begin                : Thu Jul 11 19:21:37 CEST 2002
     copyright            : (C) 2002, 2003, 2004 by Ramón Díaz-Uriarte,
-                               2005, 2006  by Edward R. Morrissey and
+                               2005-2009  by Edward R. Morrissey and
                                            Ramon Diaz-Uriarte
     email                : rdiaz02@gmail.com, ermorrissey@cnio.es
 ***************************************************************************/

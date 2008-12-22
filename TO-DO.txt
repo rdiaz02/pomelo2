@@ -1,17 +1,8 @@
 - Permitir coger del preP!!!!
-- Actualizar versiones de selenium
-- Añadir pagina de example data sets.
-- Poner URL de Edward (en help, donde "substitute")
-- Todas las fechas
-
-- Delete entries to "bioiformatics unit"
-
 - Verify all links do work
 
 - Como es posible que min(xdata) no falle en antiguo pomelo?
-  hay NAs!!!
-
-- Quien genera RterminatedOK?? Look at genesrf!!! should be in f1-pomelo.R
+  hay NAs!!! Con categóricos
 
 - Why did the previous Cox work OK???
 

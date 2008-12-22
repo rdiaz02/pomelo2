@@ -17,11 +17,11 @@
 
 /***************************************************************************
     begin                : Thu Jul 11 19:21:37 CEST 2002
-    copyright            : (C) 2002 - 2006 by Ramón Díaz-Uriarte for the
+    copyright            : (C) 2002 - 2009 by Ramón Díaz-Uriarte for the
                            modifications to coxfit2.c.
                            For the original coxfit2.c code, (C) 2000 Mayo 
                            Foundation for Medical Education and Research.
-    email                : rdiaz@cnio.es
+    email                : rdiaz02@gmail.com
 ***************************************************************************/
 
 

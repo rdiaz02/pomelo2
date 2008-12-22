@@ -2,8 +2,8 @@
                           readMissing.h  -  description
                              -------------------
     begin                : Tue Jul 16 2002
-    copyright            : (C) 2002 by Ramon Diaz
-    email                : rdiaz@cnio.es
+    copyright            : (C) 2002-2009 by Ramon Diaz-Uriarte
+    email                : rdiaz02@gmail.com
  ***************************************************************************/
 
 /***************************************************************************

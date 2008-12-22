@@ -130,37 +130,43 @@ TRY IT OUT
 <br>
 <div class = "actual_text">
 
-<h3>TRY IT OUT</h3>
+<!-- <h3>TRY IT OUT</h3> -->
 <p>The following links load some of the above data sets and allow you to
 start an actual run of Pomelo II. You do <b>need to select the options
   yourself</b>; we only load the data. </p>
 
+<h3>Contingency tables: Fisher IxJ</h3>
+  
   <p><a
   href="http://pomelo2.bioinfo.cnio.es/?covarex=FisherExData&classex=FisherExLabels">Contingency
-  table example</a>. Analyze using "Fisher IxJ" options under Test.</p>.
+  table example</a>. Analyze using "Fisher IxJ" options under Test.</p>
 
 
-  
+<h3>t-test</h3>  
 <p><a
 href="http://pomelo2.bioinfo.cnio.es/?covarex=LeukExpr&classex=LeukClass">Leukemia
 example</a>. Analyze using a permutation t-test or a t-test with limma.</p>
 
 
+<h3>ANOVA and other linear models</h3>  
 <p><a
 href="http://pomelo2.bioinfo.cnio.es/?covarex=SrbctExpr&classex=SrbctClass">Srbct
 example</a>. A linear model with four classes. You <b>must select
-    Anova linear models test (under Test options).</b></p>
+    Anova linear models test (under Test options)</b> and select <b>"Continue
+  without covariables"</b> in the second input screen.</p>
 
 <p><a
 href="http://pomelo2.bioinfo.cnio.es/?covarex=BreastExpr&classex=BreastClass&add_covars_ex=BreastDummyCovars">Breast
 example</a>. A linear model with three classes and additional
 covariates. You <b>must select Anova linear models test (under Test
-options).</b></p>
+options)</b>, and select <b>"Send covariables"</b> in the second input screen. In the
+  third screen, <b>select whichever covariables you want.</b></p>
 
 
+<h3>Survival analysis (Cox model)</h3>  
 <p><a
-href="http://pomelo2.bioinfo.cnio.es/?covarex=CoxExpr&classex=CoxSurv&censoredex=CoxCensor">Survival
-  analysis example</a>. An example with censored survival data. You <b>must select
+href="http://pomelo2.bioinfo.cnio.es/?covarex=CoxExpr&classex=CoxSurv&censoredex=CoxCensor">An
+  example</a> with censored survival data.  You <b>must select
     Cox model (under Test options).</b></p>
 
   
@@ -187,7 +193,7 @@ Data sets
   Further details on the data set and their preprocessing are provided
   in zz.</p>
   
-  <h4>Fisher's test example</h4>
+  <h4>Contingency table test example</h4>
   <a
   href="http://pomelo2.bioinfo.cnio.es/Examples/Data/FisherExData">"Expression"</a>
   data file
@@ -210,10 +216,28 @@ Data sets
   data file,  <a
   href="http://pomelo2.bioinfo.cnio.es/Examples/Data/SrbctClass">Labels</a>
   data file, and
+
+
+    <h4>Breast example</h4>
+  <a
+  href="http://pomelo2.bioinfo.cnio.es/Examples/Data/BreastExpr">Expression</a>
+  data file,  <a
+  href="http://pomelo2.bioinfo.cnio.es/Examples/Data/BreastClass">Labels</a>
+  data file, and
    <a
-  href="http://pomelo2.bioinfo.cnio.es/Examples/Data/SrbctDummyCovars">Additional
+  href="http://pomelo2.bioinfo.cnio.es/Examples/Data/BreastDummyCovars">Additional
   covariates</a> data file.  
 
+
+<h4>Survival analysis example</h4>
+  <a
+  href="http://pomelo2.bioinfo.cnio.es/Examples/Data/CoxExpr">Expression</a>
+  data file,  <a
+  href="http://pomelo2.bioinfo.cnio.es/Examples/Data/CoxSurv">Survival</a>
+  data file, and
+   <a
+  href="http://pomelo2.bioinfo.cnio.es/Examples/Data/CoxCensor">Censored indicator</a> data file.  
+  
   
   
 <p>Download all the data sets as <a
@@ -241,7 +265,7 @@ Copyright and license
 <br>
 <div class = "actual_text">
 <p>The text of this document and the comments added to the output are
-copyright © 2005 Ramón Díaz-Uriarte. You can, however, do quite a bit
+copyright © 2005-2009 Ramón Díaz-Uriarte. You can, however, do quite a bit
 of things with all the text, since this document is licensed under a
 <a rel="license"
 href="http://creativecommons.org/licenses/by-nc-sa/2.0/">Creative
