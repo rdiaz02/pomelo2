@@ -6,6 +6,7 @@ import sys
 import parse_contrs_comp
 import shutil
 import fcntl
+import socket
 import cgitb; cgitb.enable() ## zz: eliminar for real work?
 sys.stderr = sys.stdout
 
@@ -210,7 +211,8 @@ cgi_option = form['cgi_option'].value
 f = open("testtype");test_type = f.read().strip();f.close()  
 num_permut = 10000  ## this should be irrelevant here; these are limma tests so no permut.
 newDir = tmp_dir.split("/")[-1]
-
+tmpDir = tmp_dir
+##tmpDir = '/http/pomelo2/www/tmp/' + newDir
 
 # If they have chosen to continue without covariables
 if cgi_option == "continue":

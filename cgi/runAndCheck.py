@@ -241,7 +241,9 @@ issue_echo2("Before first tryrrun")
 tryrrun = os.system('/http/pomelo2/cgi/pomelo_run2.py ' + tmpDir + 
                     ' ' + test_type + ' ' + str(num_permut) +'&')
 
-time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
+issue_echo2("After first tryrrun 0")
+
+## time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
 issue_echo2("After first tryrrun")
 
 

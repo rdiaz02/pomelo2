@@ -26,6 +26,17 @@ MAX_NUM_RELAUNCHES = 10
 # *************************************************************************************
 # *********************         Functions        **************************************
 
+
+def issue_echo2(fecho, tmpDir):
+    """Silly function to output small tracking files. For debugging"""
+    timeHuman = '##########   ' + \
+                str(time.strftime('%d %b %Y %H:%M:%S')) 
+    os.system('echo "' + timeHuman + \
+              '" >> ' + tmpDir + '/checkdone2.echo')
+    os.system('echo "' + fecho + \
+              '" >> ' + tmpDir + '/checkdone2.echo')
+    os.system('echo "    " >> ' + tmpDir + '/checkdone2.echo')
+
 def add_to_log(application, tmpDir, error_type,error_text):
     date_time = time.strftime('%Y\t%m\t%d\t%X')
     outstr = '%s\t%s\t%s\t%s\n%s\n' % (application, date_time, error_type, tmpDir, error_text)
@@ -239,11 +250,16 @@ if not os.path.isdir(tmpDir):
 run_finished = os.path.exists(tmpDir + "/pomelo_run.finished")
 number_relaunches = int(open(tmpDir + "/number_relaunches", mode = "r").readline())
 
+issue_echo2("a1", tmpDir)
+
 # If multest has finished
 if run_finished:
+    issue_echo2("a2", tmpDir)
     mpi_worked    = os.path.exists(tmpDir + "/mpiOK")
     results_exist = os.path.exists(tmpDir + "/multest_parallel.res")
     if (not mpi_worked) or (not results_exist):
+        issue_echo2("a3", tmpDir)
+
         time.sleep(30) ## some of the ones below might not have been created
         mpi_worked    = os.path.exists(tmpDir + "/mpiOK")
         results_exist = os.path.exists(tmpDir + "/multest_parallel.res")
@@ -252,6 +268,8 @@ if run_finished:
         and (number_relaunches < MAX_NUM_RELAUNCHES)):
         ## so something did not work. Lets try launching again
         number_relaunches += 1
+        issue_echo2("a4 + number_relaunches" + str(number_relaunches), tmpDir)
+
         nrelaunches = open(tmpDir + '/number_relaunches', mode = 'w')
         nrelaunches.write(str(number_relaunches) + '\n')
         nrelaunches.close()
@@ -264,25 +282,39 @@ if run_finished:
 
         tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmpDir + 
                             ' ' + test_type + ' ' + str(num_permut) +'&')
+        issue_echo2("a5 + number_relaunches" + str(number_relaunches), tmpDir)
+
         relaunchCGI()
 #        sys.exit()
         
     if not mpi_worked:
+        issue_echo2("a6 + number_relaunches" + str(number_relaunches), tmpDir)
+
         close_lam_env()
         mpi_error()
         print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
         sys.exit()
 
     if not results_exist:
+        issue_echo2("a7 + number_relaunches" + str(number_relaunches), tmpDir)
+
         close_lam_env()
         multest_error()
         print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
         sys.exit()
     
     else:
+        issue_echo2("a8 + number_relaunches" + str(number_relaunches), tmpDir)
+
         close_lam_env()
+        issue_echo2("a9 + number_relaunches" + str(number_relaunches), tmpDir)
+
         printOKRun()
+        issue_echo2("a10 + number_relaunches" + str(number_relaunches), tmpDir)
+
         print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
+        issue_echo2("a11 + number_relaunches" + str(number_relaunches), tmpDir)
+
         sys.exit()
         
 # If multest hasn't finished, check if it needs killing
@@ -292,6 +324,7 @@ elif (time.time() - os.path.getmtime(tmpDir + "/covariate")) > Pomelo_MAX_time:
     print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/'+ newDir + '/results.html \n\n'
     sys.exit()
 
+issue_echo2("a12 + number_relaunches" + str(number_relaunches), tmpDir)
 
 relaunchCGI()
 #sys.exit()
