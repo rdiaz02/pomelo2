@@ -40,6 +40,9 @@ import shutil
 import sys
 import random
 import socket
+import cgitb;cgitb.enable() 
+sys.stderr = sys.stdout 
+
 
 sys.path.append('/http/mpi.log')
 import counterApplications
@@ -183,8 +186,9 @@ def lamboot(lamSuffix, ncpu, runningProcs = runningProcs):
     issue_echo('newDir is ' + newDir, tmpDir)
     issue_echo('lamSuffix ' + lamSuffix, tmpDir)
     issue_echo('runningProcs ' + runningProcs, tmpDir)
-    sentinel = os.open(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]),
-                       os.O_RDWR | os.O_CREAT | os.O_NDELAY)
+# why doesn't this work? FIXME
+#     sentinel = os.open(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]),
+#                        os.O_RDWR | os.O_CREAT | os.O_NDELAY)
     issue_echo('before fullCommand inside lamboot', tmpDir)
     fullCommand = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + \
                   '"; /http/mpi.log/tryBootLAM2.py ' + lamSuffix + \

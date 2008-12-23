@@ -265,6 +265,7 @@ if run_finished:
         tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmpDir + 
                             ' ' + test_type + ' ' + str(num_permut) +'&')
         relaunchCGI()
+#        sys.exit()
         
     if not mpi_worked:
         close_lam_env()
@@ -293,4 +294,4 @@ elif (time.time() - os.path.getmtime(tmpDir + "/covariate")) > Pomelo_MAX_time:
 
 
 relaunchCGI()
-
+#sys.exit()
