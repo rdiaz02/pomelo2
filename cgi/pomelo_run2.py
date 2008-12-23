@@ -44,9 +44,12 @@ import socket
 sys.path.append('/http/mpi.log')
 import counterApplications
 
+ROOT_TMP_DIR = "/http/pomelo2/www/tmp"
 tmpDir     = sys.argv[1]
 test_type  = sys.argv[2]
 num_permut = sys.argv[3]
+newDir = tmpDir.replace(ROOT_TMP_DIR, "")
+
 limma_tests = ("t_limma", "t_limma_paired", "Anova_limma")
 
 R_pomelo_dir = '/http/R-pomelo2'
