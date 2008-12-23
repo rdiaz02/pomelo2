@@ -15,6 +15,7 @@ import tarfile
 import string
 import fcntl
 import socket 
+import random
 import cgitb; cgitb.enable() 
 sys.stderr = sys.stdout 
 
@@ -22,7 +23,7 @@ tmpDir     = sys.argv[1]
 
 Pomelo_MAX_time = 8 * 3600 ## 8 hours is max duration allowd for any process
 MAX_NUM_RELAUNCHES = 10 
-TIME_BETWEEN_CHECKS = 15
+TIME_BETWEEN_CHECKS = 10
 ROOT_TMP_DIR = "/http/pomelo2/www/tmp"
 newDir = tmpDir.replace(ROOT_TMP_DIR, "")
 
@@ -243,7 +244,8 @@ tryrrun = os.system('/http/pomelo2/cgi/pomelo_run2.py ' + tmpDir +
 
 issue_echo2("After first tryrrun 0")
 
-## time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
+time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
+## timee.sleep(TIME_BETWEEN_CHECKS)
 issue_echo2("After first tryrrun")
 
 

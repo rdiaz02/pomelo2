@@ -383,16 +383,16 @@ else: ## we use MPI
 
 ## Recall the process (R or multtest) are blocking! We wait for them to finish or crash.
 
-issue_echo('antes touch pomelo_run_finished', tmpDir)
+issue_echo('before touch pomelo_run_finished', tmpDir)
             
 dummy   = os.system('cd ' + tmpDir + '; ' + 'touch pomelo_run.finished')
-issue_echo('antes collectZombies', tmpDir)
+issue_echo('before collectZombies', tmpDir)
 
 collectZombies()
-issue_echo('antes burying', tmpDir)
+issue_echo('before burying', tmpDir)
 
 burying = os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py")
-issue_echo('despues burying', tmpDir)
+issue_echo('after burying', tmpDir)
 
 
 ### FIXME: delete myself; hard to do cause we are still running and
