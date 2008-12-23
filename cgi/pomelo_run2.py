@@ -40,6 +40,7 @@ import shutil
 import sys
 import random
 import socket
+import fcntl
 import cgitb;cgitb.enable() 
 sys.stderr = sys.stdout 
 

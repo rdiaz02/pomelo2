@@ -597,17 +597,24 @@ createResultsFile = os.system("/bin/touch " + tmpDir + "/results.txt")
 
 ###########   Creating a results.hmtl   ###############
 
-## Copy to tmpDir a results.html that redirects to checkdone.cgi
+## Copy to tmpDir a results.html that redirects to itself 
 ## If communication gets broken, there is always a results.html
 ## that will do the right thing.
+
 shutil.copy("/http/pomelo2/www/Pomelo2_html_templates/results-pre.html", tmpDir)
 os.system("cd " + tmpDir + "; /bin/sed 's/sustituyeme/" +
           newDir + "/g' results-pre.html > results.html; rm results-pre.html")
 
+
 #if test_type not in limma_covariable_tests:
 if test_type != "Anova_limma":
-    ##############    Redirect to checkdone.cgi    ##################
-    print "Location: "+ getQualifiedURL("/cgi-bin/pomelo_checkdone.cgi") + "?newDir=" + newDir, "\n\n"
+    run_and_check = os.spawnv(os.P_NOWAIT, '/http/pomelo2/cgi/runAndCheck.py',
+                              ['', tmpDir])
+    os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
+                  '"> ' + tmpDir + '/run_and_checkPID')
+    ##############    Redirect to results.html    ##################
+    print "Location: "+ getQualifiedURL("/tmp/" + newDir + "/results.html"), "\n\n"
+
 else:
     covar_direc = tmpDir + "/COVARIABLES"
     os.mkdir(covar_direc)

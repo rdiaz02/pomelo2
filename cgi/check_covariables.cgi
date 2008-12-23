@@ -1,12 +1,11 @@
 #!/usr/bin/python2.4
 import cgi
 import os
-#import cgitb;cgitb.enable()
 import random
 import sys
 import parse_contrs_comp
 import shutil
-
+import fcntl
 import cgitb; cgitb.enable() ## zz: eliminar for real work?
 sys.stderr = sys.stdout
 
@@ -209,7 +208,7 @@ tmp_dir = form['tmp_dir'].value
 os.chdir(tmp_dir)
 cgi_option = form['cgi_option'].value
 f = open("testtype");test_type = f.read().strip();f.close()  
-num_permut = 10000
+num_permut = 10000  ## this should be irrelevant here; these are limma tests so no permut.
 newDir = tmp_dir.split("/")[-1]
 
 
@@ -219,9 +218,18 @@ if cgi_option == "continue":
        dummy = os.system("rm COVARIABLES/*")
     except:
        pass
-    tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmp_dir + ' ' + test_type + ' ' + str(num_permut) +'&')
-    ##############    Redirect to checkdone.cgi    ##################
-    print "Location: "+ getQualifiedURL("/cgi-bin/pomelo_checkdone.cgi") + "?newDir=" + newDir, "\n\n"
+    run_and_check = os.spawnv(os.P_NOWAIT, '/http/pomelo2/cgi/runAndCheck.py',
+                              ['', tmpDir])
+    os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
+                  '"> ' + tmpDir + '/run_and_checkPID')
+    ##############    Redirect to results.html    ##################
+    print "Location: "+ getQualifiedURL("/tmp/" + newDir + "/results.html"), "\n\n"
+
+#     tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmp_dir + ' ' + test_type + ' ' + str(num_permut) +'&')
+#     ##############    Redirect to checkdone.cgi    ##################
+#     print "Location: "+ getQualifiedURL("/cgi-bin/pomelo_checkdone.cgi") + "?newDir=" + newDir, "\n\n"
+
+
 
 # If they have sent covariables
 if cgi_option=="check_covariables":
@@ -253,7 +261,15 @@ if cgi_option=="covar_launch":
         f.write(covars_string)
         f.close()
         # Aqui habria que rellenar los templates
+
+
+    run_and_check = os.spawnv(os.P_NOWAIT, '/http/pomelo2/cgi/runAndCheck.py',
+                              ['', tmpDir])
+    os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
+                  '"> ' + tmpDir + '/run_and_checkPID')
+    ##############    Redirect to results.html    ##################
+    print "Location: "+ getQualifiedURL("/tmp/" + newDir + "/results.html"), "\n\n"
     
-    tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmp_dir + ' ' + test_type + ' ' + str(num_permut) +'&')
-    ##############    Redirect to checkdone.cgi    ##################
-    print "Location: "+ getQualifiedURL("/cgi-bin/pomelo_checkdone.cgi") + "?newDir=" + newDir, "\n\n"
+#     tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmp_dir + ' ' + test_type + ' ' + str(num_permut) +'&')
+#     ##############    Redirect to checkdone.cgi    ##################
+#     print "Location: "+ getQualifiedURL("/cgi-bin/pomelo_checkdone.cgi") + "?newDir=" + newDir, "\n\n"
