@@ -21,6 +21,7 @@ sys.stderr = sys.stdout
 import socket ## try to detect problems
 
 Pomelo_MAX_time = 8 * 3600 ## 8 hours is max duration allowd for any process
+MAX_NUM_RELAUNCHES = 10 
 
 # *************************************************************************************
 # *********************         Functions        **************************************
@@ -236,6 +237,7 @@ if not os.path.isdir(tmpDir):
 
 # If file pomelo_run.finished exists, it has finished 
 run_finished = os.path.exists(tmpDir + "/pomelo_run.finished")
+number_relaunches = int(open(tmpDir + "/number_relaunches", mode = "r").readline())
 
 # If multest has finished
 if run_finished:
@@ -246,14 +248,24 @@ if run_finished:
         mpi_worked    = os.path.exists(tmpDir + "/mpiOK")
         results_exist = os.path.exists(tmpDir + "/multest_parallel.res")
 
-    ## we can try here launching it again. something like
-# need to get tmpDir (known), test_type and num_permut, to call pomelo_run        
-#     else if ((not mpi_worked) or (not results_exist)):
-#         if number_relaunchs < max_num_relaunchs:
-#             number_relaunchs += 1
-#             relaunch it
-#         else:
-#             pass
+    if (((not mpi_worked) or (not results_exist)) 
+        and (number_relaunches < MAX_NUM_RELAUNCHES)):
+        ## so something did not work. Lets try launching again
+        number_relaunches += 1
+        nrelaunches = open(tmpDir + '/number_relaunches', mode = 'w')
+        nrelaunches.write(str(number_relaunches) + '\n')
+        nrelaunches.close()
+        
+        test_type = open(tmpDir + "/testtype", mode = "r").readline()
+        try:
+            num_permut = open(tmpDir + "/num_permut", mode = "r").readline()
+        except:
+            num_permut = 0
+
+        tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmpDir + 
+                            ' ' + test_type + ' ' + str(num_permut) +'&')
+        relaunchCGI()
+        sys.exit()
         
     if not mpi_worked:
         close_lam_env()
@@ -282,3 +294,4 @@ elif (time.time() - os.path.getmtime(tmpDir + "/covariate")) > Pomelo_MAX_time:
 
 
 relaunchCGI()
+sys.exit()

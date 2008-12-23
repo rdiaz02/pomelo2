@@ -471,6 +471,12 @@ if numPomelo > MAX_poms:
 
 ################        Launching Pomelo   ###############
 
+
+nrelaunches = open(tmpDir + '/number_relaunches', mode = 'w')
+nrelaunches.write('0\n')
+nrelaunches.close()
+
+
 # prepare the arrayNames file:
 
 covarInServer = tmpDir + "/covariate"

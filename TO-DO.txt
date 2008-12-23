@@ -1,5 +1,3 @@
-- Verify all links do work
-
 - Poner nuevo control de mpi, etc: pomelo2_run.py
 
 

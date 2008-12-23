@@ -306,7 +306,7 @@ except:
 if test_type in limma_tests:
     R_launch = R_pomelo_dir + "/bin/R CMD BATCH --no-restore --no-readline --no-save -q limma_functions.R"
     fullPomelocommand = "cd " + tmpDir + "; " + R_launch
-
+    os.system(fullPomelocommand)
 else: ## we use MPI
     startedOK = False
     issue_echo('starting', tmpDir)
