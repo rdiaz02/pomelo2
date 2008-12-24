@@ -309,6 +309,12 @@ while True:  ## we repeat until done or unrecoverale crash
 
     time.sleep(TIME_BETWEEN_CHECKS)
 
+try:
+    os.system('rm /http/pomelo2/www/Pom.running.procs/Pom.' +
+              newDir + '*')
+except:
+    None
+             
 burying = os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py")
 issue_echo2("at the very end")
 
