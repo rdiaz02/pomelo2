@@ -309,9 +309,16 @@ while True:  ## we repeat until done or unrecoverale crash
 
     time.sleep(TIME_BETWEEN_CHECKS)
 
+
+
+### clean ups
 try:
+    ndd = newDir.replace("/", "")
     os.system('rm /http/pomelo2/www/Pom.running.procs/Pom.' +
-              newDir + '*')
+              ndd + '*')
+    issue_echo2('Deleting Pom.running.procs in ' +
+                '/http/pomelo2/www/Pom.running.procs/Pom.' +
+                ndd + '*')
 except:
     None
              
