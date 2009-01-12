@@ -8,12 +8,14 @@ trycl <- try(
              Class <- scan("class_labels", sep = "\t", what = double(0), strip.white = TRUE,
                            nlines = 1)
              )
-## to prevent problems with a space at end of classes
-if(is.na(Class[length(Class)])) Class <- Class[-length(Class)]
-
 
 if(class(trycl) == "try-error")
     caughtUserError("The continuous dependent variable (or survival time) file is not of the appropriate format (most likely, it is a non-numeric variable)\n")
+
+
+## to prevent problems with a space at end of classes
+if(is.na(Class[length(Class)])) Class <- Class[-length(Class)]
+
 
 
 

@@ -194,10 +194,17 @@ def printOKRun():
     template.close()
     table_file.close()
     Heatresults.close()
+    heat_temp_f.close()
     os.chdir(tmpDir)
     shutil.copyfile("pre-results.html","results.html")
     if os.path.exists('p.v.sort.FDR.d.html'):
-        os.system('w3m -config = "~/.w3m" -dump p.v.sort.FDR.d.html > results.pomelo.txt')
+#        os.system('w3m -config = "/var/www/.w3m" -dump p.v.sort.FDR.d.html > results.pomelo.txt')
+        fi,fo,fu = os.popen3('w3m -config = "/var/www/.w3m" -dump p.v.sort.FDR.d.html > results.pomelo.txt')
+        fi.close()
+        fo.close()
+        fu.close()
+        ### when launched from python, w3m complaints about Can't create config directory
+        ### which I do not understand
 ##    	os.system('html2text -width 200 -nobs  -o results.pomelo.txt p.v.sort.FDR.d.html')
 ##      html2text leaves weird characters sometimes
 
@@ -215,7 +222,7 @@ def close_lam_env():
         ## probably redundant, and fills error logs.
         numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*"))
         if numPomelo > 1:
-            tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*")
+            tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "cucu2*")
     except:
         None
 
@@ -248,7 +255,6 @@ issue_echo2("After first tryrrun")
 
 while True:  ## we repeat until done or unrecoverale crash
     issue_echo2("top of while")
-
     if (time.time() - os.path.getmtime(tmpDir + "/covariate")) > Pomelo_MAX_time:
         issue_echo2("Out of time")
         close_lam_env()
@@ -278,7 +284,8 @@ while True:  ## we repeat until done or unrecoverale crash
             issue_echo2("OK run")
             close_lam_env()
             printOKRun()
-            print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
+            ## this AIN'T a CGI. None of this print stuff should be here!!
+#            print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
             break
         
         # we only get here if something failed; so check if we can relaunch
@@ -297,14 +304,14 @@ while True:  ## we repeat until done or unrecoverale crash
                 issue_echo2("not mpi_worked")
                 close_lam_env()
                 mpi_error()
-                print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
+#                print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
                 break
 
             elif not results_exist:
                 issue_echo2("not results_exist")
                 close_lam_env()
                 multest_error()
-                print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
+#                print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
                 break
 
     time.sleep(TIME_BETWEEN_CHECKS)
@@ -314,8 +321,9 @@ while True:  ## we repeat until done or unrecoverale crash
 ### clean ups
 try:
     ndd = newDir.replace("/", "")
-    os.system('rm /http/pomelo2/www/Pom.running.procs/Pom.' +
-              ndd + '*')
+    numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom." + ndd + "*"))
+    if numPomelo > 1:
+        tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + ndd + "cucu*")
     issue_echo2('Deleting Pom.running.procs in ' +
                 '/http/pomelo2/www/Pom.running.procs/Pom.' +
                 ndd + '*')

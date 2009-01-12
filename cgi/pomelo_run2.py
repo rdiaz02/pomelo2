@@ -326,9 +326,12 @@ else: ## we use MPI
     while True:
 #     for i in range(int(MAX_MPI_CRASHES)):
         lamboot(lamSuffix, NCPU) ## note that this tries a number of times!
-        lam_ok = check_tping(lamSuffix, tmpDir)
-        if lam_ok == 0:
-            lboot = lamboot(lamSuffix, NCPU)
+## checkTping ain't working. And I don't get it. FIXME!!
+#        time.sleep(20) ## wait for LAM to be set
+#        lam_ok = check_tping(lamSuffix, tmpDir)
+#         if lam_ok == 0:
+#             issue_echo('check_tping fails', tmpDir)
+#             lboot = lamboot(lamSuffix, NCPU)
         issue_echo('after lamboot', tmpDir)
         counterApplications.add_to_LAM_SUFFIX_LOG(lamSuffix,
                                                   'PomeloII-' + test_type,

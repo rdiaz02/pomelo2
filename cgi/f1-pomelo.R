@@ -89,7 +89,7 @@ sink()
 
 
 trytime <- try(
-             Time <- scan("class_labels", sep = "\t", strip.white = TRUE))
+             Time <- scan("class_labels", sep = "\t", strip.white = TRUE, nlines = 1))
 if(class(trytime) == "try-error")
     caughtUserError("The time file is not of the appropriate format\n")
 if(!length(Time)) caughtUserError("No survival time  file\n")

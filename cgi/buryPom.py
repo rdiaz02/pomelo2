@@ -133,8 +133,10 @@ def fcheck():
     rrunsFiles = glob.glob(theDir + '/Pom.*@*')
     for dirMachine in rrunsFiles:
         Machine = dirMachine.split('@')[1]
-        procs = os.popen("ssh " + MachineIP[Machine] + \
-                         " 'ps -F -U www-data'").readlines()
+        procs0 = os.popen("ssh " + MachineIP[Machine] + \
+                         " 'ps -F -U www-data'")
+        procs = procs0.readlines()
+        procs0.close()
         alive = False
         for line in procs:
             for the_sign in signs_of_pomelo_life:

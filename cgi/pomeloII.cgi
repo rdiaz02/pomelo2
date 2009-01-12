@@ -589,8 +589,8 @@ dummy = os.system('ln -s /http/pomelo2/bin/multest_paral ' + tmpDir + '/multest_
 
 # If not limma tests then just launch, if limma see further on
 #if test_type not in limma_covariable_tests:
-if test_type != "Anova_limma":
-    tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmpDir + ' ' + test_type + ' ' + str(num_permut) +'&')
+#if test_type != "Anova_limma":
+#    tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmpDir + ' ' + test_type + ' ' + str(num_permut) +'&')
     
 createResultsFile = os.system("/bin/touch " + tmpDir + "/results.txt")
 

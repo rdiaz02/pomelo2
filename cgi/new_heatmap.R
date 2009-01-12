@@ -336,7 +336,7 @@ heatmap.2.ed <- function (x, Rowv = NULL, Colv = if (symm) "Rowv" else NULL,
 results.file <- read.table("multest_parallel.res", header = TRUE, skip = 13, sep="\t", comment.char = "",quote="")
 heatmapOpts  <- read.table("heatmapOpts", header = TRUE, sep = "\t")
 #class.names  <- read.table("class_labels", header = FALSE, sep = "\t")
-class.names <- scan("class_labels", sep = "\t", what = "char", strip.white = TRUE)
+class.names <- scan("class_labels", sep = "\t", what = "char", strip.white = TRUE, nlines = 1)
 if(class.names[length(class.names)] == "") class.names <- class.names[-length(class.names)]
 
 # Add FDR value to gene name
@@ -385,8 +385,7 @@ if(dim(rowsuse)[1] < 2 ) {
 		height <- max(15 * nrow(x), 800)
 		width  <- max(20 * ncol(x), 800)
 		height <- width <- min(max(height, width), 1200)
-	}
-	else{
+	} else {
 		height <- width <- heatmapOpts$Pixels
 	}
 	im1 <- imagemap(imagename, height = height, width = width)

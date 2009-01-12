@@ -217,7 +217,7 @@ tmpDir = tmp_dir
 # If they have chosen to continue without covariables
 if cgi_option == "continue":
     try:
-       dummy = os.system("rm COVARIABLES/*")
+       dummyi, dummyo, dummye = os.popen3("rm COVARIABLES/*")
     except:
        pass
     run_and_check = os.spawnv(os.P_NOWAIT, '/http/pomelo2/cgi/runAndCheck.py',

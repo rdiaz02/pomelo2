@@ -10,7 +10,7 @@ num.cols.covariate <- count.fields("covarR", sep = "\t",
 xdata <- matrix(xdata, nrow = length(num.cols.covariate), byrow = TRUE)
 
 Class <- scan("class_labels", sep = "\t", what = "char",
-              strip.white = TRUE)
+              strip.white = TRUE, nlines = 1)
 if(Class[length(Class)] == "") Class <- Class[-length(Class)]
 
 rows.to.use <- scan("result_row_id.txt", what = double(0))

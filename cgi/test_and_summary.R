@@ -57,7 +57,7 @@ cat(paste(covariable.names,collapse="\t"))
 sink()
 
 
-Class <- factor(scan("../class_labels", sep = "\t", what = "char", strip.white = TRUE))
+Class <- factor(scan("../class_labels", sep = "\t", what = "char", strip.white = TRUE, nlines = 1))
 # To prevent problems with a space at end of classes
 if(Class[length(Class)] == "") Class <- factor(Class[-length(Class)])
 
