@@ -41,7 +41,8 @@ import sys
 import random
 import socket
 import fcntl
-import cgitb;cgitb.enable() 
+import glob
+## import cgitb;cgitb.enable() 
 sys.stderr = sys.stdout 
 
 
@@ -53,6 +54,7 @@ tmpDir     = sys.argv[1]
 test_type  = sys.argv[2]
 num_permut = sys.argv[3]
 newDir = tmpDir.replace(ROOT_TMP_DIR, "")
+newDir = newDir.replace("/", "") ## just the number
 
 limma_tests = ("t_limma", "t_limma_paired", "Anova_limma")
 
@@ -63,7 +65,7 @@ runningProcs = '/http/pomelo2/www/Pom.running.procs'
 
 
 NCPU = 4
-MAX_MPI_CRASHES = 20
+MAX_MPI_CRASHES = 2 ## note we loop also in runAndCheck.py
 TIME_BETWEEN_CHECKS = 45
 
 
@@ -72,13 +74,18 @@ def CoxCommand(lamSuffix, tmpDir, R_pomelo_dir):
     run_command = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '"; cd ' + \
                   tmpDir +  '; ' + R_pomelo_dir + \
                   '/bin/R  --no-restore --no-readline --no-save --slave <f1-pomelo.R >>f1-pomelo.Rout 2> error.msg '
+    issue_echo('    inside CoxCommand: ready for os.system', tmpDir)
     os.system(run_command)
+    issue_echo('    inside CoxCommand: done os.system', tmpDir)
+
     
 def multestCommand(lamSuffix, tmpDir, num_permut, test_type):
     run_command = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '"; cd ' + \
                   tmpDir + '; ' + "mpiexec multest_paral " + test_type + \
                   " maxT " + num_permut + " covariate class_labels " + " > pomelo.msg"
+    issue_echo('    inside multestCommand: ready for os.system', tmpDir)
     os.system(run_command)
+    issue_echo('    inside multestCommand: done os.system', tmpDir)
 
     
 
@@ -86,6 +93,7 @@ def collectZombies(k = 10):
     """ Make sure there are no zombies in the process tables.
     This is probably an overkill, but works.
     """
+    issue_echo(" .... inside collectZombies", tmpDir)
     for nk in range(k):
         try:
             tmp = os.waitpid(-1, os.WNOHANG)
@@ -104,7 +112,7 @@ def writeErrorMessage(tmpDir):
     outf = open(tmpDir + "/pre-results.html", mode = "w")
     outf.write("<html><head><title> MPI initialization problem.</title></head><body>\n")
     outf.write("<h1> MPI initialization problem.</h1>")
-    outf.write("<p> After " + numtries + " attempts we have been unable to ")
+    outf.write("<p> After " + str(numtries) + " attempts we have been unable to ")
     outf.write(" initialize MPI.</p>")
     outf.write("<p> We will be notified of this error, but we would also ")
     outf.write("appreciate if you can let us know of any circumstances or problems ")
@@ -143,7 +151,7 @@ def cleanups(tmpDir, newDir,
     except:
         None
     try:
-        os.system('rm ' + runningProcs + '/Pom.' + newDir + '*')
+        fii = os.popen3('rm ' + runningProcs + '/Pom.' + newDir + '*')
     except:
         None
     try:
@@ -251,7 +259,11 @@ def recover_from_lam_crash(tmpDir, NCPU, MAX_NUM_PROCS, lamSuffix,
                            machine_root = 'karl'):
     """Check if lam crashed during R run. If it did, restart R
     after possibly rebooting the lam universe.
-    Leave a trace of what happened."""
+    Leave a trace of what happened.
+    FIXME: it looks like we are not using this as such as we just loop
+    below.
+    """
+
     
     os.remove(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]))
     del_mpi_logs(tmpDir, machine_root)
@@ -266,7 +278,7 @@ def recover_from_lam_crash(tmpDir, NCPU, MAX_NUM_PROCS, lamSuffix,
         None
     issue_echo('inside recover_from_lam_crash: lamhalting', tmpDir)
     try:
-        os.system('mv ' + tmpDir + '/mpiOK ' + tmpDir + '/previous_mpiOK')
+        foo = os.popen3('mv ' + tmpDir + '/mpiOK ' + tmpDir + '/previous_mpiOK')
     except:
         None
 #     check_room = my_queue(MAX_NUM_PROCS)
@@ -284,12 +296,12 @@ def del_mpi_logs(tmpDir, machine_root = 'karl'):
     """ Delete logs from LAM/MPI."""
     lam_logs = glob.glob(tmpDir + '/' + machine_root + '*.*.*.log')
     try:
-        os.system('rm ' + tmpDir + '/R_Status.txt')
+        fuu = os.popen3('rm ' + tmpDir + '/R_Status.txt')
     except:
         None
     try:
         for lam_log in lam_logs:
-            os.system('rm ' + lam_log)    
+            fuuu = os.popen3('rm ' + lam_log)    
     except:
         None
 
@@ -297,6 +309,7 @@ def del_mpi_logs(tmpDir, machine_root = 'karl'):
 ###################################################################
 ###################################################################
 
+issue_echo('pomelo_run2.py pid = '+ str(os.getpid()), tmpDir)
 
 killedlamandr = os.system('/http/mpi.log/killOldLam.py')
 
@@ -311,18 +324,20 @@ try:
 except:
     None
 
+
+count_mpi_crash = 0
+
 if test_type in limma_tests:
     R_launch = R_pomelo_dir + "/bin/R CMD BATCH --no-restore --no-readline --no-save -q limma_functions.R"
     fullPomelocommand = "cd " + tmpDir + "; " + R_launch
     os.system(fullPomelocommand)
 else: ## we use MPI
     startedOK = False
-    issue_echo('starting', tmpDir)
+    issue_echo('starting else loop', tmpDir)
     checkpoint = os.system("echo 0 > " + tmpDir + "/checkpoint.num")
     lamSuffix = generate_lam_suffix(tmpDir)
     ## We do not check for room here. Maybe later? FIXME
     issue_echo('before lamboot', tmpDir)
-    count_mpi_crash = 0
     while True:
 #     for i in range(int(MAX_MPI_CRASHES)):
         lamboot(lamSuffix, NCPU) ## note that this tries a number of times!
@@ -339,8 +354,10 @@ else: ## we use MPI
                                                   socket.gethostname())
         ## launch actual R or multtest process
         if(test_type == "Cox"):
+            issue_echo(' about to launch CoxCommand', tmpDir)
             CoxCommand(lamSuffix, tmpDir, R_pomelo_dir)
         else:
+            issue_echo(' about to launch multestCommand', tmpDir)
             multestCommand(lamSuffix, tmpDir, num_permut, test_type)
 
         time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
@@ -352,33 +369,28 @@ else: ## we use MPI
         if os.path.exists(tmpDir + "/mpiOK"):
             startedOK = True
             break
-            ## the following ain't needed, as lamboot() checks > MIN_LAM_NODES
-#             oklamnodes = int(os.popen('export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + \
-#                                       '"; lamnodes | wc').readline().split()[0]) > MIN_LAM_NODES
-#             if oklamnodes:
-#                 os.system('echo "' +
-#                           str(int(os.popen('lamnodes | wc').readline().split()[0])) +
-#                           '" > ' + tmpDir + '/MIN_LAM_NODES_CHECK')  ## debug
-#                 startedOK = True
-#                 break
-
 
         ## If we get here, MPI did not work
         count_mpi_crash += 1
+        issue_echo('   MPI did not work', tmpDir)
+        issue_echo('      count_mpi_crash = ' + str(count_mpi_crash), tmpDir)
         counterApplications.add_to_MPIErrorLog('PomeloII-' + test_type,
                                                tmpDir, socket.gethostname(),
                                                message = 'MPI crash')
+        issue_echo('   called add_to_MPIErrorLog', tmpDir)
+
         if count_mpi_crash > MAX_MPI_CRASHES:
-            logMPIerror(tmpDir, MAX_MPI_CRASHES)
             issue_echo('count_mpi_crash > MAX_MPI_CRASHES', tmpDir)
+            lam_crash_log(tmpDir, "MAX_MPI_CRASHES reached")
             cleanups(tmpDir, newDir, lamSuffix)
             writeErrorMessage(tmpDir)
             break
         else:
-            del_mpi_logs(tmpDir, machine_root)
+            issue_echo('count_mpi_crash < MAX_MPI_CRASHES', tmpDir)
+            del_mpi_logs(tmpDir, socket.gethostname())
             lam_crash_log(tmpDir, 'Crashed')
             try:
-                os.system('mv ' + tmpDir + '/mpiOK ' + tmpDir + '/previous_mpiOK')
+                fuoo = os.popen3('mv ' + tmpDir + '/mpiOK ' + tmpDir + '/previous_mpiOK')
             except:
                 None
             cleanups(tmpDir, newDir, lamSuffix)
@@ -397,8 +409,10 @@ issue_echo('before burying', tmpDir)
 burying = os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py")
 issue_echo('after burying', tmpDir)
 
+sys.exit()
 
 ### FIXME: delete myself; hard to do cause we are still running and
 ### buryPom searches for pomelo_run.py as a sign of life.
 ### But we can minimize start-up time for other pomelos
 
+### Recall that pomelo_run2.py can be called several times from runAndCheck.

@@ -22,10 +22,11 @@ sys.stderr = sys.stdout
 tmpDir     = sys.argv[1]
 
 Pomelo_MAX_time = 8 * 3600 ## 8 hours is max duration allowd for any process
-MAX_NUM_RELAUNCHES = 10 
+MAX_NUM_RELAUNCHES = 5 
 TIME_BETWEEN_CHECKS = 10
 ROOT_TMP_DIR = "/http/pomelo2/www/tmp"
 newDir = tmpDir.replace(ROOT_TMP_DIR, "")
+newDir = newDir.replace("/", "") ## just the number
 
 
 
@@ -222,7 +223,7 @@ def close_lam_env():
         ## probably redundant, and fills error logs.
         numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*"))
         if numPomelo > 1:
-            tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "cucu2*")
+            tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*")
     except:
         None
 
@@ -240,7 +241,8 @@ test_type = open(tmpDir + "/testtype", mode = "r").readline()
 try:
     num_permut = open(tmpDir + "/num_permut", mode = "r").readline()
 except:
-    num_permut = 0
+    num_permut = 1 ## just in case, although it makes no difference, but with
+    ## 0 it crashed on 32 bits, in IBM cluster
 
 
 ### Do very first run attempt.
@@ -259,8 +261,8 @@ while True:  ## we repeat until done or unrecoverale crash
         issue_echo2("Out of time")
         close_lam_env()
         printPomKilled()
-        print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/'+ \
-            newDir + '/results.html \n\n'
+#         print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/'+ \
+#             newDir + '/results.html \n\n'
         break
 
     # If file pomelo_run.finished exists, it has finished 
@@ -278,7 +280,8 @@ while True:  ## we repeat until done or unrecoverale crash
             ### FIXME: I think this is just impossible
             mpi_worked    = os.path.exists(tmpDir + "/mpiOK")
             results_exist = os.path.exists(tmpDir + "/multest_parallel.res")
-            issue_echo2("the impossible if")
+            if (mpi_worked or results_exist):
+                issue_echo2("the impossible if")
 
         if mpi_worked and results_exist:
             issue_echo2("OK run")
@@ -296,6 +299,13 @@ while True:  ## we repeat until done or unrecoverale crash
             nrelaunches = open(tmpDir + '/number_relaunches', mode = 'w')
             nrelaunches.write(str(number_relaunches) + '\n')
             nrelaunches.close()
+            ## we need to get rid of the previous pomelo_run.finished
+            ## or we will get here and do as many launches of pomelo_run2
+            ## as successive loops
+            move_run_finished = os.rename(tmpDir + '/pomelo_run.finished', 
+                                          tmpDir + '/pomelo_run.crash.finished-' +
+                                          str(number_relaunches - 1))
+            issue_echo2("renamed pomelo_run.finished")
             tryrrun = os.system('/http/pomelo2/cgi/pomelo_run2.py ' + tmpDir + 
                                 ' ' + test_type + ' ' + str(num_permut) +'&')
             issue_echo2("tried relaunch")
@@ -320,13 +330,12 @@ while True:  ## we repeat until done or unrecoverale crash
 
 ### clean ups
 try:
-    ndd = newDir.replace("/", "")
-    numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom." + ndd + "*"))
+    numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*"))
     if numPomelo > 1:
-        tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + ndd + "cucu*")
+        tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*")
     issue_echo2('Deleting Pom.running.procs in ' +
                 '/http/pomelo2/www/Pom.running.procs/Pom.' +
-                ndd + '*')
+                newDir + '*')
 except:
     None
              

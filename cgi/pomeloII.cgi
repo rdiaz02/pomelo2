@@ -585,7 +585,7 @@ dummy = os.system("cd " + tmpDir +"; /bin/sed 's/\\r\\n/\\n/g' covariate > tmpc;
 ## do too much.
 
 touchPomrunning = os.system("/bin/touch /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "@" + socket.gethostname())
-dummy = os.system('ln -s /http/pomelo2/bin/multest_paral ' + tmpDir + '/multest_paral')
+dummy = os.system('cp /http/pomelo2/bin/multest_paral ' + tmpDir + '/multest_paral')
 
 # If not limma tests then just launch, if limma see further on
 #if test_type not in limma_covariable_tests:
