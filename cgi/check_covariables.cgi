@@ -173,11 +173,14 @@ def r2html(tmp_dir, newDir):
         f = open("COVARIABLES/covariable_summary")
         summary_lines = f.read()
         f.close()
-        f = open("class_labels");subj = f.read().split();f.close()
+#         f = open("class_labels");subj = f.read().split();f.close()
         f = open("COVARIABLES/names_covariables")
         names_covar   = f.read().split()
         f.close()
-        max_df     = str(len(subj)-2)
+        ## max_df     = str(len(subj)-2)
+        f = open("max.df")
+        max_df = int(f.read().split()[0])
+        f.close()
         name_list  = '\",\"'.join(names_covar)
         name_list  = '\"' + name_list + '\"'
         # Create list of zeros
@@ -193,7 +196,7 @@ def r2html(tmp_dir, newDir):
         html_templ  = html_templ.replace("_NUMBERS_"       , newDir)
         html_templ  = html_templ.replace("_VARIABLE_LIST_" , name_list)
         html_templ  = html_templ.replace("_VALUES_LIST_"   , value_list)
-        html_templ  = html_templ.replace("_MAX_DF_"        , max_df)
+        html_templ  = html_templ.replace("_MAX_DF_"        , str(max_df))
 
         html_output = html_templ.replace("_SUMMARY_TABLE_" , html_summary)
         

@@ -28,8 +28,8 @@
 		var total_df = 0
 		for (i=0;i<list_values.length;i++){
 		       if (list_values[i]!=0){
-		             total_df   = total_df   + list_values[i]
-			     html_row   = "<tr><td>" + list_variables[i] + "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" + list_values[i] + "</td></tr>"
+		             total_df   = total_df   + Math.max(list_values[i] - 1, 1)
+			     html_row   = "<tr><td>" + list_variables[i] + "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" + Math.max(list_values[i] - 1, 1) + "</td></tr>"
 			     html_table = html_table + html_row
 		       }
 		}

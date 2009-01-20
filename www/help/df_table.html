@@ -60,16 +60,17 @@
 	     <B>What are df?</B>
 	     <br>
 	     df stands for degrees of freedom. Depending on the number of subjects there are a 
-	     certain amount of degrees of freedom. Each covariable you choose will use up a certain
+	     certain number of degrees of freedom available for the analysis. Each covariable you choose will use up a certain
 	     amount of degrees of freedom (numeric variables use one and non-numeric use as many
-	     as the number of different values,eg. gender would use two, one for male and one for 
-	     female).
+	     as the number of different values - 1; eg. gender would use 1, and a five class variable would use 4 dfs).
 	     <br>
 	     <br>
 	     <B>What is the df table for?</B>
 	     <br>
 	     The df table will display the covariables you have selected, the number of degrees of 
-	     freedom used and the maximum allowed. 
+	     freedom used and the maximum allowed. You cannot select a number of covariables such 
+	     that the used dfs will be larger than the dfs you have available. And you also do not
+	     want to run an analysis with too few dfs.
 	     <br>
 	     <br>
 	     </div >

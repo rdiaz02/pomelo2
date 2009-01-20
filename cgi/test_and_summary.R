@@ -72,8 +72,11 @@ if (table.dimensions[1] != num.subjects) {
   caughtError(err.message)
   
 }
-# Write summary of each covariable
-#sink("covariable_summary",append=TRUE)
+
+
+
+## Write summary of each covariable
+##sink("covariable_summary",append=TRUE)
 for (i in 1:table.dimensions[2]){
   sink("covariable_summary",append=TRUE)
   cat(paste(covariable.names[i],"\n"))

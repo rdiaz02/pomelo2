@@ -189,4 +189,8 @@ if (ttype == "t_limma"||ttype == "t_limma_paired" || ttype == "Anova_limma" ){
   edf1 <- as.data.frame(xdata)
   rownames(edf1) <- gene.names
   save(file = "edf1.for.limma.RData", edf1)
+  ## Here, write total available df
+  max.df <- length(Class) - length(unique(Class))
+  write(max.df, file = "max.df")
 }  
+
