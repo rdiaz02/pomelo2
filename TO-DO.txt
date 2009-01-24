@@ -1,4 +1,7 @@
-- Poner nuevo control de mpi, etc: pomelo2_run.py
+- There is lots of code (identical, or almost) that is defined in several places!!
+  (eg. cgi_error_page)
+- Remove, or make clear, that the Cox code in C is no longer used
+# Poner nuevo control de mpi, etc: pomelo2_run.py: DONE
 
 
 

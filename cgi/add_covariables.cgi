@@ -65,6 +65,17 @@ def getBaseURL():
     """ Return a fully qualified URL to this script. """
     return getQualifiedURL(getScriptname())
 
+def add_to_log(application, tmpDir, error_type,error_text):
+    date_time = time.strftime('%Y\t%m\t%d\t%X')
+    # Truncate error text
+    error_text = error_text[:300]
+    outstr = '%s\t%s\t%s\t%s\n%s\n' % (application, date_time, error_type, tmpDir, error_text)
+    cf = open('/http/mpi.log/app_caught_error', mode = 'a')
+    fcntl.flock(cf.fileno(), fcntl.LOCK_SH)
+    cf.write(outstr)
+    fcntl.flock(cf.fileno(), fcntl.LOCK_UN)
+    cf.close()
+
 def cgi_error_page(error_type, error_text, tmpDir):
     error_template = open("/http/pomelo2/www/Pomelo2_html_templates/templ-error.html","r")
     err_templ_hmtl = error_template.read()

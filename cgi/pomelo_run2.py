@@ -81,10 +81,20 @@ def CoxCommand(lamSuffix, tmpDir, R_pomelo_dir):
     
 def multestCommand(lamSuffix, tmpDir, num_permut, test_type):
     run_command = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '"; cd ' + \
-                  tmpDir + '; ' + "mpiexec multest_paral " + test_type + \
+                  tmpDir + '; ' + "mpiexec -d multest_paral " + test_type + \
                   " maxT " + num_permut + " covariate class_labels " + " > pomelo.msg"
     issue_echo('    inside multestCommand: ready for os.system', tmpDir)
-    os.system(run_command)
+    fi,foe = os.popen4(run_command)
+    fi.close()
+    outcommand = foe.read()
+    if (outcommand.find('bad_alloc') > (-1)): 
+        dummy   = os.system('cd ' + tmpDir + '; ' + 'touch MemoryERROR')
+        issue_echo(' MEMORY ERROR (from inside multestCommand)', tmpDir)
+    elif (outcommand.find('exit status 9') > (-1)): ## I think this are ALWAYS memory
+        ## errors, but I am not sure. The C++ coudl should be changed
+        ## to have checks in each new, and return a custom exit status number. FIXME
+        dummy   = os.system('cd ' + tmpDir + '; ' + 'touch MemoryERROR')
+        issue_echo(' MEMORY ERROR (from inside multestCommand)', tmpDir)
     issue_echo('    inside multestCommand: done os.system', tmpDir)
 
     
@@ -120,6 +130,29 @@ def writeErrorMessage(tmpDir):
     outf.write("</body></html>")
     outf.close()
     shutil.copyfile(tmpDir + "/pre-results.html", tmpDir + "/results.html")
+
+
+def writeMemoryErrorMessage(tmpDir):
+    out1 = open(tmpDir + "/natural.death.pid.txt", mode = "w")
+    out2 = open(tmpDir + "/kill.pid.txt", mode = "w")
+    out1.write('MEMORY ERROR!!')
+    out2.write('MEMORY ERROR!!')
+    out1.close()
+    out2.close()
+    outf = open(tmpDir + "/pre-results.html", mode = "w")
+    outf.write("<html><head><title> Out of memory problem.</title></head><body>\n")
+    outf.write("<h1> Out of memory problems.</h1>")
+    outf.write("<p> Your data are too large for the current load and memory")
+    outf.write("available in our servers. We are getting out of memory problems.")
+    outf.write("Try merging replicates and/or reducing number of permutations.")
+    outf.write("<p> We will be notified of this problem, but we would also ")
+    outf.write("appreciate if you can let us know of the specific circumstances.")
+    outf.write("</body></html>")
+    outf.close()
+    shutil.copyfile(tmpDir + "/pre-results.html", tmpDir + "/results.html")
+
+
+
 
 
 ###################################################################
@@ -362,11 +395,24 @@ else: ## we use MPI
 
         time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
         collectZombies()
+
+        if os.path.exists(tmpDir + "/MemoryERROR"):
+            issue_echo(' MEMORY ERROR ', tmpDir)
+            counterApplications.add_to_MPIErrorLog('PomeloII-' + test_type,
+                                                   tmpDir, socket.gethostname(),
+                                                   message = 'MPI MEMORY ERROR')
+            lam_crash_log(tmpDir, "MPI MEMORY ERROR")
+            cleanups(tmpDir, newDir, lamSuffix)
+            writeErrorMessage(tmpDir)
+            break
+            
         
         if os.path.exists(tmpDir + "/RterminatedOK"):
+            issue_echo('   startedOK : RterminatedOK exists', tmpDir)
             startedOK = True
             break
         if os.path.exists(tmpDir + "/mpiOK"):
+            issue_echo('   startedOK : mpiOK exists', tmpDir)
             startedOK = True
             break
 
@@ -408,6 +454,10 @@ issue_echo('before burying', tmpDir)
 
 burying = os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py")
 issue_echo('after burying', tmpDir)
+
+killingoldLam = os.system("cd " + tmpDir + "; /http/mpi.log/killOldLamAllMachines.py")
+issue_echo('after killing all old lam', tmpDir)
+
 
 sys.exit()
 

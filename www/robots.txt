@@ -1,2 +1,5 @@
 User-agent: *
-Disallow: /Examples/
+Disallow: /tmp/
+Disallow: /selenium-core-0.7.1/
+Disallow: /Pomelo2_html_templates/
+Disallow: /Pom.running.procs/

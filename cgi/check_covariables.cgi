@@ -7,6 +7,7 @@ import parse_contrs_comp
 import shutil
 import fcntl
 import socket
+import time
 import cgitb; cgitb.enable() ## zz: eliminar for real work?
 sys.stderr = sys.stdout
 
@@ -27,6 +28,28 @@ def getQualifiedURL(uri = None):
     result = "%s://%s" % (schema, host)
     if uri: result = result + uri
     return result
+
+
+def add_to_log(application, tmpDir, error_type,error_text):
+    date_time = time.strftime('%Y\t%m\t%d\t%X')
+    # Truncate error text
+    error_text = error_text[:300]
+    outstr = '%s\t%s\t%s\t%s\n%s\n' % (application, date_time, error_type, tmpDir, error_text)
+    cf = open('/http/mpi.log/app_caught_error', mode = 'a')
+    fcntl.flock(cf.fileno(), fcntl.LOCK_SH)
+    cf.write(outstr)
+    fcntl.flock(cf.fileno(), fcntl.LOCK_UN)
+    cf.close()
+
+def cgi_error_page(error_type, error_text):
+    error_template = open("/http/pomelo2/www/Pomelo2_html_templates/templ-error.html","r")
+    err_templ_hmtl = error_template.read()
+    error_template.close()
+    err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
+    err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TEXT_" , error_text)
+    add_to_log("Pomelo II", tmpDir, error_type, error_text)
+    err_templ_hmtl = "Content-type: text/html\n\n" + err_templ_hmtl 
+    print err_templ_hmtl
 
 
 # Upload file and deal with weird files
@@ -208,7 +231,13 @@ def r2html(tmp_dir, newDir):
 covariable_sel_file ="/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/covariables.anova"
 #*******************************************
 form    = cgi.FieldStorage()
-tmp_dir = form['tmp_dir'].value
+try:
+    tmp_dir = form['tmp_dir'].value
+except:
+    tmpDir = 'NULL'
+    cgi_error_page('tmp_dir error',
+                   'You should NOT call this cgi directly. It is to be called by the application')
+    sys.exit()
 os.chdir(tmp_dir)
 cgi_option = form['cgi_option'].value
 f = open("testtype");test_type = f.read().strip();f.close()  

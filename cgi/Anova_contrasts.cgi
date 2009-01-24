@@ -170,7 +170,8 @@ def drawDiagram(contr1,contr2,contr3):
 	
 def draw_new_venn():
 	if os.path.exists("vennNames"):
-		os.system("rm venn*.png")
+		fi,fo,fu = os.popen3("rm venn*.png")
+		fi.close(); fo.close(); fu.close()
 		drawvenn = "cd " + tmp_dir + "; " + "/http/R-pomelo2/bin/R CMD BATCH --no-restore --no-readline --no-save -q draw_venn.R 2> error.msg "
 		dummy_run    = os.system(drawvenn)
 

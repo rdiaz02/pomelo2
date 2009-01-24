@@ -257,7 +257,10 @@ issue_echo2("After first tryrrun")
 
 while True:  ## we repeat until done or unrecoverale crash
     issue_echo2("top of while")
+    number_relaunches = int(open(tmpDir + "/number_relaunches", mode = "r").readline())
+
     if (time.time() - os.path.getmtime(tmpDir + "/covariate")) > Pomelo_MAX_time:
+        ## FIXME: do we want to try and relaunch??
         issue_echo2("Out of time")
         close_lam_env()
         printPomKilled()
@@ -267,7 +270,6 @@ while True:  ## we repeat until done or unrecoverale crash
 
     # If file pomelo_run.finished exists, it has finished 
     run_finished = os.path.exists(tmpDir + "/pomelo_run.finished")
-    number_relaunches = int(open(tmpDir + "/number_relaunches", mode = "r").readline())
 
     if run_finished:
         issue_echo2("run_finished")
@@ -280,7 +282,7 @@ while True:  ## we repeat until done or unrecoverale crash
             ### FIXME: I think this is just impossible
             mpi_worked    = os.path.exists(tmpDir + "/mpiOK")
             results_exist = os.path.exists(tmpDir + "/multest_parallel.res")
-            if (mpi_worked or results_exist):
+            if (mpi_worked and results_exist):
                 issue_echo2("the impossible if")
 
         if mpi_worked and results_exist:
@@ -302,6 +304,7 @@ while True:  ## we repeat until done or unrecoverale crash
             ## we need to get rid of the previous pomelo_run.finished
             ## or we will get here and do as many launches of pomelo_run2
             ## as successive loops
+            close_lam_env()
             move_run_finished = os.rename(tmpDir + '/pomelo_run.finished', 
                                           tmpDir + '/pomelo_run.crash.finished-' +
                                           str(number_relaunches - 1))
