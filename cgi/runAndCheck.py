@@ -227,6 +227,41 @@ def close_lam_env():
     except:
         None
 
+
+
+def did_lam_crash(tmpDir, machine_root = 'karl'):
+    """ Verify whether LAM/MPI crashed by checking logs and f1.Rout
+    for single universe lamboot."""
+    OTHER_LAM_MSGS = 'Call stack within LAM:'
+    lam_logs = glob.glob(tmpDir + '/' + machine_root + '*.*.*.log')
+    try:
+        in_error_msg = int(os.popen('grep MPI_Error_string ' + \
+                                    tmpDir + '/f1-pomelo.Rout | wc').readline().split()[0])
+    except:
+        in_error_msg = 0
+#     no_universe = int(os.popen('grep "Running serial version of papply" ' + \
+#                                tmpDir + '/f1.Rout | wc').readline().split()[0])
+## We do NOT want that, because sometimes a one node universe is legitimate!!!
+    if in_error_msg > 0:
+        for lam_log in lam_logs:
+            os.system('rm ' + lam_log)
+#     elif no_universe > 0:
+#         os.system("sed -i 's/Running serial version of papply/already_seen:running serial version of papply/g'" + \
+#                   tmpDir + "/f1.Rout")
+    else: ## look in lam logs
+        in_lam_logs = 0
+        for lam_log in lam_logs:
+            tmp1 = int(os.popen('grep "' + OTHER_LAM_MSGS + '" ' + \
+                                lam_log + ' | wc').readline().split()[0])
+            if tmp1 > 0:
+                in_lam_logs = 1
+                break
+    if (in_error_msg > 0) or (in_lam_logs > 0):
+        return True
+    else:
+        return False
+
+
 ################################################################
 ################################################################
 ######################                  ########################
@@ -254,6 +289,8 @@ tryrrun = os.system('/http/pomelo2/cgi/pomelo_run2.py ' + tmpDir +
 time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
 issue_echo2("After first tryrrun")
 
+
+### FIXME: where do we check for lam_mpi_crash and return the message that likely memory problem?
 
 while True:  ## we repeat until done or unrecoverale crash
     issue_echo2("top of while")

@@ -130,16 +130,21 @@ if(length(unique(num.cols.covariate)) > 1) {
 tryxdata <- try(
                 xdata <- scan("covarR", what = double(0), sep = "\t")
                 )
-if(class(tryxdata) == "try-error")
+if(class(tryxdata) == "try-error") {
+  if (length(grep("cannot allocate", tryxdata)) > 0) {
+    caughtUserError(paste("Memory error.\n",
+                        "Your data are too large for the current load of the servers.\n",
+                        "You can try later, or get in touch with us.\n"))
+    } else {
     caughtUserError("The array data file is not of the appropriate format. Most likely there are non-numeric values.\n")
+  }
+}
 
 xdata <- matrix(xdata, nrow = length(num.cols.covariate), byrow = TRUE)
 
-
+### FIXME: this should not be done this way!!!
 system("cut -f1 covariate > geneNames")
 geneNames <- read.table("geneNames",quote="")[, 1]
-
-
 
 coxph.fit.pomelo0 <- function (x, y, init = NULL,
                               control, method = "efron",  rownames = NULL) {
@@ -270,6 +275,12 @@ cox.parallel <- function(x, time, event, MaxIterationsCox = 200) {
 save.image()
 
 rescox <- cox.parallel(t(xdata), Time, Event, MaxIterationsCox = 200)  
+
+### FIXME: the above can blow up, and we won't be properly notified.
+### and it will continue "running" up to 8 hours. Bad.
+### look at function did_lam_crash in adacgh2/cgi/runAndCheck.py
+### and put that in the runAndCheck for Pomelo.
+
 
 p.values.original <- data.frame(
                                 Row = 1:length(geneNames),

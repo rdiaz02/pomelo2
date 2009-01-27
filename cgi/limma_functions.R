@@ -154,23 +154,44 @@ num.columns   <- covariate.dim[2]
 # If test type is t_limma do t_limma test
 if (test.type == "t_limma"){
   tryTest <- try(fit <- t.test.limma(edf1, class.labels))
-  if(class(tryTest) == "try-error")
-    caughtError("Multest crashed trying to run limma t test.\n This is most likely due to invalid data.\n") 
+  if(class(tryTest) == "try-error") {
+    if (length(grep("cannot allocate", tryTest)) > 0) {
+      caughtError(paste("Memory error.\n",
+                        "Your data are too large for the current load of the servers.\n",
+                        "You can try later, or get in touch with us.\n"))
+    } else {
+      caughtError("Multest crashed trying to run limma t test.\n This is most likely due to invalid data.\n")
+    }
+  }
 }
 
 # If test type is t_limma_paired do t_limma_paired test
 if (test.type == "t_limma_paired"){
   paired.vector <- scan("paired_indicator")
   tryTest <- try(fit <- paired.t.test.limma(edf1, class.labels, paired.vector))
-  if(class(tryTest) == "try-error")
-    caughtError("Multest crashed trying to run paired limma t test.\n This is most likely due to invalid data.\n") 
+  if(class(tryTest) == "try-error") {
+    if (length(grep("cannot allocate", tryTest)) > 0) {
+      caughtError(paste("Memory error.\n",
+                        "Your data are too large for the current load of the servers.\n",
+                        "You can try later, or get in touch with us.\n"))
+    } else {
+      caughtError("Multest crashed trying to run paired limma t test.\n This is most likely due to invalid data.\n")
+    }
+  }
 }
 
 # If test type is Anova_limma do Anova_limma test
 if (test.type == "Anova_limma"){
   tryTest <- try(fit <- anova.test.limma(edf1, class.labels))
-  if(class(tryTest) == "try-error")
-    caughtError("Multest crashed trying to run Anova limma test.\n This is most likely due to invalid data.\n") 
+  if(class(tryTest) == "try-error") {
+    if (length(grep("cannot allocate", tryTest)) > 0) {
+      caughtError(paste("Memory error.\n",
+                        "Your data are too large for the current load of the servers.\n",
+                        "You can try later, or get in touch with us.\n"))
+    } else {
+      caughtError("Multest crashed trying to run Anova limma test.\n This is most likely due to invalid data.\n")
+    } 
+  }
 }
 
 # Create results table (either F test or t test)
@@ -194,3 +215,9 @@ rownames(results.table) <- array.rownum
 
 # Write table to file
 results.to.file(results.table, test.type, num.genes, num.columns)
+
+
+
+
+
+  
