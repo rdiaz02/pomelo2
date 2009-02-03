@@ -57,6 +57,18 @@ if (min(tclass) < 2) {
     caughtUserError("At least one class has less than 2 samples. This is not allowed")
 }
 
+
+# Make sure class labels have same length as number of covariate columns
+if(length(Class) != dim(xdata)[2]) {
+    emessage <- paste("The class file and the covariate file\n",
+                      "do not agree on the number of arrays: \n",
+                      length(Class), " arrays according to the class file but \n",
+                      dim(xdata)[2], " arrays according to the covariate data.\n",
+                      "Please fix this problem and try again.\n")
+    caughtUserError(emessage)  
+  }
+
+
 if (ttype == "t_limma"||ttype == "t_limma_paired" || ttype == "Anova_limma" ){
     
     if(length(gene.names) < 2)
@@ -75,15 +87,6 @@ if((ttype == "t"||ttype == "t_limma"||ttype == "t_limma_paired" ) & (length(tcla
 	  caughtUserError(emessage)
 	  }
 
-# Make sure class labels have same length as number of covariate columns
-if(length(Class) != dim(xdata)[2]) {
-    emessage <- paste("The class file and the covariate file\n",
-                      "do not agree on the number of arrays: \n",
-                      length(Class), " arrays according to the class file but \n",
-                      dim(xdata)[2], " arrays according to the covariate data.\n",
-                      "Please fix this problem and try again.\n")
-    caughtUserError(emessage)  
-  }
 
 # For permutation tests check no permutation can leave a class with a
 # single value (due to missing values) 
@@ -137,9 +140,9 @@ if(ttype == "t_limma_paired") {
                           paste(names(which(paired.freq!=2)), collapse = " "), "\n"))
   }
   
-  # Check size paired indicator equal size class labels
+                                        # Check size paired indicator equal size class labels
   if (length(paired.indicator) != length(Class)){
-
+    
     emessage <- paste("The class file and paired indicator file\n",
                       "do not agree on the number of arrays: \n",
                       length(Class), " arrays according to the class file but \n",
