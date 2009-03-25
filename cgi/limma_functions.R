@@ -9,6 +9,22 @@ caughtError <- function(message) {
     quit(save = "no", status = 11, runLast = TRUE)
 }
 
+## not estimable?
+
+not.estim <- function() {
+  lw <- warnings()
+  warn.string <- paste(paste(names(lw), collapse = " "),
+                       paste(lw, collapse = " "),
+                       sep = " ")
+  problema <- length(grep("not estimable",
+                          warn.string))
+  if(problema) {
+###    print("uuu")
+    caughtError("Some coefficients of your design are not estimable. This is not a problem of Pomelo but of your design. You should talk to a statistican.")
+  }
+}
+
+
 # Recieve class labels, look for covariables and return model matrix 
 covariables.model.matrix <- function(class.labels, test.type){
   tryread.covars <- try(
@@ -97,6 +113,10 @@ anova.test.limma <- function(edf1, class.labels){
     fit.A         <- eBayes(lima.mod.0.cr)
  # }
   return(fit.A)
+
+    ### yes, the above is all correct, the fitting of models with and without
+    ### and the obtentino of the F statistic
+    ### And the examples of numerical testing do check it in yet another way.
 }
 
 # Get results table and produce multest_parallel.res file with the
@@ -192,7 +212,10 @@ if (test.type == "Anova_limma"){
       caughtError("Multest crashed trying to run Anova limma test.\n This is most likely due to invalid data.\n")
     } 
   }
+  
 }
+
+not.estim()
 
 # Create results table (either F test or t test)
 array.rownum  <- sequence(num.genes)
