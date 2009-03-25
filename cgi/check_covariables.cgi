@@ -285,9 +285,12 @@ if cgi_option=="check_covariables":
 if cgi_option=="covar_launch":
     #print "Content-type: text/html\n\n"
     keys_form =  form.keys()
+    keys_form.remove('tmp_dir')
+    keys_form.remove('cgi_option')
+    keys_form.remove('submit_button')
     covars_list = []
-    for i in range(len(keys_form)-3):
-        i_key = keys_form[i+2]
+    for i in range(len(keys_form)):
+        i_key = keys_form[i]
         covars_list.append(i_key)
     covars_string = "\t".join(covars_list)
     if len(covars_string) != 0:
