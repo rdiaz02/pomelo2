@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
 	// Get number of permutations input by user, calculate number of permutations 
 	// per node (matrix num rows) and recalculate total permutations. 
 	unsigned int aux_num_permut= static_cast<unsigned int> (atoi(argv[3]));
-	unsigned int matrix_numrows = static_cast<unsigned int>(floor(atof(argv[3])/(numberOFcpu-1)));
+	unsigned int matrix_numrows = static_cast<unsigned int>(ceil(atof(argv[3])/(numberOFcpu-1)));
 //	unsigned int matrix_numrows = static_cast<unsigned int>(std::floor(aux_num_permut/(numberOFcpu-1)));
 	unsigned int num_permut     = matrix_numrows*(numberOFcpu-1);
 	

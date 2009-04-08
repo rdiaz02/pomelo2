@@ -124,6 +124,7 @@ Help index for Pomelo II</div>
     </ul>
   </li>
   <li><a href="#toc13">Limma tests vs permutation tests</a></li>
+  <li><a href="#toc13b">Permutation tests: number of permutations</a></li>
   <li><a href="#toc14">Using additional covariables</a></li>
   <li><a href="#toc15">Program input</a>
     <ul compact="compact">
@@ -430,6 +431,89 @@ noticeable with small sample sizes.</p>
 <br>
 <br>
 </div>
+
+
+<div id="results_title" class="Title_box">
+<a name="toc13b">Permutation tests: number of permutations</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+<p>If you use a permutation test, you need to choose the number of
+  permutations (or use the default of 200000). The actual number of
+  permutations that Pomelo II will use is often slightly larger than this
+  one. Why? Becasue, for computational reasons, each of the slave CPUs
+  (remember that permutation tests are parallelized in Pomelo II) does the
+  same number of tests. Therefore, the number of permutation tests used
+  must be an integer multiple of the number of CPUs that will be used in
+  this particular run.</p>
+
+<p>In more detail: At any time, the number of computing nodes available in
+  our cluster is often between 28 and 30: sometimes a few nodes might not
+  be available because of maintenance, network problems, etc. And each
+  node has four CPUs available so, at any given time, there will generally
+  be between 111 (i.e., 28 * 4 - 1) and 119 (i.e., 30 * 4 - 1) slave CPUs
+  available. Thus, when you request a given number of permutations, say
+  200000, we find out the closest integer to 200000 that is also larger
+  than
+  200000 and so that it is a multiple of the available number of slave
+  nodes. In other words, we find the smallest integer no less than 200000
+  (more precisely, we use the mathematical function "ceiling") that is a
+  multiple of the available number of slave nodes. For instance, I just
+  requested a run of 200000 permutations, but the actual number used was
+  200039; at that time, 30 nodes were available, meaning Pomelo II could
+  use 119 slave CPUs, and 200039 is the smallest integer no less than
+  200000 that is a multiple of 119 (200039 = 119 * 1681; but 119 * 1680 =
+  199920, which is less than 200000).</p>
+
+<p><b>Number of permutations relative to the number of available number of
+permutations in the data set.</b> With small sample sizes, the number of
+possible permutations of the labels is often small. For instance, with two
+classes, each of 5 subjects, there are only a total of 252 possible
+permutations of labels. In this case, you can find the "null distribution"
+by exhaustively enumerating all permutations, and computing the
+corresponding test statistic. The permutation tests in Pomelo II (and in
+virtually all permutation-based statistical software), however, are not
+exhaustive: we use random permutations. We do not attempt to exhaustively
+list all the possible permutations, but sample (randomly) over the space
+of all possible permutations. This is the only strategy available with
+moderate to large sample sizes; for example, with 30 individuals in two
+groups of 15, there are over 150 million permutations of labels. Listing
+all possible permutations is not a reasonable strategy, and we will
+instead use random permutations, for instance taking a random sample of
+200000 permutations of the labels.  What this means is that, if the number
+of possible permutations is small (say, 252) and you use 200000
+permutations with Pomelo II, you will be repeatedly drawing many identical
+permutations of the labels. This is not a problem, and you will find that
+the p-values you observe quickly stabilize as you increase the number of
+permutations, without having to use very large numbers of
+permutations. In this case, since you are repeatedly sampling on a set
+      that has a total of 252 events, a moderate number of permutations (say, 2520
+      permutations) should give you a very good picture of the actual
+      exhaustive list of permutations (you should have drawn, on average,
+      about 10 of each possible permutation); an even larger number of
+      permutations (say 5000 permutations) will give you an even better picture.</p>
+
+<p>Regardless of what is the actual number of possible permutations of
+your data set, the estimated p-value is a binomial variate, and thus has a
+variance that is inversely proportional to the number of permutations;
+using a number of permutations over 200000 ought to provide you with
+estimates of the p-value that are reasonable precise even in the tails of
+the distribution, and regardless of whether the actual number of
+permutations is 252 or several billions. Of course, if you need estimates
+of the p-values with extremely variance, you should increase the number of
+permutations.</p>
+
+</div>
+<br>
+<br>
+</div>
+
+
+
+
 
 <div id="results_title" class="Title_box">
 <a name="toc14">Using additional covariables</a></div>
@@ -1055,7 +1139,7 @@ rdf:resource="http://web.resource.org/cc/ShareAlike"
 <!--       <td align="left"><font size="2"><a -->
 <!--         href="http://bioinfo.cnio.es">Bioinformatics Unit</a></font></td> -->
       <td align="right"><font size="2"> Send comments to the <a
-        href="mailto:rdiaz02@gmail.com">webmaster</a>. Last rev. 22-Dec-2008</font></td>
+        href="mailto:rdiaz02@gmail.com">webmaster</a>. Last rev. 8-April-2009</font></td>
       <td align="right" width="200"><a
         href="http://asterias.bioinfo.cnio.es"><img
         src="http://pomelo2.bioinfo.cnio.es/asterias_app.png" width="200"
