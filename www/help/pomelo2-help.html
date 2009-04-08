@@ -139,6 +139,7 @@ Help index for Pomelo II</div>
     </ul>
   </li>
   <li><a href="#toc22">Output files</a></li>
+  <li><a href="#toc30">How long does it take?</a></li>
   <li><a href="#toc23">Examples and data sets</a></li>
   <li><a href="#toctutoriales"><B>VIDEO TUTORIALS</B></a></li>
   <li><a href="#toc24">Code, authors and acknowledgements</a></li>
@@ -844,6 +845,63 @@ compare classes individually.</p>
 <br>
 <br>
 </div>
+
+
+
+<div id="results_title" class="Title_box">
+<a name="toc30">How long does it take?</a></div>
+
+<div id="results" class="results_box">
+<br>
+
+
+<div class="actual_text">
+
+<p>Running times are variable and will depend of course on the size of
+  your data set and the analysis. Running times do depend too on the load
+  of the cluster (e.g., if many other users are running Pomelo with very
+  large data sets). Occasionally, with very large data sets and under
+  heavy load a computation might fail (because one or more nodes run out
+  of memory); Pomelo II detects these problems, and will keep trying to
+  relaunch the computations. The maximum time we allow Pomelo II to run
+  (or try to run) any give computation is 8 hours. If any process lasts
+  longer than 8 hours, it is stopped and an error message indicating that
+  limits is given as final result.</p>
+
+<p>Most computations, however, last a lot less than 8 hours. To give you
+an idea, these are computing times (i.e., from the time the data arrive at
+the server until the HTML file with the results is produced) for a few
+cases. 100000 genes, 500 subjects in two groups of 250 each, using a
+permutation t-test: 3 hours (this run had Pomelo automatically relaunch
+itself after an MPI failure related to limited memory). The same data
+using limma: under 7 minutes. However, for the above two cases the
+expression data set was over 250 MB; thus, data transfer from the remote
+location to the server took in excess of 15 minutes. And then, once
+results were obtained, transferring back the HTML page with the 100000
+rows of output took over 5 minutes. A smaller data set with 100000 genes
+and 100 subjects in two groups of 50 each (a 50 MB file), using a
+permutation t-test: 30 minutes. With a Cox model, about 12 minutes. These
+same data using using limma: under 3 minutes. However, as before, a very
+time consuming step was displaying the actual results (an HTML file with
+100000 rows). </p>
+
+
+<p>Thus, as a rule of thumb, after your data are uploaded to the server
+(i.e., when you receive the message "This is an autorefreshing page") you
+should expect to wait between a few minutes and a couple of hours, unless
+your data set is really huge. But, in the later case, most of your waiting
+time will be spent uploading the data and receiving back the results.</p>
+  
+</div>
+<br>
+<br>
+</div>
+
+
+
+
+
+
 
 <div id="results_title" class="Title_box">
 <a name="toc23">Examples and data sets</a></div>
