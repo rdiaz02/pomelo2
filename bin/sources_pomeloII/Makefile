@@ -14,5 +14,5 @@ readMissing.o: readMissing.cpp
 	mpiCC -c readMissing.cpp -Wall -O3 -ffloat-store
 
 fisher2.o: fisher2.c
-	mpicc -c fisher2.c -Wall -O3 -ffloat-store
+	mpicc.lam -c fisher2.c -Wall -O3 -ffloat-store
 

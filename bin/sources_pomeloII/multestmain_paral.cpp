@@ -183,13 +183,21 @@ int main(int argc, char *argv[])
 	rank = MPI::COMM_WORLD.Get_rank();
 	numberOFcpu = MPI::COMM_WORLD.Get_size();
 
+	if(numberOFcpu < 2) {
+	    cout << "ERROR: this is a parallelized program. " << endl;
+	    cout << "       At least two CPUs are needed, " << endl;
+	    cout << "       but only one is available. " << endl;
+	    exit(1);
+	  }
+
+
 	// Get number of permutations input by user, calculate number of permutations 
 	// per node (matrix num rows) and recalculate total permutations. 
 	unsigned int aux_num_permut= static_cast<unsigned int> (atoi(argv[3]));
 	unsigned int matrix_numrows = static_cast<unsigned int>(ceil(atof(argv[3])/(numberOFcpu-1)));
 //	unsigned int matrix_numrows = static_cast<unsigned int>(std::floor(aux_num_permut/(numberOFcpu-1)));
 	unsigned int num_permut     = matrix_numrows*(numberOFcpu-1);
-	
+
 	// Some general variables
 	string test_type = argv[1];
 	string minP = argv[2];

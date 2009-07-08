@@ -80,8 +80,13 @@ def CoxCommand(lamSuffix, tmpDir, R_pomelo_dir):
 
     
 def multestCommand(lamSuffix, tmpDir, num_permut, test_type):
+#     run_command = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '"; cd ' + \
+#                   tmpDir + '; ' + "mpiexec -d multest_paral " + test_type + \
+#                   " maxT " + num_permut + " covariate class_labels " + " > pomelo.msg"
+## use mpirun.lam instead of mpiexec (or mpiexec.lam) to allow
+## it to run even if OpenMPI or others are installed
     run_command = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '"; cd ' + \
-                  tmpDir + '; ' + "mpiexec -d multest_paral " + test_type + \
+                  tmpDir + '; ' + "mpirun.lam C multest_paral " + test_type + \
                   " maxT " + num_permut + " covariate class_labels " + " > pomelo.msg"
     issue_echo('    inside multestCommand: ready for os.system', tmpDir)
     fi,foe = os.popen4(run_command)
