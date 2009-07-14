@@ -58,7 +58,7 @@ newDir = newDir.replace("/", "") ## just the number
 
 limma_tests = ("t_limma", "t_limma_paired", "Anova_limma")
 
-R_pomelo_dir = '/http/R-pomelo2'
+R_pomelo_dir = '/var/www/bin/R-local-7-LAM-MPI'
 
 
 runningProcs = '/http/pomelo2/www/Pom.running.procs'

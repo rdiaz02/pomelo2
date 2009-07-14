@@ -109,6 +109,7 @@ MachineIP = {
 signs_of_pomelo_life = ('PomeloII_Cox', 'limma_functions.R',
                         'draw_venn.R', 'calculate_contrasts.R',
                         'heatimage.R', 'new_heatmap.R',
+			'mpirun.lam multest_paral',
                         'mpiexec multest_paral',
                         'R-pomelo2',
                         'testContinuous.R',

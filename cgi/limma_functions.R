@@ -12,6 +12,7 @@ caughtError <- function(message) {
 ## not estimable?
 
 not.estim <- function() {
+## for previous versions of limma, that left "not estimable" as warning
   lw <- warnings()
   warn.string <- paste(paste(names(lw), collapse = " "),
                        paste(lw, collapse = " "),
@@ -23,6 +24,17 @@ not.estim <- function() {
     caughtError("Some coefficients of your design are not estimable. This is not a problem of Pomelo but of your design. You should talk to a statistican.")
   }
 }
+
+not.estim2 <- function(lw) {
+  problema <- length(grep("not estimable",
+                          lw))
+  if(problema) {
+###    print("uuu")
+    caughtError("Some coefficients of your design are not estimable. This is not a problem of Pomelo but of your design. You should talk to a statistican.")
+  }
+}
+
+
 
 
 # Recieve class labels, look for covariables and return model matrix 
@@ -202,7 +214,7 @@ if (test.type == "t_limma_paired"){
 
 # If test type is Anova_limma do Anova_limma test
 if (test.type == "Anova_limma"){
-  tryTest <- try(fit <- anova.test.limma(edf1, class.labels))
+  lw <- capture.output(tryTest <- try(fit <- anova.test.limma(edf1, class.labels)))
   if(class(tryTest) == "try-error") {
     if (length(grep("cannot allocate", tryTest)) > 0) {
       caughtError(paste("Memory error.\n",
@@ -216,6 +228,7 @@ if (test.type == "Anova_limma"){
 }
 
 not.estim()
+not.estim2(lw)
 
 # Create results table (either F test or t test)
 array.rownum  <- sequence(num.genes)

@@ -43,7 +43,7 @@ MAX_covariate_size = 363948523L ## a 500 * 40000 array of floats
 MAX_time_size = 61897L
 MAX_PERMUT = 90000000  ## maximum number of permutations
 
-R_pomelo_dir = '/http/R-pomelo2'
+R_pomelo_dir = '/var/www/bin/R-local-7-LAM-MPI'
 
 
 #************  SELENIUM STUFF **************
