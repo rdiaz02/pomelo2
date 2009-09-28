@@ -6,6 +6,7 @@ caughtError <- function(message) {
     sink(file = "pomelo.msg")
     cat(message)
     sink()
+    write(99, "number_relaunches")
     quit(save = "no", status = 11, runLast = TRUE)
 }
 
@@ -224,11 +225,12 @@ if (test.type == "Anova_limma"){
       caughtError("Multest crashed trying to run Anova limma test.\n This is most likely due to invalid data.\n")
     } 
   }
-  
+not.estim()
+if(exists("lw")) not.estim2(lw)
+
 }
 
-not.estim()
-not.estim2(lw)
+
 
 # Create results table (either F test or t test)
 array.rownum  <- sequence(num.genes)

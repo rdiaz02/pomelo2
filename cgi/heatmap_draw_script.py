@@ -68,7 +68,11 @@ else:
 	f=open("organism")
 	organism = f.read().strip()
 	f.close()
-	f=open("numberPixels")
+        try:
+            f=open("numberPixels")
+        except:
+            print "****####@@@@****  ERROR:         numberPixels NOT found, but NoImagemapPossible neither"
+            print "               we are in " + os.getcwd()
 	pixel_width = int(f.read().strip())
 	f.close()
 	img_map.change_image(html_name, pixel_width-10, idtype, organism)

@@ -155,16 +155,22 @@ def printPomKilled():
     html_error_page("POMELO KILLED", error_text, tmpDir)
 
 def printOKRun():
+    issue_echo2("       at 1")
     f=open(tmpDir + "/testtype")
     test_type = f.read().strip()
     f.close()
+    issue_echo2("       at 2")
     draw_heatmaptable = "cd " + tmpDir + "; python /http/pomelo2/cgi/heatmap_draw_script.py;" 
-    # Cox script draws its own tables
+    issue_echo2("       at 2.2")    
+# Cox script draws its own tables
     if test_type != "Cox":
 	    draw_heatmaptable = draw_heatmaptable + "python2.4 /http/pomelo2/cgi/generate_table.py"
     dummy = os.system(draw_heatmaptable)
+    issue_echo2("       at 2.3")
     Heatresults = open(tmpDir + "/heat_new.html")
+    issue_echo2("       at 2.4")
     table_file  = open(tmpDir + "/p.v.sort.FDR.a.html")
+    issue_echo2("      at 3")
     # If limma anova we use template that has the links that take you to class comparison
     if test_type == "Anova_limma":
         template    = open("/http/pomelo2/www/Pomelo2_html_templates/results_template_limmma_anova.html","r")
@@ -186,6 +192,7 @@ def printOKRun():
     temp_array[1] = temp_array[1].replace("_TEMP_DIR_",tmpDir)
     final_html  = temp_array[0] + table_res + temp_array[1] + resultsFile + temp_array[2]
     final_heat_map = templ_heat[0] + resultsFile + templ_heat[1]
+    issue_echo2("     before writing pre-results")
     outf = open(tmpDir + "/pre-results.html", mode = "w")
     outf.write(final_html)
     outf.close()
@@ -292,6 +299,28 @@ issue_echo2("After first tryrrun")
 
 ### FIXME: where do we check for lam_mpi_crash and return the message that likely memory problem?
 
+### We should change the logic for pomelo.
+### If there is a user problem, we have to cycle until we get 5 crashes.
+### The loop below expects a multest_parallel.res, which is not produces
+### (e.g., using test test_limma_not_estimable).
+### We cannot just output an empty multest_parallel.res,
+### cause that would launch printOKRun, and
+### lots of things there are missing.
+
+### If we allow looping up to 5 times, then we eventually launch
+### the multest_error.
+
+### So we will do something very ugly: make the program believe we have looped
+### those many times. We do this by setting number_relaunches to 99
+### from within limma_functions.R
+
+### But this should be handled in a better way!!!!!
+
+
+
+
+
+
 while True:  ## we repeat until done or unrecoverale crash
     issue_echo2("top of while")
     number_relaunches = int(open(tmpDir + "/number_relaunches", mode = "r").readline())
@@ -325,7 +354,9 @@ while True:  ## we repeat until done or unrecoverale crash
         if mpi_worked and results_exist:
             issue_echo2("OK run")
             close_lam_env()
+	    issue_echo2("       after close_lam_env")
             printOKRun()
+	    issue_echo2("       after printOKRun")
             ## this AIN'T a CGI. None of this print stuff should be here!!
 #            print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
             break
@@ -370,6 +401,7 @@ while True:  ## we repeat until done or unrecoverale crash
 
 ### clean ups
 try:
+    issue_echo2('      at final try')
     numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*"))
     if numPomelo > 1:
         tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*")

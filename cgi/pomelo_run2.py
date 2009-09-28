@@ -59,7 +59,7 @@ newDir = newDir.replace("/", "") ## just the number
 limma_tests = ("t_limma", "t_limma_paired", "Anova_limma")
 
 R_pomelo_dir = '/var/www/bin/R-local-7-LAM-MPI'
-
+#R_pomelo_dir = '/http/R-www'
 
 runningProcs = '/http/pomelo2/www/Pom.running.procs'
 
@@ -368,7 +368,9 @@ count_mpi_crash = 0
 if test_type in limma_tests:
     R_launch = R_pomelo_dir + "/bin/R CMD BATCH --no-restore --no-readline --no-save -q limma_functions.R"
     fullPomelocommand = "cd " + tmpDir + "; " + R_launch
+    issue_echo(' about to do fullPomelocommand', tmpDir)
     os.system(fullPomelocommand)
+    issue_echo(' just did fullPomelocommand', tmpDir)
 else: ## we use MPI
     startedOK = False
     issue_echo('starting else loop', tmpDir)
@@ -450,7 +452,8 @@ else: ## we use MPI
 ## Recall the process (R or multtest) are blocking! We wait for them to finish or crash.
 
 issue_echo('before touch pomelo_run_finished', tmpDir)
-            
+
+## why the next line!!!!??? FIXME
 dummy   = os.system('cd ' + tmpDir + '; ' + 'touch pomelo_run.finished')
 issue_echo('before collectZombies', tmpDir)
 

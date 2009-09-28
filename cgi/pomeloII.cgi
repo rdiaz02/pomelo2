@@ -616,6 +616,10 @@ if test_type != "Anova_limma":
     print "Location: "+ getQualifiedURL("/tmp/" + newDir + "/results.html"), "\n\n"
 
 else:
+    ## the following to always leave a trace of where we were
+    os.system('echo "' + str(os.getpid()) + ' ' + socket.gethostname() +\
+                  '"> ' + tmpDir + '/run_and_checkPID_pre')
+    
     covar_direc = tmpDir + "/COVARIABLES"
     os.mkdir(covar_direc)
     os.chmod(covar_direc, 0770)
