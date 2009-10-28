@@ -65,7 +65,7 @@ tryttype <- try(
 	 ttype <- scan("testtype", what = "char")
          )
 
-if(testtype == "Cox") {
+if(ttype == "Cox") {
   tryevent <- 
     try(Event <- scan("censored_indicator", sep = "\t", strip.white = TRUE))
   if(class(tryevent) == "try-error")
