@@ -31,6 +31,8 @@ Maybe there are trailing tabs or spaces at the end of the file?\n")
 
 
 
+
+
 #if(any(is.na(Class)))
 #    caughtUserError("The continuous dependent variable (or survival time)
 #file contain missing values; that is not allowed\n")
@@ -57,6 +59,25 @@ if(any(vararray < 1e-9)) {
                           "The genes with constat values are in positions ",
                           paste(which(vararray < 1e-9), collapse = " ")))
 }
+
+
+tryttype <- try(
+	 ttype <- scan("testtype", what = "char")
+         )
+
+if(testtype == "Cox") {
+  tryevent <- 
+    try(Event <- scan("censored_indicator", sep = "\t", strip.white = TRUE))
+  if(class(tryevent) == "try-error")
+    caughtUserError("The status or censored indicator file is not of the appropriate format\n")
+
+  if(!length(Event)) caughtUserError("No censored indicator file\n")
+
+  if(is.na(Event[length(Event)])) Event <- Event[-length(Event)]
+  if (length(Class) != length(Event))
+    caughtUserError("Survival time and event are not the same length\n")
+}
+
 
 write.table(xdata, file = "outcovarR", sep = "\t", na = "nan", quote = FALSE,
             row.names = FALSE, col.names = FALSE)

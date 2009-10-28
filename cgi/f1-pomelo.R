@@ -56,7 +56,8 @@ rm(list = ls())
 
 caughtUserError <- function(message) {
     sink(file = "pomelo.msg")
-    cat(message)
+#  sink(file = "errorInput")
+  cat(message)
     sink()
     quit(save = "no", status = 11, runLast = TRUE)
 }
@@ -85,7 +86,8 @@ cat("\n")
 sink()
 
 
-
+### FIXME: many tests below are not needed, since already in testInputCommon,
+### testContinuous.R
 
 
 trytime <- try(

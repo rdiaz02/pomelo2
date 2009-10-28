@@ -133,8 +133,12 @@ def mpi_error():
     html_error_page("MPI ERROR", error_text, tmpDir)
 
 
+### FIXME: This is ugly and a hack; if there is a user error, report as such!!!
+    
+
 def multest_error():
     error_text = "<p> PomeloII crashed. </p>"
+    error_text = error_text + "<p> The problem could be in the code or in your data </p>"
     error_text = error_text + "<p> Below is the output from the execution: </p>"
     if os.path.exists(tmpDir + "/pomelo.msg"):
         pom_out = open(tmpDir + "/pomelo.msg")
@@ -144,8 +148,8 @@ def multest_error():
         text  = ''.join(lines)
         error_text = error_text + text
         
-    error_text = error_text + '\n\n MACHINE: ' + str(socket.gethostname())
-    html_error_page("MULTEST ERROR", error_text, tmpDir)
+    error_text = error_text + '<br> MACHINE: ' + str(socket.gethostname())
+    html_error_page("ERROR", error_text, tmpDir)
 
 
 def printPomKilled():

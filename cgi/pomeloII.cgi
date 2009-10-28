@@ -543,18 +543,18 @@ if test_type in testDiscrete_tests:
         cgi_error_page("INPUT ERROR", err_msg)
         rif.close()
         sys.exit()
-else:
+else: 
     os.system('cp /http/pomelo2/cgi/testContinuous.R ' + tmpDir + '/.')
     Rcommand = "cd " + tmpDir + "; " + R_pomelo_dir + "/bin/R CMD BATCH --no-restore --no-readline --no-save -q testContinuous.R 2> error.msg "
     Rrun = os.system(Rcommand)
     if os.path.exists(tmpDir + '/errorInput'):
         rif = open(tmpDir + '/errorInput', mode = 'r')
         rift = rif.read()
-        
         err_msg = cgi.escape(rift)
         cgi_error_page("INPUT ERROR", err_msg)
         rif.close()
         sys.exit()
+
         
 
 ## It would be good to use spawnl or similar instead of system,
