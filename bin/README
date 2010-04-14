@@ -11,6 +11,10 @@ This is the (only) help for the usage of the stand-alone Pomelo II:
 
 
 USAGE:
+
+(Actually, use mpirun explicitly so do
+mpirun.lam C multest_paral and the rest of the arguments)
+
 multest test maxT/minP nperm covariate_data class_data censored_data
       test:  type of test; one of:
       FisherIxJ: minP Fisher's exact test for IxJ contingency "
