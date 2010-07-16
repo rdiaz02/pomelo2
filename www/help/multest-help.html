@@ -1,0 +1,721 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<style type="text/css">
+                 body { margin-left: 10%; margin-right: 10%; color: black; background: white;}
+                 h1 { margin-left: -8%;}
+                 h2,h3,h4,h5,h6 { margin-left: -4%; }
+div.box { border: solid; border-width: thin; width: 100%; padding: 0.2em; }
+div.color {background: rgb(204,204,255);
+           padding: 0.5em;
+           border: none;
+           }
+body { font-family: Verdana, sans-serif; }
+h1,h2 { font-family: Verdana, sans-serif; }
+pre { font-family: monospace; }
+               </style>
+
+
+  <head>
+    <title>Help for the multiple testing programs</title>
+  </head>
+
+  <body background="cnio_tiled_nj.gif">
+    <h1>A quick intro to multiple testing issues</h1>
+    <h2>Why correct for multiple testing?</h2>
+    <p>If you are in this page it is most likely because you have a data matrix with
+    many rows of variables that you want to examine for possible differences
+    between conditions (e.g., cancer types) or for their association
+    with another variable (e.g., survival time). For each row of your data
+    matrix, you wish to carry out a statistical test to determine if that
+    variable is associated to the outcome of interest (type of cancer,
+    survivorship, etc). For the sake of illustration, lets suppose
+    we have two classes of patients (some with and some without cancer)
+    and gene expression data for, say, 6000 genes. If we want to examine
+    which of the genes are differentially expressed, we could carry out
+    a <i>t-test</i> for each gene, to see if the expression of each gene differs
+    between the two classes. The <i>t-test</i> will return the test statistic
+    (the <i>t</i>) and the associated <i>p-value</i>. Finally,
+    we can choose those genes with a <i>p-value</i> less than 0.05. </p>
+    
+    <p> <font size="-1"> (Recall that a <i>p-value</i> is the probability,
+    under the null hypothesis [in our case, the "natural" null would
+    be that there are no differences between the two classes in the level
+    of gene expression] of obtaining a value of the test statistic 
+    as extreme as, or more extreme than, the one observed in the sample.
+    Small <i>p-values</i> provide evidence against the null hypothesis,
+    and in the "Fisherian tradition" of p-values
+    as strength of evidence against the null 
+    a <i>p-value</i> between 0.05 and 0.01 is considered
+    some evidence against the null, a value between 0.01 and 0.001 is usually
+    considered strong evidence against the null, and a value less than 0.001 is usually
+    considered very strong evidence against the null. Note, however, that p-values
+    can sometimes be a tricky business, and there is quite a bit of misunderstanding
+    about what they really mean (e.g., misinterpreting the Fisherian
+    approach to p-values as evidence as a frequentist statement, or the importance
+    of tail behavior); a nice review of some of these issues can be
+    found in a <a href="http://www.stat.duke.edu/~berger/papers/02-01.html">  paper by J. Berger</a>.)</font>.
+    </p>
+
+
+    <p>What is wrong with using the "p-value less than 0.05" rule?
+      The problem is that since we are examining many tests we cannot simply
+      use the individual <i>p-value</i> of each <i>t-test</i> to judge 
+      the significance of the difference. In our example, each t-test
+      is used to examine the null hypothesis of
+      no difference in gene expression between patients with and without cancer, 
+      and since we have 6000 genes, we are conducting 6000 hypothesis
+      tests, one corresponding to each t-test. If we
+      were to consider significant each of the tests
+      with a <i>p-value</i> smaller than, say, 0.05, the Type I family wise (i.e.,
+      over the family of 6000 tests) error rate would be much
+      larger than 0.05 (the Type I error rate is the probability
+      of rejecting the null hypothesis when the null is in fact true). In other
+      words, we would end up with an excessive number of false rejections; thus the
+      need to account for multiple testing.</p>
+    <p> It is obvious, then, that for DNA microarray, tissue arrays, and for
+      many similar problems, multiple testing is a pervasive and widespread problem.
+      And there are ways to approach the problem.</p>
+
+    <h2>Ways to deal with multiple testing</h2>
+    <p>Most multiple testing procedures, such as the classical Bonferroni
+      method, the sequential methods of Hochberg  or Holm,
+      or the resampling-based methods of Westfall & Young (1993 ["Resampling-based
+      multiple testing; examples and methods for <i>p-value</i> adjustment." John Wiley & Sons, New York]), 
+      are designed to control directly
+      the Type I Family Wise Error Rate (FWER), or the probability that one
+      of more of the rejected hypotheses is true. An alternative approach is the
+      control of the False Discovery Rate (FDR). With the FDR approach
+      we control the expected number of false rejections among the 
+      rejected hypotheses (for a simple exposition, see
+      Benjamini et al., 1999, available <a href="http://www.math.tau.ac.il/~ybenja/ExB.html"> here </a>).
+      In general, procedures that control the FWER tend to be more conservative
+      than those that control the FDR, but the appropriateness of one approach
+      over the other should be based upon the context and type of research.
+      More discussion on the different methods can be found on the documentation for
+      the 
+      <a href="http://www.bioconductor.org/packages/release/html/multtest.html"> "multtest" package for R</a>,
+      the page of <a href="http://www.math.tau.ac.il/~ybenja"> Yoav Benjamini </a> 
+      and the <a href="http://www.math.tau.ac.il/~roee/index.htm"> FDR methodology and applications </a> page,
+      and the paper by  
+      <a href = "http://www.stat.Berkeley.EDU/users/terry/zarray/Html/matt.html"> Dudoit et al.</a> </p>
+
+    <p>We can also think of the control for multiple testing in terms 
+      of "adjusted p-values" for hypothesis H<font><sub>j</sub> as
+      the level of the entire test procedure at which H<font><sub>j</sub> would
+      just be rejected given the values of all the tests statistics involved
+      (Westafall & Young, 1993; Dudoit et al. submitted). This is a convenient way
+      to think about the control for multiple testing, that brings us close
+      to the intuition behind the fisherian use of p-values as "strength of evidence against the null".
+      Moreover, the results from our programs will be presented as adjusted p-values.</p>
+
+    <p>When choosing a procedure another three issues that can be important are
+      the difference between <b> strong vs. weak control</b>, possible 
+      <b>assumptions about independence or restricted dependence structure in the test statistics</b>, and
+      <b> power</b>. Most of these can be quite involved technically, and we refer
+      to the literature above for details. We will just quickly summarize them with
+      the aim of helping to understand what our programs do. <b> Strong</b> control of
+      the error rate refers to control of the error rate under any combination of true and
+      false null hypotheses (in our example, under any possible combination of
+      some subsets of genes being differentially expressed and others not). There is <b> weak </b>
+      control when we control the error rate only under the complete null (e.g., that
+      none of the 6000 genes are differentially expressed). Strong control is highly desirable,
+      and makes our life computationally simpler. The 
+      <b>assumptions about independence or restricted dependence structure in the test statistics</b>
+      refer to some control procedures requiring independence of the test statistics (or
+      independence + restricted dependence). It is nice if our controlling procedures work
+      regardless of the type of dependence structure (i.e., under arbitrary dependence
+      of the test statistics). More discussion on this issue can be found in the paper
+      "The control of the false discovery rate in multiple testing under dependency", by
+      Benjamini and Yekutieli,  available (in postscript and pdf formats) from 
+      <a href="http://www.math.tau.ac.il/~ybenja/"> Benjamini's page </a>. Finally, 
+      <b> power</b> refers to the capacity to detect null hypothesis which are false
+      (technically, the larger the power the smaller the Type II error rate ---probability
+      of not declaring false a null hypothesis which is, in fact, false); the larger the power
+      the better. But there are trade-offs between power and Type I error rate. Tests that
+      increase power (= decrease Type II error rates) at the expense of increasing Type I 
+      error rates are usually referred to as "liberal" procedures, whereas those that
+      are willing to sacrifice power to keep Type I error rates bounded are often
+      referred to as "conservative" (don't ask me about the political analogy!)</p>.
+
+    <h2>The procedures we have implemented</h2> Our programs will give you
+    adjusted p-values using three different procedures:
+    <ul>
+      <li> The FDR method of <a name="BH"> <b>Benjamini & Hochberg (1995;</b></a> J. Royal Statistical Society B, 57:289-300).
+	This procedure offers strong control of the FDR only under independence and some specific
+	types of positive dependence of the tests statistics.</li>
+      <li> The FDR method of <a name="BY"><b>Benjamini & Yekutieli </b></a>(pdf version available 
+	<a href="http://www.math.tau.ac.il/~ybenja/depApr27.pdf"> here </a>). This method offers
+	strong control under arbitrary dependency of test statistics.</li>
+      <li>(It should be noted that the FDR procedures use the unadjusted p-values
+	and that we compute these unadjusted p-values using random permutations; thus, 
+	since the p-values are obtained from a permutation test, they 
+	do not depend on distributions such as the t or the normal ---they are "distribution free").</li>
+      <li> The step-down methods of Westfall & Young (1993), which offer strong control
+	of the FWER. We allow the use of both the so-called <a name="maxT-minP"> <b>maxT </b></a> method (based on the test
+	statistic instead of the p-value), as illustrated in algorithm
+	4.1 [p. 116] of Westfall & Young) and the so-called <b>minP</b> method
+	(algorithm 2.8 in p. 66 of Westfall & Young, 1993) which uses the p-value
+	of each permutation (instead of the test statistic directly). For 
+	Fisher's exact test on contingency tables, however, we use only the <b>minP </b> method 
+	(our program uses a fast algorithm ---due to Mehta and Patel; we use the C code as implemented
+	in R; see <a href="#mehta"> below </a>--- for obtaining the exact 
+	p-value from an IxJ contingency table, and thus there is no reason to use maxT).
+      (Further discussion on maxT vs. minP can be found <a href="#minP">below</a>.)</li>
+    </ul>
+
+    
+    <h2>Multiple testing and the search for the best classifier</h2>
+    <p>It is important to understand that the procedures used here do not,
+    by themselves, find the best classifier. To return to our initial example,
+    if we were to build a classifier with, say, those genes that have an
+    adjusted <i>p-value</i> < 0.05, there is no guarantee that it will be the best
+    (or even just a good) classifier of the two groups of subjects.</p>
+
+    <p>To re-emphasize what we are doing, we are finding those genes
+      that have an expression that is significantly different between
+      the two groups of patients. However building a good classifier
+      means, for instance, obtaining a "rule" (algorithm, function, whatever)
+      for predicting whether a patient has cancer or not. These are two
+      very different tasks. In the first case we ask "Given an individual
+      with cancer and an individual without cancer, is the expression of gene X different?", whereas
+      in the second we say "Given that I know the expression of genes X, Y, Z,
+      can I predict whether the patient has cancer or not"? In other words, 
+      we are reversing the roles of conditioned and conditioning terms.</p>
+
+    <p>As two examples of the kinds of problems we could find,
+      notice first that good classifiers might be those that include
+      genes that although in isolation (i.e. on their own) do not differ between
+      conditions are, however, good predictors, given that we have taken 
+      other genes into account. Second, we might find, say, that genes X, Y, Z are
+      highly significantly different between cancer and non-cancer patients; however,
+      if the expression of genes X, Y, and Z is highly correlated, it is likely
+      that the best classifier would not include all three of them, since
+      X, Y, and Z have redundant information. </p>
+
+    <p>Thus, finding good classifiers is a different task from adjusting
+      for multiple testing. Multiple testing, however, can be used as a first
+      step in searching for good classifiers (as a kind of screening device). Moreover,
+      even in the absence of any search for good classifiers, multiple testing
+      is still important to prevent us from searching for the possible biological
+      implications of a gene whose supposed difference between conditions is
+      just a spurious result (which could have been avoided with due
+      control of multiple testing)</p>
+
+    <p>A hint if you use Pomelo as a screening or filtering device to find
+       a good predictor/classifier. You might want to select (for further input into,
+       say, a linear discriminant or logistic regression routine) only those
+       that are best predictors on their own. You can easily do this with Pomelo,
+       since it returns the ranked genes. In some cases, if you only want to
+       sort according to, say, <em> t-statistic</em> but you don't care about
+       p-values, you might want to set the number of permutations to a very 
+       small number (such as 1). Alternatively (and probably better) you might
+       not want to select based on <em> p-value</em> alone, but you still can use
+       the <em>p-value</em> as a ranking criterion, because this gives you an
+       indication of the evidence that the genes differ between groups, and
+       thus genes that differ more are more likely better candidates for
+       further analyses.</p>  
+
+	
+    <h1>Program input</h1>
+    <h2>Data files and format</h2>
+    <h3>Data files</h3>
+    <p> The files "Covariates" and "Class labels or dependent variable" are required. In
+      addition, if your data are survival data, you need to provide a file with the
+      "Censored indicators".</p>
+    <dl>
+      <dt><a name="covar.file">Covariates file</a></dt> <dd>The file with the covariates; generally the gene
+	expression data. In this file, rows represent variables (generally genes), and
+	we want to find those variables that are most distinctly expressed among
+	groups (e.g., a <i>t-test</i> or ANOVA) or that are most related to, say, survival
+	(e.g., Cox model).</dd>
+
+      <dt><br><a name="class.labels">Class labels</a> or dependent variable</dt><dd>These are generally the class labels
+	(e.g., healthy or affected, or different types of cancer) that group the samples, or
+	the survival times of patients, or another dependent continuous variable (if regression
+	models). In our analyses we want to find which of the
+	covariates is significantly different among (between) the classes given here, or which
+	of the covariates is significantly related to the dependent variable.</dd>
+
+
+      <dt><br><a name="censored.indicator">Censored indicator</a></dt><dd> For survival 
+	data only. An observation is censored
+	if the time of occurrence of the event (usually death) has not yet been observed.
+	We will represent uncensored observations with a 1 (because we do have observed the
+	time of death) and censored observations with a 0 (meaning that the survival time
+	given is only a lower bound).</dd>
+      </dl>
+    
+
+    <h3><a name="requirements">Data format for covariates</a></h3>
+    <p> The file for the covariates should be formated as:</p>
+    <ul>
+      <li>Data should conform to the "genes in rows,  patients (or classes) in columns".
+	  In other words, each row of the data file is supposed to represent a different gene
+	  or variable and we will carry-out <b>one test for each row</b>.</li>
+      <li>Use tab (\t) as the field separator within rows.</li>
+      <li>Use newline or carriage return (\n) between rows. It is also convenient to finish each
+	      file with one (\n).</li>
+      <li>There should be no rows with non-numeric data. In particular,
+	  eliminate initial rows that contain things such as headers with the IDs of
+	  patients.</li>
+      <li>The first column is assumed to contain the ID information for genes, marker,
+	or whatever. This will be used to label the output (but it also means that whatever is
+	in the first column is not used in the analyses).</li>
+      <li>You can have an arbitrary number of rows with comments. These rows must always start
+	with an "#".</li>
+      <li>(For those of you familiar with 
+	<a href="http://bioinfo.cnio.es/cgi-bin/tools/clustering/sotarray?Help=Data"> SOTA</a>, you will see that data formating is
+	the same as for SOTA, except we allow a little bit more flexibility in the coding
+	of missing values ---see below).</li>
+      <li><b>Missing values</b> can be coded in three different ways: a) as "NA"; b) with one 
+	  empty space (i.e., " "); c) as nothing (i.e, simply leave these places empty, 
+	  as in 
+	  <a href="http://bioinfo.cnio.es/cgi-bin/tools/clustering/sotarray?Help=Data"> SOTA</a>).
+
+	
+	  However, you can have PROBLEMS if the number of missing data in any row (gene) is 
+	  equal to the number of subjects in the smallest category - 1. This is because in the
+	  permutation test you can have all the missing values assigned to the smallest category,
+	  but to compute the variance of a sample you need at least two subjects.
+      </li>
+      <li> This is a small covariate data file using "NA" for missing values:
+	<div class="color">
+	  <pre>
+gene1	23.4	45.6	NA	76	85.6
+genW@	NA	34	23	NA	13
+geneX#	23	25.6	29.4	13.2	NA   </pre> </div>
+	</li>
+      <li> This is the same file using nothing for missing values:
+	<div class="color">
+<pre>
+gene1	23.4	45.6	  	76	85.6
+genW@	  	34	23	  	13
+genX#	23	25.6	29.4	13.2	     </pre> </div>
+      </li>
+      <li> This is the same file using nothing for missing values and a first row with comments:
+	<div class="color">
+<pre>
+#ID     g1      g2      g1      g1      g2
+gene1	23.4	45.6	  	76	85.6
+genW@	  	34	23	  	13
+genX#	23	25.6	29.4	13.2	     </pre> </div>
+      </li>
+      <li> In the last example, the first row is used to make it clearer, to the human user,
+	what the different columns are. And that first row, conveniently edited, could
+	be used as the data for the class labels. The program, however, will discard
+	that row of data, since it is preceded by an "#".</li>
+
+	  
+	<li>Beware that <b>some spreadsheet programs (such as Excel)</b> will give you a lot of headaches if you
+	use nothing as a missing value code when the missing values are at the end of the row. That is
+	because for those lines or rows those programs truncate the row at the last valid observation (i.e., they
+	discard the last trailing tabulators that separate empty space), so you
+	will have a file where different rows have different number of values. And Pomelo will rightfully complain
+	and will not run. The output from SOTA or the preprocessor are OK (they do not do such mischievous things).
+	For example, the last file, if it came from Excel, would probably have five columns in the last
+	row (and not six columns, as it should), and Pomelo would give you an error message and stop till you fix it.
+	Solutions? Use NA for passing missing values to Pomelo (but note that SOTA does not take NA as a valid
+	missing value code), or do not pass those files through spreadsheets.</li>      
+      <li>There are some <b>restrictions on missing values</b>. In particular if you
+	are using t-tests, the larges number of missing values in any one gene
+	should never exceed (size of smallest group - 2), and if you are using
+	ANOVA should never exceed (size of smallest group - 1). These restrictions
+	are caused by the permutation nature of the tests. If you have, say, 5 missing
+	values and you are using a t-test where the smallest group has 6 observations,
+	the 5 missing could be randomly assigned to that group, but we would not
+	be able to compute a variance (the denominator is N- 1, which in our case is 1-1 = 0).
+	Similar for ANOVA. (If your data just barely fulfil the restrictions on missing values, you might
+	want to ask yourself if the results are worth being trusted with such
+	a large proportion of missing values.) </li>
+
+    </ul>
+
+
+    <h3>Data format for class labels and censored indicators</h3>
+    <p>Separate values by tab (\t), and finish the file with a carriage return or newline. 
+      No missing values are allowed here. Class labels can be anything you wish; they
+    can be integers, they can be words, whatever. Of course, if you are using regression or
+    Cox model, your dependent variable must be a number. And if you are using a t-test
+    there can only be two classes.</p> 
+    <p> This is a simple example of class labels file 
+	<div class="color">
+	  <pre> 
+CL1	CL2	CL1	CL4	CL2	CL2	CL1	CL4	  </pre>	</div>      
+    </p>
+
+    <h3>Data format for Fisher's exact test on contingency tables</h3>
+    <p>The <b>class labels</b>, as above, can be any arbitrary coding. The values in the 
+      <b>covariate</b> data file should be consecutive integers that start at 0. This is an example
+      file:</p>
+	<div class="color">
+<pre>
+#gene   c1      c1      c2      c2      c3      c3
+gene1	0	0	1	1	1	0	
+gene2	NA	2	NA	1	0	0	
+gene3	NA	1	2	NA	0	0	
+gene4	1	1	2	2	2	0	
+gene5	1	0	0	2	1	2	
+gene6	2	1	1	2	0	0	
+gene7	2	1	1	0	2	0	
+gene8	2	2	0	0	NA	NA</pre> </div>
+    <p>As you can see, most of these rows would yield (if we used the first row as
+      the class labels) 3x2 tables or 3x3 tables (e.g., 3rd or 5th rows). </p>
+      
+<h2>Tests available</h2>
+    <h3><a name="contigency.table">Contingency table (Fisher's test)</a></h3>
+    <p>For contingency tables. It obtains the unadjusted <i>p-value</i> using Fisher's exact
+	test. This test would be the one to use if we have, say, different classes of patients (e.g.,
+	six types of cancers) and for a set of 1000 markers we can have either presence/absence of each marker
+      in each patient (this
+	would yield 1000 contingency tables of dimensions 6x2 ---each marker by each cancer type),
+	or we can have several levels of (unordered) expression, say four types of expression (which
+	would yield 1000 6x4 tables). </p>
+    <p>If the markers have more than two levels of expression and
+	these are ordered (say, from less to more) other tests could be more powerful, such as the
+	Cochran-Armitage test (which we have not yet implemented). Another alternative with
+	categorical response data are logistic and multinomial models (which we are in the process of
+	implementing).</p>
+    <h3><a name="t.test">t</a></h3>
+    <p>The all-famous <em>t-test</em>. Used to compare an interval variable (one where
+	distances between levels make sense) between two groups. For example, we could compare
+	gene expression data between two types of patients. We use here the test statistic for
+        the case where we do not assume equal variances in the two groups.</p>
+      
+    <h3><a name="ANOVA">ANOVA</a></h3>
+    <p>Analysis of variance. We compare between two or more groups the value of an interval
+      data. For example, the gene expression among five types of cancer.</p>
+    <h3><a name="Regression">Regression</a></h3>
+    <p>Linear regression. We try to predict the (interval scaled) values of a dependent
+      variable based on the values of an independent, interval scaled variable. A typical example
+      is predicting body weight (the dependent variable) using height as the independent or
+      predictor variable.</p>
+    <h3><a name="Cox">Cox model</a></h3>
+    <p>A widely used model for survival data. With survival data we often have censored
+	observations (e.g., a patient that is not yet dead, and all we know is that it leaved for at
+	least 100 days after initiation of the treatment).</p>
+    <p>Currently, the Cox model included here works with interval-scaled covariates; if you pass it a categorical covariate, it can ONLY
+      have two possible values; otherwise, you will get meaningless results (it will be treated as an interval
+      scaled covariate).</p>
+    <p>The Cox model implemented only works with right-censored observations, not left-censored or doubly-censored ones.
+      As well, it is of course your responsibility to make sure that assumptions about censoring (e.g., lifetimes and censoring
+      times are independent, etc) are reasonable.</p>
+    <h2><a name="minP">maxT/minP</a></h2>
+    <p>Do you want to use maxT or minP? A thorough discussion is beyond this help document and
+      you might want to look at the paper by  
+      <a href = "http://www.stat.Berkeley.EDU/users/terry/zarray/Html/matt.html"> Dudoit et al.</a>
+      and the documentation for the
+      <a href="http://www.bioconductor.org/packages/release/html/multtest.html"> "multtest" package for R</a>.</p>
+
+    <p>Basically, maxT uses the test statistics to obtain the adjusted p-values; in (a brutal) summary, it
+      examines how many of the permuted tests statistics are larger than the one under consideration
+      taking into account the order of the observed test statistics. minP, in contrast, examines how
+      many of the permuted p-values are smaller than the one under consideration (taking
+      into account the order of the observed p-values). Thus, for maxT we only need
+      to obtain the test statistic, but to use minP we need further computation because we need to obtain the p-value of that
+      statistic. [For both maxT and minP the improvement in power with respect to
+      single-step methods ---such as the popular Bonferroni--- comes from the step-down nature 
+      of the method, which makes successively
+      smaller adjustements. Note further that both the maxT and minP procedures 
+      take into account (=can increase power by taking advantage of) the dependence structure
+      in the data set by using permutations that preserve that dependence structure].</p>
+    <p>In general maxT and minP, with a very large number of permutations, should yield similar results, except when, for instance, there
+      are wide differences in the number of missing values in some of the rows
+      of the data set. In such a case, the null distribution of the test statistics
+      is different for different genes, which means that, when we use maxT, in the calculation of the adjusted
+      p-values different genes are given different weight, and thus the adjusted p-value
+      calculations are unbalanced (see also Westfall & Young, 1993, p. 50 and 114 and ff.) which
+      might be undesiderable.</p>
+    <p>On the other hand, it seems that minP can be more variable than maxT, specially with small or
+      moderate number of permutations; in general, it seems that procedures based on minP 
+      are more sensitive to the number of permutations (i.e., results can vary considerably among
+      runs with different numbers of permutations and, for small to moderate permutations,
+      among runs with the same number of permutations) and tend to be more
+      conservative (Dudoit et al., submitted). One of the reasons for the variability
+      of minP has to do with the calculation of the unadjusted p-values with permutation; suppose you have 4000 genes,
+      of which 20 have unadjusted p-values smaller than 0.00001; you cannot expect
+      to estimate those unadjusted p-values accurately with, say, 50000 permutations, and
+      thus from one run to another, the relative position of genes (given by
+      increasing unadjusted p-value) might change, and if the relative position changes,
+      the estimated adjusted p-values will also change.</p>
+    <p>If you have relatively large data set (e.g., 5000 genes) our general advice
+      would be to start using maxT, with about 10000 to 50000 permutations, 
+      to get an overall idea, and make sure
+      the program is not giving you errors. For many tests, you should have results 
+      within 20 minutes to an hour (see <a href="#how-long">below</a>). Then, once everything
+      is running and there are no mistakes with the data, etc, 
+      you might consider using minP if you do not want to weight different
+      genes differently (according, for instance, to degrees of freedom); if you
+      use minP, you probably would want to use a very large number of
+      permutations (say, 200000).</p>
+    <p>With contingency tables, the only test available now is
+      Fisher's exact test, which is a minP method. Why? Originally, we also
+      had a maxT based method, which uses a statistic that is an equivalent test
+      statistic to Fisher's for 2x2 tables (and a similar equivalent
+      test could be devised for arbitrary IxJ tables). However, for virtually all tables, the distribution of this
+      statistic is not the same across genes, and thus can lead to severely
+      unbalanced maxT adjustments. Moreover, Fisher's exact test has the advantage of
+      giving us directly (i.e., without using permutation ---see <a href="#mehta"> here </a> for more details) 
+      the exact p-value of each contingency table, thus reducing
+      some of variability that affects other minP procedures.
+      (We might "rehabilitate" the former maxT-based test if people
+      want.)</p>
+    <p>The usual concern about using minP, besides variability and sensitivity to number of permutations,
+      is the time it can take if one uses nested permutations. With the way we have implemented
+      minP (see below) there is no need for nested permutations, and that reduces time quite a bit.
+      However, minP is still considerably slower than maxP (because we need to store temporary results in a file).</p>
+    <p> So how have we implemented minP? We haven't used nested permutations (for each permutation, 
+      do a whole bunch more permutations to find the p-value of the permuted test statistic). 
+      The logic is as follows: if we were to do nested permutations,
+      those permutations would be just the same as randomly re-labeling cases. But that is actually what we
+      do in our basic permutations (where, of course, we change the labels of complete
+      columns simultaneously). What we can do is do our basic set of permutations first and store
+      all those test statistics. Then, once the permutations are all done, for each of the permutations,
+      we compute its unadjusted <em>p-value</em> by examining how many of the permutations (for that same
+      row or variable) were larger than the current one. In other words, after we are done with
+      the permutations, we find the permuted p-value of each permuted test statistic, by comparing the test
+      statistic with the other test statistics for that row. And we can now use minP on those unadjusted <em>p-values</em> that we
+      found by permutation.</p>
+    <h2><a name="NumPermut">Number of permutations</a></h2>
+    <p> (Please see also <a href="minP">the discussion on maxT vs. minP</a>.)</p>
+    <p>The default is set to 50000 random permutations. You probably don't want anything less than
+      10000, though for some cases (say, only a few variables) you could manage with as
+      few as 5000. Sometimes you might want to go up to 100000 permutations; this will give you
+      peace of mind. Execution time ought to increase
+      linearly with number of permutations, so you can get a very good idea of how long your
+      run of 50000 will last by executing one of 10000 or less and multiplying (this is not necessarily true
+      with minP).</p>
+    <p>Using maxT with a number of permutations larger than, say, 50000, your estimates of the adjusted
+      p-values will likely be very stable; however, there can still be considerable noise
+      in the estimation of the unadjusted p-values: you cannot expect to estimate well, say,
+      a "true" unadjusted p-value of 0.000001 when you do 100000 permutations.</p>
+    <p> With FDR the permutations are not used for the adjusted p-values, but the FDR is based
+      upon the unadjusted p-value, and thus you want to have a decent estimation of the
+      unadjusted p-values (recall that the unadjusted p-values are computed
+      using permutation tests).</p>
+    
+    <p>Originally, we had some code that allowed one to use systematic permutation (i.e.,
+      examine all possible rearrangements of the data). However, almost all cases we have
+      seen with real data have too many subjects to make systematic permutation feasible (number
+      of rearrangements of data way exceeding 10<sup>6</sup>) and we have disabled this feature. If you
+      have very few subjects, just set the number of random permutations to a very large number,
+      and that should be very, very close to the exact value from the systematic permutation.</p>
+    
+    <h2><a name="how-long">How long does it take?</a></h2> 
+    <p>It depends on the test, the size of the file, and the number of permutations. The following
+      examples might give you an idea (yes, some are "toy-examples"), since computing time
+      increases linearly with number of permutations and subjects in most of these cases.</p>
+    <ul>
+      <li>A t-test with maxT for a file of 4300 genes by 41 patients can take around 45 minutes 
+	for 100000 permutations. </li>
+      <li>The same file with minP and 50000 permutations takes about 4 hours.</li>
+      <li>An ANOVA for a toy data set of 10 variables, 25 subjects in four groups, with maxT and 
+	500000 permutations takes 35 seconds. If we use minP (and 500000 permutations) it
+      takes 4 minutes and 45 seconds. </li>
+      <li>A Cox model in a toy data set of 10 variables and 25 subjects, using 50000 permutations,
+	takes 30 seconds for maxT and 45 seconds for minP. </li>
+      <li>A linear regression in the same toy data set as above, with 100000 permutations and
+	maxT takes 12 seconds. </li>
+      <li>A Fisher's exact test on a data set of 8 genes and 21 subjects, in what were mostly 
+	4x3 contingency tables, using minP and 100000 permutations takes 29 minutes.</li>
+    </ul>
+    <p> As you can see, time varies widely, and some procedures can take a very long time
+      (minP in general takes longer, and Fisher's exact test takes quite a long time). 
+      You might want to do a few trial runs with a
+      small number of permutations (say, 500 or 5000) before launching the "real thing".</p>
+
+    <h2>Output files</h2>
+    <p>The run of the program returns two files, one with results and another one with a log
+      of the run.</p>
+    <h3>Results file</h3>
+    <p> The results file looks like this: </p>
+
+<div class="color">
+<pre> 
+ Function call:                         ./multest2 Regres maxT 5000 covar-surv-2.txt survival_data.txt 
+ Data file:                             covar-surv-2.txt
+ Class file:                            label.txt
+ Number of variables or genes:          10
+ Number of columns:                     25
+ Type of test:                          t
+ MinP or MaxT?:                         maxT
+
+ Permutations used:                     5000
+ Random seed:                           1029251818
+
+##################################################################################
+
+
+Row                 ID       unadj.p       adj_p         FDR_indep       FDR_dep         obs_stat
+       4          sdg4      0.0141972        0.126        0.141972         0.41583         2.70352
+       9         VA254      0.0979804        0.604        0.489902               1         1.74547
+       1          X125       0.276345       0.9302        0.771846               1         1.11924
+       3     VZY2768g3       0.321936        0.945        0.771846               1        0.998899
+       7         UV@#3       0.385923       0.9462        0.771846               1        0.891093
+       2            g2       0.511298       0.9752        0.773845               1        0.655166
+      10           Z34       0.766847        0.996        0.773845               1        0.318601
+       6         CF234       0.756049        0.996        0.773845               1        0.318009
+       8            g8       0.757449        0.996        0.773845               1        0.314569
+       5            g5       0.773845        0.996        0.773845               1        0.295557
+</pre>
+</div>
+
+    <p>The first lines of the results file provide information about the run 
+      (function call, names of files used, number of random permutations, 
+      seed of the random number generator, etc).</p>
+
+    <p> The actual results are shown in table format (and should be easy to read
+      into you favorite stats or spreadsheet program).</p> 
+    <dl>
+      <dt>Row</dt><dd> The row of the original file. Note that rows are re-ordered by decreasing
+      value of <b>adj_p</b>, or the adjusted p-value. Of course, usually your own data
+      will contain many more rows (in the order of thousands?) than this example. </dd> 
+      <dt>ID</dt> <dd>The original ID information included in your file (the first column of the data).</dd>
+      <dt>unadj.p</dt> <dd>The unadjusted p-value; in most cases, this <i>p-value</i> is obtained 
+	using the random permutations, where each row-wise <i>p-value</i> is based only on the results for each row or gene.
+	With Fisher's exact test, this is the exact <i>p-value</i> using Fisher's exact test procedure.</dd>
+      <dt>adj_p</dt><dd>The adjusted <i>p-value</i> for control of the FWER using step down maxT or
+      step down minP; see<a href="#maxT-minP">above</a>).</dd>
+      <dt>FDR_indep</dt><dd>Adjusted <i>p-value</i> using the FDR procedure of Benjamini & Hochberg;
+	see <a href="#BH">above</a>.</dd>
+      <dt>FDR_dep</dt> <dd>Adjusted <i>p-value</i> using the FDR procedure of Benjamini & Yekutieli (see 
+	<a href="#BY">above</a>) that provides strong control of the FDR under arbitrary dependend
+	structures.</dd>
+      <dt>obs_stat</dt><dd>The observed test statistic from the data. Except for Fisher's exact
+	tests for contingency tables, these are the type of tests statistics used in the
+	maxT procedure. For Fisher's test on contingency tables this column is an NA since
+	we use the minP procedure directly on the exact p-values from the contingency tables.
+	For the tests implemented now the observed statistics are:
+	<dl>
+	  <dt><br>t</dt> <dd>The absolute value of the difference of means divided by the square root
+	  of the sum of the sample variances of each of the means. (So just the usual <em>t</em> 
+	  for the unequal variance case).</dd>
+	  <dt>ANOVA</dt><dd>The usual <em>F-ratio</em> (mean squares model/mean squares error).</dd>
+	  <dt>Regression</dt><dd> The coefficient divided by its standard error (i.e., the typical <em>t-statistic.</em></dd>
+	  <dt>Cox model</dt><dd>The absolute value of the Wald statistic (the estimate of the 
+	    coefficient divided by its standard error).</dd>
+	</dl>
+
+	<p>You should note that test statistics are given in absolute value; you might want
+	to use the signed test statistics for your biological inferences. In
+	fact, we strongly suggest to use figures; actually, we don't give
+	the signed statistic to encourage you to look at the data to see
+	the direction and type of deviation. (And because for some tests
+	the idea of "signed statistic" is meaningless, such as with ANOVA).</p>
+    </dl>
+	
+    <p>To comment on this simple example, after correcting for multiple testing,
+      no gene shows statistically significant different expression after correcting for
+      multiple testing, in spite of the first one having an unadjusted p-value < 0.05.</p>
+    
+    <h3>Log file</h3>
+    <p>A log file is also produced. This contains the same output as above, with possibly
+      additional information. Right now, you might get information about problems when
+      fitting the Cox model (either too early convergence ---beta parameters could be infinite---,
+      or non-convergence) or using Fisher's exact test (for example, that some of the tables
+      were "degenerate", having only one row and/or one column). 
+      These are not problems of the program per se
+      but rather of the data or fitting procedure. Most often you do not need to worry, 
+      but if you get many of these warnings, you might want to check your data or ask us.</p>
+    <h3>Program errors</h3>
+    <p>The execution of the program could be aborted before finishing. In such a case you will
+      get an error message explaining what happened. Sometimes the message will be clear
+      enough that you will know what to do; for example, the program tries to catch user
+      errors if you use files with differing number of columns. There is a chance
+      the program might abort with other errors: please let us know if you do.</p>
+
+
+<h1>Features and tests that will be added</h1>
+    <ul>
+      <li>Say in the results file whether the log file should be examined</li>
+    </ul>
+    <p>We are also in the process of adding/modifying the following tests:</p>
+    <ul>
+      <li> Polynomial regression (degree 2), and regression on log-transformed (either or both
+	the dependent and independent) data (hint: you can, of course, log-transform your values
+	in your favorite stats or spreadsheet program before feeding them to Pomelo).</li>
+      <li>Logistic regression and multinomial models, for categorical dependent variables.</li>
+      <li>Paired <em>t-test</em>.</li>
+      <li>Rank versions of the <em>t-test</em> and ANOVA (i.e., their "non-parametric" 
+	or ranked counterparts).</li>
+      <li>Allow for categorical covariates with more than two levels in the Cox model 
+	and linear regression.</li>
+    </ul>
+
+    <h1>About the code and other similar programs</h1>
+    <p>The code underlying these tests is written in C++. All of the multiple testing functions have
+      been written from scratch, although some algorithms have been based on Westfall & Young (1993) or the
+      documentation for the 
+      <a href="http://www.bioconductor.org/packages/release/html/multtest.html">"multtest" package</a>
+      for R, some inspiration has been obtained from the above package (and a lot of testing
+      has been done using multtest as a benchmark). Moreover, 
+      we have taken C code from <a href="http://www.R-project.org/"> 
+      R</a> for fitting the Cox model (coxfit2.c) and Fisher's exact tests (<a name="mehta">fexact.c</a>;
+      the latter is based on Mehta and Patel's algorithm). We have also used the GNU
+      scientific library, <a href="http://www.gnu.org/software/gsl/gsl"> GSL</a>. 
+      Our code, the code from R, and the GSL are all released under 
+      <a href="http://www.gnu.org/copyleft/gpl.html">GNU's General Public License</a>. Our C++
+      code is available upon request.</p>
+    <p>There are other programs to carry out corrections for multiple testing. One of the earliest
+      was PROC MULTEST for the SAS system (there is a recent book by Westfall et al.
+      that describes the use of PROC MULTEST and the new methods available in the package). Another option is the free, open-source 
+      <a href="http://www.bioconductor.org/packages/release/html/multtest.html"> "multtest"</a> package,
+      written by Ge and Dudoit, available as part of the <a href="www.bioconductor.org"> bioconductor</a>
+      project for <a href="http://www.R-project.org/"> R</a>. Finally, you might also want to
+      check the page for <a href="http://www.cbil.upenn.edu/tpWY"> tpWY</a> which is also a free set
+      of programs for multiple testing. Specifically for FDR there is some additional software at the  
+      <a href="http://www.math.tau.ac.il/~roee/index.htm"> FDR methodology and applications </a> page.
+      A program for somewhat related problems with multiple comparisons is 
+      <a href="http://www.dfi.uni-duesseldorf.de/main/separate/"> SeParATe</a>. </p>
+
+    <p> Why is it called Pomelo (grapefruit)? </p>
+
+    <h1>The slices of the grapefruit (los gajos del pomelo)</h1>
+    <p>To make life easier to less experienced users, we have prepared interfaces that are tailored
+      for certain uses. These are the one so far:</p>
+    <dl>
+      <dt><a name="survival.slice">Survival analysis</a></dt><dd> Fits only Cox model for
+	survival data.</dd>
+      <dt><a name="regression slice">Regression</a></dt><dd>Fits a linear regression model
+	to interval-scaled data.</dd>
+      <dt><a name="comparing.two.groups">Comparing two groups</a></dt><dd>Compares two groups
+	using <em>t-test</em> allowing for unequal variances. The covariates are assumed
+	to be interval scaled (i.e., NOT categorical or binary variables), 
+	such as gene expression data from DNA arrays, and the class labels
+	is a vector with only two classes, 0 and 1 that could represent, for instance,
+	patients with or without cancer. (Of course, you can also
+	compare two groups using ANOVA [though there is no allowance for unequal 
+	variances], but for that you will need to go use the ANOVA option in the general
+	Pomelo module.)</dd>
+      <dt><a name="comparing.three.groups">Comparing three or more groups</a></dt><dd>Compares
+	three or more group using ANOVA (analysis of variance). The covariates are assumed
+	interval scaled (i.e., NOT categorical or binary variables), such as gene
+	expression data from DNA arrays, and the class labels is a vector with three or more
+	classes (starting at 0, and in jumps of 1) that could represent, for instance,
+	four different types of cancers.</dd>
+    </dl>
+
+ 
+
+
+
+    <h1> Before you start: If "The program doesn't work"</h1>
+    <p>Please, before calling/emailing us if "the program doesn't work", make
+      sure you have read this documentation. In particular, make sure
+      your data meet the <a href="#requirements">requirements</a>. Moreover,
+      although there is some built-in error checking (for example, that all
+      the rows have the same number of columns, that the number of columns of
+      your covariate and class labels and censored indicators are the same, etc),
+      the programs are not (cannot be) foolproof or bug-free.</p>
+
+
+    
+
+    <hr>
+    Questions? Comments? Send <a href="mailto:rdiaz@cnio.es">Ramón</a> an email.
+      <hr>
+<!-- Created: Wed Jul 24 15:37:41 CEST 2002 -->
+<!-- hhmts start -->
+Last modified: Fri Sep  6 13:36:31 CEST 2002
+<!-- hhmts end -->
+  </body>
+</html>

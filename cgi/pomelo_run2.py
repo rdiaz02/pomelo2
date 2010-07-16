@@ -392,6 +392,8 @@ else: ## we use MPI
                                                   'PomeloII-' + test_type,
                                                   tmpDir,
                                                   socket.gethostname())
+        issue_echo('after counter applications', tmpDir)
+
         ## launch actual R or multtest process
         if(test_type == "Cox"):
             issue_echo(' about to launch CoxCommand', tmpDir)

@@ -1,8 +1,10 @@
-> invisible(options(echo = TRUE))
 > library(imagemap)
 > library(gplots,verbose=FALSE,warn.conflicts = FALSE)
 Loading required package: gtools
 Loading required package: gdata
+Loading required package: caTools
+Loading required package: bitops
+Loading required package: grid
 > library(GDD)
 > imagemap <- function(filename,width=480,height=480,title='Imagemap from R'){
 + 	  GDD(file = paste(filename,".png",sep=''),w=width, h=height,
@@ -427,5 +429,5 @@ null device
 > 
 > 
 > proc.time()
-[1] 2.237 0.058 2.365 0.000 0.000
-> 
+   user  system elapsed 
+  4.635   0.087   4.854 

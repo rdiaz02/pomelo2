@@ -18,9 +18,6 @@
 #### along with this program; if not, you can download if
 #### from the Affero Project at http://www.affero.org/oagpl.html
 
-
-
-
 ### There should be a link to this file in /http/mpi.log
 
 ### There are better mechanisms, like in ADaCGH, and having each run
@@ -50,37 +47,37 @@ theDir = ('/http/pomelo2/www/Pom.running.procs')
 
 
 MachineIP = {
-    'karl01'  :  '192.168.7.1',
-    'karl02'  :  '192.168.7.2',
-    'karl03'  :  '192.168.7.3',
-    'karl04'  :  '192.168.7.4',
-    'karl05'  :  '192.168.7.5',
-    'karl06'  :  '192.168.7.6',
-    'karl07'  :  '192.168.7.7',
-    'karl08'  :  '192.168.7.8',
-    'karl09'  :  '192.168.7.9',
-    'karl10'  :  '192.168.7.10',
-    'karl11'  :  '192.168.7.11',
-    'karl12'  :  '192.168.7.12',
-    'karl13'  :  '192.168.7.13',
-    'karl14'  :  '192.168.7.14',
-    'karl15'  :  '192.168.7.15',
-    'karl16'  :  '192.168.7.16',
-    'karl17'  :  '192.168.7.17',
-    'karl18'  :  '192.168.7.18',
-    'karl19'  :  '192.168.7.19',
-    'karl20'  :  '192.168.7.20',
-    'karl21'  :  '192.168.7.21',
-    'karl22'  :  '192.168.7.22',
-    'karl23'  :  '192.168.7.23',
-    'karl24'  :  '192.168.7.24',
-    'karl25'  :  '192.168.7.25',
-    'karl26'  :  '192.168.7.26',
-    'karl27'  :  '192.168.7.27',
-    'karl28'  :  '192.168.7.28',
-    'karl29'  :  '192.168.7.29',
-    'karl30'  :  '192.168.7.30'}
-#    'karl31'  :  '192.168.7.31',
+    'karl01'  :  '192.168.2.1',
+    'karl02'  :  '192.168.2.2',
+    'karl03'  :  '192.168.2.3',
+    'karl04'  :  '192.168.2.4',
+    'karl05'  :  '192.168.2.5',
+    'karl06'  :  '192.168.2.6',
+    'karl07'  :  '192.168.2.7',
+    'karl08'  :  '192.168.2.8',
+    'karl09'  :  '192.168.2.9',
+    'karl10'  :  '192.168.2.10',
+    'karl11'  :  '192.168.2.11',
+    'karl12'  :  '192.168.2.12',
+    'karl13'  :  '192.168.2.13',
+    'karl14'  :  '192.168.2.14',
+    'karl15'  :  '192.168.2.15',
+    'karl16'  :  '192.168.2.16',
+    'karl17'  :  '192.168.2.17',
+    'karl18'  :  '192.168.2.18',
+    'karl19'  :  '192.168.2.19',
+    'karl20'  :  '192.168.2.20',
+    'karl21'  :  '192.168.2.21',
+    'karl22'  :  '192.168.2.22',
+    'karl23'  :  '192.168.2.23',
+    'karl24'  :  '192.168.2.24',
+    'karl25'  :  '192.168.2.25',
+    'karl26'  :  '192.168.2.26',
+    'karl27'  :  '192.168.2.27',
+    'karl28'  :  '192.168.2.28',
+    'karl29'  :  '192.168.2.29',
+    'karl30'  :  '192.168.2.30'}
+#    'karl31'  :  '192.168.2.31',
 #    }
 
 
@@ -135,7 +132,7 @@ def fcheck():
     for dirMachine in rrunsFiles:
         Machine = dirMachine.split('@')[1]
         procs0 = os.popen("ssh " + MachineIP[Machine] + \
-                         " 'ps -F -U www-data'")
+                         " 'ps -F -U www'")
         procs = procs0.readlines()
         procs0.close()
         alive = False
