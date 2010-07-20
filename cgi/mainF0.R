@@ -76,7 +76,7 @@ f1 <- function(numc = c(5, 30, 30, 10), other = 1,
     for (i in 1:ndiff)
         genes[i, ] <- addEffect(genes[i, ])
 
-    covar$Class2 <- factor(covar$Class2)
+    covar$Class2 <- factor(covar$Class2, labels = LETTERS[1:4])
     
     
     options(contrasts = c("contr.treatment", "contr.poly"))
@@ -97,7 +97,6 @@ f1 <- function(numc = c(5, 30, 30, 10), other = 1,
     
     ##  zz: ojo make sure the order of cvars corresponds with colnames
     colnames(d0)[1:nlevels(Class)] <- c("Intercept", levels(Class)[-1])
-    
     constructContrasts <-
         paste("makeContrasts(",
               paste(levels(Class)[-1], "- Intercept", collapse = ", "),
