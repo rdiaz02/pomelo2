@@ -1,3 +1,4 @@
+- Acccept GEO data automagically. Would be great for classes.
 - There is lots of code (identical, or almost) that is defined in several places!!
   (eg. cgi_error_page)
 - Remove, or make clear, that the Cox code in C is no longer used
