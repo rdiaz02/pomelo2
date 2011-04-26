@@ -1,3 +1,8 @@
+- Si gene.names has a gene called "NA" (which could happen) then it
+breaks. We should make all a character, and substitute NA by its
+character, once we know there are no missing in gene names.
+
+
 - Acccept GEO data automagically. Would be great for classes.
 - There is lots of code (identical, or almost) that is defined in several places!!
   (eg. cgi_error_page)
