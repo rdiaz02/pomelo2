@@ -146,7 +146,7 @@ xdata <- matrix(xdata, nrow = length(num.cols.covariate), byrow = TRUE)
 
 ### FIXME: this should not be done this way!!!
 system("cut -f1 covariate > geneNames")
-geneNames <- read.table("geneNames",quote="")[, 1]
+geneNames <- read.table("geneNames",quote="", sep = "\t")[, 1] ## added the sep
 
 coxph.fit.pomelo0 <- function (x, y, init = NULL,
                               control, method = "efron",  rownames = NULL) {
