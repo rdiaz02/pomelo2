@@ -1,4 +1,4 @@
-#!/usr/bin/python2.4
+#!/usr/bin/python
 ## All this code is copyright Ramon Diaz-Uriarte, and distributed under the
 ## Affero GPL license
 
@@ -17,16 +17,11 @@ import fcntl
 import socket 
 import random
 import cgitb; cgitb.enable() 
+
+from pomelo_config import *
+
 sys.stderr = sys.stdout 
-
 tmpDir     = sys.argv[1]
-
-Pomelo_MAX_time = 8 * 3600 ## 8 hours is max duration allowd for any process
-MAX_NUM_RELAUNCHES = 5 
-TIME_BETWEEN_CHECKS = 10
-ROOT_TMP_DIR = "/http/pomelo2/www/tmp"
-newDir = tmpDir.replace(ROOT_TMP_DIR, "")
-newDir = newDir.replace("/", "") ## just the number
 
 
 
@@ -62,7 +57,7 @@ def add_to_log(application, tmpDir, error_type,error_text):
     cf.close()
 
 def cgi_error_page(error_type, error_text, tmpDir):
-    error_template = open("/http/pomelo2/www/Pomelo2_html_templates/templ-error.html","r")
+    error_template = open(pomelo_templates_dir + "templ-error.html","r")
     err_templ_hmtl = error_template.read()
     error_template.close()
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
@@ -72,7 +67,7 @@ def cgi_error_page(error_type, error_text, tmpDir):
     print err_templ_hmtl
 
 def html_error_page(error_type, error_text, tmpDir):
-    error_template = open("/http/pomelo2/www/Pomelo2_html_templates/templ-error.html","r")
+    error_template = open(pomelo_templates_dir + "templ-error.html","r")
     err_templ_hmtl = error_template.read()
     error_template.close()
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
@@ -164,11 +159,11 @@ def printOKRun():
     test_type = f.read().strip()
     f.close()
     issue_echo2("       at 2")
-    draw_heatmaptable = "cd " + tmpDir + "; python /http/pomelo2/cgi/heatmap_draw_script.py;" 
+    draw_heatmaptable = "cd " + tmpDir + "; python " + cgi_dir + "heatmap_draw_script.py;" 
     issue_echo2("       at 2.2")    
 # Cox script draws its own tables
     if test_type != "Cox":
-	    draw_heatmaptable = draw_heatmaptable + "python2.4 /http/pomelo2/cgi/generate_table.py"
+	    draw_heatmaptable = draw_heatmaptable + "python " + cgi_dir + "generate_table.py"
     dummy = os.system(draw_heatmaptable)
     issue_echo2("       at 2.3")
     Heatresults = open(tmpDir + "/heat_new.html")
@@ -177,11 +172,11 @@ def printOKRun():
     issue_echo2("      at 3")
     # If limma anova we use template that has the links that take you to class comparison
     if test_type == "Anova_limma":
-        template    = open("/http/pomelo2/www/Pomelo2_html_templates/results_template_limmma_anova.html","r")
+        template    = open(pomelo_templates_dir + "results_template_limmma_anova.html","r")
     else:
-        template    = open("/http/pomelo2/www/Pomelo2_html_templates/results_template.html","r")
+        template    = open(pomelo_templates_dir + "results_template.html","r")
         
-    heat_temp_f = open("/http/pomelo2/www/Pomelo2_html_templates/templ_heatmap.html","r")
+    heat_temp_f = open(pomelo_templates_dir + "templ_heatmap.html","r")
     templ_heat  = heat_temp_f.read()
     templ_heat  = templ_heat.split("_SPLIT_ME_")
     number_arr  = tmpDir.split("/")
@@ -211,7 +206,8 @@ def printOKRun():
     shutil.copyfile("pre-results.html","results.html")
     if os.path.exists('p.v.sort.FDR.d.html'):
 #        os.system('w3m -config = "/var/www/.w3m" -dump p.v.sort.FDR.d.html > results.pomelo.txt')
-        fi,fo,fu = os.popen3('w3m -config = "/var/www/.w3m" -dump p.v.sort.FDR.d.html > results.pomelo.txt')
+        ### fi,fo,fu = os.popen3('w3m -config = "/var/www/.w3m" -dump p.v.sort.FDR.d.html > results.pomelo.txt')
+        fi,fo,fu = os.popen3('w3m -dump p.v.sort.FDR.d.html > results.pomelo.txt')
         fi.close()
         fo.close()
         fu.close()
@@ -294,7 +290,7 @@ except:
 ### Do very first run attempt.
 
 issue_echo2("Before first tryrrun")
-tryrrun = os.system('/http/pomelo2/cgi/pomelo_run2.py ' + tmpDir + 
+tryrrun = os.system(cgi_dir + 'pomelo_run2.py ' + tmpDir + 
                     ' ' + test_type + ' ' + str(num_permut) +'&')
 
 time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
@@ -381,7 +377,7 @@ while True:  ## we repeat until done or unrecoverale crash
                                           tmpDir + '/pomelo_run.crash.finished-' +
                                           str(number_relaunches - 1))
             issue_echo2("renamed pomelo_run.finished")
-            tryrrun = os.system('/http/pomelo2/cgi/pomelo_run2.py ' + tmpDir + 
+            tryrrun = os.system(cgi_dir + 'pomelo_run2.py ' + tmpDir + 
                                 ' ' + test_type + ' ' + str(num_permut) +'&')
             issue_echo2("tried relaunch")
         else: ## we cannot relaunch

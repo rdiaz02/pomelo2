@@ -19,10 +19,6 @@
 #### along with this program; if not, you can download if
 #### from the Affero Project at http://www.affero.org/oagpl.html
 
-
-
-
-
 ### This file should be linked from /http/mpi.log, and that is
 ### where the call comes from
 
@@ -31,7 +27,6 @@
 ###  during the execution, there is no recovery or re-start.
 
 ###  FIXME: maybe via pomelo_checkdone.cgi: do a few loops
-
 
 import os
 import time
@@ -45,48 +40,39 @@ import glob
 ## import cgitb;cgitb.enable() 
 sys.stderr = sys.stdout 
 
+from pomelo_config import *
 
-sys.path.append('/http/mpi.log')
+
+sys.path.append(web_apps_common_dir)
 import counterApplications
 
-ROOT_TMP_DIR = "/http/pomelo2/www/tmp"
+
+
+
+
+
 tmpDir     = sys.argv[1]
 test_type  = sys.argv[2]
 num_permut = sys.argv[3]
-newDir = tmpDir.replace(ROOT_TMP_DIR, "")
-newDir = newDir.replace("/", "") ## just the number
 
 limma_tests = ("t_limma", "t_limma_paired", "Anova_limma")
 
-R_pomelo_dir = '/var/www/bin/R-local-7-LAM-MPI'
-#R_pomelo_dir = '/http/R-www'
-
-runningProcs = '/http/pomelo2/www/Pom.running.procs'
-
-
-NCPU = 4
-MAX_MPI_CRASHES = 2 ## note we loop also in runAndCheck.py
-TIME_BETWEEN_CHECKS = 45
+## NCPU = 4
 
 
 ### These commands are NOT launched in the background!!!
 def CoxCommand(lamSuffix, tmpDir, R_pomelo_dir):
     run_command = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '"; cd ' + \
                   tmpDir +  '; ' + R_pomelo_dir + \
-                  '/bin/R  --no-restore --no-readline --no-save --slave <f1-pomelo.R >>f1-pomelo.Rout 2> error.msg '
+                  'bin/R  --no-restore --no-readline --no-save --slave <f1-pomelo.R >>f1-pomelo.Rout 2> error.msg '
     issue_echo('    inside CoxCommand: ready for os.system', tmpDir)
     os.system(run_command)
     issue_echo('    inside CoxCommand: done os.system', tmpDir)
 
     
 def multestCommand(lamSuffix, tmpDir, num_permut, test_type):
-#     run_command = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '"; cd ' + \
-#                   tmpDir + '; ' + "mpiexec -d multest_paral " + test_type + \
-#                   " maxT " + num_permut + " covariate class_labels " + " > pomelo.msg"
-## use mpirun.lam instead of mpiexec (or mpiexec.lam) to allow
-## it to run even if OpenMPI or others are installed
-    run_command = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '"; cd ' + \
-                  tmpDir + '; ' + "mpirun.lam C multest_paral " + test_type + \
+    run_command = 'cd ' +  tmpDir + '; ' + "mpirun -np " + num_procs + "    multest_paral " +\
+                  test_type + \
                   " maxT " + num_permut + " covariate class_labels " + " > pomelo.msg"
     issue_echo('    inside multestCommand: ready for os.system', tmpDir)
     fi,foe = os.popen4(run_command)
@@ -115,7 +101,7 @@ def collectZombies(k = 10):
         except:
             None
 
-
+## leave this, since this could happen with OpenMPI
 def writeErrorMessage(tmpDir):
     numtries = MAX_MPI_CRASHES * 10
     out1 = open(tmpDir + "/natural.death.pid.txt", mode = "w")
@@ -174,7 +160,7 @@ def cleanups(tmpDir, newDir,
              runningProcs= runningProcs,
              newnamepid = 'finished_pid.txt'):
     """ Clean up actions; kill lam, delete running.procs files, clean process table."""
-    lamenv = open(tmpDir + "/lamSuffix", mode = "r").readline()
+##    lamenv = open(tmpDir + "/lamSuffix", mode = "r").readline()
     try:
         rinfo = open(tmpDir + '/current_R_proc_info', mode = 'r').readline().split()
     except:
@@ -183,11 +169,11 @@ def cleanups(tmpDir, newDir,
         kill_pid_machine(rinfo[1], rinfo[0])
     except:
         None
-    try:
-        os.system('export LAM_MPI_SESSION_SUFFIX=' + lamenv +
-                  '; lamhalt -H; lamwipe -H')
-    except:
-        None
+    # try:
+    #     os.system('export LAM_MPI_SESSION_SUFFIX=' + lamenv +
+    #               '; lamhalt -H; lamwipe -H')
+    # except:
+    #     None
     try:
         fii = os.popen3('rm ' + runningProcs + '/Pom.' + newDir + '*')
     except:
@@ -196,10 +182,10 @@ def cleanups(tmpDir, newDir,
         os.rename(tmpDir + '/pid.txt', tmpDir + '/' + newnamepid)
     except:
         None
-    try:
-        os.remove(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]))
-    except:
-        None
+    # try:
+    #     os.remove(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]))
+    # except:
+    #     None
 
 
 def issue_echo(fecho, tmpDir):
@@ -217,131 +203,14 @@ def kill_pid_machine(pid, machine):
     'as it says: to kill somehting somewhere'
     os.system('ssh ' + machine + ' "kill -s 9 ' + pid + '"')
 
-def generate_lam_suffix(tmpDir):
-    """As it says. Generate and write it out"""
-    lamSuffix = str(int(time.time())) + \
-                str(os.getpid()) + str(random.randint(10, 999999))
-    lamenvfile = open(tmpDir + '/lamSuffix', mode = 'w')
-    lamenvfile.write(lamSuffix)
-    lamenvfile.flush()
-    lamenvfile.close()
-    return lamSuffix
-
-def lamboot(lamSuffix, ncpu, runningProcs = runningProcs):
-    'Boot a lam universe and leave a sentinel file behind'
-    issue_echo('before sentinel inside lamboot', tmpDir)
-    issue_echo('newDir is ' + newDir, tmpDir)
-    issue_echo('lamSuffix ' + lamSuffix, tmpDir)
-    issue_echo('runningProcs ' + runningProcs, tmpDir)
-# why doesn't this work? FIXME
-#     sentinel = os.open(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]),
-#                        os.O_RDWR | os.O_CREAT | os.O_NDELAY)
-    issue_echo('before fullCommand inside lamboot', tmpDir)
-    fullCommand = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + \
-                  '"; /http/mpi.log/tryBootLAM2.py ' + lamSuffix + \
-                  ' ' + str(ncpu)
-    issue_echo('before os.system inside lamboot', tmpDir)
-    lboot = os.system(fullCommand)
-    issue_echo('after lboot ---os.system--- inside lamboot. Exiting lamboot', tmpDir)
 
 
-def check_tping(lamSuffix, tmpDir, tsleep = 15, nc = 2):
-    """ Use tping to verify LAM universe OK.
-    tsleep is how long we wait before checking output of tping.
-    Verify also using 'lamexec C hostname' """
-    
-    tmp2 = os.system('export LAM_MPI_SESSION_SUFFIX="' +\
-                     lamSuffix + '"; cd ' + tmpDir + \
-                     '; tping C N -c' + str(nc) + \
-                     ' > tping.out & ')
-    time.sleep(tsleep)
-    tmp = int(os.popen('cd ' + tmpDir + \
-                       '; wc tping.out').readline().split()[0])
-    os.system('rm ' + tmpDir + '/tping.out')
-    timeHuman = '##########   ' + \
-                str(time.strftime('%d %b %Y %H:%M:%S')) 
-    os.system('echo "' + timeHuman + \
-              '" >> ' + tmpDir + '/checkTping.out')
-    if tmp == 0:
-        os.system('echo "tping fails" >> ' + \
-                  tmpDir + '/checkTping.out')
-        return 0
-    elif tmp > 0:
-        os.system('echo "tping OK" >> ' + \
-                  tmpDir + '/checkTping.out')
-        lamexec = os.system('export LAM_MPI_SESSION_SUFFIX="' +\
-                            lamSuffix + '"; lamexec C hostname')
-        if lamexec == 0:
-            os.system('echo "lamexec OK" >> ' + \
-                      tmpDir + '/checkTping.out')
-            return 1
-        else:
-            os.system('echo "lamexec fails" >> ' + \
-                      tmpDir + '/checkTping.out')
-            return 0
-    else:
-        os.system('echo "tping weird ' + str(tmp) + '" >> ' + \
-                  tmpDir + '/checkTping.out')
-        return 0
-
-
-
-def lam_crash_log(tmpDir, value):
+def mpi_crash_log(tmpDir, value):
     """ Write to the lam crash log, 'recoverFromLAMCrash.out' """
     timeHuman = str(time.strftime('%d %b %Y %H:%M:%S')) 
     os.system('echo "' + value + '  at ' + timeHuman + \
               '" >> ' + tmpDir + '/recoverFromLAMCrash.out')
-    
-def recover_from_lam_crash(tmpDir, NCPU, MAX_NUM_PROCS, lamSuffix,
-                           runningProcs= runningProcs,
-                           machine_root = 'karl'):
-    """Check if lam crashed during R run. If it did, restart R
-    after possibly rebooting the lam universe.
-    Leave a trace of what happened.
-    FIXME: it looks like we are not using this as such as we just loop
-    below.
-    """
 
-    
-    os.remove(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]))
-    del_mpi_logs(tmpDir, machine_root)
-    lam_crash_log(tmpDir, 'Crashed')
-    ## We need to halt the universe, or else we can keep a lamd with no R hanging from
-        ## it, but that leads to too many lamds, so it cannot start. Like a vicious circle
-    lamenv = open(tmpDir + "/lamSuffix", mode = "r").readline()
-    try:
-        os.system('export LAM_MPI_SESSION_SUFFIX=' + lamenv +
-                  '; lamhalt -H; lamwipe -H')
-    except:
-        None
-    issue_echo('inside recover_from_lam_crash: lamhalting', tmpDir)
-    try:
-        foo = os.popen3('mv ' + tmpDir + '/mpiOK ' + tmpDir + '/previous_mpiOK')
-    except:
-        None
-#     check_room = my_queue(MAX_NUM_PROCS)
-#     if check_room == 'Failed':
-#         printMPITooBusy(tmpDir, MAX_DURATION_TRY = 5 * 3600)
-
-    lam_ok = check_tping(lamSuffix, tmpDir)
-    if lam_ok == 0:
-        lboot = lamboot(lamSuffix, NCPU)
-#     Rrun(tmpDir, lamSuffix)
-    lam_crash_log(tmpDir, '..... recovering')
-
-
-def del_mpi_logs(tmpDir, machine_root = 'karl'):
-    """ Delete logs from LAM/MPI."""
-    lam_logs = glob.glob(tmpDir + '/' + machine_root + '*.*.*.log')
-    try:
-        fuu = os.popen3('rm ' + tmpDir + '/R_Status.txt')
-    except:
-        None
-    try:
-        for lam_log in lam_logs:
-            fuuu = os.popen3('rm ' + lam_log)    
-    except:
-        None
 
 
 ###################################################################
@@ -349,8 +218,7 @@ def del_mpi_logs(tmpDir, machine_root = 'karl'):
 
 issue_echo('pomelo_run2.py pid = '+ str(os.getpid()), tmpDir)
 
-killedlamandr = os.system('/http/mpi.log/killOldLam.py')
-
+## killedlamandr = os.system('/http/mpi.log/killOldLam.py')
 
 # os.system("cd " + tmpDir + "; touch about_to_call_buryPom")
 # os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py; touch just_called_buryPom")
@@ -375,7 +243,7 @@ else: ## we use MPI
     startedOK = False
     issue_echo('starting else loop', tmpDir)
     checkpoint = os.system("echo 0 > " + tmpDir + "/checkpoint.num")
-    lamSuffix = generate_lam_suffix(tmpDir)
+    ## lamSuffix = generate_lam_suffix(tmpDir)
     ## We do not check for room here. Maybe later? FIXME
     issue_echo('before lamboot', tmpDir)
     while True:
@@ -410,7 +278,7 @@ else: ## we use MPI
             counterApplications.add_to_MPIErrorLog('PomeloII-' + test_type,
                                                    tmpDir, socket.gethostname(),
                                                    message = 'MPI MEMORY ERROR')
-            lam_crash_log(tmpDir, "MPI MEMORY ERROR")
+            mpi_crash_log(tmpDir, "MPI MEMORY ERROR")
             cleanups(tmpDir, newDir, lamSuffix)
             writeErrorMessage(tmpDir)
             break
@@ -442,8 +310,8 @@ else: ## we use MPI
             break
         else:
             issue_echo('count_mpi_crash < MAX_MPI_CRASHES', tmpDir)
-            del_mpi_logs(tmpDir, socket.gethostname())
-            lam_crash_log(tmpDir, 'Crashed')
+            ## del_mpi_logs(tmpDir, socket.gethostname())
+            mpi_crash_log(tmpDir, 'Crashed')
             try:
                 fuoo = os.popen3('mv ' + tmpDir + '/mpiOK ' + tmpDir + '/previous_mpiOK')
             except:
@@ -462,17 +330,161 @@ issue_echo('before collectZombies', tmpDir)
 collectZombies()
 issue_echo('before burying', tmpDir)
 
-burying = os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py")
+burying = os.system("cd " + tmpDir + "; " + cgi_dir + "buryPom.py")
 issue_echo('after burying', tmpDir)
 
-killingoldLam = os.system("cd " + tmpDir + "; /http/mpi.log/killOldLamAllMachines.py")
-issue_echo('after killing all old lam', tmpDir)
+# killingoldLam = os.system("cd " + tmpDir + "; /http/mpi.log/killOldLamAllMachines.py")
+# issue_echo('after killing all old lam', tmpDir)
 
 
 sys.exit()
+
 
 ### FIXME: delete myself; hard to do cause we are still running and
 ### buryPom searches for pomelo_run.py as a sign of life.
 ### But we can minimize start-up time for other pomelos
 
 ### Recall that pomelo_run2.py can be called several times from runAndCheck.
+
+
+
+
+
+
+
+
+
+
+
+
+
+# def generate_lam_suffix(tmpDir):
+#     """As it says. Generate and write it out"""
+#     lamSuffix = str(int(time.time())) + \
+#                 str(os.getpid()) + str(random.randint(10, 999999))
+#     lamenvfile = open(tmpDir + '/lamSuffix', mode = 'w')
+#     lamenvfile.write(lamSuffix)
+#     lamenvfile.flush()
+#     lamenvfile.close()
+#     return lamSuffix
+
+
+## FIXME: either rename to mpilaunch, or do everything with
+## forking
+# def lamboot(lamSuffix, ncpu, runningProcs = runningProcs):
+#     'Boot a lam universe and leave a sentinel file behind'
+#     issue_echo('before sentinel inside lamboot', tmpDir)
+#     issue_echo('newDir is ' + newDir, tmpDir)
+#     issue_echo('lamSuffix ' + lamSuffix, tmpDir)
+#     issue_echo('runningProcs ' + runningProcs, tmpDir)
+# # why doesn't this work? FIXME
+# #     sentinel = os.open(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]),
+# #                        os.O_RDWR | os.O_CREAT | os.O_NDELAY)
+#     issue_echo('before fullCommand inside lamboot', tmpDir)
+#     fullCommand = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + \
+#                   '"; /http/mpi.log/tryBootLAM2.py ' + lamSuffix + \
+#                   ' ' + str(ncpu)
+#     issue_echo('before os.system inside lamboot', tmpDir)
+#     lboot = os.system(fullCommand)
+#     issue_echo('after lboot ---os.system--- inside lamboot. Exiting lamboot', tmpDir)
+
+
+# def check_tping(lamSuffix, tmpDir, tsleep = 15, nc = 2):
+#     """ Use tping to verify LAM universe OK.
+#     tsleep is how long we wait before checking output of tping.
+#     Verify also using 'lamexec C hostname' """
+    
+#     tmp2 = os.system('export LAM_MPI_SESSION_SUFFIX="' +\
+#                      lamSuffix + '"; cd ' + tmpDir + \
+#                      '; tping C N -c' + str(nc) + \
+#                      ' > tping.out & ')
+#     time.sleep(tsleep)
+#     tmp = int(os.popen('cd ' + tmpDir + \
+#                        '; wc tping.out').readline().split()[0])
+#     os.system('rm ' + tmpDir + '/tping.out')
+#     timeHuman = '##########   ' + \
+#                 str(time.strftime('%d %b %Y %H:%M:%S')) 
+#     os.system('echo "' + timeHuman + \
+#               '" >> ' + tmpDir + '/checkTping.out')
+#     if tmp == 0:
+#         os.system('echo "tping fails" >> ' + \
+#                   tmpDir + '/checkTping.out')
+#         return 0
+#     elif tmp > 0:
+#         os.system('echo "tping OK" >> ' + \
+#                   tmpDir + '/checkTping.out')
+#         lamexec = os.system('export LAM_MPI_SESSION_SUFFIX="' +\
+#                             lamSuffix + '"; lamexec C hostname')
+#         if lamexec == 0:
+#             os.system('echo "lamexec OK" >> ' + \
+#                       tmpDir + '/checkTping.out')
+#             return 1
+#         else:
+#             os.system('echo "lamexec fails" >> ' + \
+#                       tmpDir + '/checkTping.out')
+#             return 0
+#     else:
+#         os.system('echo "tping weird ' + str(tmp) + '" >> ' + \
+#                   tmpDir + '/checkTping.out')
+#         return 0
+
+
+
+
+
+# def lam_crash_log(tmpDir, value):
+#     """ Write to the lam crash log, 'recoverFromLAMCrash.out' """
+#     timeHuman = str(time.strftime('%d %b %Y %H:%M:%S')) 
+#     os.system('echo "' + value + '  at ' + timeHuman + \
+#               '" >> ' + tmpDir + '/recoverFromLAMCrash.out')
+    
+# def recover_from_lam_crash(tmpDir, NCPU, MAX_NUM_PROCS, lamSuffix,
+#                            runningProcs= runningProcs,
+#                            machine_root = 'karl'):
+#     """Check if lam crashed during R run. If it did, restart R
+#     after possibly rebooting the lam universe.
+#     Leave a trace of what happened.
+#     FIXME: it looks like we are not using this as such as we just loop
+#     below.
+#     """
+
+    
+#     os.remove(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]))
+#     del_mpi_logs(tmpDir, machine_root)
+#     lam_crash_log(tmpDir, 'Crashed')
+#     ## We need to halt the universe, or else we can keep a lamd with no R hanging from
+#         ## it, but that leads to too many lamds, so it cannot start. Like a vicious circle
+#     lamenv = open(tmpDir + "/lamSuffix", mode = "r").readline()
+#     try:
+#         os.system('export LAM_MPI_SESSION_SUFFIX=' + lamenv +
+#                   '; lamhalt -H; lamwipe -H')
+#     except:
+#         None
+#     issue_echo('inside recover_from_lam_crash: lamhalting', tmpDir)
+#     try:
+#         foo = os.popen3('mv ' + tmpDir + '/mpiOK ' + tmpDir + '/previous_mpiOK')
+#     except:
+#         None
+# #     check_room = my_queue(MAX_NUM_PROCS)
+# #     if check_room == 'Failed':
+# #         printMPITooBusy(tmpDir, MAX_DURATION_TRY = 5 * 3600)
+
+#     lam_ok = check_tping(lamSuffix, tmpDir)
+#     if lam_ok == 0:
+#         lboot = lamboot(lamSuffix, NCPU)
+# #     Rrun(tmpDir, lamSuffix)
+#     lam_crash_log(tmpDir, '..... recovering')
+
+
+# def del_mpi_logs(tmpDir, machine_root = 'karl'):
+#     """ Delete logs from LAM/MPI."""
+#     lam_logs = glob.glob(tmpDir + '/' + machine_root + '*.*.*.log')
+#     try:
+#         fuu = os.popen3('rm ' + tmpDir + '/R_Status.txt')
+#     except:
+#         None
+#     try:
+#         for lam_log in lam_logs:
+#             fuuu = os.popen3('rm ' + lam_log)    
+#     except:
+#         None
