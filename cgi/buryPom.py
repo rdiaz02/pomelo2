@@ -38,68 +38,14 @@
 ## to get rid of unjustified Pom.whatever that prevent Pomelo II from launching
 ## more runs because it incorrectly thinks there are many processes running.
 
-import shutil
+## import shutil
+## import time
 import os
-import time
 import glob
 
-theDir = ('/http/pomelo2/www/Pom.running.procs')
 
+from pomelo_config import *
 
-MachineIP = {
-    'karl01'  :  '192.168.2.1',
-    'karl02'  :  '192.168.2.2',
-    'karl03'  :  '192.168.2.3',
-    'karl04'  :  '192.168.2.4',
-    'karl05'  :  '192.168.2.5',
-    'karl06'  :  '192.168.2.6',
-    'karl07'  :  '192.168.2.7',
-    'karl08'  :  '192.168.2.8',
-    'karl09'  :  '192.168.2.9',
-    'karl10'  :  '192.168.2.10',
-    'karl11'  :  '192.168.2.11',
-    'karl12'  :  '192.168.2.12',
-    'karl13'  :  '192.168.2.13',
-    'karl14'  :  '192.168.2.14',
-    'karl15'  :  '192.168.2.15',
-    'karl16'  :  '192.168.2.16',
-    'karl17'  :  '192.168.2.17',
-    'karl18'  :  '192.168.2.18',
-    'karl19'  :  '192.168.2.19',
-    'karl20'  :  '192.168.2.20',
-    'karl21'  :  '192.168.2.21',
-    'karl22'  :  '192.168.2.22',
-    'karl23'  :  '192.168.2.23',
-    'karl24'  :  '192.168.2.24',
-    'karl25'  :  '192.168.2.25',
-    'karl26'  :  '192.168.2.26',
-    'karl27'  :  '192.168.2.27',
-    'karl28'  :  '192.168.2.28',
-    'karl29'  :  '192.168.2.29',
-    'karl30'  :  '192.168.2.30'}
-#    'karl31'  :  '192.168.2.31',
-#    }
-
-
-
-# def R_done(tmpDir):
-#     """Verify if Rout exists. If it does, see if done"""
-# ##    rfile = 1
-#     try: 
-# 	Rrout = open(tmpDir + "/f1.Rout")
-#     except:
-# 	return 1
-#     if os.path.exists(tmpDir + '/RterminatedOK'):
-#         return 1
-# ##    if rfile:
-#     soFar = Rrout.read()
-#     Rrout.close()
-#     finishedOK = soFar.endswith("Normal termination\n")
-#     errorRun = soFar.endswith("Execution halted\n")
-#     if finishedOK or errorRun:
-#         return 1
-#     else:
-#         return 0
 
 
 ## As it says: any pomelo II process living here as master?"""
@@ -128,11 +74,12 @@ signs_of_pomelo_life = ('PomeloII_Cox', 'limma_functions.R',
 
 
 def fcheck():
-    rrunsFiles = glob.glob(theDir + '/Pom.*@*')
+    rrunsFiles = glob.glob(pomelo_running_procs_file_expression)
     for dirMachine in rrunsFiles:
         Machine = dirMachine.split('@')[1]
-        procs0 = os.popen("ssh " + MachineIP[Machine] + \
-                         " 'ps -F -U www'")
+        # procs0 = os.popen("ssh " + MachineIP[Machine] + \
+        #                  " 'ps -F -U www'")
+        procs0 = os.popen(" 'ps -F -U www'")
         procs = procs0.readlines()
         procs0.close()
         alive = False
@@ -156,3 +103,61 @@ fcheck()
 # os.system("touch buryPom_exiting")
 
 
+
+
+
+
+# MachineIP = {
+#     'karl01'  :  '192.168.2.1',
+#     'karl02'  :  '192.168.2.2',
+#     'karl03'  :  '192.168.2.3',
+#     'karl04'  :  '192.168.2.4',
+#     'karl05'  :  '192.168.2.5',
+#     'karl06'  :  '192.168.2.6',
+#     'karl07'  :  '192.168.2.7',
+#     'karl08'  :  '192.168.2.8',
+#     'karl09'  :  '192.168.2.9',
+#     'karl10'  :  '192.168.2.10',
+#     'karl11'  :  '192.168.2.11',
+#     'karl12'  :  '192.168.2.12',
+#     'karl13'  :  '192.168.2.13',
+#     'karl14'  :  '192.168.2.14',
+#     'karl15'  :  '192.168.2.15',
+#     'karl16'  :  '192.168.2.16',
+#     'karl17'  :  '192.168.2.17',
+#     'karl18'  :  '192.168.2.18',
+#     'karl19'  :  '192.168.2.19',
+#     'karl20'  :  '192.168.2.20',
+#     'karl21'  :  '192.168.2.21',
+#     'karl22'  :  '192.168.2.22',
+#     'karl23'  :  '192.168.2.23',
+#     'karl24'  :  '192.168.2.24',
+#     'karl25'  :  '192.168.2.25',
+#     'karl26'  :  '192.168.2.26',
+#     'karl27'  :  '192.168.2.27',
+#     'karl28'  :  '192.168.2.28',
+#     'karl29'  :  '192.168.2.29',
+#     'karl30'  :  '192.168.2.30'}
+# #    'karl31'  :  '192.168.2.31',
+# #    }
+
+
+
+# def R_done(tmpDir):
+#     """Verify if Rout exists. If it does, see if done"""
+# ##    rfile = 1
+#     try: 
+# 	Rrout = open(tmpDir + "/f1.Rout")
+#     except:
+# 	return 1
+#     if os.path.exists(tmpDir + '/RterminatedOK'):
+#         return 1
+# ##    if rfile:
+#     soFar = Rrout.read()
+#     Rrout.close()
+#     finishedOK = soFar.endswith("Normal termination\n")
+#     errorRun = soFar.endswith("Execution halted\n")
+#     if finishedOK or errorRun:
+#         return 1
+#     else:
+#         return 0

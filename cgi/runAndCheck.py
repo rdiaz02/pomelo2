@@ -2,17 +2,19 @@
 ## All this code is copyright Ramon Diaz-Uriarte, and distributed under the
 ## Affero GPL license
 
-import glob
-import sys
+## apparently, these aren't used
+# import types
+# import cgi 
+# import signal
+# import re
+# import tarfile
+# import string
+
 import os
-import cgi 
-import types
 import time
+import sys
+import glob
 import shutil
-import signal
-import re
-import tarfile
-import string
 import fcntl
 import socket 
 import random
@@ -23,6 +25,8 @@ from pomelo_config import *
 sys.stderr = sys.stdout 
 tmpDir     = sys.argv[1]
 
+newDir = tmpDir.replace(ROOT_TMP_DIR, "")
+newDir = newDir.replace("/", "") ## just the number
 
 
 ################################################################
@@ -411,7 +415,7 @@ try:
 except:
     None
              
-burying = os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py")
+burying = os.system("cd " + tmpDir + "; " + buryPomCall)
 issue_echo2("at the very end")
 
 

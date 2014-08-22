@@ -28,15 +28,17 @@
 
 ###  FIXME: maybe via pomelo_checkdone.cgi: do a few loops
 
+## apparently not used
+# import fcntl
+# import glob
+# import signal
+
 import os
 import time
-import signal
 import shutil
 import sys
 import random
 import socket
-import fcntl
-import glob
 ## import cgitb;cgitb.enable() 
 sys.stderr = sys.stdout 
 
@@ -55,16 +57,20 @@ tmpDir     = sys.argv[1]
 test_type  = sys.argv[2]
 num_permut = sys.argv[3]
 
+newDir = tmpDir.replace(ROOT_TMP_DIR, "")
+newDir = newDir.replace("/", "") ## just the number
+
+
 limma_tests = ("t_limma", "t_limma_paired", "Anova_limma")
 
 ## NCPU = 4
 
 
 ### These commands are NOT launched in the background!!!
-def CoxCommand(lamSuffix, tmpDir, R_pomelo_dir):
+def CoxCommand(lamSuffix, tmpDir, R_pomelo_bin):
     run_command = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '"; cd ' + \
-                  tmpDir +  '; ' + R_pomelo_dir + \
-                  'bin/R  --no-restore --no-readline --no-save --slave <f1-pomelo.R >>f1-pomelo.Rout 2> error.msg '
+                  tmpDir +  '; ' + R_pomelo_bin + \
+                  ' --no-restore --no-readline --no-save --slave <f1-pomelo.R >>f1-pomelo.Rout 2> error.msg '
     issue_echo('    inside CoxCommand: ready for os.system', tmpDir)
     os.system(run_command)
     issue_echo('    inside CoxCommand: done os.system', tmpDir)
@@ -234,7 +240,7 @@ except:
 count_mpi_crash = 0
 
 if test_type in limma_tests:
-    R_launch = R_pomelo_dir + "/bin/R CMD BATCH --no-restore --no-readline --no-save -q limma_functions.R"
+    R_launch = R_pomelo_bin + " CMD BATCH --no-restore --no-readline --no-save -q limma_functions.R"
     fullPomelocommand = "cd " + tmpDir + "; " + R_launch
     issue_echo(' about to do fullPomelocommand', tmpDir)
     os.system(fullPomelocommand)
@@ -265,7 +271,7 @@ else: ## we use MPI
         ## launch actual R or multtest process
         if(test_type == "Cox"):
             issue_echo(' about to launch CoxCommand', tmpDir)
-            CoxCommand(lamSuffix, tmpDir, R_pomelo_dir)
+            CoxCommand(lamSuffix, tmpDir, R_pomelo_bin)
         else:
             issue_echo(' about to launch multestCommand', tmpDir)
             multestCommand(lamSuffix, tmpDir, num_permut, test_type)

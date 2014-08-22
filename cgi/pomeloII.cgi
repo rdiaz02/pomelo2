@@ -1,4 +1,4 @@
-#!/usr/bin/python2.4
+#!/usr/bin/python
 
 ####  Copyright (C)  2003-2005, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
 ####                 2005-2009, Edward R. Morrissey and 
@@ -18,6 +18,7 @@
 #### along with this program; if not, you can download if
 #### from the Affero Project at http://www.affero.org/oagpl.html
 
+
 import glob
 import socket
 import sys
@@ -36,14 +37,16 @@ import urllib
 import cgitb; cgitb.enable()
 sys.stderr = sys.stdout
 
+
+from pomelo_config import *
+
+
 MAX_poms = 50 ## Max number of pomelo2 running
 MAX_time = 3600 * 24 * 5 ## 5 is days until deletion of a tmp directory
 Pom_MAX_time = 3600 * 12 ## 12 hours is max duration allowed for any process
 MAX_covariate_size = 363948523L ## a 500 * 40000 array of floats
 MAX_time_size = 61897L
 MAX_PERMUT = 90000000  ## maximum number of permutations
-
-R_pomelo_dir = '/var/www/bin/R-local-7-LAM-MPI'
 
 
 #************  SELENIUM STUFF **************
@@ -290,8 +293,8 @@ for directory in currentTmp:
 
 ### Creating temporal directories
 newDir = str(random.randint(1, 10000)) + str(os.getpid()) + str(random.randint(1, 100000)) + str(int(currentTime)) + str(random.randint(1, 10000))
-redirectLoc = "/tmp/" + newDir
-tmpDir = "/http/pomelo2/www/tmp/" + newDir
+
+tmpDir = ROOT_TMP_DIR + newDir
 os.mkdir(tmpDir)
 os.chmod(tmpDir, 0770)
 
@@ -458,8 +461,8 @@ for Pomtouchfile in PomrunningFiles:
 		None
 
 # Check to see if a new pomelo can be run
-burying = os.system("cd " + tmpDir + "; /http/mpi.log/buryPom.py")
-numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom.*"))
+burying = os.system("cd " + tmpDir + "; " + buryPomCall)
+numPomelo = len(glob.glob(pomelo_running_procs_file_expression))
 if numPomelo > MAX_poms:
     shutil.rmtree(tmpDir)
     err_msg = "<p> Because of the popularity of the application "
@@ -534,7 +537,7 @@ gene_name_file.close()
 ## checking constant genes and missings is done with R zz
 if test_type in testDiscrete_tests:
     os.system('cp /http/pomelo2/cgi/testDiscrete.R ' + tmpDir + '/.')
-    Rcommand = "cd " + tmpDir + "; " + R_pomelo_dir + "/bin/R CMD BATCH --no-restore --no-readline --no-save -q testDiscrete.R 2> error.msg "
+    Rcommand = "cd " + tmpDir + "; " + R_pomelo_bin + " CMD BATCH --no-restore --no-readline --no-save -q testDiscrete.R 2> error.msg "
     Rrun = os.system(Rcommand)
     if os.path.exists(tmpDir + '/errorInput'):    
         rif = open(tmpDir + '/errorInput', mode = 'r')
@@ -545,7 +548,7 @@ if test_type in testDiscrete_tests:
         sys.exit()
 else: 
     os.system('cp /http/pomelo2/cgi/testContinuous.R ' + tmpDir + '/.')
-    Rcommand = "cd " + tmpDir + "; " + R_pomelo_dir + "/bin/R CMD BATCH --no-restore --no-readline --no-save -q testContinuous.R 2> error.msg "
+    Rcommand = "cd " + tmpDir + "; " + R_pomelo_bin + "R CMD BATCH --no-restore --no-readline --no-save -q testContinuous.R 2> error.msg "
     Rrun = os.system(Rcommand)
     if os.path.exists(tmpDir + '/errorInput'):
         rif = open(tmpDir + '/errorInput', mode = 'r')
