@@ -41,12 +41,6 @@ sys.stderr = sys.stdout
 from pomelo_config import *
 
 
-MAX_poms = 50 ## Max number of pomelo2 running
-MAX_time = 3600 * 24 * 5 ## 5 is days until deletion of a tmp directory
-Pom_MAX_time = 3600 * 12 ## 12 hours is max duration allowed for any process
-MAX_covariate_size = 363948523L ## a 500 * 40000 array of floats
-MAX_time_size = 61897L
-MAX_PERMUT = 90000000  ## maximum number of permutations
 
 
 #************  SELENIUM STUFF **************
@@ -282,9 +276,9 @@ def radioUpload(fieldName, acceptedValues):
 
 ## Deleting tmp directories older than MAX_time
 currentTime = time.time()
-currentTmp = dircache.listdir("/http/pomelo2/www/tmp")
+currentTmp = dircache.listdir(ROOT_TMP_DIR)
 for directory in currentTmp:
-    tmpS = "/http/pomelo2/www/tmp/" + directory
+    tmpS = ROOT_TMP_DIR + directory
     if (currentTime - os.path.getmtime(tmpS)) > MAX_time:
         try:
             shutil.rmtree(tmpS)
