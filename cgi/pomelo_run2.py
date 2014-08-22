@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 
-####  Copyright (C)  2003-2005, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
+####  Copyright (C)  2003-2005, 2014, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
 ####                 2005-2009, Edward R. Morrissey and 
 ####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com> 
 
@@ -18,9 +18,6 @@
 #### You should have received a copy of the Affero General Public License
 #### along with this program; if not, you can download if
 #### from the Affero Project at http://www.affero.org/oagpl.html
-
-### This file should be linked from /http/mpi.log, and that is
-### where the call comes from
 
 
 ###  This is not as full proof as the mechanisms in ADaCGH: if there is a crash
@@ -39,17 +36,14 @@ import shutil
 import sys
 import random
 import socket
-## import cgitb;cgitb.enable() 
-sys.stderr = sys.stdout 
+## import cgitb;cgitb.enable()
+sys.stderr = sys.stdout
 
-from pomelo_config import *
+from pomelo_config import * # noqa
 
 
 sys.path.append(web_apps_common_dir)
 import counterApplications
-
-
-
 
 
 
@@ -58,7 +52,7 @@ test_type  = sys.argv[2]
 num_permut = sys.argv[3]
 
 newDir = tmpDir.replace(ROOT_TMP_DIR, "")
-newDir = newDir.replace("/", "") ## just the number
+newDir = newDir.replace("/", "")  ## just the number
 
 
 limma_tests = ("t_limma", "t_limma_paired", "Anova_limma")
@@ -67,8 +61,11 @@ limma_tests = ("t_limma", "t_limma_paired", "Anova_limma")
 
 
 ### These commands are NOT launched in the background!!!
-def CoxCommand(lamSuffix, tmpDir, R_pomelo_bin):
-    run_command = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '"; cd ' + \
+def CoxCommand(tmpDir, R_pomelo_bin):
+    # run_command = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + '"; cd ' + \
+    #               tmpDir +  '; ' + R_pomelo_bin + \
+    #               ' --no-restore --no-readline --no-save --slave <f1-pomelo.R >>f1-pomelo.Rout 2> error.msg '
+    run_command = 'cd ' + \
                   tmpDir +  '; ' + R_pomelo_bin + \
                   ' --no-restore --no-readline --no-save --slave <f1-pomelo.R >>f1-pomelo.Rout 2> error.msg '
     issue_echo('    inside CoxCommand: ready for os.system', tmpDir)
@@ -76,7 +73,7 @@ def CoxCommand(lamSuffix, tmpDir, R_pomelo_bin):
     issue_echo('    inside CoxCommand: done os.system', tmpDir)
 
     
-def multestCommand(lamSuffix, tmpDir, num_permut, test_type):
+def multestCommand(tmpDir, num_permut, test_type):
     run_command = 'cd ' +  tmpDir + '; ' + "mpirun -np " + num_procs + "    multest_paral " +\
                   test_type + \
                   " maxT " + num_permut + " covariate class_labels " + " > pomelo.msg"
@@ -162,7 +159,6 @@ def writeMemoryErrorMessage(tmpDir):
 ###################################################################
 
 def cleanups(tmpDir, newDir,
-             lamSuffix,
              runningProcs= runningProcs,
              newnamepid = 'finished_pid.txt'):
     """ Clean up actions; kill lam, delete running.procs files, clean process table."""
@@ -212,10 +208,10 @@ def kill_pid_machine(pid, machine):
 
 
 def mpi_crash_log(tmpDir, value):
-    """ Write to the lam crash log, 'recoverFromLAMCrash.out' """
+    """ Write to the lam crash log, 'recoverFromMPICrash.out' """
     timeHuman = str(time.strftime('%d %b %Y %H:%M:%S')) 
     os.system('echo "' + value + '  at ' + timeHuman + \
-              '" >> ' + tmpDir + '/recoverFromLAMCrash.out')
+              '" >> ' + tmpDir + '/recoverFromMPICrash.out')
 
 
 
@@ -253,17 +249,16 @@ else: ## we use MPI
     ## We do not check for room here. Maybe later? FIXME
     issue_echo('before lamboot', tmpDir)
     while True:
-#     for i in range(int(MAX_MPI_CRASHES)):
-        lamboot(lamSuffix, NCPU) ## note that this tries a number of times!
-## checkTping ain't working. And I don't get it. FIXME!!
-#        time.sleep(20) ## wait for LAM to be set
-#        lam_ok = check_tping(lamSuffix, tmpDir)
-#         if lam_ok == 0:
-#             issue_echo('check_tping fails', tmpDir)
-#             lboot = lamboot(lamSuffix, NCPU)
+# #     for i in range(int(MAX_MPI_CRASHES)):
+#         lamboot(lamSuffix, NCPU) ## note that this tries a number of times!
+# ## checkTping ain't working. And I don't get it. FIXME!!
+# #        time.sleep(20) ## wait for LAM to be set
+# #        lam_ok = check_tping(lamSuffix, tmpDir)
+# #         if lam_ok == 0:
+# #             issue_echo('check_tping fails', tmpDir)
+# #             lboot = lamboot(lamSuffix, NCPU)
         issue_echo('after lamboot', tmpDir)
-        counterApplications.add_to_LAM_SUFFIX_LOG(lamSuffix,
-                                                  'PomeloII-' + test_type,
+        counterApplications.add_to_LAM_SUFFIX_LOG('PomeloII-' + test_type,
                                                   tmpDir,
                                                   socket.gethostname())
         issue_echo('after counter applications', tmpDir)
@@ -271,10 +266,10 @@ else: ## we use MPI
         ## launch actual R or multtest process
         if(test_type == "Cox"):
             issue_echo(' about to launch CoxCommand', tmpDir)
-            CoxCommand(lamSuffix, tmpDir, R_pomelo_bin)
+            CoxCommand(tmpDir, R_pomelo_bin)
         else:
             issue_echo(' about to launch multestCommand', tmpDir)
-            multestCommand(lamSuffix, tmpDir, num_permut, test_type)
+            multestCommand(tmpDir, num_permut, test_type)
 
         time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
         collectZombies()
@@ -285,7 +280,7 @@ else: ## we use MPI
                                                    tmpDir, socket.gethostname(),
                                                    message = 'MPI MEMORY ERROR')
             mpi_crash_log(tmpDir, "MPI MEMORY ERROR")
-            cleanups(tmpDir, newDir, lamSuffix)
+            cleanups(tmpDir, newDir)
             writeErrorMessage(tmpDir)
             break
             
@@ -311,7 +306,7 @@ else: ## we use MPI
         if count_mpi_crash > MAX_MPI_CRASHES:
             issue_echo('count_mpi_crash > MAX_MPI_CRASHES', tmpDir)
             lam_crash_log(tmpDir, "MAX_MPI_CRASHES reached")
-            cleanups(tmpDir, newDir, lamSuffix)
+            cleanups(tmpDir, newDir)
             writeErrorMessage(tmpDir)
             break
         else:
@@ -322,7 +317,7 @@ else: ## we use MPI
                 fuoo = os.popen3('mv ' + tmpDir + '/mpiOK ' + tmpDir + '/previous_mpiOK')
             except:
                 None
-            cleanups(tmpDir, newDir, lamSuffix)
+            cleanups(tmpDir, newDir)
             issue_echo('mpi crashed; looping again', tmpDir)
 
 ## Recall the process (R or multtest) are blocking! We wait for them to finish or crash.

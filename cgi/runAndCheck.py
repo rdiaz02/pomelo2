@@ -1,6 +1,6 @@
 #!/usr/bin/python
-## All this code is copyright Ramon Diaz-Uriarte, and distributed under the
-## Affero GPL license
+## All this code is copyright 2006-2014 Ramon Diaz-Uriarte, and
+## distributed under the Affero GPL license
 
 ## apparently, these aren't used
 # import types
@@ -16,17 +16,20 @@ import sys
 import glob
 import shutil
 import fcntl
-import socket 
+import socket
 import random
-import cgitb; cgitb.enable() 
+import cgitb
+cgitb.enable()
 
-from pomelo_config import *
+from pomelo_config import *  # noqa
 
-sys.stderr = sys.stdout 
+sys.stderr = sys.stdout
 tmpDir     = sys.argv[1]
 
 newDir = tmpDir.replace(ROOT_TMP_DIR, "")
-newDir = newDir.replace("/", "") ## just the number
+newDir = newDir.replace("/", "")  # just the number
+
+newDirPath = pomelo_running_procs_dir + "/Pom." + newDir
 
 
 ################################################################
@@ -51,7 +54,7 @@ def issue_echo2(fecho):
 
 
 
-def add_to_log(application, tmpDir, error_type,error_text):
+def add_to_log(application, tmpDir, error_type, error_text):
     date_time = time.strftime('%Y\t%m\t%d\t%X')
     outstr = '%s\t%s\t%s\t%s\n%s\n' % (application, date_time, error_type, tmpDir, error_text)
     cf = open('/http/mpi.log/app_caught_error', mode = 'a')
@@ -67,7 +70,7 @@ def cgi_error_page(error_type, error_text, tmpDir):
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TEXT_" , error_text)
     add_to_log("Pomelo II", tmpDir, error_type, error_text)
-    err_templ_hmtl = "Content-type: text/html\n\n" + err_templ_hmtl 
+    err_templ_hmtl = "Content-type: text/html\n\n" + err_templ_hmtl
     print err_templ_hmtl
 
 def html_error_page(error_type, error_text, tmpDir):
@@ -95,19 +98,23 @@ def getQualifiedURL(uri = None):
         host = os.environ.get('SERVER_NAME')
         port = os.environ.get('SERVER_PORT', '80')
         if port != stdport: host = host + ":" + port
-	
+
     result = "%s://%s" % (schema, host)
     if uri: result = result + uri
-    
+  
     return result
+
 
 def getScriptname():
     """ Return te scriptname part of the URL."""
     return os.environ.get('SCRIPT_NAME', '')
 
+
 def getBaseURL():
     """ Return a fully qualified URL to this script. """
     return getQualifiedURL(getScriptname())
+
+
 def commonOutput():
     print "Content-type: text/html\n\n"
     print """
@@ -116,16 +123,9 @@ def commonOutput():
     <title>Pomelo II results</title>
     </head>
     <body>
-    """    
-# ## to keep executing myself:
-# def relaunchCGI():
-#     print "Content-type: text/html\n\n"
-#     old_html = open(tmpDir + "/results.html")
-#     html_data = old_html.read()
-#     old_html.close()
-#     print html_data
+    """
 
-    
+
 def mpi_error():
     error_text = "<p> A technical problem has ocurred during execution. </p>"
     error_text = error_text + "<p> The webmaster will be warned and hopefully the problem will be solved soon. </p>"
@@ -211,7 +211,7 @@ def printOKRun():
     if os.path.exists('p.v.sort.FDR.d.html'):
 #        os.system('w3m -config = "/var/www/.w3m" -dump p.v.sort.FDR.d.html > results.pomelo.txt')
         ### fi,fo,fu = os.popen3('w3m -config = "/var/www/.w3m" -dump p.v.sort.FDR.d.html > results.pomelo.txt')
-        fi,fo,fu = os.popen3('w3m -dump p.v.sort.FDR.d.html > results.pomelo.txt')
+        fi,fo,fu = os.popen3(w3mPath + ' -dump p.v.sort.FDR.d.html > results.pomelo.txt')
         fi.close()
         fo.close()
         fu.close()
@@ -219,58 +219,6 @@ def printOKRun():
         ### which I do not understand
 ##    	os.system('html2text -width 200 -nobs  -o results.pomelo.txt p.v.sort.FDR.d.html')
 ##      html2text leaves weird characters sometimes
-
-    
-def close_lam_env():
-    try:
-        lamenv = open(tmpDir + "/lamSuffix", mode = "r").readline()
-    except:
-        None
-    try:
-        lamkill = os.system('export LAM_MPI_SESSION_SUFFIX=' + lamenv + '; lamhalt -H; lamwipe -H')
-    except:
-        None
-    try:
-        ## probably redundant, and fills error logs.
-        numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*"))
-        if numPomelo > 1:
-            tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*")
-    except:
-        None
-
-
-
-def did_lam_crash(tmpDir, machine_root = 'karl'):
-    """ Verify whether LAM/MPI crashed by checking logs and f1.Rout
-    for single universe lamboot."""
-    OTHER_LAM_MSGS = 'Call stack within LAM:'
-    lam_logs = glob.glob(tmpDir + '/' + machine_root + '*.*.*.log')
-    try:
-        in_error_msg = int(os.popen('grep MPI_Error_string ' + \
-                                    tmpDir + '/f1-pomelo.Rout | wc').readline().split()[0])
-    except:
-        in_error_msg = 0
-#     no_universe = int(os.popen('grep "Running serial version of papply" ' + \
-#                                tmpDir + '/f1.Rout | wc').readline().split()[0])
-## We do NOT want that, because sometimes a one node universe is legitimate!!!
-    if in_error_msg > 0:
-        for lam_log in lam_logs:
-            os.system('rm ' + lam_log)
-#     elif no_universe > 0:
-#         os.system("sed -i 's/Running serial version of papply/already_seen:running serial version of papply/g'" + \
-#                   tmpDir + "/f1.Rout")
-    else: ## look in lam logs
-        in_lam_logs = 0
-        for lam_log in lam_logs:
-            tmp1 = int(os.popen('grep "' + OTHER_LAM_MSGS + '" ' + \
-                                lam_log + ' | wc').readline().split()[0])
-            if tmp1 > 0:
-                in_lam_logs = 1
-                break
-    if (in_error_msg > 0) or (in_lam_logs > 0):
-        return True
-    else:
-        return False
 
 
 ################################################################
@@ -294,7 +242,7 @@ except:
 ### Do very first run attempt.
 
 issue_echo2("Before first tryrrun")
-tryrrun = os.system(cgi_dir + 'pomelo_run2.py ' + tmpDir + 
+tryrrun = os.system(cgi_dir + '/pomelo_run2.py ' + tmpDir + 
                     ' ' + test_type + ' ' + str(num_permut) +'&')
 
 time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
@@ -322,9 +270,6 @@ issue_echo2("After first tryrrun")
 
 
 
-
-
-
 while True:  ## we repeat until done or unrecoverale crash
     issue_echo2("top of while")
     number_relaunches = int(open(tmpDir + "/number_relaunches", mode = "r").readline())
@@ -343,7 +288,8 @@ while True:  ## we repeat until done or unrecoverale crash
 
     if run_finished:
         issue_echo2("run_finished")
-
+        ## mpiOK is spitted out by multtestmain_paral.cpp, so the cpp code
+        ## by limma_functions.R, by f1-pomelo.R
         mpi_worked    = os.path.exists(tmpDir + "/mpiOK")
         results_exist = os.path.exists(tmpDir + "/multest_parallel.res")
 
@@ -381,7 +327,7 @@ while True:  ## we repeat until done or unrecoverale crash
                                           tmpDir + '/pomelo_run.crash.finished-' +
                                           str(number_relaunches - 1))
             issue_echo2("renamed pomelo_run.finished")
-            tryrrun = os.system(cgi_dir + 'pomelo_run2.py ' + tmpDir + 
+            tryrrun = os.system(cgi_dir + '/pomelo_run2.py ' + tmpDir + 
                                 ' ' + test_type + ' ' + str(num_permut) +'&')
             issue_echo2("tried relaunch")
         else: ## we cannot relaunch
@@ -406,12 +352,10 @@ while True:  ## we repeat until done or unrecoverale crash
 ### clean ups
 try:
     issue_echo2('      at final try')
-    numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*"))
+    numPomelo = len(glob.glob(newDirPath + "*"))
     if numPomelo > 1:
-        tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*")
-    issue_echo2('Deleting Pom.running.procs in ' +
-                '/http/pomelo2/www/Pom.running.procs/Pom.' +
-                newDir + '*')
+        tmptmp = os.system("rm " + newDirPath + "*")
+    issue_echo2('Deleting Pom.running.procs in ' + newDirPath + '*')
 except:
     None
              
@@ -419,3 +363,71 @@ burying = os.system("cd " + tmpDir + "; " + buryPomCall)
 issue_echo2("at the very end")
 
 
+
+
+
+
+
+
+
+
+    
+# def close_lam_env():
+#     try:
+#         lamenv = open(tmpDir + "/lamSuffix", mode = "r").readline()
+#     except:
+#         None
+#     try:
+#         lamkill = os.system('export LAM_MPI_SESSION_SUFFIX=' + lamenv + '; lamhalt -H; lamwipe -H')
+#     except:
+#         None
+#     try:
+#         ## probably redundant, and fills error logs.
+#         numPomelo = len(glob.glob("/http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*"))
+#         if numPomelo > 1:
+#             tmptmp = os.system("rm /http/pomelo2/www/Pom.running.procs/Pom." + newDir + "*")
+#     except:
+#         None
+
+
+
+# def did_lam_crash(tmpDir, machine_root = 'karl'):
+#     """ Verify whether LAM/MPI crashed by checking logs and f1.Rout
+#     for single universe lamboot."""
+#     OTHER_LAM_MSGS = 'Call stack within LAM:'
+#     lam_logs = glob.glob(tmpDir + '/' + machine_root + '*.*.*.log')
+#     try:
+#         in_error_msg = int(os.popen('grep MPI_Error_string ' + \
+#                                     tmpDir + '/f1-pomelo.Rout | wc').readline().split()[0])
+#     except:
+#         in_error_msg = 0
+# #     no_universe = int(os.popen('grep "Running serial version of papply" ' + \
+# #                                tmpDir + '/f1.Rout | wc').readline().split()[0])
+# ## We do NOT want that, because sometimes a one node universe is legitimate!!!
+#     if in_error_msg > 0:
+#         for lam_log in lam_logs:
+#             os.system('rm ' + lam_log)
+# #     elif no_universe > 0:
+# #         os.system("sed -i 's/Running serial version of papply/already_seen:running serial version of papply/g'" + \
+# #                   tmpDir + "/f1.Rout")
+#     else: ## look in lam logs
+#         in_lam_logs = 0
+#         for lam_log in lam_logs:
+#             tmp1 = int(os.popen('grep "' + OTHER_LAM_MSGS + '" ' + \
+#                                 lam_log + ' | wc').readline().split()[0])
+#             if tmp1 > 0:
+#                 in_lam_logs = 1
+#                 break
+#     if (in_error_msg > 0) or (in_lam_logs > 0):
+#         return True
+#     else:
+#         return False
+
+
+# ## to keep executing myself:
+# def relaunchCGI():
+#     print "Content-type: text/html\n\n"
+#     old_html = open(tmpDir + "/results.html")
+#     html_data = old_html.read()
+#     old_html.close()
+#     print html_data
