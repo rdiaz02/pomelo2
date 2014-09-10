@@ -57,7 +57,7 @@ def issue_echo2(fecho):
 def add_to_log(application, tmpDir, error_type, error_text):
     date_time = time.strftime('%Y\t%m\t%d\t%X')
     outstr = '%s\t%s\t%s\t%s\n%s\n' % (application, date_time, error_type, tmpDir, error_text)
-    cf = open('/http/mpi.log/app_caught_error', mode = 'a')
+    cf = open(web_apps_common_dir + '/app_caught_error', mode = 'a')
     fcntl.flock(cf.fileno(), fcntl.LOCK_SH)
     cf.write(outstr)
     fcntl.flock(cf.fileno(), fcntl.LOCK_UN)

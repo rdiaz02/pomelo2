@@ -39,12 +39,11 @@ import socket
 ## import cgitb;cgitb.enable()
 sys.stderr = sys.stdout
 
-from pomelo_config import * # noqa
+from pomelo_config import *  # noqa
 
 
 sys.path.append(web_apps_common_dir)
 import counterApplications
-
 
 
 tmpDir     = sys.argv[1]

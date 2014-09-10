@@ -23,6 +23,10 @@ MAX_time_size = 61897L ## time to survival, class, etc size
 MAX_PERMUT = 90000000  ## maximum number of permutations
 
 
+
+##########################################################
+##########################################################
+#########  None of the above should need to change
 ##########################################################
 ##########################################################
 
@@ -36,3 +40,10 @@ pomelo_running_procs_dir = ROOT_POMELO_DIR + "/www/Pom.running.procs"
 pomelo_running_procs_file_expression = pomelo_running_procs_dir + "/Pom.*@*"
 
 buryPomCall = cgi_dir + "/buryPom.py"
+
+
+#************  SELENIUM STUFF **************
+
+covariate_sel_file = ROOT_POMELO_DIR + "/www/selenium-core-0.7.1/TEST_DATA/EXPRESSION_Anova-limma"
+class_lab_sel_file = ROOT_POMELO_DIR + "/www/selenium-core-0.7.1/TEST_DATA/CLASS_LABELS_Anova-limma"
+examples_data_dir  = ROOT_POMELO_DIR + "/www/Examples/Data"
