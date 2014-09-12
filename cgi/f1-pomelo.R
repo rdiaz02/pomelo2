@@ -61,17 +61,17 @@ caughtUserError <- function(message) {
 }
 
 
-
+library(parallel)
 library(survival)
-library(Rmpi)
-library(papply)
+## library(Rmpi)
+## library(papply)
 
-mpi.spawn.Rslaves(nslaves = mpi.universe.size())
-mpi.remote.exec(rm(list = ls(env = .GlobalEnv), envir =.GlobalEnv))
-mpi.remote.exec(library(survival))
-sink(file = "mpiOK")
-cat("MPI started OK\n")
-sink()
+## mpi.spawn.Rslaves(nslaves = mpi.universe.size())
+## mpi.remote.exec(rm(list = ls(env = .GlobalEnv), envir =.GlobalEnv))
+## mpi.remote.exec(library(survival))
+## sink(file = "mpiOK")
+## cat("MPI started OK\n")
+## sink()
 
 
 hostn <- system("hostname", intern = TRUE)
@@ -240,15 +240,19 @@ coxph.fit.pomelo0 <- function (x, y, init = NULL,
 }
 
 
-mpi.bcast.Robj2slave(coxph.fit.pomelo0)
+## mpi.bcast.Robj2slave(coxph.fit.pomelo0)
 
 
 ## what follows is for pomelo
-cox.parallel <- function(x, time, event, MaxIterationsCox = 200) { 
+## FIXME
+## could use something for both forking and cluster
+## as in ADaCGH2 and the distribute function. Later maybe
+cox.parallel <- function(x, time, event, MaxIterationsCox = 200,
+                         cores = detectCores()) { 
     res.mat <- matrix(NA, nrow = ncol(x), ncol = 4)
     sobject <- Surv(time,event)
     
-    funpap3 <- function (x) {
+    funpap3 <- function (x, sobject, MaxIterationsCox) {
         out1 <- coxph.fit.pomelo0(x, sobject,
                                   control = coxph.control(iter.max = MaxIterationsCox))
         if(out1$warnStatus > 1) {
@@ -261,9 +265,11 @@ cox.parallel <- function(x, time, event, MaxIterationsCox = 200) {
         }
     }
     
-    tmp <- matrix(unlist(papply(as.data.frame(x),
-                                funpap3,
-                                papply_commondata =list(sobject = sobject))),
+    tmp <- matrix(unlist(mclapply(as.data.frame(x),
+                                  funpap3,
+                                  sobject = sobject,
+                                  MaxIterationsCox = MaxIterationsCox,
+                                  mc.cores = cores)),
                   ncol = 3, byrow = TRUE)
     res.mat[, 1:3] <- tmp
     res.mat[, 4] <- p.adjust(tmp[, 2], method = "BH")
@@ -274,7 +280,8 @@ cox.parallel <- function(x, time, event, MaxIterationsCox = 200) {
 
 save.image()
 
-rescox <- cox.parallel(t(xdata), Time, Event, MaxIterationsCox = 200)  
+rescox <- cox.parallel(t(xdata), Time, Event, MaxIterationsCox = 200,
+                       cores = detectCores())  
 
 ### FIXME: the above can blow up, and we won't be properly notified.
 ### and it will continue "running" up to 8 hours. Bad.
@@ -306,11 +313,43 @@ write.table(file = "multest_parallel.res",
 
 organism <- scan("organism", what = "char", n = 1)
 idtype <- scan("idtype", what = "char", n = 1)
-system(paste("/../../../cgi/generate_table_Cox.py", idtype, organism))
+system(paste("../../../cgi/generate_table_Cox.py", idtype, organism))
 ## system(paste("/http/pomelo2/cgi/generate_table_Cox.py", idtype, organism))
 
 cat("\nmultest_parallel.res\n", file = "pomelo.msg", append = TRUE)
 
 
-#### lanzar como:
+#### launch as
 ## tryrrun = os.system('/http/mpi.log/tryRrun2.py ' + tmpDir +' 10 ' + 'PomeloII_cox &')
+
+
+
+
+## Old, with papply
+## cox.parallel.old <- function(x, time, event, MaxIterationsCox = 200) { 
+##     res.mat <- matrix(NA, nrow = ncol(x), ncol = 4)
+##     sobject <- Surv(time,event)
+    
+##     funpap3 <- function (x) {
+##         out1 <- coxph.fit.pomelo0(x, sobject,
+##                                   control = coxph.control(iter.max = MaxIterationsCox))
+##         if(out1$warnStatus > 1) {
+##             return(c(NA, NA, out1$warnStatus))
+##         } else {
+##             sts <- out1$coef/sqrt(out1$var)
+##             return(c(out1$coef,
+##                      1- pchisq((sts^2), df = 1), 
+##                      out1$warnStatus))
+##         }
+##     }
+    
+##     tmp <- matrix(unlist(papply(as.data.frame(x),
+##                                 funpap3,
+##                                 papply_commondata =list(sobject = sobject))),
+##                   ncol = 3, byrow = TRUE)
+##     res.mat[, 1:3] <- tmp
+##     res.mat[, 4] <- p.adjust(tmp[, 2], method = "BH")
+##     res.mat[is.na(res.mat[, 2]), c(1, 2, 4)] <- 999
+##     colnames(res.mat) <- c("coeff", "p.value", "Warning", "FDR")
+##     return(res.mat)
+## }

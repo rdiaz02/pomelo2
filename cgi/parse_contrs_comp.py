@@ -1,4 +1,4 @@
-#!/usr/bin/python2.4
+#!/usr/bin/python
 
 def red_green(value, FDR_limit, text_small, text_big):
     num     = float(value)
