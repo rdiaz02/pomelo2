@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 import img_map
+from pomelo_config import R_pomelo_bin
 
 
 #***********************************************************************************
@@ -52,7 +53,7 @@ form = {}
 imagename = "First_image"
 write_to_file(form, imagename)
 
-Rcommand = "/var/www/bin/R-local-7-LAM-MPI/bin/R CMD BATCH --no-restore --no-readline --no-save -q new_heatmap.R 2> error.msg"
+Rcommand = R_pomelo_bin + " CMD BATCH --no-restore --no-readline --no-save -q new_heatmap.R 2> error.msg"
 
 Rrun = os.system(Rcommand)
 

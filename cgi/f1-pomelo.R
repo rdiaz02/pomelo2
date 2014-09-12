@@ -16,8 +16,6 @@
 #### along with this program; if not, you can download if
 #### from the Affero Project at http://www.affero.org/oagpl.html
 
-
-
 rm(list = ls())
 
 ##.Last <- function() {cat("\n\n Normal termination\n")}
@@ -34,23 +32,23 @@ rm(list = ls())
 
     try(sink()) ## in case we are bailing out from within sink
     save.image()
-    if (is.loaded("mpi_initialize")){ 
-        if (mpi.comm.size(1) > 0){ 
-        try(print("Please use mpi.close.Rslaves() to close slaves."), silent = TRUE)
-        try(mpi.close.Rslaves() , silent = TRUE)
-        } 
-        try(print("Please use mpi.quit() to quit R"), silent = TRUE)
-        cat("\n\n Normal termination\n")
-        try(stopCluster(TheCluster), silent = TRUE)
-        ##        .Call("mpi_finalize")
-        try(mpi.quit(save = "no"), silent = TRUE)
-    }
-    try(stopCluster(TheCluster), silent = TRUE)
+    ## if (is.loaded("mpi_initialize")){ 
+    ##     if (mpi.comm.size(1) > 0){ 
+    ##     try(print("Please use mpi.close.Rslaves() to close slaves."), silent = TRUE)
+    ##     try(mpi.close.Rslaves() , silent = TRUE)
+    ##     } 
+    ##     try(print("Please use mpi.quit() to quit R"), silent = TRUE)
+    ##     cat("\n\n Normal termination\n")
+    ##     try(stopCluster(TheCluster), silent = TRUE)
+    ##     ##        .Call("mpi_finalize")
+    ##     try(mpi.quit(save = "no"), silent = TRUE)
+    ## }
+    ## try(stopCluster(TheCluster), silent = TRUE)
     cat("\n\n Normal termination\n")
     ## In case the CGI is not called (user kills browser)
     ## have a way to stop lam
-    try(system(paste("/http/mpi.log/killLAM.py", lamSESSION, "&")))
-    try(mpi.quit(save = "no"), silent = TRUE)
+##    try(system(paste("/http/mpi.log/killLAM.py", lamSESSION, "&")))
+##    try(mpi.quit(save = "no"), silent = TRUE)
 }
 
 
@@ -308,7 +306,8 @@ write.table(file = "multest_parallel.res",
 
 organism <- scan("organism", what = "char", n = 1)
 idtype <- scan("idtype", what = "char", n = 1)
-system(paste("/http/pomelo2/cgi/generate_table_Cox.py", idtype, organism))
+system(paste("/../../../cgi/generate_table_Cox.py", idtype, organism))
+## system(paste("/http/pomelo2/cgi/generate_table_Cox.py", idtype, organism))
 
 cat("\nmultest_parallel.res\n", file = "pomelo.msg", append = TRUE)
 

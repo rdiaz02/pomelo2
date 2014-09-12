@@ -6,6 +6,9 @@ import img_map
 import random
 import sys
 
+from pomelo_config import R_pomelo_bin
+
+
 colourValues = ("rg","topo","gr")
 sizeValues   = ("auto","700","900","1200","1600","2000")
 ################################ Function that checks that nothing strange is being fed
@@ -92,7 +95,7 @@ f.close()
 imagename = "heatmap" + str(random.randint(1, 999999))
 write_to_file(form,imagename)
 
-Rcommand = "cd " + tmp_dir + "; " + "/var/www/bin/R-local-7-LAM-MPI/bin/R CMD BATCH --no-restore --no-readline --no-save -q new_heatmap.R 2> error.msg "
+Rcommand = "cd " + tmp_dir + "; " + R_pomelo_bin + " CMD BATCH --no-restore --no-readline --no-save -q new_heatmap.R 2> error.msg "
 Rrun = os.system(Rcommand)
 
 if os.path.exists('NoImagemapPossible'):
