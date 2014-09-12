@@ -1,4 +1,4 @@
-library(GDD)
+library(Cairo)
 #library(car)
 ##################################  Functions #################################
 
@@ -83,8 +83,12 @@ for (i in 1:table.dimensions[2]){
   cat(paste(is.factor(covariables.table[,i]),"\n"))
   print(summary(covariables.table[,i]))
   sink()
-  GDD(file = paste(covariable.names[i],".png",sep=""), w=880, h=300,
-      type = "png", ps = 6)
+  CairoPNG(filename = paste(covariable.names[i],".png",sep=""),
+           width=880, height=300,
+           pointsize = 6)
+  
+  ## GDD(file = paste(covariable.names[i],".png",sep=""), w=880, h=300,
+  ##     type = "png", ps = 6)
   par(mfrow=c(1,2))
   par(cex.lab = 1.6)
   par(cex.axis = 1.6)

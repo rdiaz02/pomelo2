@@ -1,6 +1,6 @@
 Go to the next directory, make the binary
 (make)
-and copy the binary executable here.
+and copy the binary executable here (do not forget this step!)
 
 
 You need to have OpenMPI installed (the makefile will try calling mpiCC)

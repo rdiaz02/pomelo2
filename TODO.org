@@ -2,3 +2,4 @@
 - Let William Silveira know. Email is from 22-sept-2014
 
 
+- Fix counterApplications: that is causing now the problem!
