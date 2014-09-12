@@ -290,6 +290,8 @@ while True:  ## we repeat until done or unrecoverale crash
         issue_echo2("run_finished")
         ## mpiOK is spitted out by multtestmain_paral.cpp, so the cpp code
         ## by limma_functions.R, by f1-pomelo.R
+        ## we no longer start a LAM universe, and only use MPI
+        ## with the cpp code, but this signals start.
         mpi_worked    = os.path.exists(tmpDir + "/mpiOK")
         results_exist = os.path.exists(tmpDir + "/multest_parallel.res")
 

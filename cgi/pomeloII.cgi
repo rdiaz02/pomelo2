@@ -275,7 +275,7 @@ def radioUpload(fieldName, acceptedValues):
 currentTime = time.time()
 currentTmp = dircache.listdir(ROOT_TMP_DIR)
 for directory in currentTmp:
-    tmpS = ROOT_TMP_DIR + directory
+    tmpS = ROOT_TMP_DIR + "/" + directory
     if (currentTime - os.path.getmtime(tmpS)) > MAX_time:
         try:
             shutil.rmtree(tmpS)
@@ -285,7 +285,7 @@ for directory in currentTmp:
 ### Creating temporal directories
 newDir = str(random.randint(1, 10000)) + str(os.getpid()) + str(random.randint(1, 100000)) + str(int(currentTime)) + str(random.randint(1, 10000))
 
-tmpDir = ROOT_TMP_DIR + newDir
+tmpDir = ROOT_TMP_DIR + "/" + newDir
 os.mkdir(tmpDir)
 os.chmod(tmpDir, 0770)
 
@@ -336,7 +336,7 @@ elif(fs.has_key("selenium_indicator")):
 elif(fs.getfirst("covarex")!= None):
     covar_ex_name = fs.getfirst("covarex")
     try:
-        shutil.copy(examples_data_dir + "/" +  + covar_ex_name, tmpDir + "/covariate")
+        shutil.copy(examples_data_dir + "/" + covar_ex_name, tmpDir + "/covariate")
     except:
         cgi_error_page('EXAMPLE INPUT ERROR',
                        'The file name for the expression data is wrong. Use a valid one.')
@@ -356,11 +356,11 @@ else:
 if(fs.getfirst("censoredex")!= None):
     censored_name = fs.getfirst("censoredex")
     try:
-        shutil.copy(examples_data_dir + "/" +  + 
+        shutil.copy(examples_data_dir + "/" +  
                     censored_name, tmpDir + "/censored_indicator")
     except:
         cgi_error_page('EXAMPLE INPUT ERROR',
-                       'The file name for the cnesored status indicator is wrong. Use a valid one.')
+                       'The file name for the censored status indicator is wrong. Use a valid one.')
         sys.exit()
 else:
     fileUpload('censored_indicator')
@@ -378,7 +378,7 @@ if(fs.has_key("selenium_indicator")):
 elif(fs.getfirst("classex")!= None):
     class_ex_name = fs.getfirst("classex")
     try:
-        shutil.copy(examples_data_dir + "/" +  + class_ex_name, tmpDir + "/class_labels")
+        shutil.copy(examples_data_dir + "/" + class_ex_name, tmpDir + "/class_labels")
     except:
         cgi_error_page('EXAMPLE INPUT ERROR',
                        'The file name for the class labels is wrong. Use a valid one.')

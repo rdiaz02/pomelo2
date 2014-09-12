@@ -69,9 +69,13 @@ library(survival)
 ## mpi.spawn.Rslaves(nslaves = mpi.universe.size())
 ## mpi.remote.exec(rm(list = ls(env = .GlobalEnv), envir =.GlobalEnv))
 ## mpi.remote.exec(library(survival))
-## sink(file = "mpiOK")
+
+## this is not really necessary, but checking for the mpiOK file
+## is in lots of places.
+sink(file = "mpiOK")
+cat("Dummy file so as to not trigger an mpi error message\n")
 ## cat("MPI started OK\n")
-## sink()
+sink()
 
 
 hostn <- system("hostname", intern = TRUE)
