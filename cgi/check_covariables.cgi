@@ -13,7 +13,7 @@ import cgitb; cgitb.enable() ## zz: eliminar for real work?
 sys.stderr = sys.stdout
 
 from pomelo_config import web_apps_common_dir, pomelo_templates_dir,\
-    covariate_sel_file, cgi_dir, pomelo_url
+    covariate_sel_file, cgi_dir, pomelo_url, R_pomelo_bin
 
 ################################ Functions ############################################################
 

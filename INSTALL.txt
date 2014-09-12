@@ -24,6 +24,8 @@ INSTALLATION
 - For now, in the Pomelo2_html_templates you will need to substitute the
 URL in all places. 
 
+- you need GDD
 - tmp directory needs to be owned by www-data
 - the app_caught_error (in the web-apps-common directory) needs to be
    owned by www-data
+

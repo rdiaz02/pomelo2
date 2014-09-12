@@ -622,7 +622,7 @@ else:
     if fs.has_key('add_covars_ex'):
         add_covars_name = fs.getfirst('add_covars_ex')
         try:
-            shutil.copy(examples_data_dir + "/" +  + add_covars_name,
+            shutil.copy(examples_data_dir + "/" + add_covars_name,
                         tmpDir + "/COVARIABLES/covariables")
             file(tmpDir + '/COVARIABLES/added-example-covariables',
                  mode = 'wt').write(add_covars_name)

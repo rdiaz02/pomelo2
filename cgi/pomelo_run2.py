@@ -36,7 +36,7 @@ import shutil
 import sys
 import random
 import socket
-## import cgitb;cgitb.enable()
+import cgitb; cgitb.enable() ## can comment out once debugged?
 sys.stderr = sys.stdout
 
 from pomelo_config import *  # noqa

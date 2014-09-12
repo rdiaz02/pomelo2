@@ -3,7 +3,7 @@
 # This code is used to load a window with the downloadable files and description. And to
 # then zip and send the chosen files.
 import cgi
-#import cgitb;cgitb.enable()
+import cgitb;cgitb.enable()
 import dircache
 import os
 from pomelo_config import cgi_dir, pomelo_templates_dir, pomelo_url

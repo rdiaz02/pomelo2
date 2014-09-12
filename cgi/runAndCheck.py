@@ -19,7 +19,7 @@ import fcntl
 import socket
 import random
 import cgitb
-cgitb.enable()
+import cgitb; cgitb.enable() ## comment out once debugged?
 
 from pomelo_config import *  # noqa
 
