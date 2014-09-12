@@ -2,8 +2,8 @@
 ROOT_APPS_DIR = "/web-apps"
 R_pomelo_bin = ROOT_APPS_DIR + '/R-3.1.1-patched-2014-08-21/bin/R'
 w3mPath = '/usr/bin/w3m'
-
-
+python_path = "/usr/bin/python"
+pomelo_url = "http://pomelo2.iib.uam.es"
 
 ROOT_POMELO_DIR = ROOT_APPS_DIR + "/pomelo2"
 web_apps_common_dir = ROOT_APPS_DIR + '/web-apps-common'
@@ -46,4 +46,5 @@ buryPomCall = cgi_dir + "/buryPom.py"
 
 covariate_sel_file = ROOT_POMELO_DIR + "/www/selenium-core-0.7.1/TEST_DATA/EXPRESSION_Anova-limma"
 class_lab_sel_file = ROOT_POMELO_DIR + "/www/selenium-core-0.7.1/TEST_DATA/CLASS_LABELS_Anova-limma"
+covariable_sel_file = ROOT_POMELO_DIR + "/www/selenium-core-0.7.1/TEST_DATA/covariables.anova"
 examples_data_dir  = ROOT_POMELO_DIR + "/www/Examples/Data"

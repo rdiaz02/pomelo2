@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+# -*- mode: python; -*-
 ####  Copyright (C)  2003-2005, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
 ####                 2005-2009, Edward R. Morrissey and 
 ####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com> 

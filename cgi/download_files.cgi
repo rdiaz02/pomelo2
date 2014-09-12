@@ -1,10 +1,13 @@
-#!/usr/bin/python2.4
+#!/usr/bin/python
+# -*- mode: python; -*-
 # This code is used to load a window with the downloadable files and description. And to
 # then zip and send the chosen files.
 import cgi
 #import cgitb;cgitb.enable()
 import dircache
 import os
+from pomelo_config import cgi_dir, pomelo_templates_dir, pomelo_url
+
 ##################################### Functions ##################################################
 def make_files_dictionary(description_file):
     f = open(description_file)
@@ -89,8 +92,8 @@ cgi_action = form['cgi_action'].value
 newDir     = tmp_dir.split("/")[-1]
 
 # ******************** FOR DIFFERENT APPLICATIONS CHANGE THIS *************************
-description_file  = "/http/pomelo2/cgi/downloadable_files_description.txt"
-download_template = "/http/pomelo2/www/Pomelo2_html_templates/download_template.html"
+description_file  = cgi_dir + "/downloadable_files_description.txt"
+download_template = pomelo_templates_dir + "/download_template.html"
 zip_file          = "pomeloII_output.zip"
 # *************************************************************************************
 # Also make sure template has a hidden field cgi_action with value createZip
@@ -115,4 +118,4 @@ elif cgi_action=="createZip":
     create_readme(list_downloadFiles, file_dictionary)
     zip_command = "zip " + zip_file + " " + space_sep_file + " README.txt"
     os.system(zip_command)
-    print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/'+ newDir + '/' +zip_file + ' \n\n'
+    print 'Location: ' pomelo_url + '/tmp/'+ newDir + '/' + zip_file + ' \n\n'

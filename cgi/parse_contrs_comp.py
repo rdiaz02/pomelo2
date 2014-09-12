@@ -35,15 +35,18 @@ def line_to_html(line, FDR_limit, text_small, text_big, idtype, organism):
 
     return html_line, venn_line
 
-
 def linkGene(geneName, idtype, organism):
-    if idtype == 'None' or organism == 'None':
-        return geneName
-    else:
-	link_gn = ''.join(['http://idclight.bioinfo.cnio.es/IDClight.prog?idtype=',
-                        idtype, '&id=', geneName, '&internal=0&org=',
-                        organism, "\' target=\'icl_window\'"])
-        return ("<a href='" + link_gn + "'>" + geneName + "</a>")
+    return geneName
+
+# This is the old one, but we are not longer using idclight    
+# def linkGene(geneName, idtype, organism):
+#     if idtype == 'None' or organism == 'None':
+#         return geneName
+#     else:
+# 	link_gn = ''.join(['http://idclight.bioinfo.cnio.es/IDClight.prog?idtype=',
+#                         idtype, '&id=', geneName, '&internal=0&org=',
+#                         organism, "\' target=\'icl_window\'"])
+#         return ("<a href='" + link_gn + "'>" + geneName + "</a>")
 
 def parse_contrasts(contr_text_lines, FDR_limit, idtype, organism):
     #class_contrasts = contr_text_lines[0].split("\t")

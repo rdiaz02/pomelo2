@@ -1,4 +1,5 @@
-#!/usr/bin/python2.4
+#!/usr/bin/python
+# -*- mode: python; -*-
 import cgi
 import os
 import random
@@ -11,6 +12,8 @@ import time
 import cgitb; cgitb.enable() ## zz: eliminar for real work?
 sys.stderr = sys.stdout
 
+from pomelo_config import web_apps_common_dir, pomelo_templates_dir,\
+    covariate_sel_file, cgi_dir, pomelo_url
 
 ################################ Functions ############################################################
 
@@ -35,14 +38,14 @@ def add_to_log(application, tmpDir, error_type,error_text):
     # Truncate error text
     error_text = error_text[:300]
     outstr = '%s\t%s\t%s\t%s\n%s\n' % (application, date_time, error_type, tmpDir, error_text)
-    cf = open('/http/mpi.log/app_caught_error', mode = 'a')
+    cf = open(web_apps_common_dir + '/app_caught_error', mode = 'a')
     fcntl.flock(cf.fileno(), fcntl.LOCK_SH)
     cf.write(outstr)
     fcntl.flock(cf.fileno(), fcntl.LOCK_UN)
     cf.close()
 
 def cgi_error_page(error_type, error_text):
-    error_template = open("/http/pomelo2/www/Pomelo2_html_templates/templ-error.html","r")
+    error_template = open(pomelo_templates_dir + "/templ-error.html","r")
     err_templ_hmtl = error_template.read()
     error_template.close()
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
@@ -114,7 +117,7 @@ def numeric_table(table):
 
     # In the end
     #html_numeric_summary = html_header + html_table 
-    html_table_foto_and_summary  = "<table style=\"position:relative;left:7%\"><tr><td style=\"width:15%\" valign=\"top\">" + html_table  + "</td></tr><tr><td style=\"width:30%\"><img border=1 src='http://pomelo2.bioinfo.cnio.es/tmp/" + newDir + "/COVARIABLES/" + covar_name.strip() +".png'></td></tr></table>\n<br><br><br>"
+    html_table_foto_and_summary  = "<table style=\"position:relative;left:7%\"><tr><td style=\"width:15%\" valign=\"top\">" + html_table  + "</td></tr><tr><td style=\"width:30%\"><img border=1 src='" + pomelo_url + "/tmp/" + newDir + "/COVARIABLES/" + covar_name.strip() +".png'></td></tr></table>\n<br><br><br>"
     html_numeric_summary = html_header + html_table_foto_and_summary
     
     return html_numeric_summary
@@ -154,7 +157,7 @@ def non_numeric_table(table):
     
     # In the end
     #html_non_numeric_summary = html_header + html_table
-    html_table_foto_and_summary  = "<table style=\"position:relative;left:7%\"><tr><td style=\"width:15%\" valign=\"top\">" + html_table  + "</td></tr><tr><td style=\"width:30%\"><img border=1 src='http://pomelo2.bioinfo.cnio.es/tmp/" + newDir + "/COVARIABLES/" + covar_name.strip() +".png'></td></tr></table>\n<br><br><br>"
+    html_table_foto_and_summary  = "<table style=\"position:relative;left:7%\"><tr><td style=\"width:15%\" valign=\"top\">" + html_table  + "</td></tr><tr><td style=\"width:30%\"><img border=1 src='" + pomelo_url + "/tmp/" + newDir + "/COVARIABLES/" + covar_name.strip() +".png'></td></tr></table>\n<br><br><br>"
     html_header = html_header.replace("_number_",str(df))
     html_non_numeric_summary = html_header + html_table_foto_and_summary
     return html_non_numeric_summary
@@ -184,7 +187,7 @@ def r2html(tmp_dir, newDir):
         f = open("COVARIABLES/errCovariables")
         error_msg = f.read()
         f.close()
-        f = open("/http/pomelo2/www/Pomelo2_html_templates/templ-error.html")
+        f = open(pomelo_templates_dir + "/templ-error.html")
         err_template = f.read()
         f.close()
         error_msg = error_msg + "<br><br><input type='button' value=' Back to add covariables ' OnClick='document.location=\"add_covariables.cgi?newDir=" + newDir + " \"'>"
@@ -212,7 +215,7 @@ def r2html(tmp_dir, newDir):
             zeros_list.append("0")
         value_list = ','.join(zeros_list)
         html_summary  = parse_summary(summary_lines, names_covar)
-        f = open("/http/pomelo2/www/Pomelo2_html_templates/templ_check_covariables.html")
+        f = open(pomelo_templates_dir + "/templ_check_covariables.html")
         html_templ    = f.read();f.close()
         f.close()
         html_templ  = html_templ.replace("_SUBS_DIR_"      , tmp_dir)
@@ -228,7 +231,7 @@ def r2html(tmp_dir, newDir):
 		
 ##################################################################################
 #************  SELENIUM STUFF **************
-covariable_sel_file ="/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/covariables.anova"
+## covariable_sel_file ="/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/covariables.anova"
 #*******************************************
 form    = cgi.FieldStorage()
 try:
@@ -252,7 +255,8 @@ if cgi_option == "continue":
        dummyi, dummyo, dummye = os.popen3("rm COVARIABLES/*")
     except:
        pass
-    run_and_check = os.spawnv(os.P_NOWAIT, '/http/pomelo2/cgi/runAndCheck.py',
+
+    run_and_check = os.spawnv(os.P_NOWAIT, cgi_dir + '/runAndCheck.py',
                               ['', tmpDir])
     os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
                   '"> ' + tmpDir + '/run_and_checkPID')
@@ -274,8 +278,10 @@ if cgi_option=="check_covariables":
         pass
     else:
         fileUpload("covariables",form,tmp_dir)
-    dummy = os.system('cp /http/pomelo2/cgi/test_and_summary.R COVARIABLES/' + '/. ; chmod 777 COVARIABLES/test_and_summary.R')
-    Rcommand = "cd " + tmp_dir + "/COVARIABLES; /var/www/bin/R-local-7-LAM-MPI/bin/R CMD BATCH --no-restore --no-readline --no-save -q test_and_summary.R "
+    dummy = os.system('cp ' + cgi_dir + '/test_and_summary.R COVARIABLES/' +\
+                      '/. ; chmod 777 COVARIABLES/test_and_summary.R')
+    Rcommand = "cd " + tmp_dir + "/COVARIABLES; " + R_pomelo_bin + \
+               " CMD BATCH --no-restore --no-readline --no-save -q test_and_summary.R "
     dummy = os.system(Rcommand)
     html_page = r2html(tmp_dir, newDir)        
     print "Content-type: text/html\n\n"
@@ -299,8 +305,7 @@ if cgi_option=="covar_launch":
         f.close()
         # Aqui habria que rellenar los templates
 
-
-    run_and_check = os.spawnv(os.P_NOWAIT, '/http/pomelo2/cgi/runAndCheck.py',
+    run_and_check = os.spawnv(os.P_NOWAIT, cgi_dir + '/runAndCheck.py',
                               ['', tmpDir])
     os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
                   '"> ' + tmpDir + '/run_and_checkPID')

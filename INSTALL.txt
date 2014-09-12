@@ -19,3 +19,7 @@ available tests in the full Pomelo II, and none of the useful figures, but
 you can do it. Go to the /bin directory and follow instructions there.
 
 
+
+INSTALLATION
+- For now, in the Pomelo2_html_templates you will need to substitute the
+URL in all places. 

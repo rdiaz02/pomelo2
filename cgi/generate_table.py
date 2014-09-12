@@ -75,15 +75,19 @@ def table_gen_sort(l1, l2, l3, l4, l5, l6, order, idtype, organism, test_type, f
         fout.write(outstring)
     fout.write('</table>')
 
-
 def linkGene(geneName, idtype, organism):
-    if idtype == 'None' or organism == 'None':
-        return geneName
-    else:
-	link_gn = ''.join(['http://idclight.bioinfo.cnio.es/IDClight.prog?idtype=',
-                        idtype, '&id=', geneName, '&internal=0&org=',
-                        organism,"\' target=\'icl_window\'"])
-        return ("<a href='" + link_gn + "'>" + geneName + "</a>")
+    return geneName
+
+# This is the old one, but we are not longer using idclight    
+
+# def linkGene(geneName, idtype, organism):
+#     if idtype == 'None' or organism == 'None':
+#         return geneName
+#     else:
+# 	link_gn = ''.join(['http://idclight.bioinfo.cnio.es/IDClight.prog?idtype=',
+#                         idtype, '&id=', geneName, '&internal=0&org=',
+#                         organism,"\' target=\'icl_window\'"])
+#         return ("<a href='" + link_gn + "'>" + geneName + "</a>")
 
 
 f=open("idtype")

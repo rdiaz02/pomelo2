@@ -1,6 +1,9 @@
-#!/usr/bin/python2.4
+#!/usr/bin/python
+# -*- mode: python; -*-
 import sys
 import os
+
+from pomelo_config import pomelo_templates_dir
 
 def permutation_indices(data):
     """ Title: list permutation order indices
@@ -62,14 +65,19 @@ def table_gen(l1, l2, l3, l4, l5, l6, order, idtype, organism, test_type):
 
 
 def linkGene(geneName, idtype, organism):
-    if idtype == 'None' or organism == 'None':
-        return geneName
-    else:
-	link_gn = ''.join(['http://idclight.bioinfo.cnio.es/IDClight.prog?idtype=',
-                        idtype, '&id=', geneName, '&internal=0&org=',
-                        organism,"\' target=\'icl_window\'"])
-        return ("<a href='" + link_gn + "'>" + geneName + "</a>")
+    return geneName
 
+# This is the old one, but we are not longer using idclight    
+# def linkGene(geneName, idtype, organism):
+#     if idtype == 'None' or organism == 'None':
+#         return geneName
+#     else:
+# 	link_gn = ''.join(['http://idclight.bioinfo.cnio.es/IDClight.prog?idtype=',
+#                         idtype, '&id=', geneName, '&internal=0&org=',
+#                         organism,"\' target=\'icl_window\'"])
+#         return ("<a href='" + link_gn + "'>" + geneName + "</a>")
+
+        
 ####################################################################################################################
 ############################################ CODE STARTS HERE ######################################################
 ####################################################################################################################
@@ -121,7 +129,7 @@ html_table = table_gen(l1, l2, l3, l4, l5, l6, FDRAscending,
                        idtype, organism, contrast_classes)
 
 # Read template file
-tmpl_html = open("/http/pomelo2/www/Pomelo2_html_templates/templ_contrasts_indv.html","r")
+tmpl_html = open(pomelo_templates_dir + "/templ_contrasts_indv.html","r")
 html_page = tmpl_html.read()
 tmpl_html.close()
 

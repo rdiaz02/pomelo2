@@ -1,4 +1,5 @@
-#!/usr/bin/python2.4
+#!/usr/bin/python
+# -*- mode: python ; -*-
 
 ####  Copyright (C)  2003-2005, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
 ####                 2005-2009, Edward R. Morrissey and 
@@ -21,19 +22,21 @@
 
 import sys
 import os
-import cgi 
+import cgi
 import types
 import time
-import shutil
-import signal
+# import shutil
+# import signal
 import re
-import tarfile
-import string
-#import cgitb;cgitb.enable() ## zz: eliminar for real work?
+# import tarfile
+# import string
+# import cgitb;cgitb.enable() ## zz: eliminar for real work?
 import fcntl
-sys.stderr = sys.stdout ## eliminar?
+sys.stderr = sys.stdout  # eliminar?
 
-Pomelo_MAX_time = 8 * 3600 ## 8 hours is max duration allowd for any process
+from pomelo_config import web_apps_common_dir, ROOT_POMELO_DIR, pomelo_templates_dir
+
+
 
 # *************************************************************************************
 # *********************         Functions        **************************************
@@ -70,14 +73,14 @@ def add_to_log(application, tmpDir, error_type,error_text):
     # Truncate error text
     error_text = error_text[:300]
     outstr = '%s\t%s\t%s\t%s\n%s\n' % (application, date_time, error_type, tmpDir, error_text)
-    cf = open('/http/mpi.log/app_caught_error', mode = 'a')
+    cf = open(web_apps_common_dir + '/app_caught_error', mode = 'a')
     fcntl.flock(cf.fileno(), fcntl.LOCK_SH)
     cf.write(outstr)
     fcntl.flock(cf.fileno(), fcntl.LOCK_UN)
     cf.close()
 
 def cgi_error_page(error_type, error_text, tmpDir):
-    error_template = open("/http/pomelo2/www/Pomelo2_html_templates/templ-error.html","r")
+    error_template = open(ROOT_POMELO_DIR + "/www/Pomelo2_html_templates/templ-error.html","r")
     err_templ_hmtl = error_template.read()
     error_template.close()
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
@@ -127,7 +130,7 @@ if re.search(r'[^0-9]', str(newDir)):
     sys.exit()
 
 redirectLoc = "/tmp/" + newDir
-tmpDir = "/http/pomelo2/www/tmp/" + newDir
+tmpDir = ROOT_TMP_DIR + newDir
 
 if not os.path.isdir(tmpDir):
     err_msg = "<p> newDir is not a valid directory. </p>"
@@ -136,7 +139,7 @@ if not os.path.isdir(tmpDir):
     sys.exit()
 # ***********************************************************
 
-covariables_cgi_template = "/http/pomelo2/www/Pomelo2_html_templates/add_covariables_template.html"
+covariables_cgi_template = pomelo_templates_dir + "/add_covariables_template.html"
 f = open(covariables_cgi_template)
 template = f.read()
 f.close()
