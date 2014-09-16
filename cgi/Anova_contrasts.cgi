@@ -28,7 +28,8 @@ import parse_contrs_comp
 import cgitb; cgitb.enable()
 sys.stderr = sys.stdout
 
-from pomelo_config import python_path, cgi_dir, R_pomelo_bin
+sys.path.append("../../web-apps-common")
+from web_apps_config import python_path, Pomelo_cgi_dir, R_pomelo_bin
 
 ################################ Functions ############################################################
 
@@ -130,7 +131,7 @@ def class_compare(class1, class2):
 	f.close()
 	Rcommand = "cd " + tmp_dir + "; " + R_pomelo_bin + " CMD BATCH --no-restore --no-readline --no-save -q calculate_contrasts.R  2> error.msg "
 	Rrun         = os.system(Rcommand)
-	pyparsetable = "cd "+ tmp_dir + "; " + python_path + " " + cgi_dir + "/contrast_generate_table.py " + tmp_dir
+	pyparsetable = "cd "+ tmp_dir + "; " + python_path + " " + Pomelo_cgi_dir + "/contrast_generate_table.py " + tmp_dir
 	dummy_run    = os.system(pyparsetable)
 
 	

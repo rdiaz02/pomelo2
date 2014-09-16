@@ -3,7 +3,8 @@
 import sys
 import os
 
-from pomelo_config import pomelo_templates_dir
+sys.path.append("../../web-apps-common")
+from web_apps_config import pomelo_templates_dir
 
 def permutation_indices(data):
     """ Title: list permutation order indices

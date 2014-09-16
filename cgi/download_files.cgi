@@ -6,7 +6,9 @@ import cgi
 import cgitb;cgitb.enable()
 import dircache
 import os
-from pomelo_config import cgi_dir, pomelo_templates_dir, pomelo_url
+
+sys.path.append("../../web-apps-common")
+from web_apps_config import Pomelo_cgi_dir, pomelo_templates_dir, pomelo_url
 
 ##################################### Functions ##################################################
 def make_files_dictionary(description_file):
@@ -92,7 +94,7 @@ cgi_action = form['cgi_action'].value
 newDir     = tmp_dir.split("/")[-1]
 
 # ******************** FOR DIFFERENT APPLICATIONS CHANGE THIS *************************
-description_file  = cgi_dir + "/downloadable_files_description.txt"
+description_file  = Pomelo_cgi_dir + "/downloadable_files_description.txt"
 download_template = pomelo_templates_dir + "/download_template.html"
 zip_file          = "pomeloII_output.zip"
 # *************************************************************************************

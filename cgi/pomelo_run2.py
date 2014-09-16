@@ -39,10 +39,10 @@ import socket
 import cgitb; cgitb.enable() ## can comment out once debugged?
 sys.stderr = sys.stdout
 
-from pomelo_config import *  # noqa
-
-
-sys.path.append(web_apps_common_dir)
+## from pomelo_config import *  # noqa
+## sys.path.append(web_apps_common_dir)
+sys.path.append("../../web-apps-common")
+from web_apps_config import *
 import counterApplications
 
 
@@ -50,7 +50,7 @@ tmpDir     = sys.argv[1]
 test_type  = sys.argv[2]
 num_permut = sys.argv[3]
 
-newDir = tmpDir.replace(ROOT_TMP_DIR, "")
+newDir = tmpDir.replace(ROOT_POMELO_TMP_DIR, "")
 newDir = newDir.replace("/", "")  ## just the number
 
 
@@ -158,7 +158,7 @@ def writeMemoryErrorMessage(tmpDir):
 ###################################################################
 
 def cleanups(tmpDir, newDir,
-             runningProcs= runningProcs,
+             Pomelo_runningProcs= Pomelo_runningProcs,
              newnamepid = 'finished_pid.txt'):
     """ Clean up actions; kill lam, delete running.procs files, clean process table."""
 ##    lamenv = open(tmpDir + "/lamSuffix", mode = "r").readline()
@@ -176,7 +176,7 @@ def cleanups(tmpDir, newDir,
     # except:
     #     None
     try:
-        fii = os.popen3('rm ' + runningProcs + '/Pom.' + newDir + '*')
+        fii = os.popen3('rm ' + Pomelo_runningProcs + '/Pom.' + newDir + '*')
     except:
         None
     try:
@@ -184,7 +184,7 @@ def cleanups(tmpDir, newDir,
     except:
         None
     # try:
-    #     os.remove(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]))
+    #     os.remove(''.join([Pomelo_runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]))
     # except:
     #     None
 
@@ -330,7 +330,7 @@ issue_echo('before collectZombies', tmpDir)
 collectZombies()
 issue_echo('before burying', tmpDir)
 
-burying = os.system("cd " + tmpDir + "; " + cgi_dir + "buryPom.py")
+burying = os.system("cd " + tmpDir + "; " + Pomelo_cgi_dir + "buryPom.py")
 issue_echo('after burying', tmpDir)
 
 # killingoldLam = os.system("cd " + tmpDir + "; /http/mpi.log/killOldLamAllMachines.py")
@@ -371,14 +371,14 @@ sys.exit()
 
 ## FIXME: either rename to mpilaunch, or do everything with
 ## forking
-# def lamboot(lamSuffix, ncpu, runningProcs = runningProcs):
+# def lamboot(lamSuffix, ncpu, Pomelo_runningProcs = Pomelo_runningProcs):
 #     'Boot a lam universe and leave a sentinel file behind'
 #     issue_echo('before sentinel inside lamboot', tmpDir)
 #     issue_echo('newDir is ' + newDir, tmpDir)
 #     issue_echo('lamSuffix ' + lamSuffix, tmpDir)
-#     issue_echo('runningProcs ' + runningProcs, tmpDir)
+#     issue_echo('Pomelo_runningProcs ' + Pomelo_runningProcs, tmpDir)
 # # why doesn't this work? FIXME
-# #     sentinel = os.open(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]),
+# #     sentinel = os.open(''.join([Pomelo_runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]),
 # #                        os.O_RDWR | os.O_CREAT | os.O_NDELAY)
 #     issue_echo('before fullCommand inside lamboot', tmpDir)
 #     fullCommand = 'export LAM_MPI_SESSION_SUFFIX="' + lamSuffix + \
@@ -439,7 +439,7 @@ sys.exit()
 #               '" >> ' + tmpDir + '/recoverFromLAMCrash.out')
     
 # def recover_from_lam_crash(tmpDir, NCPU, MAX_NUM_PROCS, lamSuffix,
-#                            runningProcs= runningProcs,
+#                            Pomelo_runningProcs= Pomelo_runningProcs,
 #                            machine_root = 'karl'):
 #     """Check if lam crashed during R run. If it did, restart R
 #     after possibly rebooting the lam universe.
@@ -449,7 +449,7 @@ sys.exit()
 #     """
 
     
-#     os.remove(''.join([runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]))
+#     os.remove(''.join([Pomelo_runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]))
 #     del_mpi_logs(tmpDir, machine_root)
 #     lam_crash_log(tmpDir, 'Crashed')
 #     ## We need to halt the universe, or else we can keep a lamd with no R hanging from

@@ -37,8 +37,8 @@ import urllib
 import cgitb; cgitb.enable()
 sys.stderr = sys.stdout
 
-
-from pomelo_config import *
+sys.path.append("../../web-apps-common")
+from web_apps_config import *
 
 
 
@@ -273,9 +273,9 @@ def radioUpload(fieldName, acceptedValues):
 
 ## Deleting tmp directories older than MAX_time
 currentTime = time.time()
-currentTmp = dircache.listdir(ROOT_TMP_DIR)
+currentTmp = dircache.listdir(ROOT_POMELO_TMP_DIR)
 for directory in currentTmp:
-    tmpS = ROOT_TMP_DIR + "/" + directory
+    tmpS = ROOT_POMELO_TMP_DIR + "/" + directory
     if (currentTime - os.path.getmtime(tmpS)) > MAX_time:
         try:
             shutil.rmtree(tmpS)
@@ -285,7 +285,7 @@ for directory in currentTmp:
 ### Creating temporal directories
 newDir = str(random.randint(1, 10000)) + str(os.getpid()) + str(random.randint(1, 100000)) + str(int(currentTime)) + str(random.randint(1, 10000))
 
-tmpDir = ROOT_TMP_DIR + "/" + newDir
+tmpDir = ROOT_POMELO_TMP_DIR + "/" + newDir
 os.mkdir(tmpDir)
 os.chmod(tmpDir, 0770)
 
@@ -330,13 +330,13 @@ if test_type == 't_limma_paired':
 #                                  filename = tmpDir + '/covariate')
 # Selenium if *********
 elif(fs.has_key("selenium_indicator")):
-    shutil.copy(covariate_sel_file,tmpDir + "/covariate")
+    shutil.copy(Pomelo_covariate_sel_file,tmpDir + "/covariate")
     os.system("touch " + tmpDir + "/SELENIUM_TEST")
 # Uploading example data
 elif(fs.getfirst("covarex")!= None):
     covar_ex_name = fs.getfirst("covarex")
     try:
-        shutil.copy(examples_data_dir + "/" + covar_ex_name, tmpDir + "/covariate")
+        shutil.copy(Pomelo_examples_data_dir + "/" + covar_ex_name, tmpDir + "/covariate")
     except:
         cgi_error_page('EXAMPLE INPUT ERROR',
                        'The file name for the expression data is wrong. Use a valid one.')
@@ -356,7 +356,7 @@ else:
 if(fs.getfirst("censoredex")!= None):
     censored_name = fs.getfirst("censoredex")
     try:
-        shutil.copy(examples_data_dir + "/" +  
+        shutil.copy(Pomelo_examples_data_dir + "/" +  
                     censored_name, tmpDir + "/censored_indicator")
     except:
         cgi_error_page('EXAMPLE INPUT ERROR',
@@ -374,11 +374,11 @@ if os.stat(tmpDir + '/censored_indicator')[ST_SIZE] > MAX_time_size:
 
 # Selenium if *********
 if(fs.has_key("selenium_indicator")):
-    shutil.copy(class_lab_sel_file,tmpDir + "/class_labels")
+    shutil.copy(Pomelo_class_lab_sel_file,tmpDir + "/class_labels")
 elif(fs.getfirst("classex")!= None):
     class_ex_name = fs.getfirst("classex")
     try:
-        shutil.copy(examples_data_dir + "/" + class_ex_name, tmpDir + "/class_labels")
+        shutil.copy(Pomelo_examples_data_dir + "/" + class_ex_name, tmpDir + "/class_labels")
     except:
         cgi_error_page('EXAMPLE INPUT ERROR',
                        'The file name for the class labels is wrong. Use a valid one.')
@@ -431,14 +431,14 @@ dummy = os.system("cd " + tmpDir +";/bin/sed 's/\.$//g'  class_labels > tmpcllb;
 # fileNamesBrowser.close()
 
 ## If a process lasts longer than the Pom_MAX_time, kill it and delete files asociated
-PomrunningFiles = dircache.listdir(pomelo_running_procs_dir)
+PomrunningFiles = dircache.listdir(Pomelo_runningProcs)
 for Pomtouchfile in PomrunningFiles:
-    tmpS = pomelo_running_procs_dir + "/" + Pomtouchfile
+    tmpS = Pomelo_runningProcs + "/" + Pomtouchfile
     if (currentTime - os.path.getmtime(tmpS)) > Pom_MAX_time:
         os.remove(tmpS)
 	aux_num_dir = Pomtouchfile.split(".")[1]
 	num_Oldir   = aux_num_dir.split("@")[0]
-	oldDir = ROOT_TMP_DIR + "/" + num_Oldir
+	oldDir = ROOT_POMELO_TMP_DIR + "/" + num_Oldir
 	try:
 		lamenv = open(oldDir + "/lamSuffix", mode = "r").readline()
 	except:
@@ -528,7 +528,7 @@ gene_name_file.close()
 
 ## checking constant genes and missings is done with R zz
 if test_type in testDiscrete_tests:
-    os.system('cp ' + cgi_dir + '/testDiscrete.R ' + tmpDir + '/.')
+    os.system('cp ' + Pomelo_cgi_dir + '/testDiscrete.R ' + tmpDir + '/.')
     Rcommand = "cd " + tmpDir + "; " + R_pomelo_bin + " CMD BATCH --no-restore --no-readline --no-save -q testDiscrete.R 2> error.msg "
     Rrun = os.system(Rcommand)
     if os.path.exists(tmpDir + '/errorInput'):    
@@ -539,7 +539,7 @@ if test_type in testDiscrete_tests:
         rif.close()
         sys.exit()
 else: 
-    os.system('cp ' + cgi_dir + '/testContinuous.R ' + tmpDir + '/.')
+    os.system('cp ' + Pomelo_cgi_dir + '/testContinuous.R ' + tmpDir + '/.')
     Rcommand = "cd " + tmpDir + "; " + R_pomelo_bin + "R CMD BATCH --no-restore --no-readline --no-save -q testContinuous.R 2> error.msg "
     Rrun = os.system(Rcommand)
     if os.path.exists(tmpDir + '/errorInput'):
@@ -558,12 +558,12 @@ else:
 ## but newDir is not passed from any other user-reachable place
 ## (it is created here).
 
-dummy = os.system('cp ' + cgi_dir + '/new_heatmap.R ' + tmpDir + '/.')
-dummy = os.system('cp ' + cgi_dir + '/f1-pomelo.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/f1-pomelo.R")
-dummy = os.system('cp ' + cgi_dir + '/limma_functions.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/limma_functions.R")
+dummy = os.system('cp ' + Pomelo_cgi_dir + '/new_heatmap.R ' + tmpDir + '/.')
+dummy = os.system('cp ' + Pomelo_cgi_dir + '/f1-pomelo.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/f1-pomelo.R")
+dummy = os.system('cp ' + Pomelo_cgi_dir + '/limma_functions.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/limma_functions.R")
 if test_type=="Anova_limma":
-    dummy = os.system('cp ' + cgi_dir + '/draw_venn.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/draw_venn.R")
-    dummy = os.system('cp ' + cgi_dir + '/calculate_contrasts.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/calculate_contrasts.R")
+    dummy = os.system('cp ' + Pomelo_cgi_dir + '/draw_venn.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/draw_venn.R")
+    dummy = os.system('cp ' + Pomelo_cgi_dir + '/calculate_contrasts.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/calculate_contrasts.R")
     create_classcomp_html()
     
 ##old macs issues
@@ -571,15 +571,15 @@ dummy = os.system("cd " + tmpDir +"; /bin/sed 's/\\r\\n/\\n/g' covariate > tmpc;
 ## are the Pom.whatever.@.hostanme being written?
 #test1 = os.system("/bin/touch /tmp/cucu")
 #test2 = os.system("/bin/touch " + tmpDir + "/cucurucucu")
-#test3 = os.system("/bin/touch pomelo_running_procs_dir/Pom.cucu" + newDir)
-#test4 = os.system("/bin/touch pomelo_running_procs_dir/Pom.coco." + newDir + "@")
-#test5 = os.system("/bin/touch pomelo_running_procs_dir/Pom.cece." + newDir + "@")
-#test6 = os.system("/bin/touch pomelo_running_procs_dir/Pom.cece." + newDir + "@" + socket.gethostname())
+#test3 = os.system("/bin/touch Pomelo_runningProcs/Pom.cucu" + newDir)
+#test4 = os.system("/bin/touch Pomelo_runningProcs/Pom.coco." + newDir + "@")
+#test5 = os.system("/bin/touch Pomelo_runningProcs/Pom.cece." + newDir + "@")
+#test6 = os.system("/bin/touch Pomelo_runningProcs/Pom.cece." + newDir + "@" + socket.gethostname())
 
 ## Yes, it does run, but another "deleter" is /http/mpi.log/buryPom.py. FIXME: buryPom might
 ## do too much.
 
-touchPomrunning = os.system("/bin/touch " + pomelo_running_procs_dir + "/Pom." + newDir + "@" + socket.gethostname())
+touchPomrunning = os.system("/bin/touch " + Pomelo_runningProcs + "/Pom." + newDir + "@" + socket.gethostname())
 dummy = os.system('cp ' + ROOT_POMELO_DIR + '/bin/multest_paral ' + tmpDir + '/multest_paral')
 
 # If not limma tests then just launch, if limma see further on
@@ -603,7 +603,7 @@ os.system("cd " + tmpDir + "; /bin/sed 's/sustituyeme/" +
 
 #if test_type not in limma_covariable_tests:
 if test_type != "Anova_limma":
-    run_and_check = os.spawnv(os.P_NOWAIT, cgi_dir + '/runAndCheck.py',
+    run_and_check = os.spawnv(os.P_NOWAIT, Pomelo_cgi_dir + '/runAndCheck.py',
                               ['', tmpDir])
     os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
                   '"> ' + tmpDir + '/run_and_checkPID')
@@ -622,7 +622,7 @@ else:
     if fs.has_key('add_covars_ex'):
         add_covars_name = fs.getfirst('add_covars_ex')
         try:
-            shutil.copy(examples_data_dir + "/" + add_covars_name,
+            shutil.copy(Pomelo_examples_data_dir + "/" + add_covars_name,
                         tmpDir + "/COVARIABLES/covariables")
             file(tmpDir + '/COVARIABLES/added-example-covariables',
                  mode = 'wt').write(add_covars_name)

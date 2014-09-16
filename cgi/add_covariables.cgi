@@ -36,8 +36,9 @@ import cgitb; cgitb.enable() ## zz: eliminar for real work? NOPE!
 import fcntl
 sys.stderr = sys.stdout  # eliminar?
 
-from pomelo_config import web_apps_common_dir, \
-    ROOT_POMELO_DIR, pomelo_templates_dir, ROOT_TMP_DIR
+sys.path.append("../../web-apps-common")
+from web_apps_config import web_apps_common_dir, \
+    ROOT_POMELO_DIR, pomelo_templates_dir, ROOT_POMELO_TMP_DIR
 
 
 
@@ -133,7 +134,7 @@ if re.search(r'[^0-9]', str(newDir)):
     sys.exit()
 
 redirectLoc = "/tmp/" + newDir
-tmpDir = ROOT_TMP_DIR + "/" +  newDir
+tmpDir = ROOT_POMELO_TMP_DIR + "/" +  newDir
 
 if not os.path.isdir(tmpDir):
     err_msg = "<p> newDir is not a valid directory. </p>"

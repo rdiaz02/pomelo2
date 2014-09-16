@@ -1,7 +1,8 @@
 #!/usr/bin/python
 import os
 import img_map
-from pomelo_config import R_pomelo_bin
+sys.path.append("../../web-apps-common")
+from web_apps_config import R_pomelo_bin
 
 
 #***********************************************************************************

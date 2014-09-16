@@ -44,7 +44,8 @@ import os
 import glob
 
 
-from pomelo_config import *
+sys.path.append("../../web-apps-common")
+from web_apps_config import *
 
 
 

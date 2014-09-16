@@ -6,7 +6,8 @@ import img_map
 import random
 import sys
 
-from pomelo_config import R_pomelo_bin
+sys.path.append("../../web-apps-common")
+from web_apps_config import R_pomelo_bin
 
 
 colourValues = ("rg","topo","gr")

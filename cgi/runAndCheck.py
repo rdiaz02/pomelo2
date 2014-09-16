@@ -21,15 +21,16 @@ import random
 import cgitb
 import cgitb; cgitb.enable() ## comment out once debugged?
 
-from pomelo_config import *  # noqa
+sys.path.append("../../web-apps-common")
+from web_apps_config import *  # noqa
 
 sys.stderr = sys.stdout
 tmpDir     = sys.argv[1]
 
-newDir = tmpDir.replace(ROOT_TMP_DIR, "")
+newDir = tmpDir.replace(ROOT_POMELO_TMP_DIR, "")
 newDir = newDir.replace("/", "")  # just the number
 
-newDirPath = pomelo_running_procs_dir + "/Pom." + newDir
+newDirPath = Pomelo_runningProcs + "/Pom." + newDir
 
 
 ################################################################
@@ -163,11 +164,11 @@ def printOKRun():
     test_type = f.read().strip()
     f.close()
     issue_echo2("       at 2")
-    draw_heatmaptable = "cd " + tmpDir + "; python " + cgi_dir + "heatmap_draw_script.py;" 
+    draw_heatmaptable = "cd " + tmpDir + "; python " + Pomelo_cgi_dir + "heatmap_draw_script.py;" 
     issue_echo2("       at 2.2")    
 # Cox script draws its own tables
     if test_type != "Cox":
-	    draw_heatmaptable = draw_heatmaptable + "python " + cgi_dir + "generate_table.py"
+	    draw_heatmaptable = draw_heatmaptable + "python " + Pomelo_cgi_dir + "generate_table.py"
     dummy = os.system(draw_heatmaptable)
     issue_echo2("       at 2.3")
     Heatresults = open(tmpDir + "/heat_new.html")
@@ -242,7 +243,7 @@ except:
 ### Do very first run attempt.
 
 issue_echo2("Before first tryrrun")
-tryrrun = os.system(cgi_dir + '/pomelo_run2.py ' + tmpDir + 
+tryrrun = os.system(Pomelo_cgi_dir + '/pomelo_run2.py ' + tmpDir + 
                     ' ' + test_type + ' ' + str(num_permut) +'&')
 
 time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
@@ -329,7 +330,7 @@ while True:  ## we repeat until done or unrecoverale crash
                                           tmpDir + '/pomelo_run.crash.finished-' +
                                           str(number_relaunches - 1))
             issue_echo2("renamed pomelo_run.finished")
-            tryrrun = os.system(cgi_dir + '/pomelo_run2.py ' + tmpDir + 
+            tryrrun = os.system(Pomelo_cgi_dir + '/pomelo_run2.py ' + tmpDir + 
                                 ' ' + test_type + ' ' + str(num_permut) +'&')
             issue_echo2("tried relaunch")
         else: ## we cannot relaunch

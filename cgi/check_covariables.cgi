@@ -12,8 +12,9 @@ import time
 import cgitb; cgitb.enable() ## zz: eliminar for real work?
 sys.stderr = sys.stdout
 
-from pomelo_config import web_apps_common_dir, pomelo_templates_dir,\
-    covariate_sel_file, cgi_dir, pomelo_url, R_pomelo_bin
+sys.path.append("../../web-apps-common")
+from web_apps_config import web_apps_common_dir, pomelo_templates_dir,\
+    Pomelo_covariate_sel_file, Pomelo_cgi_dir, pomelo_url, R_pomelo_bin
 
 ################################ Functions ############################################################
 
@@ -231,7 +232,7 @@ def r2html(tmp_dir, newDir):
 		
 ##################################################################################
 #************  SELENIUM STUFF **************
-## covariable_sel_file ="/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/covariables.anova"
+## Pomelo_covariable_sel_file ="/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/covariables.anova"
 #*******************************************
 form    = cgi.FieldStorage()
 try:
@@ -256,7 +257,7 @@ if cgi_option == "continue":
     except:
        pass
 
-    run_and_check = os.spawnv(os.P_NOWAIT, cgi_dir + '/runAndCheck.py',
+    run_and_check = os.spawnv(os.P_NOWAIT, Pomelo_cgi_dir + '/runAndCheck.py',
                               ['', tmpDir])
     os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
                   '"> ' + tmpDir + '/run_and_checkPID')
@@ -273,12 +274,12 @@ if cgi_option == "continue":
 if cgi_option=="check_covariables":
     # Selenium if *********
     if os.path.exists('SELENIUM_TEST'):
-        shutil.copy(covariable_sel_file,"COVARIABLES/covariables")
+        shutil.copy(Pomelo_covariable_sel_file,"COVARIABLES/covariables")
     elif os.path.exists('COVARIABLES/added-example-covariables'):
         pass
     else:
         fileUpload("covariables",form,tmp_dir)
-    dummy = os.system('cp ' + cgi_dir + '/test_and_summary.R COVARIABLES/' +\
+    dummy = os.system('cp ' + Pomelo_cgi_dir + '/test_and_summary.R COVARIABLES/' +\
                       '/. ; chmod 777 COVARIABLES/test_and_summary.R')
     Rcommand = "cd " + tmp_dir + "/COVARIABLES; " + R_pomelo_bin + \
                " CMD BATCH --no-restore --no-readline --no-save -q test_and_summary.R "
@@ -305,7 +306,7 @@ if cgi_option=="covar_launch":
         f.close()
         # Aqui habria que rellenar los templates
 
-    run_and_check = os.spawnv(os.P_NOWAIT, cgi_dir + '/runAndCheck.py',
+    run_and_check = os.spawnv(os.P_NOWAIT, Pomelo_cgi_dir + '/runAndCheck.py',
                               ['', tmpDir])
     os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
                   '"> ' + tmpDir + '/run_and_checkPID')
