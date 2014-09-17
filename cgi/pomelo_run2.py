@@ -73,9 +73,10 @@ def CoxCommand(tmpDir, R_pomelo_bin):
 
     
 def multestCommand(tmpDir, num_permut, test_type):
-    run_command = 'cd ' +  tmpDir + '; ' + "mpirun -np " + num_procs + "    multest_paral " +\
-                  test_type + \
-                  " maxT " + num_permut + " covariate class_labels " + " > pomelo.msg"
+    issue_echo('    inside multestCommand: before creating command', tmpDir)
+    run_command = 'cd ' +  tmpDir + '; ' + mpirun_command + "    multest_paral " +\
+                  test_type +  " maxT " + num_permut + \
+                  " covariate class_labels " + " > pomelo.msg"
     issue_echo('    inside multestCommand: ready for os.system', tmpDir)
     fi,foe = os.popen4(run_command)
     fi.close()
@@ -226,8 +227,8 @@ issue_echo('pomelo_run2.py pid = '+ str(os.getpid()), tmpDir)
 
 
 try:
-    counterApplications.add_to_log('PomeloII-' + test_type,
-                                   tmpDir, socket.gethostname())
+    counterApplications.add_to_counter_log('PomeloII-' + test_type,
+                                           tmpDir, socket.gethostname())
 except:
     None
 
@@ -257,9 +258,9 @@ else: ## we use MPI
 # #             issue_echo('check_tping fails', tmpDir)
 # #             lboot = lamboot(lamSuffix, NCPU)
         issue_echo('after lamboot', tmpDir)
-        counterApplications.add_to_LAM_SUFFIX_LOG('PomeloII-' + test_type,
-                                                  tmpDir,
-                                                  socket.gethostname())
+        # counterApplications.add_to_LAM_SUFFIX_LOG('PomeloII-' + test_type,
+        #                                           tmpDir,
+        #                                           socket.gethostname())
         issue_echo('after counter applications', tmpDir)
 
         ## launch actual R or multtest process
@@ -336,7 +337,7 @@ issue_echo('after burying', tmpDir)
 # killingoldLam = os.system("cd " + tmpDir + "; /http/mpi.log/killOldLamAllMachines.py")
 # issue_echo('after killing all old lam', tmpDir)
 
-
+issue_echo('right before sys.exit()', tmpDir)
 sys.exit()
 
 

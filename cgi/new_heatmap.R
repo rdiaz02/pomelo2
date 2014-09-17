@@ -1,9 +1,10 @@
 library(imagemap)
 library(gplots,verbose=FALSE,warn.conflicts = FALSE)
-library(GDD)
+library(gtools)
+library(Cairo)
 imagemap <- function(filename,width=480,height=480,title='Imagemap from R'){
-	  GDD(file = paste(filename,".png",sep=''),w=width, h=height,
-	  type = "png", ps = 16)
+	  CairoPNG(file = paste(filename,".png",sep=''),
+                   width=width, height=height, pointsize = 16)
   im <- list()
   im$Device <- dev.cur()
   im$Filename=filename

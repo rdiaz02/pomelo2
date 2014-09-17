@@ -18,7 +18,7 @@ import shutil
 import fcntl
 import socket
 import random
-import cgitb
+import cgi
 import cgitb; cgitb.enable() ## comment out once debugged?
 
 sys.path.append("../../web-apps-common")
@@ -58,14 +58,14 @@ def issue_echo2(fecho):
 def add_to_log(application, tmpDir, error_type, error_text):
     date_time = time.strftime('%Y\t%m\t%d\t%X')
     outstr = '%s\t%s\t%s\t%s\n%s\n' % (application, date_time, error_type, tmpDir, error_text)
-    cf = open(web_apps_common_dir + '/app_caught_error', mode = 'a')
+    cf = open(web_apps_app_caught_error, mode = 'a')
     fcntl.flock(cf.fileno(), fcntl.LOCK_SH)
     cf.write(outstr)
     fcntl.flock(cf.fileno(), fcntl.LOCK_UN)
     cf.close()
 
 def cgi_error_page(error_type, error_text, tmpDir):
-    error_template = open(pomelo_templates_dir + "templ-error.html","r")
+    error_template = open(pomelo_templates_dir + "/templ-error.html","r")
     err_templ_hmtl = error_template.read()
     error_template.close()
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
@@ -75,7 +75,7 @@ def cgi_error_page(error_type, error_text, tmpDir):
     print err_templ_hmtl
 
 def html_error_page(error_type, error_text, tmpDir):
-    error_template = open(pomelo_templates_dir + "templ-error.html","r")
+    error_template = open(pomelo_templates_dir + "/templ-error.html","r")
     err_templ_hmtl = error_template.read()
     error_template.close()
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
@@ -164,12 +164,13 @@ def printOKRun():
     test_type = f.read().strip()
     f.close()
     issue_echo2("       at 2")
-    draw_heatmaptable = "cd " + tmpDir + "; python " + Pomelo_cgi_dir + "heatmap_draw_script.py;" 
-    issue_echo2("       at 2.2")    
-# Cox script draws its own tables
+    draw_heatmaptable = "cd " + tmpDir + "; python " + Pomelo_cgi_dir + "/heatmap_draw_script.py;" 
+    issue_echo2("       at 2.2")
+    # Cox script draws its own tables
     if test_type != "Cox":
-	    draw_heatmaptable = draw_heatmaptable + "python " + Pomelo_cgi_dir + "generate_table.py"
+	    draw_heatmaptable = draw_heatmaptable + " python " + Pomelo_cgi_dir + "/generate_table.py"
     dummy = os.system(draw_heatmaptable)
+    issue_echo2(draw_heatmaptable)
     issue_echo2("       at 2.3")
     Heatresults = open(tmpDir + "/heat_new.html")
     issue_echo2("       at 2.4")
@@ -177,23 +178,25 @@ def printOKRun():
     issue_echo2("      at 3")
     # If limma anova we use template that has the links that take you to class comparison
     if test_type == "Anova_limma":
-        template    = open(pomelo_templates_dir + "results_template_limmma_anova.html","r")
+        template    = open(pomelo_templates_dir + "/results_template_limmma_anova.html","r")
     else:
-        template    = open(pomelo_templates_dir + "results_template.html","r")
-        
-    heat_temp_f = open(pomelo_templates_dir + "templ_heatmap.html","r")
+        template    = open(pomelo_templates_dir + "/results_template.html","r")
+    issue_echo2("      at 3b")    
+    heat_temp_f = open(pomelo_templates_dir + "/templ_heatmap.html","r")
     templ_heat  = heat_temp_f.read()
     templ_heat  = templ_heat.split("_SPLIT_ME_")
     number_arr  = tmpDir.split("/")
     var_number  = number_arr[-1]
     templ_heat[0] = templ_heat[0].replace("_TEMP_DIR_",tmpDir)
     templ_hmtl  = template.read()
+    issue_echo2("      at 3c")
     temp_array  = templ_hmtl.split("_SPLIT_ME_")
     table_res   = table_file.read()
     resultsFile = Heatresults.read()
     temp_array[0] = temp_array[0].replace("_NUMBERS_",var_number)
     temp_array[0] = temp_array[0].replace("_TEMP_DIR_",tmpDir)
     temp_array[1] = temp_array[1].replace("_TEMP_DIR_",tmpDir)
+    issue_echo2("      at 3d")
     final_html  = temp_array[0] + table_res + temp_array[1] + resultsFile + temp_array[2]
     final_heat_map = templ_heat[0] + resultsFile + templ_heat[1]
     issue_echo2("     before writing pre-results")
@@ -246,7 +249,7 @@ issue_echo2("Before first tryrrun")
 tryrrun = os.system(Pomelo_cgi_dir + '/pomelo_run2.py ' + tmpDir + 
                     ' ' + test_type + ' ' + str(num_permut) +'&')
 
-time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.1, 3))
+time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.01, 0.3))
 issue_echo2("After first tryrrun")
 
 
@@ -278,7 +281,7 @@ while True:  ## we repeat until done or unrecoverale crash
     if (time.time() - os.path.getmtime(tmpDir + "/covariate")) > Pomelo_MAX_time:
         ## FIXME: do we want to try and relaunch??
         issue_echo2("Out of time")
-        close_lam_env()
+        #close_lam_env()
         printPomKilled()
 #         print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/'+ \
 #             newDir + '/results.html \n\n'
@@ -306,7 +309,7 @@ while True:  ## we repeat until done or unrecoverale crash
 
         if mpi_worked and results_exist:
             issue_echo2("OK run")
-            close_lam_env()
+            #close_lam_env()
 	    issue_echo2("       after close_lam_env")
             printOKRun()
 	    issue_echo2("       after printOKRun")
@@ -325,7 +328,7 @@ while True:  ## we repeat until done or unrecoverale crash
             ## we need to get rid of the previous pomelo_run.finished
             ## or we will get here and do as many launches of pomelo_run2
             ## as successive loops
-            close_lam_env()
+            #close_lam_env()
             move_run_finished = os.rename(tmpDir + '/pomelo_run.finished', 
                                           tmpDir + '/pomelo_run.crash.finished-' +
                                           str(number_relaunches - 1))
@@ -336,14 +339,14 @@ while True:  ## we repeat until done or unrecoverale crash
         else: ## we cannot relaunch
             if not mpi_worked:
                 issue_echo2("not mpi_worked")
-                close_lam_env()
+                #close_lam_env()
                 mpi_error()
 #                print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
                 break
 
             elif not results_exist:
                 issue_echo2("not results_exist")
-                close_lam_env()
+                #close_lam_env()
                 multest_error()
 #                print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
                 break

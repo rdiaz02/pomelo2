@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import sys
+import cgitb; cgitb.enable() ## comment out once debugged?
 
 def permutation_indices(data):
     """ Title: list permutation order indices

@@ -39,7 +39,7 @@ def add_to_log(application, tmpDir, error_type,error_text):
     # Truncate error text
     error_text = error_text[:300]
     outstr = '%s\t%s\t%s\t%s\n%s\n' % (application, date_time, error_type, tmpDir, error_text)
-    cf = open(web_apps_common_dir + '/app_caught_error', mode = 'a')
+    cf = open(web_apps_app_caught_error, mode = 'a')
     fcntl.flock(cf.fileno(), fcntl.LOCK_SH)
     cf.write(outstr)
     fcntl.flock(cf.fileno(), fcntl.LOCK_UN)

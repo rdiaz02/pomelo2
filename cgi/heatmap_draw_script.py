@@ -1,9 +1,10 @@
 #!/usr/bin/python
 import os
 import img_map
-sys.path.append("../../web-apps-common")
+import cgitb; cgitb.enable() ## comment out once debugged?
+import sys
+sys.path.append("../../../../web-apps-common")
 from web_apps_config import R_pomelo_bin
-
 
 #***********************************************************************************
 # Function that writes the form options to a file to later be read by R
@@ -54,9 +55,10 @@ form = {}
 imagename = "First_image"
 write_to_file(form, imagename)
 
-Rcommand = R_pomelo_bin + " CMD BATCH --no-restore --no-readline --no-save -q new_heatmap.R 2> error.msg"
+Rcommand = R_pomelo_bin + " --slave --no-readline --no-save -q < new_heatmap.R  > new_heatmap.Rout 2> error.msg"
 
 Rrun = os.system(Rcommand)
+
 
 if os.path.exists('NoImagemapPossible'):
 	file=open("heat_new.html","w")
@@ -75,6 +77,7 @@ else:
         except:
             print "****####@@@@****  ERROR:         numberPixels NOT found, but NoImagemapPossible neither"
             print "               we are in " + os.getcwd()
+            sys.exit()
 	pixel_width = int(f.read().strip())
 	f.close()
 	img_map.change_image(html_name, pixel_width-10, idtype, organism)

@@ -1,3 +1,5 @@
+import cgitb;cgitb.enable()
+
 def id_converter_lite_link (geneName, idtype, organism):
     return "#"
 

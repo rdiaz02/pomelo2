@@ -24,8 +24,13 @@ INSTALLATION
 - For now, in the Pomelo2_html_templates you will need to substitute the
 URL in all places. 
 
-- you need GDD
+- you need Cairo, gplots, imagemape (available as tar.gz from web-apps-common)
 - tmp directory needs to be owned by www-data
 - the app_caught_error (in the web-apps-common directory) needs to be
    owned by www-data
+- in web-apps-common, log directory needs to be owned by www-data.
 
+- you need libicu-dev and libicu48
+
+- checking permisions, etc: remeber you can use sudo -s -u www-data
+for other sudo -i -u www-data
