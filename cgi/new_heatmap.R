@@ -2,6 +2,7 @@ library(imagemap)
 library(gplots,verbose=FALSE,warn.conflicts = FALSE)
 library(gtools)
 library(Cairo)
+
 imagemap <- function(filename,width=480,height=480,title='Imagemap from R'){
 	  CairoPNG(file = paste(filename,".png",sep=''),
                    width=width, height=height, pointsize = 16)
@@ -13,7 +14,6 @@ imagemap <- function(filename,width=480,height=480,title='Imagemap from R'){
   im$Objects <- list()
   im$HTML <- list()
   im$title <- title
-
   class(im) <- "imagemap"
   im
 }
@@ -335,9 +335,12 @@ heatmap.2.ed <- function (x, Rowv = NULL, Colv = if (symm) "Rowv" else NULL,
 
 
 results.file <- read.table("multest_parallel.res", header = TRUE, skip = 13, sep="\t", comment.char = "",quote="")
+
 heatmapOpts  <- read.table("heatmapOpts", header = TRUE, sep = "\t")
 #class.names  <- read.table("class_labels", header = FALSE, sep = "\t")
+
 class.names <- scan("class_labels", sep = "\t", what = "char", strip.white = TRUE, nlines = 1)
+
 if(class.names[length(class.names)] == "") class.names <- class.names[-length(class.names)]
 
 # Add FDR value to gene name

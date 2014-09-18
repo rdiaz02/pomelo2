@@ -247,8 +247,10 @@ if (test.type == "Anova_limma"){
                          B         = fit$lods[,2])
 }
 
-gene.names    <- fit$genes
-results.table <- cbind(gene.names, results.table)
+# gene.names    <- fit$genes
+# results.table <- cbind(gene.names, results.table)
+gene.names    <- rownames(fit)
+results.table <- data.frame(gene.names, results.table)
 rownames(results.table) <- array.rownum
 
 # Write table to file

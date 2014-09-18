@@ -77,6 +77,7 @@ def multestCommand(tmpDir, num_permut, test_type):
     run_command = 'cd ' +  tmpDir + '; ' + mpirun_command + "    multest_paral " +\
                   test_type +  " maxT " + num_permut + \
                   " covariate class_labels " + " > pomelo.msg"
+    issue_echo('           command to run is ' + run_command, tmpDir)
     issue_echo('    inside multestCommand: ready for os.system', tmpDir)
     fi,foe = os.popen4(run_command)
     fi.close()
