@@ -27,12 +27,13 @@ def for_print_p_value(x):
 
 def print_warning(x):
     if x == 0:
-        
         return ''
     elif x == 1:
         return 'Coefficient may be infinite'
     elif x == 2:
         return 'Did not converge'
+    elif x == 3:
+        return 'Some other problem'
     
 def table_gen_sort(l1, l2, l3, l4, l5, l6, l7,
                    order, idtype, organism, test_type, fileout = 'tabla.html'):

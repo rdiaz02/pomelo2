@@ -150,275 +150,18 @@ xdata <- matrix(xdata, nrow = length(num.cols.covariate), byrow = TRUE)
 system("cut -f1 covariate > geneNames")
 geneNames <- read.table("geneNames",quote="", sep = "\t")[, 1]
 
-## directly from coxph.fit with the warnStatus addition and na removal
-## coxph.fit.pomelo0 <- function(x, y, strata, offset, init, control,
-## 			weights, method, rownames)
-##     {
-##         warnStatus <- 0
-##         naindex <- which(is.na(x))
-##         if(length(naindex)) {
-##             x <- x[-naindex]
-##             y <- y[naindex, ]
-##         }
-##     x <- as.matrix(x) ## this ain't very efficient
-
-##     n <-  nrow(y)
-##     if (is.matrix(x)) nvar <- ncol(x)
-##     else {
-## 	if (length(x)==0) nvar <-0
-## 	else nvar <-1
-## 	}
-##     time <- y[,1]
-##     status <- y[,2]
-
-##     # Sort the data (or rather, get a list of sorted indices)
-##     if (length(strata)==0) {
-## 	sorted <- order(time)
-##         strata <- NULL
-## 	newstrat <- as.integer(rep(0,n))
-## 	}
-##     else {
-## 	sorted <- order(strata, time)
-## 	strata <- strata[sorted]
-## 	newstrat <- as.integer(c(1*(diff(as.numeric(strata))!=0), 1))
-## 	}
-##     if (missing(offset) || is.null(offset)) offset <- rep(0,n)
-##     if (missing(weights)|| is.null(weights))weights<- rep(1,n)
-##     else {
-## 	if (any(weights<=0)) stop("Invalid weights, must be >0")
-## 	weights <- weights[sorted]
-## 	}
-##     stime <- as.double(time[sorted])
-##     sstat <- as.integer(status[sorted])
-
-##     if (nvar==0) {
-## 	# A special case: Null model.
-## 	#  (This is why I need the rownames arg- can't use x' names)
-## 	# Set things up for 0 iterations on a dummy variable
-## 	x <- as.matrix(rep(1.0, n))
-## 	nullmodel <- TRUE
-## 	nvar <- 1
-## 	init <- 0
-## 	maxiter <- 0
-## 	}
-##     else {
-## 	nullmodel <- FALSE
-## 	maxiter <- control$iter.max
-## 	if (!missing(init) && length(init)>0) {
-## 	    if (length(init) != nvar) stop("Wrong length for inital values")
-## 	    }
-## 	else init <- rep(0,nvar)
-## 	}
-
-##     storage.mode(weights) <- storage.mode(init) <- "double"
-##     coxfit <- .Call(Ccoxfit6, 
-##                      as.integer(maxiter),
-##                      stime, 
-##                      sstat,
-##                      x[sorted,],
-##                      as.double(offset[sorted]),
-##                      weights,
-##                      newstrat,
-##                      as.integer(method=="efron"),
-##                      as.double(control$eps),
-##                      as.double(control$toler.chol),
-##                      as.vector(init),
-##                      as.integer(1), # internally rescale
-##                     PACKAGE = "survival")  
-
-##     if (nullmodel) {
-## 	score <- exp(offset[sorted])
-## 	coxres <- .C(Ccoxmart, as.integer(n),
-## 				as.integer(method=='efron'),
-## 				stime,
-## 				sstat,
-## 				newstrat,
-## 				as.double(score),
-## 				as.double(weights),
-## 				resid=double(n))
-## 	resid <- double(n)
-## 	resid[sorted] <- coxres$resid
-## 	names(resid) <- rownames
-
-## 	list( loglik = coxfit$loglik[1],
-## 	      linear.predictors = offset,
-## 	      residuals = resid,
-## 	      method= c('coxph.null', 'coxph') )
-## 	}
-##     else {
-## 	var <- matrix(coxfit$imat,nvar,nvar)
-## 	coef <- coxfit$coef
-## 	if (coxfit$flag < nvar) which.sing <- diag(var)==0
-## 	else which.sing <- rep(FALSE,nvar)
-
-## 	infs <- abs(coxfit$u %*% var)
-## 	if (maxiter >1) {
-## 	    if (coxfit$flag == 1000) {
-##                 warnStatus <- 2
-## 		##   warning("Ran out of iterations and did not converge")
-##                }
-## 	    else {
-## 		infs <- ((infs > control$eps) & 
-## 			 infs > control$toler.inf*abs(coef))
-## 		if (any(infs)) {
-##                     warnStatus <- 1
-## 		## warning(paste("Loglik converged before variable ",
-## 		## 	  paste((1:nvar)[infs],collapse=","),
-## 		## 	  "; beta may be infinite. "))
-##             }
-## 		}
-## 	    }
-
-## 	names(coef) <- dimnames(x)[[2]]
-## 	lp <- c(x %*% coef) + offset - sum(coef*coxfit$means)
-## 	score <- exp(lp[sorted])
-## 	coxres <- .C(Ccoxmart, as.integer(n),
-## 				as.integer(method=='efron'),
-## 				stime,
-## 				sstat,
-## 				newstrat,
-## 				as.double(score),
-## 				as.double(weights),
-## 				resid=double(n))
-## 	resid <- double(n)
-## 	resid[sorted] <- coxres$resid
-## 	names(resid) <- rownames
-## 	if (maxiter > 0) coef[which.sing] <- NA  #leave it be if iter=0 is set
-
-##         list(coefficients = coef, var = var, warnStatus = warnStatus,
-##              loglik = coxfit$loglik)
-
-##         ## concordance <- survConcordance.fit(Surv(stime, sstat), lp[sorted],
-##         ##                                    strata, weights)
-
-        
-## 	## list(coefficients  = coef,
-## 	## 	    var    = var,
-## 	## 	    loglik = coxfit$loglik,
-## 	## 	    score  = coxfit$sctest,
-## 	## 	    iter   = coxfit$iter,
-## 	## 	    linear.predictors = as.vector(lp),
-## 	## 	    residuals = resid,
-## 	## 	    means = coxfit$means,
-##         ##             concordance=concordance,
-## 	## 	    method='coxph')
-## 	}
-##    }
 
 
 
-
-
-
-
-
-
-## coxph.fit.pomelo0 <- function (x, y, init = NULL,
-##                               control, method = "efron",  rownames = NULL) {
-##     warnStatus <- 0
-##     naindex <- which(is.na(x))
-##     if(length(naindex)) {
-##         x <- x[-naindex]
-##         y <- y[naindex, ]
-##     }
-##     x <- as.matrix(x) ## this ain't very efficient
-##     n <- nrow(y)
-##     if (is.matrix(x)) 
-##         nvar <- ncol(x)
-##     else if (length(x) == 0) 
-##         nvar <- 0
-##     else nvar <- 1
-##     time <- y[, 1]
-##     status <- y[, 2]
-##     sorted <- order(time)
-##     newstrat <- as.integer(rep(0, n))
-    
-##     offset <- rep(0, n)
-##     weights <- rep(1, n)
-
-##     stime <- as.double(time[sorted])
-##     sstat <- as.integer(status[sorted])
-##     if (nvar == 0) {
-##         x <- as.matrix(rep(1, n))
-##         nullmodel <- TRUE
-##         nvar <- 1
-##         init <- 0
-##         maxiter <- 0
-##     }
-##     else {
-##         nullmodel <- FALSE
-##         maxiter <- control$iter.max
-##         if (!missing(init) && !is.null(init)) {
-##             if (length(init) != nvar) 
-##                 stop("Wrong length for inital values")
-##         }
-##         else init <- rep(0, nvar)
-##     }
-##     coxfit <- .C("coxfit2", iter = as.integer(maxiter), as.integer(n), 
-##         as.integer(nvar), stime, sstat, x = x[sorted, ], as.double(offset[sorted] - 
-##             mean(offset)), as.double(weights), newstrat, means = double(nvar), 
-##         coef = as.double(init), u = double(nvar), imat = double(nvar * 
-##             nvar), loglik = double(2), flag = integer(1), double(2 * 
-##             n + 2 * nvar * nvar + 3 * nvar), as.double(control$eps), 
-##         as.double(control$toler.chol), sctest = as.double(method == 
-##             "efron"), PACKAGE = "survival")
-##     if (nullmodel) {
-##         score <- exp(offset[sorted])
-##         coxres <- .C("coxmart", as.integer(n), as.integer(method == 
-##             "efron"), stime, sstat, newstrat, as.double(score), 
-##             as.double(weights), resid = double(n), PACKAGE = "survival")
-##         resid <- double(n)
-##         resid[sorted] <- coxres$resid
-##         names(resid) <- rownames
-##         list(loglik = coxfit$loglik[1], linear.predictors = offset, 
-##             residuals = resid, method = c("coxph.null", "coxph"))
-##     }
-##     else {
-##         var <- matrix(coxfit$imat, nvar, nvar)
-##         coef <- coxfit$coef
-##         if (coxfit$flag < nvar) 
-##             which.sing <- diag(var) == 0
-##         else which.sing <- rep(FALSE, nvar)
-##         infs <- abs(coxfit$u %*% var)
-##         if (maxiter > 1) {
-##             if (coxfit$flag == 1000) {
-##               ## I comment out the warnings: we don't need
-##               ## them and they fill up the logs
-## ##                warning("Ran out of iterations and did not converge")
-##                 warnStatus <- 2
-##             }
-##             else {
-##                 infs <- ((infs > control$eps) & infs > control$toler.inf * 
-##                   abs(coef))
-##                 if (any(infs)) {
-## ##                  warning(paste("Loglik converged before variable ", 
-## ##                    paste((1:nvar)[infs], collapse = ","), "; beta may be infinite. "))
-##                   warnStatus <- 1
-##               }
-##             }
-##         }
-##         names(coef) <- dimnames(x)[[2]]
-##         lp <- c(x %*% coef) + offset - sum(coef * coxfit$means)
-##         score <- exp(lp[sorted])
-##         coef[which.sing] <- NA
-##         list(coefficients = coef, var = var, warnStatus = warnStatus,
-##              loglik = coxfit$loglik)
-##     }
-## }
-
-
-## mpi.bcast.Robj2slave(coxph.fit.pomelo0)
-
-
-## what follows is for pomelo
 ## FIXME
 ## could use something for both forking and cluster
 ## as in ADaCGH2 and the distribute function. Later maybe
 
-options(warn = 2)
+options(warn = 2) ## we trun coxfit warnings into erros, and deal with them
 
 cox.parallel <- function(x, time, event, MaxIterationsCox = 200,
-                         cores = detectCores()) { 
+                         cores = detectCores(),
+                         silent = TRUE) { 
     res.mat <- matrix(NA, nrow = ncol(x), ncol = 4)
     sobject <- Surv(time,event)
     options(warn = 2)
@@ -437,31 +180,35 @@ cox.parallel <- function(x, time, event, MaxIterationsCox = 200,
                           ##
                           method = "efron",
                           rownames = NULL,
-                          control = coxph.control(iter.max = MaxIterationsCox)))
+                          control = coxph.control(iter.max = MaxIterationsCox)),
+                    silent = silent)
 
         if(inherits(out1, "try-error")) {
-            if(grep("Ran out of iterations", out1)) {
+            if(length(grep("Ran out of iterations", out1, fixed = TRUE))) {
                 warnStatus <- 2
-            } else if(grep("Loglik converged before", out1)) {
+            } else if(length(grep("Loglik converged before", out1,
+                                  fixed = TRUE))) {
                 warnStatus <- 1
             } else {
                 warnStatus <- 3
             }
+        } else {
+            warnStatus <- 0
         }
         
-        if(out1$warnStatus >= 1) {
-            return(c(NA, NA, out1$warnStatus))
+        if(warnStatus >= 1) {
+            return(c(NA, NA, warnStatus))
         } else {
             sts <- out1$coef/sqrt(out1$var)
             return(c(out1$coef,
                      1- pchisq((sts^2), df = 1), 
-                     out1$warnStatus))
+                     warnStatus))
         }
     }
     
     tmp <- matrix(unlist(mclapply(as.data.frame(x),
                                   funpap3,
-                                  sobject = sobject,
+                                  y = sobject,
                                   MaxIterationsCox = MaxIterationsCox,
                                   mc.cores = cores)),
                   ncol = 3, byrow = TRUE)
@@ -482,6 +229,8 @@ rescox <- cox.parallel(t(xdata), Time, Event, MaxIterationsCox = 200,
 ### look at function did_lam_crash in adacgh2/cgi/runAndCheck.py
 ### and put that in the runAndCheck for Pomelo.
 
+## back to normal
+options(warn = 1)
 
 p.values.original <- data.frame(
                                 Row = 1:length(geneNames),
@@ -516,6 +265,30 @@ cat("\nmultest_parallel.res\n", file = "pomelo.msg", append = TRUE)
 #### launch as
 ## tryrrun = os.system('/http/mpi.log/tryRrun2.py ' + tmpDir +' 10 ' + 'PomeloII_cox &')
 
+
+
+## Useful for testing
+
+## Time2 <- rep(1, length(Time))
+## Event2 <- rep(1, length(Time2))
+## Event3 <- rep(0, length(Time2))
+
+##  xdata[1, ] <- Time
+##  xdata[2, ] <- Time2
+##  xdata[3, ] <- Event
+##  xdata[4, ] <- Event2
+##  xdata[5, ] <- 1
+##  xdata[6, ] <- 0
+##  xdata[7, ] <- Event3
+
+## rescox2 <- cox.parallel(t(xdata), Time, Event, MaxIterationsCox = 200,
+##                        cores = detectCores(), silent = FALSE)  
+
+## rescox3 <- cox.parallel(t(xdata), Time, Event, MaxIterationsCox = 200,
+##                        cores = detectCores())
+
+## rescox4 <- cox.parallel(t(xdata), Time2, Event3, MaxIterationsCox = 200,
+##                        cores = detectCores())  
 
 
 
