@@ -261,8 +261,12 @@ if cgi_option == "continue":
     run_and_check = os.spawnv(os.P_NOWAIT, the_r_a_c_call, #Pomelo_cgi_dir + '/runAndCheck.py',
                               ['', tmpDir])
     # FIXME I think run_and_checkPID is written from different place. check
+
+    # os.system('echo "cwd_1 is ' + os.getcwd() +
+    #           '">> ' + tmpDir + '/run_and_checkPID_check_covariables')
+
     os.system('echo "tmpDir is ' + tmpDir +
-              '"> ' + tmpDir + '/run_and_checkPID_check_covariables')
+              '">> ' + tmpDir + '/run_and_checkPID_check_covariables')
     os.system('echo "the call is ' + the_r_a_c_call + ' ' +
               '">> ' + tmpDir + '/run_and_checkPID_check_covariables')
     os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +
@@ -318,8 +322,11 @@ if cgi_option=="covar_launch":
 
     run_and_check = os.spawnv(os.P_NOWAIT, Pomelo_cgi_dir + '/runAndCheck.py',
                               ['', tmpDir])
+    # os.system('echo "cwd_2 is ' + os.getcwd() +
+    #           '">> ' + tmpDir + '/run_and_checkPID')
+
     os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
-                  '"> ' + tmpDir + '/run_and_checkPID')
+                  '">> ' + tmpDir + '/run_and_checkPID')
     ##############    Redirect to results.html    ##################
     print "Location: "+ getQualifiedURL("/tmp/" + newDir + "/results.html"), "\n\n"
     

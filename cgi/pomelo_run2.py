@@ -41,6 +41,11 @@ sys.stderr = sys.stdout
 
 ## from pomelo_config import *  # noqa
 ## sys.path.append(web_apps_common_dir)
+
+## This is only called from runAndCheck.py
+## But since runAndCheck can be called from two different depth
+## directories, we need both. Or an alterantive.
+
 sys.path.append("../../web-apps-common")
 sys.path.append("../../../../web-apps-common")
 from web_apps_config import *

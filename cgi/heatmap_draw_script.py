@@ -76,7 +76,7 @@ else:
             f=open("numberPixels")
         except:
             print "****####@@@@****  ERROR:         numberPixels NOT found, but NoImagemapPossible neither"
-            print "               we are in " + os.getcwd()
+            #print "               we are in " + os.getcwd()
             sys.exit()
 	pixel_width = int(f.read().strip())
 	f.close()

@@ -21,6 +21,9 @@ import random
 import cgi
 import cgitb; cgitb.enable() ## comment out once debugged?
 
+## this is called from pomeloII.cgi and from check_covariables.cgi
+
+## See pomelo_run2.py for why we need both
 sys.path.append("../../web-apps-common")
 sys.path.append("../../../../web-apps-common")
 
@@ -67,15 +70,15 @@ def add_to_log(application, tmpDir, error_type, error_text):
     fcntl.flock(cf.fileno(), fcntl.LOCK_UN)
     cf.close()
 
-def cgi_error_page(error_type, error_text, tmpDir):
-    error_template = open(pomelo_templates_dir + "/templ-error.html","r")
-    err_templ_hmtl = error_template.read()
-    error_template.close()
-    err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
-    err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TEXT_" , error_text)
-    add_to_log("Pomelo II", tmpDir, error_type, error_text)
-    err_templ_hmtl = "Content-type: text/html\n\n" + err_templ_hmtl
-    print err_templ_hmtl
+# def cgi_error_page(error_type, error_text, tmpDir):
+#     error_template = open(pomelo_templates_dir + "/templ-error.html","r")
+#     err_templ_hmtl = error_template.read()
+#     error_template.close()
+#     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
+#     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TEXT_" , error_text)
+#     add_to_log("Pomelo II", tmpDir, error_type, error_text)
+#     err_templ_hmtl = "Content-type: text/html\n\n" + err_templ_hmtl
+#     print err_templ_hmtl
 
 def html_error_page(error_type, error_text, tmpDir):
     error_template = open(pomelo_templates_dir + "/templ-error.html","r")
@@ -91,43 +94,43 @@ def html_error_page(error_type, error_text, tmpDir):
 
 ## For redirections, from Python Cookbook
 
-def getQualifiedURL(uri = None):
-    """ Return a full URL starting with schema, servername and port.
+# def getQualifiedURL(uri = None):
+#     """ Return a full URL starting with schema, servername and port.
     
-    *uri* -- append this server-rooted uri (must start with a slash)
-    """
-    schema, stdport = ('http', '80')
-    host = os.environ.get('HTTP_HOST')
-    if not host:
-        host = os.environ.get('SERVER_NAME')
-        port = os.environ.get('SERVER_PORT', '80')
-        if port != stdport: host = host + ":" + port
+#     *uri* -- append this server-rooted uri (must start with a slash)
+#     """
+#     schema, stdport = ('http', '80')
+#     host = os.environ.get('HTTP_HOST')
+#     if not host:
+#         host = os.environ.get('SERVER_NAME')
+#         port = os.environ.get('SERVER_PORT', '80')
+#         if port != stdport: host = host + ":" + port
 
-    result = "%s://%s" % (schema, host)
-    if uri: result = result + uri
+#     result = "%s://%s" % (schema, host)
+#     if uri: result = result + uri
   
-    return result
+#     return result
 
 
-def getScriptname():
-    """ Return te scriptname part of the URL."""
-    return os.environ.get('SCRIPT_NAME', '')
+# def getScriptname():
+#     """ Return te scriptname part of the URL."""
+#     return os.environ.get('SCRIPT_NAME', '')
 
 
-def getBaseURL():
-    """ Return a fully qualified URL to this script. """
-    return getQualifiedURL(getScriptname())
+# def getBaseURL():
+#     """ Return a fully qualified URL to this script. """
+#     return getQualifiedURL(getScriptname())
 
 
-def commonOutput():
-    print "Content-type: text/html\n\n"
-    print """
-    <html>
-    <head>
-    <title>Pomelo II results</title>
-    </head>
-    <body>
-    """
+# def commonOutput():
+#     print "Content-type: text/html\n\n"
+#     print """
+#     <html>
+#     <head>
+#     <title>Pomelo II results</title>
+#     </head>
+#     <body>
+#     """
 
 
 def mpi_error():
@@ -237,6 +240,9 @@ def printOKRun():
 ################################################################
 
 issue_echo2("Start")
+# the next line would show that we run from different depth
+# dirs
+# issue_echo2(os.getcwd())
 
 test_type = open(tmpDir + "/testtype", mode = "r").readline()
 try:
