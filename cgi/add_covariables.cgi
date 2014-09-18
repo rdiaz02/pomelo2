@@ -136,6 +136,8 @@ if re.search(r'[^0-9]', str(newDir)):
 redirectLoc = "/tmp/" + newDir
 tmpDir = ROOT_POMELO_TMP_DIR + "/" +  newDir
 
+os.system('echo add_cov_step_1 >> ' + tmpDir + '/sentinel_add_covariables')
+
 if not os.path.isdir(tmpDir):
     err_msg = "<p> newDir is not a valid directory. </p>"
     err_msg = err_msg + "<p> Anyone trying to mess with it?</p>"
@@ -144,19 +146,30 @@ if not os.path.isdir(tmpDir):
     sys.exit()
 # ***********************************************************
 
+
+os.system('echo add_cov_step_2 >> ' + tmpDir + '/sentinel_add_covariables')
+
 covariables_cgi_template = pomelo_templates_dir + "/add_covariables_template.html"
 f = open(covariables_cgi_template)
 template = f.read()
 f.close()
 template = template.replace("_SUBS_DIR_", tmpDir)
 
+os.system('echo add_cov_step_3 >> ' + tmpDir + '/sentinel_add_covariables')
+
 if os.path.exists(tmpDir + '/COVARIABLES/added-example-covariables'):
     name_example_added_covs = file(tmpDir + '/COVARIABLES/added-example-covariables').readline()
     template = template.replace('<INPUT TYPE="file" NAME="covariables">',
                                 '<span style="color:red"> Data from ' +
                                 name_example_added_covs + '</span>')
-    
+
+os.system('echo add_cov_step_4 >> ' + tmpDir + '/sentinel_add_covariables')
+   
 templ_hmtl = "Content-type: text/html\n\n" + template
+os.system('echo add_cov_step_5 >> ' + tmpDir + '/sentinel_add_covariables')
+
+
 print templ_hmtl
 
 
+os.system('echo add_cov_step_6 >> ' + tmpDir + '/sentinel_add_covariables')

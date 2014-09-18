@@ -630,4 +630,5 @@ else:
             cgi_error_page('EXAMPLE INPUT ERROR',
                            'The file name for the covariables is wrong. Use a valid one.')
     ##############    Redirect to checkdone.cgi    ##################
+    os.system('echo bottom_pomeloII >> ' + tmpDir + '/run_and_checkPID_pre')
     print "Location: "+ getQualifiedURL("/cgi-bin/add_covariables.cgi")  + "?newDir=" + newDir, "\n\n"
