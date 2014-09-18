@@ -717,7 +717,12 @@ if (test_type!="FisherIxJ") MPI::COMM_WORLD.Reduce(aux_counter_unadjusted, sum_c
 	results_out << "\n Number of columns:           \t\t" << aux_num_columns;
 	results_out << "\n Type of test:                \t\t" << test_type;
 	results_out << "\n MinP or MaxT?:               \t\t" << minP;
-	results_out << "\n Permutations used:           \t\t" << num_permut;
+	results_out << "\n Permutations used:           \t\t" ;
+	if (test_type == "FisherIxJ") {
+	  results_out << "Non permutation method";
+	} else {
+	  results_out << num_permut;
+	}
 	results_out << "\n Random seed:                 \t\t" << seed_r;
 	results_out << "\n\n";
 	results_out.setf(ios::right);
