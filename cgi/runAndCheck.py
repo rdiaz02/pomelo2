@@ -22,10 +22,13 @@ import cgi
 import cgitb; cgitb.enable() ## comment out once debugged?
 
 sys.path.append("../../web-apps-common")
+sys.path.append("../../../../web-apps-common")
+
 from web_apps_config import *  # noqa
 
 sys.stderr = sys.stdout
 tmpDir     = sys.argv[1]
+## web_apps_dir = sys.argv[2]
 
 newDir = tmpDir.replace(ROOT_POMELO_TMP_DIR, "")
 newDir = newDir.replace("/", "")  # just the number

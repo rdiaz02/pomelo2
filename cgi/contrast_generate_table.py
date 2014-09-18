@@ -4,6 +4,7 @@ import sys
 import os
 
 sys.path.append("../../web-apps-common")
+sys.path.append("../../../../web-apps-common")
 from web_apps_config import pomelo_templates_dir
 
 def permutation_indices(data):

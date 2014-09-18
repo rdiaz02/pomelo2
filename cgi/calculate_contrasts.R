@@ -58,7 +58,7 @@ results.table    <- cbind(  unadj.p       = fit2$p.value,
 ## this used to work
 # gene.names              <- fit2$genes
 # but now, it is a data frame so do:
-gene.names <- fit2$genes[, 1]
+gene.names <- rownames(fit2)
 
 # Get number of genes
 num.genes               <- length(gene.names)

@@ -1,5 +1,5 @@
 library(limma)
-library(GDD)
+library(Cairo)
 vennDiagram <- function (object, include = "both", names, col =col, mar = rep(1, 4), cex = 1.5,
     ...)
 {
@@ -58,16 +58,16 @@ names.compare <- scan("venncontrsTable", sep="\t",nlines = 1, what="character(0)
 names.compare <- names.compare[columns.use]
 venn.table    <- venn.table[,columns.use]
 
-GDD(file = file.names[1], w=370, h=320, type = "png", ps = 16)
+CairoPNG(file = file.names[1], width=370, height=320, , pointsize = 16)
 vennDiagram(venn.table, names = names.compare, col = 1,cex=0.5, include="both")
 dev.off()
 
 diagram.names <-  sub(" vs "," > ",names.compare)
-GDD(file = file.names[2], w=370, h=320, type = "png", ps = 16)
+CairoPNG(file = file.names[2], width=370, height=320, , pointsize = 16)
 vennDiagram(venn.table,names = diagram.names, col="darkgreen",cex=0.5,include="up")
 dev.off()
 
 diagram.names <-  sub(" vs "," < ",names.compare)
-GDD(file = file.names[3], w=370, h=320, type = "png", ps = 16)
+CairoPNG(file = file.names[3], width=370, height=320, , pointsize = 16)
 vennDiagram(venn.table, names = diagram.names,col="red",cex=0.5,include="down")
 dev.off()

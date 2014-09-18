@@ -42,6 +42,7 @@ sys.stderr = sys.stdout
 ## from pomelo_config import *  # noqa
 ## sys.path.append(web_apps_common_dir)
 sys.path.append("../../web-apps-common")
+sys.path.append("../../../../web-apps-common")
 from web_apps_config import *
 import counterApplications
 
