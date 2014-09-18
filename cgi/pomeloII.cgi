@@ -632,3 +632,7 @@ else:
     ##############    Redirect to checkdone.cgi    ##################
     os.system('echo bottom_pomeloII >> ' + tmpDir + '/run_and_checkPID_pre')
     print "Location: "+ getQualifiedURL("/cgi-bin/add_covariables.cgi")  + "?newDir=" + newDir, "\n\n"
+
+
+
+

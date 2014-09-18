@@ -257,10 +257,20 @@ if cgi_option == "continue":
     except:
        pass
 
-    run_and_check = os.spawnv(os.P_NOWAIT, Pomelo_cgi_dir + '/runAndCheck.py',
+    the_r_a_c_call = Pomelo_cgi_dir + '/runAndCheck.py',   
+    run_and_check = os.spawnv(os.P_NOWAIT, the_r_a_c_call, #Pomelo_cgi_dir + '/runAndCheck.py',
                               ['', tmpDir])
-    os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
-                  '"> ' + tmpDir + '/run_and_checkPID')
+    # FIXME I think run_and_checkPID is written from different place. check
+    os.system('echo "tmp_dir is ' + tmpDir +
+              '"> ' + tmpDir + '/run_and_checkPID_check_covariables')
+    os.system('echo "' + the_r_a_c_call + ' ' +
+              '"> ' + tmpDir + '/run_and_checkPID_check_covariables')
+    os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +
+              '"> ' + tmpDir + '/run_and_checkPID_check_covariables')
+
+    os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +
+              '"> ' + tmpDir + '/run_and_checkPID')
+
     ##############    Redirect to results.html    ##################
     print "Location: "+ getQualifiedURL("/tmp/" + newDir + "/results.html"), "\n\n"
 
@@ -316,3 +326,5 @@ if cgi_option=="covar_launch":
 #     tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmp_dir + ' ' + test_type + ' ' + str(num_permut) +'&')
 #     ##############    Redirect to checkdone.cgi    ##################
 #     print "Location: "+ getQualifiedURL("/cgi-bin/pomelo_checkdone.cgi") + "?newDir=" + newDir, "\n\n"
+
+

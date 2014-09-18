@@ -166,10 +166,9 @@ if os.path.exists(tmpDir + '/COVARIABLES/added-example-covariables'):
 os.system('echo add_cov_step_4 >> ' + tmpDir + '/sentinel_add_covariables')
    
 templ_hmtl = "Content-type: text/html\n\n" + template
+
 os.system('echo add_cov_step_5 >> ' + tmpDir + '/sentinel_add_covariables')
 
-
 print templ_hmtl
-
 
 os.system('echo add_cov_step_6 >> ' + tmpDir + '/sentinel_add_covariables')
