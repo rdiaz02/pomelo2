@@ -14,7 +14,8 @@ sys.stderr = sys.stdout
 
 sys.path.append("/asterias-web-apps/web-apps-common")
 from web_apps_config import web_apps_common_dir, pomelo_templates_dir,\
-    Pomelo_covariate_sel_file, Pomelo_cgi_dir, pomelo_url, R_pomelo_bin
+    Pomelo_covariate_sel_file, Pomelo_cgi_dir, pomelo_url, R_pomelo_bin,\
+    web_apps_app_caught_error
 
 ################################ Functions ############################################################
 
