@@ -258,6 +258,19 @@ def radioUpload(fieldName, acceptedValues):
 
     return tmp
 
+def dummyUpload(fieldName, value):
+    """We no longer read itype or organism, but those are needed in many places
+    still."""
+    
+    fileInServer = tmpDir + "/" + fieldName
+    srvfile = open(fileInServer, mode = 'w')
+    fileString = value
+    srvfile.write(fileString)
+    srvfile.close()
+    os.chmod(fileInServer, 0666)
+
+    return value
+
 
 
 
@@ -293,8 +306,10 @@ os.chmod(tmpDir, 0770)
 ### File and parameter upload
 fs = cgi.FieldStorage()
 
-idtype     = radioUpload('idtype', acceptedIDTypes)
-organism   = radioUpload('organism', acceptedOrganisms)
+# idtype     = radioUpload('idtype', acceptedIDTypes)
+# organism   = radioUpload('organism', acceptedOrganisms)
+idtype     = dummyUpload('idtype', 'None')
+organism   = dummyUpload('organism', 'None')
 test_type  = radioUpload('testtype', acceptedTests)
 
 if test_type in permutation_tests:
@@ -323,11 +338,11 @@ if test_type == 't_limma_paired':
 ##check if file coming from preP
 ## prep is disabled for now
 ## FIXME
-# if(fs.getfirst("covariate2")!= None):
-#     prep_tmpdir = fs.getfirst("covariate2")
-#     urlretr = urllib.urlretrieve('http://prep.bioinfo.cnio.es/tmp/' +
-#                                  prep_tmpdir + '/outdata.txt',
-#                                  filename = tmpDir + '/covariate')
+if(fs.getfirst("covariate2")!= None):
+    prep_tmpdir = fs.getfirst("covariate2")
+    urlretr = urllib.urlretrieve('http://prep.bioinfo.cnio.es/tmp/' +
+                                 prep_tmpdir + '/outdata.txt',
+                                 filename = tmpDir + '/covariate')
 # Selenium if *********
 elif(fs.has_key("selenium_indicator")):
     shutil.copy(Pomelo_covariate_sel_file,tmpDir + "/covariate")
@@ -341,7 +356,6 @@ elif(fs.getfirst("covarex")!= None):
         cgi_error_page('EXAMPLE INPUT ERROR',
                        'The file name for the expression data is wrong. Use a valid one.')
         sys.exit()
-
 else:
     ## Uploading files and checking not abusively large
     fileUpload('covariate')
