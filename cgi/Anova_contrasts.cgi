@@ -29,7 +29,7 @@ import cgitb; cgitb.enable()
 sys.stderr = sys.stdout
 
 ## sys.path.append("../../../../web-apps-common")
-sys.path.append("../../web-apps-common")
+sys.path.append("/asterias-web-apps/web-apps-common")
 from web_apps_config import python_path, Pomelo_cgi_dir, R_pomelo_bin
 
 ################################ Functions ############################################################

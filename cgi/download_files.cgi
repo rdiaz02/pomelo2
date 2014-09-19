@@ -7,7 +7,7 @@ import cgitb;cgitb.enable()
 import dircache
 import os
 
-sys.path.append("../../web-apps-common")
+sys.path.append("/asterias-web-apps/web-apps-common")
 from web_apps_config import Pomelo_cgi_dir, pomelo_templates_dir, pomelo_url
 
 ##################################### Functions ##################################################

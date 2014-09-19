@@ -1,4 +1,6 @@
 #!/usr/bin/python
+
+# I think this would not really work well now.
 import os
 f=open("file_names.txt");file_lines = f.readlines();f.close()
 new_path = os.getcwd()

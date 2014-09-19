@@ -44,10 +44,10 @@ sys.stderr = sys.stdout
 
 ## This is only called from runAndCheck.py
 ## But since runAndCheck can be called from two different depth
-## directories, we need both. Or an alterantive.
+## directories, we use now, as other files, the global path, not moving up, etc.
 
-sys.path.append("../../web-apps-common")
-sys.path.append("../../../../web-apps-common")
+sys.path.append("/asterias-web-apps/web-apps-common")
+## sys.path.append("../../../../web-apps-common")
 from web_apps_config import *
 import counterApplications
 

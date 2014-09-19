@@ -5,8 +5,8 @@ import os
 
 ## the .py files are called from deep down, in the
 ##  whatever/pomelo2/www/tmp/some_file
-## sys.path.append("../../web-apps-common")
-sys.path.append("../../../../web-apps-common")
+sys.path.append("/asterias-web-apps/web-apps-common")
+## sys.path.append("../../../../web-apps-common")
 from web_apps_config import pomelo_templates_dir
 
 def permutation_indices(data):
