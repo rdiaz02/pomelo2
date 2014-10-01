@@ -24,6 +24,7 @@ import socket
 import sys
 import os
 import cgi 
+import subprocess
 ##import types
 import time
 import shutil
@@ -617,12 +618,15 @@ os.system("cd " + tmpDir + "; /bin/sed 's/sustituyeme/" +
 
 #if test_type not in limma_covariable_tests:
 if test_type != "Anova_limma":
-    run_and_check = os.spawnv(os.P_NOWAIT, Pomelo_cgi_dir + '/runAndCheck.py',
-                              ['', tmpDir])
-    os.system('echo "' + test_type +\
-                  '">> ' + tmpDir + '/run_and_checkPID')
-    os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
-                  '">> ' + tmpDir + '/run_and_checkPID')
+    # run_and_check = os.spawnv(os.P_NOWAIT, Pomelo_cgi_dir + '/runAndCheck.py',
+    #                           ['', tmpDir])
+    subprocess.Popen([Pomelo_cgi_dir + '/runAndCheck.py', tmpDir],
+                     stdout = subprocess.PIPE, stdin = subprocess.PIPE,\
+                     stderr = subprocess.PIPE)
+    # os.system('echo "' + test_type +\
+    #               '">> ' + tmpDir + '/run_and_checkPID')
+    # os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +\
+    #               '">> ' + tmpDir + '/run_and_checkPID')
     ##############    Redirect to results.html    ##################
     print "Location: "+ getQualifiedURL("/tmp/" + newDir + "/results.html"), "\n\n"
 
