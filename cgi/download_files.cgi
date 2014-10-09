@@ -3,12 +3,26 @@
 # This code is used to load a window with the downloadable files and description. And to
 # then zip and send the chosen files.
 import cgi
-import cgitb;cgitb.enable()
+import sys
+import cgitb; cgitb.enable()
 import dircache
 import os
 
 sys.path.append("/asterias-web-apps/web-apps-common")
 from web_apps_config import Pomelo_cgi_dir, pomelo_templates_dir, pomelo_url
+
+form    = cgi.FieldStorage()
+tmp_dir = form['tmp_dir'].value
+os.chdir(tmp_dir)
+os.system('echo down0 >> down_files_sentinel')
+
+cgi_action = form['cgi_action'].value
+newDir     = tmp_dir.split("/")[-1]
+
+
+os.system('echo down1 >> down_files_sentinel')
+
+
 
 ##################################### Functions ##################################################
 def make_files_dictionary(description_file):
@@ -87,11 +101,7 @@ def file_list(form, file_dictionary):
     return(list_downloadFiles)
 
 ################################## End of Functions ##############################################
-form    = cgi.FieldStorage()
-tmp_dir = form['tmp_dir'].value
-os.chdir(tmp_dir)
-cgi_action = form['cgi_action'].value
-newDir     = tmp_dir.split("/")[-1]
+
 
 # ******************** FOR DIFFERENT APPLICATIONS CHANGE THIS *************************
 description_file  = Pomelo_cgi_dir + "/downloadable_files_description.txt"
@@ -120,4 +130,4 @@ elif cgi_action=="createZip":
     create_readme(list_downloadFiles, file_dictionary)
     zip_command = "zip " + zip_file + " " + space_sep_file + " README.txt"
     os.system(zip_command)
-    print 'Location: ' pomelo_url + '/tmp/'+ newDir + '/' + zip_file + ' \n\n'
+    print 'Location: ' + pomelo_url + '/tmp/'+ newDir + '/' + zip_file + ' \n\n'
