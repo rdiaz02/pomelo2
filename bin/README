@@ -8,6 +8,13 @@ to compile. (We used to use LAM MPI, but not anymore. And this probably
 might work with other MPIs, but we have not tested).
 
 
+
+NOTE: in 2016-03-02 I am getting issues with the newest openmpi for
+debian, 1.10.2-8. It seems that the link libmpi.so.1 is no longer
+present. I manually ln -s to libmpi.so. But this seems ugly. I do not have
+time to debug it now.
+
+
 This is the (only) help for the usage of the stand-alone Pomelo II:
 
 
