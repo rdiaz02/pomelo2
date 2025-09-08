@@ -15,6 +15,16 @@ present. I manually ln -s to libmpi.so. But this seems ugly. I do not have
 time to debug it now.
 
 
+Also, on 2017-05-17, issues with libgsl.so.0. So I link from
+/usr/lib/x86_64-linux-gnu/libgsl.so.19.3.0. Again, ugly, but no time to
+debug better now.
+
+And also with /usr/lib/x86_64-linux-gnu/libmpi.so.1
+and libmpi_cxx.so.1.
+
+This is weird, but I can't fix it properly now. Just link.
+
+
 This is the (only) help for the usage of the stand-alone Pomelo II:
 
 

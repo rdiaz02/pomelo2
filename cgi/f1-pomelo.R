@@ -51,6 +51,7 @@ rm(list = ls())
 ##    try(mpi.quit(save = "no"), silent = TRUE)
 }
 
+numcores <- 3 ## I can no longer afford these many
 
 caughtUserError <- function(message) {
     sink(file = "pomelo.msg")
@@ -221,8 +222,9 @@ cox.parallel <- function(x, time, event, MaxIterationsCox = 200,
 
 save.image()
 
+
 rescox <- cox.parallel(t(xdata), Time, Event, MaxIterationsCox = 200,
-                       cores = detectCores())  
+                       cores = numcores) ## can't afford these many  ##detectCores())  
 
 ### FIXME: the above can blow up, and we won't be properly notified.
 ### and it will continue "running" up to 8 hours. Bad.

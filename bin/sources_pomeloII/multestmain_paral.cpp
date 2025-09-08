@@ -41,7 +41,7 @@
 #include"Coxfit_paral.h"
 
 // xx: ATLAS y BLAS?
-#include <mpi.h> // Parallel processing library
+#include<mpi.h> // Parallel processing library
 #include<iostream>
 #include<cstdlib>
 #include<algorithm>
