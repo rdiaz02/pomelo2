@@ -46,7 +46,7 @@ sys.stderr = sys.stdout
 ## But since runAndCheck can be called from two different depth
 ## directories, we use now, as other files, the global path, not moving up, etc.
 
-sys.path.append("/asterias-web-apps/web-apps-common")
+sys.path.append("/home2/ramon/web-apps/web-apps-common")
 ## sys.path.append("../../../../web-apps-common")
 from web_apps_config import *
 import counterApplications
@@ -338,7 +338,7 @@ issue_echo('before collectZombies', tmpDir)
 collectZombies()
 issue_echo('before burying', tmpDir)
 
-burying = os.system("cd " + tmpDir + "; " + Pomelo_cgi_dir + "buryPom.py")
+burying = os.system("cd " + tmpDir + "; " + Pomelo_cgi_dir + "/buryPom.py")
 issue_echo('after burying', tmpDir)
 
 # killingoldLam = os.system("cd " + tmpDir + "; /http/mpi.log/killOldLamAllMachines.py")

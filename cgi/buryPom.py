@@ -44,7 +44,7 @@ import os
 import glob
 import sys
 
-sys.path.append("/asterias-web-apps/web-apps-common")
+sys.path.append("/home2/ramon/web-apps/web-apps-common")
 from web_apps_config import *
 
 
@@ -80,9 +80,13 @@ def fcheck():
         Machine = dirMachine.split('@')[1]
         # procs0 = os.popen("ssh " + MachineIP[Machine] + \
         #                  " 'ps -F -U www'")
-        procs0 = os.popen(" 'ps -F -U www'")
-        procs = procs0.readlines()
-        procs0.close()
+        ## procs0 = os.popen(" 'ps -F -U www-data'") ## zz1
+        procs0 = os.popen("ps -F -U www-data")
+        try:
+            procs = procs0.readlines()
+            pass
+        finally:
+            procs0.close()
         alive = False
         for line in procs:
             for the_sign in signs_of_pomelo_life:

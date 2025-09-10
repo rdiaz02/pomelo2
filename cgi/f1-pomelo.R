@@ -149,7 +149,7 @@ xdata <- matrix(xdata, nrow = length(num.cols.covariate), byrow = TRUE)
 
 ### FIXME: this should not be done this way!!!
 system("cut -f1 covariate > geneNames")
-geneNames <- read.table("geneNames",quote="", sep = "\t")[, 1]
+geneNames <- read.table("geneNames",quote="", sep = "\t", stringsAsFactors = TRUE)[, 1]
 
 
 

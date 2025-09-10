@@ -6,7 +6,7 @@ import img_map
 import random
 import sys
 
-sys.path.append("/asterias-web-apps/web-apps-common")
+sys.path.append("/home2/ramon/web-apps/web-apps-common")
 from web_apps_config import R_pomelo_bin
 
 

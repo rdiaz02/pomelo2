@@ -36,7 +36,7 @@ import cgitb; cgitb.enable() ## zz: eliminar for real work? NOPE!
 import fcntl
 sys.stderr = sys.stdout  # eliminar?
 
-sys.path.append("/asterias-web-apps/web-apps-common")
+sys.path.append("/home2/ramon/web-apps/web-apps-common")
 from web_apps_config import web_apps_common_dir, \
     ROOT_POMELO_DIR, pomelo_templates_dir, ROOT_POMELO_TMP_DIR
 
@@ -110,6 +110,7 @@ def commonOutput():
 # *********************************************************************************************************
 # *********************************     Beginning of CGI        *******************************************
 
+
 # Get tmp dir from form and check it is valid ***************
 form = cgi.FieldStorage()
 if form.has_key('newDir'):
@@ -137,6 +138,7 @@ redirectLoc = "/tmp/" + newDir
 tmpDir = ROOT_POMELO_TMP_DIR + "/" +  newDir
 
 os.system('echo add_cov_step_1 >> ' + tmpDir + '/sentinel_add_covariables')
+
 
 if not os.path.isdir(tmpDir):
     err_msg = "<p> newDir is not a valid directory. </p>"
@@ -167,8 +169,12 @@ os.system('echo add_cov_step_4 >> ' + tmpDir + '/sentinel_add_covariables')
    
 templ_hmtl = "Content-type: text/html\n\n" + template
 
+## print >> sys.stderr, "DEBUG: in x255", templ_hmtl
+
 os.system('echo add_cov_step_5 >> ' + tmpDir + '/sentinel_add_covariables')
 
+## print >> sys.stderr, "DEBUG: in x256", templ_hmtl
 print templ_hmtl
 
 os.system('echo add_cov_step_6 >> ' + tmpDir + '/sentinel_add_covariables')
+

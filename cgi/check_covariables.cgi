@@ -12,10 +12,13 @@ import time
 import cgitb; cgitb.enable() ## zz: eliminar for real work?
 sys.stderr = sys.stdout
 
-sys.path.append("/asterias-web-apps/web-apps-common")
+
+sys.path.append("/home2/ramon/web-apps/web-apps-common")
 from web_apps_config import web_apps_common_dir, pomelo_templates_dir,\
     Pomelo_covariate_sel_file, Pomelo_cgi_dir, pomelo_url, R_pomelo_bin,\
     web_apps_app_caught_error
+
+
 
 ################################ Functions ############################################################
 
@@ -75,7 +78,7 @@ def fileUpload(fieldName,fs,tmpDir):
             sys.exit()
     else:
         shutil.rmtree(tmpDir)
-        err_msg = "<p> A " +  fieldName + "file is required </p>"
+        err_msg = "<p> A " +  fieldName + " file is required </p>"
         err_msg = err_msg + "<p> Please fill up the required fields and try again.</p>"
         cgi_error_page("INPUT ERROR", err_msg)
         sys.exit()
@@ -168,8 +171,10 @@ def non_numeric_table(table):
 def parse_summary(summary, names_covar):
     html_list = []
     line_start = 0
+    os.system('echo parse_summary_step_1 >> ' + tmpDir + '/sentinel_parse_summary')
     # Add dummy to list to get a with find -1
     names_covar.append("dummy")
+    os.system('echo parse_summary_step_2 >> ' + tmpDir + '/sentinel_parse_summary')
     for i in range(len(names_covar)-1):
         line_finish = summary.find(names_covar[i + 1])
         text = summary[line_start:line_finish]
@@ -180,23 +185,136 @@ def parse_summary(summary, names_covar):
             text_line = text.split("\n")
             html_list.append(numeric_table(text_line))
         line_start  = line_finish
+    os.system('echo parse_summary_step_3 >> ' + tmpDir + '/sentinel_parse_summary')
     html_sum = ''.join(html_list)
+    os.system('echo parse_summary_step_4 >> ' + tmpDir + '/sentinel_parse_summary')
     return html_sum
+
+# def parse_summary(summary, names_covar):
+#     html_list = []
+#     line_start = 0
+#     os.system('echo parse_summary_step_1 >> ' + tmpDir + '/sentinel_parse_summary')
+#     os.system('echo parse_summary_step_1b ' + str(names_covar) + ' >> ' + tmpDir + '/sentinel_parse_summary')
+#     # Debug the inputs
+#     os.system('echo "names_covar length: %d" >> %s/sentinel_parse_summary' % (len(names_covar), tmpDir))
+#     os.system('echo "summary length: %d" >> %s/sentinel_parse_summary' % (len(str(summary)), tmpDir))
+    
+#     # Add dummy to list to get a with find -1
+#     names_covar.append("dummy")
+#     os.system('echo parse_summary_step_2 >> ' + tmpDir + '/sentinel_parse_summary')
+    
+#     try:
+#         for i in range(len(names_covar)-1):
+#             os.system('echo "Processing index %d" >> %s/sentinel_parse_summary' % (i, tmpDir))
+#             line_finish = summary.find(names_covar[i + 1])
+#             text = summary[line_start:line_finish]
+#             if text.find("TRUE")!= -1:
+#                 text_line = text.split("\n")
+#                 html_list.append(non_numeric_table(text_line))
+#             elif text.find("FALSE")!= -1:
+#                 text_line = text.split("\n")
+#                 html_list.append(numeric_table(text_line))
+#             line_start  = line_finish
+#     except Exception as e:
+#         os.system('echo "Exception in loop: %s" >> %s/sentinel_parse_summary' % (str(e), tmpDir))
+#         raise
+        
+#     os.system('echo parse_summary_step_3 >> ' + tmpDir + '/sentinel_parse_summary')
+#     html_sum = ''.join(html_list)
+#     os.system('echo parse_summary_step_4 >> ' + tmpDir + '/sentinel_parse_summary')
+#     return html_sum
+
+
+## A convoluted version by claude, when chaising the wrong problem!
+# def parse_summary(summary, names_covar):
+#     html_list = []
+#     line_start = 0
+#     os.system('echo parse_summary_step_1 >> ' + tmpDir + '/sentinel_parse_summary')
+#     os.system('echo parse_summary_step_1b ' + str(names_covar) + ' >> ' + tmpDir + '/sentinel_parse_summary')
+    
+#     # Debug the inputs
+#     os.system('echo "names_covar length: %d" >> %s/sentinel_parse_summary' % (len(names_covar), tmpDir))
+#     os.system('echo "summary length: %d" >> %s/sentinel_parse_summary' % (len(str(summary)), tmpDir))
+    
+#     # Work with a COPY of the list to avoid modifying the original
+#     names_covar_copy = names_covar[:]
+#     os.system('echo "Working with copy: %s" >> %s/sentinel_parse_summary' % (str(names_covar_copy), tmpDir))
+    
+#     # Add dummy to COPY, not original
+#     names_covar_copy.append("dummy")
+#     os.system('echo parse_summary_step_2 >> ' + tmpDir + '/sentinel_parse_summary')
+    
+#     try:
+#         for i in range(len(names_covar_copy)-1):
+#             os.system('echo "Processing index %d, looking for: %s" >> %s/sentinel_parse_summary' % (i, names_covar_copy[i + 1], tmpDir))
+            
+#             line_finish = summary.find(names_covar_copy[i + 1])
+#             os.system('echo "line_finish for index %d: %d" >> %s/sentinel_parse_summary' % (i, line_finish, tmpDir))
+            
+#             # Handle case where covariate name is not found
+#             if line_finish == -1:
+#                 os.system('echo "Covariate %s not found in summary, using end of string" >> %s/sentinel_parse_summary' % (names_covar_copy[i + 1], tmpDir))
+#                 line_finish = len(summary)
+            
+#             text = summary[line_start:line_finish]
+#             os.system('echo "Extracted text length: %d" >> %s/sentinel_parse_summary' % (len(text), tmpDir))
+            
+#             if text.find("TRUE") != -1:
+#                 os.system('echo "Found TRUE in text for index %d" >> %s/sentinel_parse_summary' % (i, tmpDir))
+#                 text_line = text.split("\n")
+#                 try:
+#                     result = non_numeric_table(text_line)
+#                     html_list.append(result)
+#                     os.system('echo "non_numeric_table succeeded for index %d" >> %s/sentinel_parse_summary' % (i, tmpDir))
+#                 except Exception as e:
+#                     os.system('echo "non_numeric_table failed for index %d: %s" >> %s/sentinel_parse_summary' % (i, str(e), tmpDir))
+#                     raise
+                    
+#             elif text.find("FALSE") != -1:
+#                 os.system('echo "Found FALSE in text for index %d" >> %s/sentinel_parse_summary' % (i, tmpDir))
+#                 text_line = text.split("\n")
+#                 try:
+#                     result = numeric_table(text_line)
+#                     html_list.append(result)
+#                     os.system('echo "numeric_table succeeded for index %d" >> %s/sentinel_parse_summary' % (i, tmpDir))
+#                 except Exception as e:
+#                     os.system('echo "numeric_table failed for index %d: %s" >> %s/sentinel_parse_summary' % (i, str(e), tmpDir))
+#                     raise
+#             else:
+#                 os.system('echo "Found neither TRUE nor FALSE in text for index %d" >> %s/sentinel_parse_summary' % (i, tmpDir))
+                
+#             line_start = line_finish
+#             os.system('echo "Updated line_start to: %d" >> %s/sentinel_parse_summary' % (line_start, tmpDir))
+            
+#     except Exception as e:
+#         os.system('echo "Exception in loop: %s" >> %s/sentinel_parse_summary' % (str(e), tmpDir))
+#         raise
+        
+#     os.system('echo parse_summary_step_3 >> ' + tmpDir + '/sentinel_parse_summary')
+#     html_sum = ''.join(html_list)
+#     os.system('echo parse_summary_step_4 >> ' + tmpDir + '/sentinel_parse_summary')
+#     return html_sum
+
+
 
 # Make html summary or error page
 def r2html(tmp_dir, newDir):
+    os.system('echo add_cov_step_0 >> ' + tmpDir + '/sentinel_r2html')
     try:
+        os.system('echo add_cov_step_1 >> ' + tmpDir + '/sentinel_r2html')
         f = open("COVARIABLES/errCovariables")
         error_msg = f.read()
         f.close()
         f = open(pomelo_templates_dir + "/templ-error.html")
         err_template = f.read()
         f.close()
+        os.system('echo add_cov_step_2 >> ' + tmpDir + '/sentinel_r2html')
         error_msg = error_msg + "<br><br><input type='button' value=' Back to add covariables ' OnClick='document.location=\"add_covariables.cgi?newDir=" + newDir + " \"'>"
         err_template = err_template.replace("_ERROR_TEXT_", error_msg)
         html_output  = err_template.replace("_ERROR_TITLE_", "Covariables Error")
         
     except:
+        os.system('echo add_cov_step_3 >> ' + tmpDir + '/sentinel_r2html')
         # Note for me: watch new lines \n
         f = open("COVARIABLES/covariable_summary")
         summary_lines = f.read()
@@ -211,15 +329,22 @@ def r2html(tmp_dir, newDir):
         f.close()
         name_list  = '\",\"'.join(names_covar)
         name_list  = '\"' + name_list + '\"'
+        os.system('echo add_cov_step_4 >> ' + tmpDir + '/sentinel_r2html')
         # Create list of zeros
         zeros_list = []
         for i in names_covar:
             zeros_list.append("0")
+        os.system('echo add_cov_step_5 >> ' + tmpDir + '/sentinel_r2html')
         value_list = ','.join(zeros_list)
+        os.system('echo add_cov_step_6 >> ' + tmpDir + '/sentinel_r2html')
         html_summary  = parse_summary(summary_lines, names_covar)
+        os.system('echo add_cov_step_7 >> ' + tmpDir + '/sentinel_r2html')
         f = open(pomelo_templates_dir + "/templ_check_covariables.html")
+        os.system('echo add_cov_step_8 >> ' + tmpDir + '/sentinel_r2html')
         html_templ    = f.read();f.close()
+        os.system('echo add_cov_step_9 >> ' + tmpDir + '/sentinel_r2html')
         f.close()
+        os.system('echo add_cov_step_10 >> ' + tmpDir + '/sentinel_r2html')
         html_templ  = html_templ.replace("_SUBS_DIR_"      , tmp_dir)
         html_templ  = html_templ.replace("_NUMBERS_"       , newDir)
         html_templ  = html_templ.replace("_VARIABLE_LIST_" , name_list)
@@ -251,21 +376,31 @@ newDir = tmp_dir.split("/")[-1]
 tmpDir = tmp_dir
 ##tmpDir = '/http/pomelo2/www/tmp/' + newDir
 
+
 # If they have chosen to continue without covariables
+
+
+os.system('echo check_cov_step_4 >> ' + tmpDir + '/sentinel_check_covariables')
+
 if cgi_option == "continue":
     try:
+       os.system('echo check_cov_step_5_1 >> ' + tmpDir + '/sentinel_check_covariables')
        dummyi, dummyo, dummye = os.popen3("rm COVARIABLES/*")
     except:
        pass
-
+   
+    os.system('echo check_cov_step_6_1 >> ' + tmpDir + '/sentinel_check_covariables')
     the_r_a_c_call = Pomelo_cgi_dir + '/runAndCheck.py'   
     run_and_check = os.spawnv(os.P_NOWAIT, the_r_a_c_call, #Pomelo_cgi_dir + '/runAndCheck.py',
                               ['', tmpDir])
+    os.system('echo check_cov_step_6_2 >> ' + tmpDir + '/sentinel_check_covariables')
+
     # FIXME I think run_and_checkPID is written from different place. check
 
     # os.system('echo "cwd_1 is ' + os.getcwd() +
     #           '">> ' + tmpDir + '/run_and_checkPID_check_covariables')
 
+    os.system('echo check_cov_step_6_3 >> ' + tmpDir + '/sentinel_check_covariables')
     os.system('echo "tmpDir is ' + tmpDir +
               '">> ' + tmpDir + '/run_and_checkPID_check_covariables')
     os.system('echo "the call is ' + the_r_a_c_call + ' ' +
@@ -276,6 +411,7 @@ if cgi_option == "continue":
     os.system('echo "' + str(run_and_check) + ' ' + socket.gethostname() +
               '">> ' + tmpDir + '/run_and_checkPID')
 
+    os.system('echo check_cov_step_6_4 >> ' + tmpDir + '/sentinel_check_covariables')
     ##############    Redirect to results.html    ##################
     print "Location: "+ getQualifiedURL("/tmp/" + newDir + "/results.html"), "\n\n"
 
@@ -293,13 +429,18 @@ if cgi_option=="check_covariables":
     elif os.path.exists('COVARIABLES/added-example-covariables'):
         pass
     else:
+        os.system('echo check_cov_step_7_1 >> ' + tmpDir + '/sentinel_check_covariables')
         fileUpload("covariables",form,tmp_dir)
     dummy = os.system('cp ' + Pomelo_cgi_dir + '/test_and_summary.R COVARIABLES/' +\
                       '/. ; chmod 777 COVARIABLES/test_and_summary.R')
+    os.system('echo check_cov_step_7_2 >> ' + tmpDir + '/sentinel_check_covariables')
     Rcommand = "cd " + tmp_dir + "/COVARIABLES; " + R_pomelo_bin + \
                " CMD BATCH --no-restore --no-readline --no-save -q test_and_summary.R "
+    os.system('echo check_cov_step_7_3 >> ' + tmpDir + '/sentinel_check_covariables')
     dummy = os.system(Rcommand)
-    html_page = r2html(tmp_dir, newDir)        
+    os.system('echo check_cov_step_7_31 >> ' + tmpDir + '/sentinel_check_covariables')
+    html_page = r2html(tmp_dir, newDir)
+    os.system('echo check_cov_step_7_4 >> ' + tmpDir + '/sentinel_check_covariables')
     print "Content-type: text/html\n\n"
     print html_page
 

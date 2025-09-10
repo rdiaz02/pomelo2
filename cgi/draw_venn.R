@@ -50,7 +50,7 @@ vennDiagram <- function (object, include = "both", names, col =col, mar = rep(1,
     invisible()
 }
 
-venn.table    <- read.table("venncontrsTable", header = TRUE, sep="\t")
+venn.table    <- read.table("venncontrsTable", header = TRUE, sep="\t", stringsAsFactors = TRUE)
 venn.table    <- as.matrix(venn.table)
 file.names    <- scan("vennNames", sep="\t",nlines = 1, what="character(0)")
 columns.use   <- scan("vennNames", sep="\t",nlines = 1, skip = 1, what=integer(0))

@@ -24,7 +24,7 @@ import cgitb; cgitb.enable() ## comment out once debugged?
 ## this is called from pomeloII.cgi and from check_covariables.cgi
 
 ## See pomelo_run2.py for why we need both
-sys.path.append("/asterias-web-apps/web-apps-common")
+sys.path.append("/home2/ramon/web-apps/web-apps-common")
 ## sys.path.append("../../../../web-apps-common")
 
 from web_apps_config import *  # noqa

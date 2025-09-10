@@ -19,10 +19,49 @@
 #### from the Affero Project at http://www.affero.org/oagpl.html
 
 
-import glob
-import socket
 import sys
 import os
+
+# DEBUGBLOCK_0
+# # Fix stderr issues in CGI environment
+# class SafeStderr:
+#     def write(self, text):
+#         try:
+#             sys.__stderr__.write(text)
+#             sys.__stderr__.flush()
+#         except:
+#             pass
+#     def flush(self):
+#         try:
+#             sys.__stderr__.flush()
+#         except:
+#             pass
+
+# sys.stderr = SafeStderr()
+
+# # Also ensure proper cleanup
+# import atexit
+# def cleanup():
+#     try:
+#         sys.stdout.flush()
+#         sys.stderr.flush()
+#     except:
+#         pass
+# atexit.register(cleanup)
+
+
+
+# DEBUGBLOCK_1
+# import pwd
+# print >> sys.stderr, "DEBUG: Script running as UID:", os.getuid()
+# print >> sys.stderr, "DEBUG: Script running as user:", pwd.getpwuid(os.getuid()).pw_name
+# print >> sys.stderr, "DEBUG: Script GID:", os.getgid()
+# print >> sys.stderr, "DEBUG: Script groups:", os.getgroups()
+
+
+import glob
+import socket
+import traceback
 import cgi 
 import subprocess
 ##import types
@@ -36,10 +75,29 @@ from stat import ST_SIZE
 import fcntl
 import urllib
 import cgitb; cgitb.enable()
+## I think the next line is problematic, as can be seeing from printing
+## an error message.
 sys.stderr = sys.stdout
+## print >> sys.stderr, "message"
 
-sys.path.append("/asterias-web-apps/web-apps-common")
+sys.path.append("/home2/ramon/web-apps/web-apps-common")
 from web_apps_config import *
+
+
+# ## DEBUGBLOCK_2
+# # Force unbuffered output
+# sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
+
+# # Debug what's actually being output
+# with open('/tmp/cgi_output.log', 'w') as debug:
+#     debug.write("Script started\n")
+#     debug.flush()
+
+# print "Content-type: text/html\r"
+# print "\r"
+
+
+# import tempfile ## Used in a test later ## in a DEBUGBLOCK
 
 
 
@@ -449,7 +507,7 @@ dummy = os.system("cd " + tmpDir +";/bin/sed 's/\.$//g'  class_labels > tmpcllb;
 PomrunningFiles = dircache.listdir(Pomelo_runningProcs)
 for Pomtouchfile in PomrunningFiles:
     tmpS = Pomelo_runningProcs + "/" + Pomtouchfile
-    if (currentTime - os.path.getmtime(tmpS)) > Pom_MAX_time:
+    if (currentTime - os.path.getmtime(tmpS)) > Pomelo_MAX_time:
         os.remove(tmpS)
 	aux_num_dir = Pomtouchfile.split(".")[1]
 	num_Oldir   = aux_num_dir.split("@")[0]
@@ -580,6 +638,8 @@ if test_type=="Anova_limma":
     dummy = os.system('cp ' + Pomelo_cgi_dir + '/draw_venn.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/draw_venn.R")
     dummy = os.system('cp ' + Pomelo_cgi_dir + '/calculate_contrasts.R ' + tmpDir + '/. ; chmod 777 ' + tmpDir + "/calculate_contrasts.R")
     create_classcomp_html()
+
+
     
 ##old macs issues
 dummy = os.system("cd " + tmpDir +"; /bin/sed 's/\\r\\n/\\n/g' covariate > tmpc; mv tmpc covariate; /bin/sed 's/\\r/\\n/g' covariate > tmpc; mv tmpc covariate")
@@ -594,8 +654,56 @@ dummy = os.system("cd " + tmpDir +"; /bin/sed 's/\\r\\n/\\n/g' covariate > tmpc;
 ## Yes, it does run, but another "deleter" is /http/mpi.log/buryPom.py. FIXME: buryPom might
 ## do too much.
 
-touchPomrunning = os.system("/bin/touch " + Pomelo_runningProcs + "/Pom." + newDir + "@" + socket.gethostname())
+# DEBUGBLOCK_3
+# # Test writing to a simple location first
+# try:
+#     test_path = "/tmp/cgi_test_" + newDir
+#     with open(test_path, 'w') as f:
+#         f.write("test")
+#     print >> sys.stderr, "Successfully wrote to /tmp"
+#     os.unlink(test_path)
+# except Exception as e:
+#     print >> sys.stderr, "Failed to write to /tmp:", e
+
+# # Then test the actual directory
+# try:
+#     simple_name = Pomelo_runningProcs + "/test_simple"
+#     with open(simple_name, 'w') as f:
+#         f.write("test")
+#     print >> sys.stderr, "Successfully wrote simple filename"
+#     os.unlink(simple_name)
+# except Exception as e:
+#     print >> sys.stderr, "Failed simple filename:", e
+
+# DEBUGBLOCK_4
+# print >> sys.stderr, "DEBUG: os.access() check:", os.access(Pomelo_runningProcs, os.W_OK)
+# print >> sys.stderr, "DEBUG: Real path:", os.path.realpath(Pomelo_runningProcs)
+# print >> sys.stderr, "DEBUG: Directory stat:", os.stat(Pomelo_runningProcs)
+
+# print >> sys.stderr, "DEBUG: Pomelo_runningProcs =", Pomelo_runningProcs
+# print >> sys.stderr, "DEBUG: newDir =", newDir  
+# print >> sys.stderr, "DEBUG: hostname =", socket.gethostname()
+# print >> sys.stderr, "DEBUG: Full touch command would be:", "/bin/touch " + Pomelo_runningProcs + "/Pom." + newDir + "@" + socket.gethostname()
+
+# touchPomrunning = os.system("/bin/touch " + Pomelo_runningProcs + "/Pom." + newDir + "@" + socket.gethostname())
+# ## print >> sys.stderr, "DEBUG: touch return code =", touchPomrunning
+
+
+
+# More complex, but not working solution
+filenameprp = Pomelo_runningProcs + "/Pom." + newDir + "@" + socket.gethostname()
+try:
+    # Create/touch the file directly in Python
+    with open(filenameprp, 'a'):
+        pass  # just create/touch the file
+    ## print >> sys.stderr, "Successfully created:", filenameprp
+except Exception as e:
+    print >> sys.stderr, "Failed to create file:", filenameprp, "Error:", e
+
+
 dummy = os.system('cp ' + ROOT_POMELO_DIR + '/bin/multest_paral ' + tmpDir + '/multest_paral')
+
+
 
 # If not limma tests then just launch, if limma see further on
 #if test_type not in limma_covariable_tests:
@@ -603,6 +711,7 @@ dummy = os.system('cp ' + ROOT_POMELO_DIR + '/bin/multest_paral ' + tmpDir + '/m
 #    tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmpDir + ' ' + test_type + ' ' + str(num_permut) +'&')
     
 createResultsFile = os.system("/bin/touch " + tmpDir + "/results.txt")
+
 
 
 ###########   Creating a results.hmtl   ###############
@@ -638,7 +747,6 @@ else:
     covar_direc = tmpDir + "/COVARIABLES"
     os.mkdir(covar_direc)
     os.chmod(covar_direc, 0770)
-    
     if fs.has_key('add_covars_ex'):
         add_covars_name = fs.getfirst('add_covars_ex')
         try:
@@ -656,3 +764,6 @@ else:
 
 
 
+## Some comments on 2025-09-10
+## - I am not sure the Pom.running.procs is working well.
+##   - It seems that runAndCheck rmoves the files in there. Oh well.

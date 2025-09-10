@@ -32,7 +32,8 @@ if(length(unique(num.cols.covariables)) > 1) {
 trycovarb <- try(
                  covariables.table <- read.table("covariables", header= TRUE,
                                                  sep="\t",
-                                                 strip.white = TRUE)
+                                                 strip.white = TRUE,
+						 stringsAsFactors = TRUE)
                  )
 
 # If data is not read terminate
