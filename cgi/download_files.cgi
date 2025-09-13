@@ -4,7 +4,8 @@
 # then zip and send the chosen files.
 import cgi
 import sys
-import cgitb; cgitb.enable()
+import cgitb
+cgitb.enable()
 import dircache
 import os
 
@@ -29,7 +30,7 @@ def make_files_dictionary(description_file):
     f = open(description_file)
     # Define bloc separation
     line_sep = "****************************************************************************************\n"
-    # Read text and seprate into blocs 
+    # Read text and seprate into blocs
     file_text_blocs = f.read().split(line_sep)
     # skip beginning (example etc)
     file_text_blocs = file_text_blocs[3:]
@@ -45,8 +46,8 @@ def make_files_dictionary(description_file):
         name_key    = lines[0].strip()
         tag         = lines[1].strip()
         description = "\n".join(lines[2:])
-        file_dictionary[name_key]=[tag,description]         
-    return file_dictionary 
+        file_dictionary[name_key]=[tag,description]
+    return file_dictionary
 
 def html_checklist(file_dictionary, tmp_dir_fileList):
     #html_text = "<table style = \"position:relative; left:4%\">\n"
@@ -64,19 +65,19 @@ def html_checklist(file_dictionary, tmp_dir_fileList):
                 html_all_rows = html_rows + html_all_rows
             else:
                 html_rows     = html_rows.replace("CHECKED","")
-                html_all_rows = html_all_rows + html_rows                
+                html_all_rows = html_all_rows + html_rows
         else:
-            pass        
+            pass
     html_text = "<table style = \"position:relative; left:4%\">\n" + html_all_rows + "</table>\n"
     return(html_text)
-        
+
 def create_readme(file_list, file_dictionary):
     text_header = "This is a help file which contains the name of the files\n"
     text_header = text_header + "you have downloaded and the description of"
     text_header = text_header + " what they contain.\n\n"
     text_header = text_header + "*************************************************\n"
     text_header = text_header + "*************************************************\n"
-    description_list = [] 
+    description_list = []
     for file_name in file_list:
         dict_desc = file_dictionary[file_name]
         text_desc = file_name + "\n"
@@ -88,7 +89,7 @@ def create_readme(file_list, file_dictionary):
     f = open("README.txt","w")
     f.write(readme_text)
     f.close()
-    
+
 def file_list(form, file_dictionary):
     full_form          = form.keys()
     possible_files     = file_dictionary.keys()
@@ -114,6 +115,7 @@ zip_file          = "pomeloII_output.zip"
 file_dictionary = make_files_dictionary(description_file)
 
 if cgi_action=="showFiles":
+    os.system('echo showFiles >> down_files_sentinel')
     tmp_dir_fileList  = dircache.listdir(".")
     html_list         = html_checklist(file_dictionary, tmp_dir_fileList)
     f                 = open(download_template)
@@ -123,11 +125,14 @@ if cgi_action=="showFiles":
     html_downloadText = html_downloadText.replace("_SUBS_DIR_", tmp_dir)
     cgi_html          = "Content-type: text/html\n\n" + html_downloadText
     print cgi_html
-    
 elif cgi_action=="createZip":
+    os.system('echo createZip >> down_files_sentinel')
     list_downloadFiles = file_list(form, file_dictionary)
     space_sep_file     = " ".join(list_downloadFiles)
     create_readme(list_downloadFiles, file_dictionary)
     zip_command = "zip " + zip_file + " " + space_sep_file + " README.txt"
     os.system(zip_command)
+    os.system('echo done createZip >> down_files_sentinel')
+    text_to_print = 'Location: ' + pomelo_url + '/tmp/'+ newDir + '/' + zip_file + ' \n\n'
+    os.system('echo ' + text_to_print + ' >> down_files_sentinel')
     print 'Location: ' + pomelo_url + '/tmp/'+ newDir + '/' + zip_file + ' \n\n'
