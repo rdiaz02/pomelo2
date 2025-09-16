@@ -4,7 +4,7 @@
 
 ## apparently, these aren't used
 # import types
-# import cgi 
+# import cgi
 # import signal
 # import re
 # import tarfile
@@ -51,7 +51,7 @@ newDirPath = Pomelo_runningProcs + "/Pom." + newDir
 def issue_echo2(fecho):
     """Silly function to output small tracking files. Debugging"""
     timeHuman = '##########   ' + \
-                str(time.strftime('%d %b %Y %H:%M:%S')) 
+                str(time.strftime('%d %b %Y %H:%M:%S'))
     os.system('echo "' + timeHuman + \
               '" >> ' + tmpDir + '/checkdone2.echo')
     os.system('echo "' + fecho + \
@@ -96,7 +96,7 @@ def html_error_page(error_type, error_text, tmpDir):
 
 # def getQualifiedURL(uri = None):
 #     """ Return a full URL starting with schema, servername and port.
-    
+
 #     *uri* -- append this server-rooted uri (must start with a slash)
 #     """
 #     schema, stdport = ('http', '80')
@@ -108,7 +108,7 @@ def html_error_page(error_type, error_text, tmpDir):
 
 #     result = "%s://%s" % (schema, host)
 #     if uri: result = result + uri
-  
+
 #     return result
 
 
@@ -140,11 +140,11 @@ def mpi_error():
 
 
 ### FIXME: This is ugly and a hack; if there is a user error, report as such!!!
-    
+
 
 def multest_error():
-    error_text = "<p> PomeloII crashed. </p>"
-    error_text = error_text + "<p> The problem could be in the code or in your data </p>"
+    error_text = "<p> Pomelo II crashed. </p>"
+    error_text = error_text + "<p> The problem could be in the code or in your data or maybe you went over the maximum allowed time of " + str(Pomelo_MAX_for_clean) + " minutes of execution. </p>"
     error_text = error_text + "<p> Below is the output from the execution: </p>"
     if os.path.exists(tmpDir + "/pomelo.msg"):
         pom_out = open(tmpDir + "/pomelo.msg")
@@ -153,7 +153,7 @@ def multest_error():
         lines = lines[:10]
         text  = ''.join(lines)
         error_text = error_text + text
-        
+
     error_text = error_text + '<br> MACHINE: ' + str(socket.gethostname())
     html_error_page("ERROR", error_text, tmpDir)
 
@@ -170,7 +170,7 @@ def printOKRun():
     test_type = f.read().strip()
     f.close()
     issue_echo2("       at 2")
-    draw_heatmaptable = "cd " + tmpDir + "; python " + Pomelo_cgi_dir + "/heatmap_draw_script.py;" 
+    draw_heatmaptable = "cd " + tmpDir + "; python " + Pomelo_cgi_dir + "/heatmap_draw_script.py;"
     issue_echo2("       at 2.2")
     # Cox script draws its own tables
     if test_type != "Cox":
@@ -187,7 +187,7 @@ def printOKRun():
         template    = open(pomelo_templates_dir + "/results_template_limmma_anova.html","r")
     else:
         template    = open(pomelo_templates_dir + "/results_template.html","r")
-    issue_echo2("      at 3b")    
+    issue_echo2("      at 3b")
     heat_temp_f = open(pomelo_templates_dir + "/templ_heatmap.html","r")
     templ_heat  = heat_temp_f.read()
     templ_heat  = templ_heat.split("_SPLIT_ME_")
@@ -255,7 +255,7 @@ except:
 ### Do very first run attempt.
 
 issue_echo2("Before first tryrrun")
-tryrrun = os.system(Pomelo_cgi_dir + '/pomelo_run2.py ' + tmpDir + 
+tryrrun = os.system(Pomelo_cgi_dir + '/pomelo_run2.py ' + tmpDir +
                     ' ' + test_type + ' ' + str(num_permut) +'&')
 
 time.sleep(TIME_BETWEEN_CHECKS + random.uniform(0.01, 0.3))
@@ -296,7 +296,7 @@ while True:  ## we repeat until done or unrecoverale crash
 #             newDir + '/results.html \n\n'
         break
 
-    # If file pomelo_run.finished exists, it has finished 
+    # If file pomelo_run.finished exists, it has finished
     run_finished = os.path.exists(tmpDir + "/pomelo_run.finished")
 
     if run_finished:
@@ -325,7 +325,8 @@ while True:  ## we repeat until done or unrecoverale crash
             ## this AIN'T a CGI. None of this print stuff should be here!!
 #            print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
             break
-        
+
+        ## zz-new-checks-runs: 2025-09 : MAX_NUM_RELAUNCHES set to 0.
         # we only get here if something failed; so check if we can relaunch
         if (number_relaunches < MAX_NUM_RELAUNCHES):
             issue_echo2("try relaunch")
@@ -338,11 +339,11 @@ while True:  ## we repeat until done or unrecoverale crash
             ## or we will get here and do as many launches of pomelo_run2
             ## as successive loops
             #close_lam_env()
-            move_run_finished = os.rename(tmpDir + '/pomelo_run.finished', 
+            move_run_finished = os.rename(tmpDir + '/pomelo_run.finished',
                                           tmpDir + '/pomelo_run.crash.finished-' +
                                           str(number_relaunches - 1))
             issue_echo2("renamed pomelo_run.finished")
-            tryrrun = os.system(Pomelo_cgi_dir + '/pomelo_run2.py ' + tmpDir + 
+            tryrrun = os.system(Pomelo_cgi_dir + '/pomelo_run2.py ' + tmpDir +
                                 ' ' + test_type + ' ' + str(num_permut) +'&')
             issue_echo2("tried relaunch")
         else: ## we cannot relaunch
@@ -368,12 +369,14 @@ while True:  ## we repeat until done or unrecoverale crash
 try:
     issue_echo2('      at final try')
     numPomelo = len(glob.glob(newDirPath + "*"))
-    if numPomelo > 1:
+    if numPomelo > 0:
+        rm_string = "rm " + newDirPath + "*"
+        issue_echo2(' Issuing rm_string = ' + rm_string)
         tmptmp = os.system("rm " + newDirPath + "*")
     issue_echo2('Deleting Pom.running.procs in ' + newDirPath + '*')
 except:
     None
-             
+
 burying = os.system("cd " + tmpDir + "; " + buryPomCall)
 issue_echo2("at the very end")
 
@@ -386,7 +389,7 @@ issue_echo2("at the very end")
 
 
 
-    
+
 # def close_lam_env():
 #     try:
 #         lamenv = open(tmpDir + "/lamSuffix", mode = "r").readline()

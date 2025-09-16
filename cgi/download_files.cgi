@@ -130,9 +130,25 @@ elif cgi_action=="createZip":
     list_downloadFiles = file_list(form, file_dictionary)
     space_sep_file     = " ".join(list_downloadFiles)
     create_readme(list_downloadFiles, file_dictionary)
-    zip_command = "zip " + zip_file + " " + space_sep_file + " README.txt"
+    ## FIXME: could use Python's zipfile module?
+    ## Redirect output so zip does not emit messages in stdout and add -q.
+    ## O.w. was having trouble
+    zip_command = "zip -q " + zip_file + " " + space_sep_file + " README.txt > /dev/null"
     os.system(zip_command)
+    exit_code = os.system(zip_command)
+    if exit_code != 0:
+        # Handle zip failure
+        print "Status: 500 Internal Server Error\n\n"
+        print "Zip creation failed. Contact the maintainers of the app."
+        sys.exit(1)
+
+    ## Without some of this, I was getting server error with
+    ## Response header name '  adding' contains invalid characters
+    ## Not anymore. I just add a few, to keep track
     os.system('echo done createZip >> down_files_sentinel')
-    text_to_print = 'Location: ' + pomelo_url + '/tmp/'+ newDir + '/' + zip_file + ' \n\n'
-    os.system('echo ' + text_to_print + ' >> down_files_sentinel')
+    # os.system('echo pomelo_rul = ' + pomelo_url + ' >> down_files_sentinel')
+    # os.system('echo zip_file = ' + zip_file + ' >> down_files_sentinel')
+    # os.system('echo newDir = ' + newDir + ' >> down_files_sentinel')
+    # text_to_print = 'Location: ' + pomelo_url + '/tmp/'+ newDir + '/' + zip_file + ' \n\n'
+    # os.system('echo ' + text_to_print + ' >> down_files_sentinel')
     print 'Location: ' + pomelo_url + '/tmp/'+ newDir + '/' + zip_file + ' \n\n'

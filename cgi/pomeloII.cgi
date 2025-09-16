@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- mode: python; -*-
 ####  Copyright (C)  2003-2005, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
-####                 2005-2009, Edward R. Morrissey and 
-####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com> 
+####                 2005-2009, Edward R. Morrissey and
+####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com>
 
 #### This program is free software; you can redistribute it and/or
 #### modify it under the terms of the Affero General Public License
@@ -62,7 +62,7 @@ import os
 import glob
 import socket
 import traceback
-import cgi 
+import cgi
 import subprocess
 ##import types
 import time
@@ -110,7 +110,7 @@ acceptedOrganisms      = ('None', 'Hs', 'Mm', 'Rn')
 acceptedTests          = ('t', 'FisherIxJ', 'Anova', 'Cox', 'Regres', 't_limma', 't_limma_paired','Anova_limma')
 permutation_tests      = ('t', 'Anova', 'Regres')
 testDiscrete_tests     = ('t', 'FisherIxJ', 'Anova', 't_limma', 't_limma_paired','Anova_limma')
-limma_covariable_tests = ('Anova_limma') 
+limma_covariable_tests = ('Anova_limma')
 
 def add_to_log(application, tmpDir, error_type,error_text):
     date_time = time.strftime('%Y\t%m\t%d\t%X')
@@ -131,11 +131,11 @@ def cgi_error_page(error_type, error_text):
     # Easy solution to name issue
     error_text = error_text.replace("covariate","Gene expression")
     error_text = error_text.replace("\n","<br>")
-    
+
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TEXT_",  error_text)
     add_to_log("Pomelo II", "-", error_type, error_text)
-    err_templ_hmtl = "Content-type: text/html\n\n" + err_templ_hmtl 
+    err_templ_hmtl = "Content-type: text/html\n\n" + err_templ_hmtl
     print err_templ_hmtl
 
 
@@ -299,7 +299,7 @@ def radioUpload(fieldName, acceptedValues):
         sys.exit()
     else:
         tmp = fs[fieldName].value
-            
+
     if tmp not in acceptedValues:
         shutil.rmtree(tmpDir)
         err_msg = "<p> Chosen value for " + fieldName + " is not valid. </p>"
@@ -320,7 +320,7 @@ def radioUpload(fieldName, acceptedValues):
 def dummyUpload(fieldName, value):
     """We no longer read itype or organism, but those are needed in many places
     still."""
-    
+
     fileInServer = tmpDir + "/" + fieldName
     srvfile = open(fileInServer, mode = 'w')
     fileString = value
@@ -389,7 +389,7 @@ if test_type == 't_limma_paired':
         err_msg = err_msg + "<p> Paired indicator files this size are not allowed.</p>"
         cgi_error_page("INPUT ERROR", err_msg)
         sys.exit()
-    
+
 ## zz: I think this won't work. Needs to check:
 ## if Cox: the three files; o.w. two files.
 
@@ -429,7 +429,7 @@ else:
 if(fs.getfirst("censoredex")!= None):
     censored_name = fs.getfirst("censoredex")
     try:
-        shutil.copy(Pomelo_examples_data_dir + "/" +  
+        shutil.copy(Pomelo_examples_data_dir + "/" +
                     censored_name, tmpDir + "/censored_indicator")
     except:
         cgi_error_page('EXAMPLE INPUT ERROR',
@@ -458,7 +458,7 @@ elif(fs.getfirst("classex")!= None):
         sys.exit()
 else:
     fileUpload('class_labels')
-    
+
 if os.stat(tmpDir + '/class_labels')[ST_SIZE] > MAX_time_size:
     shutil.rmtree(tmpDir)
     err_msg = "<p> Class labels file way too large. </p>"
@@ -471,7 +471,7 @@ if os.stat(tmpDir + '/class_labels')[ST_SIZE] > MAX_time_size:
 dummy = os.system("cd " + tmpDir +"; /bin/sed 's/[^a-z^A-Z^\t^\r^0-9]/./g' class_labels > tmpcllb; mv tmpcllb class_labels;")
 dummy = os.system("cd " + tmpDir +";/bin/sed 's/\.\{1,\}/\./g' class_labels > tmpcllb; mv tmpcllb class_labels;")
 dummy = os.system("cd " + tmpDir +";/bin/sed 's/\.\t/\t/g' class_labels > tmpcllb; mv tmpcllb class_labels;")
-dummy = os.system("cd " + tmpDir +";/bin/sed 's/\.$//g'  class_labels > tmpcllb; mv tmpcllb class_labels;") 
+dummy = os.system("cd " + tmpDir +";/bin/sed 's/\.$//g'  class_labels > tmpcllb; mv tmpcllb class_labels;")
 
 #sedCommand = fisrtsed + secondsed +  thirdsed + fourthsed
 #dummy = os.system(sedCommand)
@@ -527,6 +527,20 @@ for Pomtouchfile in PomrunningFiles:
 
 # Check to see if a new pomelo can be run
 burying = os.system("cd " + tmpDir + "; " + buryPomCall)
+## zz-new-checks-runs 2025-09
+## 2025-09: new clean up mechanism. First, kill and rm all old stuff
+## Kill anything older than some number of hours (minutes)
+Pomelo_MAX_for_clean = 1
+## Recall older takes seconds
+
+## As I am stuck with an old pkill, I can't do this:
+## new_clean_kill_2 = os.system("pkill -u www-data -f 'multest_paral' --older " + str(Pomelo_MAX_for_clean * 60))
+
+new_clean_kill_2 = os.system("for pid in $(ps -u www-data -o pid,etimes,args | grep 'multest_paral' | awk '{ if ($2 > " + str(Pomelo_MAX_for_clean * 60) + ") print $1 }'); do kill -TERM $pid; done")
+new_clean_kill_1 = os.system("for pid in $(ps -u www-data -o pid,etimes,args | grep 'R-4.5.1' | awk '{ if ($2 > " + str(Pomelo_MAX_for_clean * 60) + ") print $1 }'); do kill -TERM $pid; done")
+new_clean_rm_Pom_running = os.system("find /home2/ramon/web-apps/pomelo2/www/Pom.running.procs -type f -regex '.*/Pom\\.[0-9]+@.*' -mmin +" + str(Pomelo_MAX_for_clean) + " -delete")
+
+
 numPomelo = len(glob.glob(pomelo_running_procs_file_expression))
 if numPomelo > MAX_poms:
     shutil.rmtree(tmpDir)
@@ -604,14 +618,14 @@ if test_type in testDiscrete_tests:
     os.system('cp ' + Pomelo_cgi_dir + '/testDiscrete.R ' + tmpDir + '/.')
     Rcommand = "cd " + tmpDir + "; " + R_pomelo_bin + " CMD BATCH --no-restore --no-readline --no-save -q testDiscrete.R 2> error.msg "
     Rrun = os.system(Rcommand)
-    if os.path.exists(tmpDir + '/errorInput'):    
+    if os.path.exists(tmpDir + '/errorInput'):
         rif = open(tmpDir + '/errorInput', mode = 'r')
         rift = rif.read()
         err_msg = cgi.escape(rift)
         cgi_error_page("INPUT ERROR", err_msg)
         rif.close()
         sys.exit()
-else: 
+else:
     os.system('cp ' + Pomelo_cgi_dir + '/testContinuous.R ' + tmpDir + '/.')
     Rcommand = "cd " + tmpDir + "; " + R_pomelo_bin + "R CMD BATCH --no-restore --no-readline --no-save -q testContinuous.R 2> error.msg "
     Rrun = os.system(Rcommand)
@@ -623,7 +637,7 @@ else:
         rif.close()
         sys.exit()
 
-        
+
 
 ## It would be good to use spawnl or similar instead of system,
 ## but I have no luck with R. This, I keep using system.
@@ -640,7 +654,7 @@ if test_type=="Anova_limma":
     create_classcomp_html()
 
 
-    
+
 ##old macs issues
 dummy = os.system("cd " + tmpDir +"; /bin/sed 's/\\r\\n/\\n/g' covariate > tmpc; mv tmpc covariate; /bin/sed 's/\\r/\\n/g' covariate > tmpc; mv tmpc covariate")
 ## are the Pom.whatever.@.hostanme being written?
@@ -681,7 +695,7 @@ dummy = os.system("cd " + tmpDir +"; /bin/sed 's/\\r\\n/\\n/g' covariate > tmpc;
 # print >> sys.stderr, "DEBUG: Directory stat:", os.stat(Pomelo_runningProcs)
 
 # print >> sys.stderr, "DEBUG: Pomelo_runningProcs =", Pomelo_runningProcs
-# print >> sys.stderr, "DEBUG: newDir =", newDir  
+# print >> sys.stderr, "DEBUG: newDir =", newDir
 # print >> sys.stderr, "DEBUG: hostname =", socket.gethostname()
 # print >> sys.stderr, "DEBUG: Full touch command would be:", "/bin/touch " + Pomelo_runningProcs + "/Pom." + newDir + "@" + socket.gethostname()
 
@@ -709,14 +723,14 @@ dummy = os.system('cp ' + ROOT_POMELO_DIR + '/bin/multest_paral ' + tmpDir + '/m
 #if test_type not in limma_covariable_tests:
 #if test_type != "Anova_limma":
 #    tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmpDir + ' ' + test_type + ' ' + str(num_permut) +'&')
-    
+
 createResultsFile = os.system("/bin/touch " + tmpDir + "/results.txt")
 
 
 
 ###########   Creating a results.hmtl   ###############
 
-## Copy to tmpDir a results.html that redirects to itself 
+## Copy to tmpDir a results.html that redirects to itself
 ## If communication gets broken, there is always a results.html
 ## that will do the right thing.
 
@@ -743,7 +757,7 @@ else:
     ## the following to always leave a trace of where we were
     os.system('echo "' + str(os.getpid()) + ' ' + socket.gethostname() +\
                   '"> ' + tmpDir + '/run_and_checkPID_pre')
-    
+
     covar_direc = tmpDir + "/COVARIABLES"
     os.mkdir(covar_direc)
     os.chmod(covar_direc, 0770)

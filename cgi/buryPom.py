@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 ####  Copyright (C)  2003-2005, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
-####                 2005-2009, Edward R. Morrissey and 
-####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com> 
+####                 2005-2009, Edward R. Morrissey and
+####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com>
 
 #### This program is free software; you can redistribute it and/or
 #### modify it under the terms of the Affero General Public License
@@ -47,6 +47,16 @@ import sys
 sys.path.append("/home2/ramon/web-apps/web-apps-common")
 from web_apps_config import *
 
+## FIXME, 2025-09: I think this cannot work
+## This is looking per machine, but there is a single machine so
+## were there any sign of life, it would do nothing
+## But the signs of life are not outdate. The mpir is not run as shown here
+## but with things like mpirun -np 4 multest_paral
+
+## The net result is that, as soon as this is called, it removes
+## all the sentinels in Po.running.procs.
+
+## So I am turning this into a no-op. Comment out the line ## zz-new-checks-runs
 
 
 ## As it says: any pomelo II process living here as master?"""
@@ -78,9 +88,6 @@ def fcheck():
     rrunsFiles = glob.glob(pomelo_running_procs_file_expression)
     for dirMachine in rrunsFiles:
         Machine = dirMachine.split('@')[1]
-        # procs0 = os.popen("ssh " + MachineIP[Machine] + \
-        #                  " 'ps -F -U www'")
-        ## procs0 = os.popen(" 'ps -F -U www-data'") ## zz1
         procs0 = os.popen("ps -F -U www-data")
         try:
             procs = procs0.readlines()
@@ -92,19 +99,25 @@ def fcheck():
             for the_sign in signs_of_pomelo_life:
                 alive = line.find(the_sign) >= 0
                 if alive:
-#                     os.system("touch buryPom.is.alive.sign." + the_sign + "IP." + MachineIP[Machine])
                     break
             if alive:
                 break
         if not alive: ## if not Pomelo-associated activity with this machine
-#             os.system("touch buryPom.REMOVE.sign." + the_sign + "IP." + MachineIP[Machine])
             try:
+                ## see how it deletes Pom.running.procs files of alive processes
+                os.system("echo about to remove " + dirMachine + " in buryPom >> /home2/ramon/web-apps/apache-logs/buryPom.log")
                 os.remove(dirMachine)
             except:
                 None
 
+
 # os.system("touch buryPom_entering")
-fcheck()
+
+
+## zz-new-checks-runs: 2025-09
+## fcheck()
+
+
 # os.system("touch buryPom_exiting")
 
 
@@ -151,7 +164,7 @@ fcheck()
 # def R_done(tmpDir):
 #     """Verify if Rout exists. If it does, see if done"""
 # ##    rfile = 1
-#     try: 
+#     try:
 # 	Rrout = open(tmpDir + "/f1.Rout")
 #     except:
 # 	return 1
