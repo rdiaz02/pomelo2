@@ -4,7 +4,7 @@ So buryPom now does nothing: the call to fcheck is commented.
 
 What I want instead is to rm the sentinel files when there is no longer any process running. And prevent things running for long. So what I do now is, right before attemtping to launch, in pomeloII.cgi, (look for  zz-new-checks-runs 2025-09)
 
-1. Check if, after four hours (i.e., Pomelo_MAX_for_clean = 4 * 60, in web_apps_config.py):
+1. Check if, after four hours (i.e., Pomelo_MAX_time, in seconds, in web_apps_config.py):
 
 - there are still running multest_parla
 - there are still running R processes
@@ -21,7 +21,23 @@ The runAndCheck.py are left running, so they can return the error page clearly.
 
 The relevant changes are all locatable searching for ## zz-new-checks-runs 2025-09
 
-Fuck!! But this is already being done in lines 507 and ff of pomeloII.cgi!
+But this is already being done in lines 507 and ff of pomeloII.cgi!
 And that seems to remove the directory too? That is not what I want!!
+Commented.
+
+And there is some redundancy: in runAndCheck.py we have the "printPomKilled". Whatever.
+
 
 And where is the cleaning up of files?
+Most of the apps have a logic like (in slightly different incantations)
+
+## Deleting tmp directories older than MAX_time
+currentTime = time.time()
+currentTmp = dircache.listdir(ROOT_POMELO_TMP_DIR)
+for directory in currentTmp:
+    tmpS = ROOT_POMELO_TMP_DIR + "/" + directory
+    if (currentTime - os.path.getmtime(tmpS)) > MAX_time:
+        try:
+            shutil.rmtree(tmpS)
+        except:
+            None

@@ -144,7 +144,7 @@ def mpi_error():
 
 def multest_error():
     error_text = "<p> Pomelo II crashed. </p>"
-    error_text = error_text + "<p> The problem could be in the code or in your data or maybe you went over the maximum allowed time of " + str(Pomelo_MAX_for_clean) + " minutes of execution. </p>"
+    error_text = error_text + "<p> The problem could be in the code or in your data or maybe you went over the maximum allowed time of " + str(Pomelo_MAX_time/60) + " minutes of execution. </p>"
     error_text = error_text + "<p> Below is the output from the execution: </p>"
     if os.path.exists(tmpDir + "/pomelo.msg"):
         pom_out = open(tmpDir + "/pomelo.msg")

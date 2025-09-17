@@ -2,8 +2,8 @@
 
 
 ####  Copyright (C)  2003-2005, 2014, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
-####                 2005-2009, Edward R. Morrissey and 
-####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com> 
+####                 2005-2009, Edward R. Morrissey and
+####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com>
 
 #### This program is free software; you can redistribute it and/or
 #### modify it under the terms of the Affero General Public License
@@ -77,7 +77,7 @@ def CoxCommand(tmpDir, R_pomelo_bin):
     os.system(run_command)
     issue_echo('    inside CoxCommand: done os.system', tmpDir)
 
-    
+
 def multestCommand(tmpDir, num_permut, test_type):
     issue_echo('    inside multestCommand: before creating command', tmpDir)
     run_command = 'cd ' +  tmpDir + '; ' + mpirun_command + "    multest_paral " +\
@@ -88,7 +88,7 @@ def multestCommand(tmpDir, num_permut, test_type):
     fi,foe = os.popen4(run_command)
     fi.close()
     outcommand = foe.read()
-    if (outcommand.find('bad_alloc') > (-1)): 
+    if (outcommand.find('bad_alloc') > (-1)):
         dummy   = os.system('cd ' + tmpDir + '; ' + 'touch MemoryERROR')
         issue_echo(' MEMORY ERROR (from inside multestCommand)', tmpDir)
     elif (outcommand.find('exit status 9') > (-1)): ## I think this are ALWAYS memory
@@ -98,7 +98,7 @@ def multestCommand(tmpDir, num_permut, test_type):
         issue_echo(' MEMORY ERROR (from inside multestCommand)', tmpDir)
     issue_echo('    inside multestCommand: done os.system', tmpDir)
 
-    
+
 
 def collectZombies(k = 10):
     """ Make sure there are no zombies in the process tables.
@@ -111,6 +111,7 @@ def collectZombies(k = 10):
         except:
             None
 
+## zz-new-checks-runs 2025-09. Now MAX_MPI_CRASHES is set to 0.
 ## leave this, since this could happen with OpenMPI
 def writeErrorMessage(tmpDir):
     numtries = MAX_MPI_CRASHES * 10
@@ -160,7 +161,7 @@ def writeMemoryErrorMessage(tmpDir):
 ###################################################################
 
 ####       Most of these are the same (or similar to)
-####          ones in ADaCGH-server            
+####          ones in ADaCGH-server
 
 ###################################################################
 ###################################################################
@@ -200,7 +201,7 @@ def cleanups(tmpDir, newDir,
 def issue_echo(fecho, tmpDir):
     """Silly function to output small tracking files"""
     timeHuman = '##########   ' + \
-                str(time.strftime('%d %b %Y %H:%M:%S')) 
+                str(time.strftime('%d %b %Y %H:%M:%S'))
     os.system('echo "' + timeHuman + \
               '" >> ' + tmpDir + '/checkdone.echo')
     os.system('echo "' + fecho + \
@@ -216,7 +217,7 @@ def kill_pid_machine(pid, machine):
 
 def mpi_crash_log(tmpDir, value):
     """ Write to the lam crash log, 'recoverFromMPICrash.out' """
-    timeHuman = str(time.strftime('%d %b %Y %H:%M:%S')) 
+    timeHuman = str(time.strftime('%d %b %Y %H:%M:%S'))
     os.system('echo "' + value + '  at ' + timeHuman + \
               '" >> ' + tmpDir + '/recoverFromMPICrash.out')
 
@@ -290,8 +291,8 @@ else: ## we use MPI
             cleanups(tmpDir, newDir)
             writeErrorMessage(tmpDir)
             break
-            
-        
+
+
         if os.path.exists(tmpDir + "/RterminatedOK"):
             issue_echo('   startedOK : RterminatedOK exists', tmpDir)
             startedOK = True
@@ -401,7 +402,7 @@ sys.exit()
 #     """ Use tping to verify LAM universe OK.
 #     tsleep is how long we wait before checking output of tping.
 #     Verify also using 'lamexec C hostname' """
-    
+
 #     tmp2 = os.system('export LAM_MPI_SESSION_SUFFIX="' +\
 #                      lamSuffix + '"; cd ' + tmpDir + \
 #                      '; tping C N -c' + str(nc) + \
@@ -411,7 +412,7 @@ sys.exit()
 #                        '; wc tping.out').readline().split()[0])
 #     os.system('rm ' + tmpDir + '/tping.out')
 #     timeHuman = '##########   ' + \
-#                 str(time.strftime('%d %b %Y %H:%M:%S')) 
+#                 str(time.strftime('%d %b %Y %H:%M:%S'))
 #     os.system('echo "' + timeHuman + \
 #               '" >> ' + tmpDir + '/checkTping.out')
 #     if tmp == 0:
@@ -442,10 +443,10 @@ sys.exit()
 
 # def lam_crash_log(tmpDir, value):
 #     """ Write to the lam crash log, 'recoverFromLAMCrash.out' """
-#     timeHuman = str(time.strftime('%d %b %Y %H:%M:%S')) 
+#     timeHuman = str(time.strftime('%d %b %Y %H:%M:%S'))
 #     os.system('echo "' + value + '  at ' + timeHuman + \
 #               '" >> ' + tmpDir + '/recoverFromLAMCrash.out')
-    
+
 # def recover_from_lam_crash(tmpDir, NCPU, MAX_NUM_PROCS, lamSuffix,
 #                            Pomelo_runningProcs= Pomelo_runningProcs,
 #                            machine_root = 'karl'):
@@ -456,7 +457,7 @@ sys.exit()
 #     below.
 #     """
 
-    
+
 #     os.remove(''.join([Pomelo_runningProcs, '/sentinel.lam.', newDir, '.', lamSuffix]))
 #     del_mpi_logs(tmpDir, machine_root)
 #     lam_crash_log(tmpDir, 'Crashed')
@@ -493,6 +494,6 @@ sys.exit()
 #         None
 #     try:
 #         for lam_log in lam_logs:
-#             fuuu = os.popen3('rm ' + lam_log)    
+#             fuuu = os.popen3('rm ' + lam_log)
 #     except:
 #         None

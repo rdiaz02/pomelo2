@@ -503,42 +503,47 @@ dummy = os.system("cd " + tmpDir +";/bin/sed 's/\.$//g'  class_labels > tmpcllb;
 # fileNamesBrowser.write(fs['class_labels'].filename + '\n')
 # fileNamesBrowser.close()
 
-## If a process lasts longer than the Pom_MAX_time, kill it and delete files asociated
-PomrunningFiles = dircache.listdir(Pomelo_runningProcs)
-for Pomtouchfile in PomrunningFiles:
-    tmpS = Pomelo_runningProcs + "/" + Pomtouchfile
-    if (currentTime - os.path.getmtime(tmpS)) > Pomelo_MAX_time:
-        os.remove(tmpS)
-	aux_num_dir = Pomtouchfile.split(".")[1]
-	num_Oldir   = aux_num_dir.split("@")[0]
-	oldDir = ROOT_POMELO_TMP_DIR + "/" + num_Oldir
-	try:
-		lamenv = open(oldDir + "/lamSuffix", mode = "r").readline()
-	except:
-		None
-	try:
-		os.system('export LAM_MPI_SESSION_SUFFIX=' + lamenv + '; lamhalt -H; lamwipe -H')
-	except:
-		None
-	try:
-		shutil.rmtree(oldDir)
-	except:
-		None
+## zz-new-checks-runs 2025-09. This only kills lammpi, which is long gone,
+## and seems to remove directories. I comment it out.
+
+# ## If a process lasts longer than the Pom_MAX_time, kill it and delete files asociated
+# PomrunningFiles = dircache.listdir(Pomelo_runningProcs)
+# for Pomtouchfile in PomrunningFiles:
+#     tmpS = Pomelo_runningProcs + "/" + Pomtouchfile
+#     if (currentTime - os.path.getmtime(tmpS)) > Pomelo_MAX_time:
+#         os.remove(tmpS)
+# 	aux_num_dir = Pomtouchfile.split(".")[1]
+# 	num_Oldir   = aux_num_dir.split("@")[0]
+# 	oldDir = ROOT_POMELO_TMP_DIR + "/" + num_Oldir
+# 	try:
+# 		lamenv = open(oldDir + "/lamSuffix", mode = "r").readline()
+# 	except:
+# 		None
+# 	try:
+# 		os.system('export LAM_MPI_SESSION_SUFFIX=' + lamenv + '; lamhalt -H; lamwipe -H')
+# 	except:
+# 		None
+# 	try:
+# 		shutil.rmtree(oldDir)
+# 	except:
+# 		None
 
 # Check to see if a new pomelo can be run
 burying = os.system("cd " + tmpDir + "; " + buryPomCall)
 ## zz-new-checks-runs 2025-09
 ## 2025-09: new clean up mechanism. First, kill and rm all old stuff
 ## Kill anything older than some number of hours (minutes)
-Pomelo_MAX_for_clean = 1
+
 ## Recall older takes seconds
 
 ## As I am stuck with an old pkill, I can't do this:
-## new_clean_kill_2 = os.system("pkill -u www-data -f 'multest_paral' --older " + str(Pomelo_MAX_for_clean * 60))
+## new_clean_kill_2 = os.system("pkill -u www-data -f 'multest_paral' --older " + str(Pomelo_MAX_time * 60))
 
-new_clean_kill_2 = os.system("for pid in $(ps -u www-data -o pid,etimes,args | grep 'multest_paral' | awk '{ if ($2 > " + str(Pomelo_MAX_for_clean * 60) + ") print $1 }'); do kill -TERM $pid; done")
-new_clean_kill_1 = os.system("for pid in $(ps -u www-data -o pid,etimes,args | grep 'R-4.5.1' | awk '{ if ($2 > " + str(Pomelo_MAX_for_clean * 60) + ") print $1 }'); do kill -TERM $pid; done")
-new_clean_rm_Pom_running = os.system("find /home2/ramon/web-apps/pomelo2/www/Pom.running.procs -type f -regex '.*/Pom\\.[0-9]+@.*' -mmin +" + str(Pomelo_MAX_for_clean) + " -delete")
+new_clean_kill_2 = os.system("for pid in $(ps -u www-data -o pid,etimes,args | grep 'multest_paral' | awk '{ if ($2 > " + str(Pomelo_MAX_time) + ") print $1 }'); do kill -TERM $pid; done")
+new_clean_kill_1 = os.system("for pid in $(ps -u www-data -o pid,etimes,args | grep 'R-4.5.1' | awk '{ if ($2 > " + str(Pomelo_MAX_time) + ") print $1 }'); do kill -TERM $pid; done")
+## The addition of 30 is to prevent not deleting processes above but deleting the Pom.running,
+## if a process has a borderline duration
+new_clean_rm_Pom_running = os.system("find /home2/ramon/web-apps/pomelo2/www/Pom.running.procs -type f -regex '.*/Pom\\.[0-9]+@.*' -mmin +" + str(round((Pomelo_MAX_time + 30)/60)) + " -delete")
 
 
 numPomelo = len(glob.glob(pomelo_running_procs_file_expression))
