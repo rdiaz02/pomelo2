@@ -43,7 +43,7 @@ multest test maxT/minP nperm covariate_data class_data censored_data
       Regres:    linear regression;
       maxT/minP:      this makes no difference; we use FDR now. minP will
       		      not work (give weird results)
-      
+
       nperm:          number of permutations
       covariate_data: rows are genes, columns are conditions.
       class_data:     classification or dependent variable, regression, Cox).
@@ -68,5 +68,6 @@ mpirun -np 64 multest_paral Regres maxT 10000 BreastExpr BreastClass
 
 mpirun -np 64 multest_paral Cox maxT 10000 CoxExpr CoxSurv CoxCensor
 
-
+## FIXME: but this is silly!!! using 10000 or 1 or 2 is the same!! Don't do this.
+## There are no permutations here
 mpirun -np 64 multest_paral FisherIxJ maxT 10000 FisherExData FisherExLabels
