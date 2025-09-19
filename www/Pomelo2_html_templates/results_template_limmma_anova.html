@@ -42,15 +42,15 @@
 				catch(e3){
 					ro = null
 					alert("Please update your web browser to its latest version to use full application functionality")
-				}	
+				}
 			}
 		}
 		return ro;
 
 	}
-	
+
 	var http = createRequestObject();
-		
+
 	function sndReq(form_string) {
 		http.open('post', 'http://pomelo2.iib.uam.es/cgi-bin/change_table.cgi',true);
 		http.onreadystatechange = handleResponse;
@@ -58,7 +58,7 @@
 		http.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
 		http.send(form_string);
 	}
-		
+
 	function handleResponse() {
 		if(http.readyState == 4){
 			var response = http.responseText;
@@ -73,14 +73,14 @@
 	DIV.Main_title
 	{
 		VERTICAL-ALIGN: middle;
-		FONT-WEIGHT: 900; 
+		FONT-WEIGHT: 900;
 		FONT-SIZE: 2em;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT: rgb(34,139,34) 7px solid;
 		BORDER-TOP: rgb(0,139,0) 7px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 7px solid;
 		BORDER-LEFT: rgb(0,139,0) 7px solid;
-		PADDING-RIGHT: 7px;		
+		PADDING-RIGHT: 7px;
 		PADDING-LEFT: 7px;
 		PADDING-BOTTOM: 7px;
 		PADDING-TOP: 7px;
@@ -89,7 +89,7 @@
 		FLOAT: none;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 96%;
 		HEIGHT: 4.4em;
 	}
@@ -99,7 +99,7 @@
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -111,18 +111,18 @@
 		POSITION: relative;
 		BACKGROUND-COLOR: rgb(238,243,226);
 		WIDTH: 98%;
-		HEIGHT: 5%; 
-	
+		HEIGHT: 5%;
+
 	}
 	DIV.Title_box
 	{
-		font-weight: bold; 
+		font-weight: bold;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT: rgb(34,139,34) 3px solid;
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -132,10 +132,10 @@
 		VISIBILITY: visible;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 10em;
 		Z-INDEX:2;
-		
+
 	}
 	DIV.results_box
 	{
@@ -143,7 +143,7 @@
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -163,7 +163,7 @@
 		BORDER-TOP:         rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM:    rgb(34,139,34) 3px solid;
 		BORDER-LEFT:        rgb(0,139,0) 3px solid;
-		PADDING-RIGHT:                         0px;		
+		PADDING-RIGHT:                         0px;
 		PADDING-LEFT:                          38px;
 		PADDING-BOTTOM:                        0px;
 		PADDING-TOP:                           0px;
@@ -177,7 +177,7 @@
 	}
 	IMG.question
 	{
-	        CURSOR: pointer; 
+	        CURSOR: pointer;
 	}
 
 </style>
@@ -193,17 +193,18 @@
 		(THE RETURN OF THE POMELO)
 		</span >
 	</div>
+	<br>
 <FORM action="dummy" method="POST" name="table_form">
 
 	<div id = "class_compare" class="Title_box">
 		Class compare
 	</div>
-	
+
 	<div id = "class_compare_2" class="results_box" >
 		<br><br>
 		<center>
 		It is now possible to compare classes individually.<br>
-		If you wish to do so, clicking on the button bellow will open a class comparison window. 
+		If you wish to do so, clicking on the button bellow will open a class comparison window.
 		<br><br>
 		<input type="button" name="btn_clascomp" value=" Compare classes " OnClick="classcomp();">
 		</center>
@@ -219,13 +220,13 @@
 		<table style="position:relative; left:2%">
 		    <tr>
 		    <td>
-		    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+		    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 		    onClick="open_help('output_table.html')">
 		    </td>
 		    <td>
 		    <B>Output table:</B>
 		    </td></tr>
-		</table>		
+		</table>
 		<div id="table_swap" style="position:relative; left:2%">
 			_SPLIT_ME_
 		</div>
@@ -233,7 +234,7 @@
 		<br>
 		<Center>
 			Choose ordering option
-			
+
 				<SELECT NAME="order_table" SIZE="1" onChange="change_table(table_form)">
 					<OPTION VALUE="p.v.sort.FDR.a.html" DEFAULT=TRUE>FDR ascending</OPTION>
 					<OPTION VALUE="p.v.sort.FDR.d.html">FDR descending</OPTION>
@@ -251,7 +252,7 @@
 
 				</SELECT>
 			<br><br>
-		<input type="button" name=" Download " value=" Download output files " 
+		<input type="button" name=" Download " value=" Download output files "
 		       onClick="download_window()">
 		<!-- <input type="button" name=" gotoList " value=" Send genes to PaLS "  -->
 		<!--        onClick="PaLS_window()"> -->
@@ -263,14 +264,14 @@
 	<div id = "heatmap_title" class="Title_box">
 		Heatmap
 	</div>
-	
+
 	<div id = "heatmap" class="results_box" >
 	<br>
 	<br>
 		<table style="position:relative; left:4%">
 		    <tr>
 		    <td>
-		    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+		    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 		         onClick="open_help('heatmap_help.html')">
 		    </td>
 		    <td>
@@ -289,17 +290,17 @@
 
 
 <div id = "results_title" class = "Title_box">
-Main help  
+Main help
 </div>
 <div id = "results" class = "results2_box" >
 <div class = "actual_text">
-<p>		
+<p>
 <a href="http://pomelo2.iib.uam.es/help/pomelo2-help.html">Go to main help</a></p>
 </div>
 </div>
 
 	<div style="position:relative;top:2.2em">
-	
+
 		<table border=0 width="100%" celllspacing=0>
 			<tr>
 <!-- 				<td align=left><font size=2> -->
@@ -309,7 +310,7 @@ Main help
 					&nbsp;Send comments to the <a href="mailto:rdiaz02@gmail.com">webmaster</a>.
 					Last rev. Jan 11th, 2008</font>
 				</td>
-				<TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		
+				<!-- <TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		 -->
 			</tr>
 		</table>
 		<br>

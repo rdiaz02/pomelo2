@@ -9,12 +9,12 @@
         function open_help(help_html){
 	        var page_URL = "http://pomelo2.iib.uam.es/help/" + help_html
 		window.open(page_URL, "helpWindow", "width=750, height=600, scrollbars=YES, resizable=YES")
-	}	
+	}
 	function open_graph(){
 	        var page_URL = "http://pomelo2.iib.uam.es/tmp/_NUMBERS_/COVARIABLES/scatterPlot.png"
 		window.open(page_URL, "graph_window", "scrollbars=YES, resizable=YES")
 	}
-	
+
 	function list_position(name){
 		var position
 		for (i=0;i<list_variables.length;i++){
@@ -22,7 +22,7 @@
 		}
 		return(position)
 	}
-	
+
 	function make_table_alter_button(){
 	        var html_table = "<table style=\"position:relative; left:4% \"><tr><td><B>Covariable name</B></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><B>Degrees of freedom used</B></td></tr>"
 		var total_df = 0
@@ -34,8 +34,8 @@
 		       }
 		}
 		html_last_line0 = "<tr><td colspan=3>___________________________</td></tr>"
-		html_last_line1 = "<tr><td><B>Total used</B></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><B>" + total_df + "</B></td></tr>" 
-		html_last_line2 = "<tr><td><B>Maximum allowed</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B></td><td><B>" + max_df   + "</B></td></tr>" 
+		html_last_line1 = "<tr><td><B>Total used</B></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><B>" + total_df + "</B></td></tr>"
+		html_last_line2 = "<tr><td><B>Maximum allowed</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</B></td><td><B>" + max_df   + "</B></td></tr>"
 		html_table      = html_table + html_last_line0 + html_last_line1 + html_last_line2 + "</table>"
 		if (max_df<total_df){
 			html_table = html_table + " The number of total degrees of freedom (" + total_df + ") is greater than the limit (" + max_df + ").<br>"
@@ -46,41 +46,41 @@
 		else if (total_df==0){
 		        html_table = "No covariables selected."
 			document.covariable_form.submit_button.disabled      = true
-		
+
 		}
 		else{
 		        //Activate button
 			document.covariable_form.submit_button.disabled      = false
-		}				
+		}
 		return(html_table)
 	}
-	
+
 	// Main javascript function
 	function box_changed(name, value){
 	        var position = list_position(name)
 		//alert(position)
-		//alert(list_variables[position])	
+		//alert(list_variables[position])
 		if (list_values[position]==0) {list_values[position] = value }
 		else { list_values[position] = 0 }
-		
+
 		html_table = make_table_alter_button()
 		//alert(list_values)
 		document.getElementById("chosen_covar_table").innerHTML   = html_table
 	}
-	
+
 </script>
 <style type="text/css">
 	DIV.Main_title
 	{
 		VERTICAL-ALIGN: middle;
-		FONT-WEIGHT: 900; 
+		FONT-WEIGHT: 900;
 		FONT-SIZE: 2em;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT: rgb(34,139,34) 7px solid;
 		BORDER-TOP: rgb(0,139,0) 7px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 7px solid;
 		BORDER-LEFT: rgb(0,139,0) 7px solid;
-		PADDING-RIGHT: 7px;		
+		PADDING-RIGHT: 7px;
 		PADDING-LEFT: 7px;
 		PADDING-BOTTOM: 7px;
 		PADDING-TOP: 7px;
@@ -89,19 +89,19 @@
 		FLOAT: none;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 96%;
 		HEIGHT: 4.4em;
 	}
 	DIV.Title_box
 	{
-		font-weight: bold; 
+		font-weight: bold;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT: rgb(34,139,34) 3px solid;
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -111,10 +111,10 @@
 		VISIBILITY: visible;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 15em;
 		Z-INDEX:2;
-		
+
 	}
 	DIV.results_box
 	{
@@ -122,7 +122,7 @@
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -142,7 +142,7 @@
 		BORDER-TOP:         rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM:    rgb(34,139,34) 3px solid;
 		BORDER-LEFT:        rgb(0,139,0) 3px solid;
-		PADDING-RIGHT:                         0px;		
+		PADDING-RIGHT:                         0px;
 		PADDING-LEFT:                          38px;
 		PADDING-BOTTOM:                        0px;
 		PADDING-TOP:                           0px;
@@ -157,7 +157,7 @@
 
 	IMG.question
 	{
-	        CURSOR: pointer; 
+	        CURSOR: pointer;
 	}
 
 </style>
@@ -173,6 +173,7 @@
 		(THE RETURN OF THE POMELO)
 		</span >
 	</div>
+	<br>
 <FORM action="check_covariables.cgi" method="POST" name="covariable_form">
 	<div id = "results_title" class="Title_box">
 		Check and choose covariables
@@ -184,13 +185,13 @@
 	<table style="position:relative; left:4%">
 	    <tr>
 	    <td>
-	    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+	    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 	    onClick="open_help('check_covariables.html')">
 	    </td>
 	    <td>
 	    <B>Check covariables are read properly and choose which to use:</B>
-	    
-	    
+
+
 	    </td></tr>
 	</table>
 
@@ -200,13 +201,13 @@
 <!--	<table style="position:relative; left:4%">
 	    <tr>
 	    <td>
-	    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+	    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 	    onClick="open_help('diff_expresion_table.html')">
 	    </td>
 	    <td>
 	    <B>Check graph to make sure chosen covariables are not correlated (similar):</B>
 	    </td></tr>
-	</table>		
+	</table>
 	<br>
 	<center>
 	<input type="button" name="graph_open" value=" Open covariable compare graph  " OnClick="open_graph();">
@@ -224,7 +225,7 @@
 	<table style="position:relative; left:4%">
 	    <tr>
 	    <td>
-	    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+	    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 	    onClick="open_help('df_table.html')">
 	    </td>
 	    <td>
@@ -246,17 +247,17 @@
 
 
 <div id = "results_title" class = "Title_box">
-Main help  
+Main help
 </div>
 <div id = "results" class = "results2_box" >
 <div class = "actual_text">
-<p>		
+<p>
 <a href="http://pomelo2.iib.uam.es/help/pomelo2-help.html">Go to main help</a></p>
 </div>
 </div>
 
 	<div style="position:relative;top:2.2em">
-	
+
 		<table border=0 width="100%" celllspacing=0>
 			<tr>
 <!-- 				<td align=left><font size=2> -->
@@ -266,7 +267,7 @@ Main help
 					&nbsp;Send comments to the <a href="mailto:rdiaz02@gmail.com">webmaster</a>.
 					Last rev. Apr 27th, 2008</font>
 				</td>
-				<TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		
+				<!-- <TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		 -->
 			</tr>
 		</table>
 		<br>

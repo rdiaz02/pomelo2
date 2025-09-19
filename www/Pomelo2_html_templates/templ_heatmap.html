@@ -42,14 +42,14 @@
 				catch(e3){
 					ro = null
 					alert("Please update your web browser to its latest version to use full application functionality")
-				}	
+				}
 			}
 		}
 		return ro;
 		}
-		
+
 		var http = createRequestObject();
-		
+
 		function sndReq(form_string) {
 			http.open('post', 'http://pomelo2.iib.uam.es/cgi-bin/draw_heatmap.cgi',true);
 			http.onreadystatechange = handleResponse;
@@ -60,7 +60,7 @@
 			document.getElementById("cgi").style.visibility="hidden"
 			document.getElementById("loading").style.visibility="visible"
 		}
-		
+
 		function handleResponse() {
 			if(http.readyState == 4){
 				var response = http.responseText;
@@ -76,14 +76,14 @@
 	DIV.Main_title
 	{
 		VERTICAL-ALIGN: middle;
-		FONT-WEIGHT: 900; 
+		FONT-WEIGHT: 900;
 		FONT-SIZE: 2em;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT: rgb(34,139,34) 7px solid;
 		BORDER-TOP: rgb(0,139,0) 7px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 7px solid;
 		BORDER-LEFT: rgb(0,139,0) 7px solid;
-		PADDING-RIGHT: 7px;		
+		PADDING-RIGHT: 7px;
 		PADDING-LEFT: 7px;
 		PADDING-BOTTOM: 7px;
 		PADDING-TOP: 7px;
@@ -92,19 +92,19 @@
 		FLOAT: none;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 96%;
 		HEIGHT: 4.4em;
 	}
 	DIV.Title_box
 	{
-		font-weight: bold; 
+		font-weight: bold;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT: rgb(34,139,34) 3px solid;
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -114,10 +114,10 @@
 		VISIBILITY: visible;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 20em;
 		Z-INDEX:2;
-		
+
 	}
 	DIV.full_box
 	{
@@ -125,7 +125,7 @@
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -141,7 +141,7 @@
 	}
 	IMG.question
 	{
-	        CURSOR: pointer; 
+	        CURSOR: pointer;
 	}
 
 </style>
@@ -157,7 +157,7 @@
 		</span >
 	</div>
 <form method="post" action="/" enctype="multipart/form-data" name="heatmap_alter">
-	
+
 		<div id = "results_title" class="Title_box">
 			Redraw heatmap
 		</div>
@@ -166,7 +166,7 @@
 		<table style="position:relative; left:4%">
 	        <tr>
 		<td>
-		<img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+		<img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 		onClick="open_help('redraw_heatmap.html')">
 		</td>
 		<td>
@@ -175,16 +175,16 @@
 		</B>
 		</td></tr>
 		</table>
-	
+
 			<br>
 			<div id="loading" style="visibility:hidden;position:relative;left:40%">
               	 		Creating new heatmap ...
-			</div>	
+			</div>
 			<div id="cgi">
 			<table style="position:relative; left:34%">
 				<tr>
 					<td align=right>
-						all with unadj-p < 
+						all with unadj-p <
 					</td>
 					<td>
 						<input type="text" name="below_unadj-p" value = "0.05" size="10" />
@@ -261,7 +261,7 @@
 					<td colspan="2" align="right">
 						<br>
 						<input type="button" name="draw" value=" Draw new heatmap  " OnClick="clickDraw(heatmap_alter);">
-	
+
 					</td>
 				</tr>
 			</table>
@@ -273,14 +273,14 @@
 		</div>
 		<br><br>
 		</center>
-	
+
 	<br>
-	
+
 
 </div>
 <div style="position:relative;top:2.2em">
 
-        <table border=0 width="100%" celllspacing=0> 
+        <table border=0 width="100%" celllspacing=0>
 		<tr>
 <!-- 			<td align=left><font size=2> -->
 <!-- 				<a href="http://bioinfo.cnio.es">Bioinformatics Unit</a></font> -->
@@ -291,7 +291,7 @@
 			 	Last rev. Jan 11th, 2008
 			     </font>
 			</td>
-			<TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		
+			<!-- <TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		 -->
 		</tr>
 	</table>
 	<br>

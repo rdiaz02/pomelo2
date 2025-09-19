@@ -10,7 +10,7 @@
 		var paired_file_box = "<input type=\"FILE\" name=\"paired_indicator\" size = \"25\" maxlength =\"200\">"
 		if (testtype.value=="t" || testtype.value == "Anova" || testtype.value=="Regres"){
 		document.getElementById("Permutation_box").innerHTML  = num_permut_box
-		document.getElementById("Permutation_text").innerHTML = "Number of permutations"	
+		document.getElementById("Permutation_text").innerHTML = "Number of permutations"
 		}
 		else if (testtype.value=="t_limma_paired"){
 		document.getElementById("Permutation_box").innerHTML  = paired_file_box
@@ -20,7 +20,7 @@
 		document.getElementById("Permutation_box").innerHTML  = ""
 		document.getElementById("Permutation_text").innerHTML = "Non-permutation test"
 		}
-		
+
 	}
 
 	function toggle_help(){
@@ -61,7 +61,7 @@
 				break;
 			case 7:
 				text = "Launch Pomelo II"
-				break;	
+				break;
 			case 8:
 				text = "Select test"
 				break;
@@ -73,7 +73,7 @@
 				break;
 			case 11:
 				text = "Organism"
-				break;	
+				break;
 		}
 
 		change_help(text)
@@ -88,25 +88,25 @@
 	        var argname = pairs[i].substring(0,pos);  // Extract the name
 	        var value = pairs[i].substring(pos+1);    // Extract the value
 	        args[argname] = unescape(value);          // Store as a property
-       						  // In JavaScript 1.5, use decodeURIComponent(  ) 
+       						  // In JavaScript 1.5, use decodeURIComponent(  )
 					          // instead of escape(  )
     	    }
 	    return args;     // Return the object
-	}	
+	}
 
 </script>
 <style type="text/css">
 	DIV.Main_title
 	{
 		VERTICAL-ALIGN: middle;
-		FONT-WEIGHT: 900; 
+		FONT-WEIGHT: 900;
 		FONT-SIZE: 2em;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT: rgb(34,139,34) 7px solid;
 		BORDER-TOP: rgb(0,139,0) 7px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 7px solid;
 		BORDER-LEFT: rgb(0,139,0) 7px solid;
-		PADDING-RIGHT: 7px;		
+		PADDING-RIGHT: 7px;
 		PADDING-LEFT: 7px;
 		PADDING-BOTTOM: 7px;
 		PADDING-TOP: 7px;
@@ -115,7 +115,7 @@
 		FLOAT: none;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 96%;
 		HEIGHT: 4.4em;
 	}
@@ -125,7 +125,7 @@
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -137,18 +137,18 @@
 		POSITION: relative;
 		BACKGROUND-COLOR: rgb(238,243,226);
 		WIDTH: 98%;
-		HEIGHT: 5%; 
-	
+		HEIGHT: 5%;
+
 	}
 	DIV.Title_box
 	{
-		font-weight: bold; 
+		font-weight: bold;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT: rgb(34,139,34) 3px solid;
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -158,10 +158,10 @@
 		VISIBILITY: visible;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 10em;
 		Z-INDEX:2;
-		
+
 	}
 	DIV.form_box
 	{
@@ -169,7 +169,7 @@
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -189,7 +189,7 @@
 		BORDER-TOP:         rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM:    rgb(34,139,34) 3px solid;
 		BORDER-LEFT:        rgb(0,139,0) 3px solid;
-		PADDING-RIGHT:                         0px;		
+		PADDING-RIGHT:                         0px;
 		PADDING-LEFT:                          38px;
 		PADDING-BOTTOM:                        0px;
 		PADDING-TOP:                           0px;
@@ -209,7 +209,7 @@
 <!-- <BODY background="logo_gray_small.jpg"> -->
 <!-- <BODY background="fondo3.jpg"> -->
   <FORM action="/cgi-bin/pomeloII.cgi" enctype="multipart/form-data" method="POST">
-    
+
     <div id = "titulo_upload" class="Main_title">
       <img SRC="pomelo2.gif" align=left border=0>
       <img SRC="pomelo2.gif" align=right border=0>
@@ -218,10 +218,12 @@
 	(THE RETURN OF THE POMELO)
       </span >
     </div>
+    <br>
+    <br>
     <div id = "titulo_upload" class="Title_box" onMouseOver="help_text(1)" onMouseOut = "help_text(0)">
-      UPLOAD DATA 
+      UPLOAD DATA
     </div>
-    
+
     <div id = "formulario_upload" class="form_box" >
       <table style="position:relative; left:10% ;top:0.7em; width:80%" >
 	<tr onMouseOver="help_text(4)" onMouseOut = "help_text(0)">
@@ -265,7 +267,7 @@
 <!-- <input type="FILE" name="censored_indicator" size = "40" maxlength --
   -- ="200"></td> -->
 </td>
-  
+
 </table>
 <br>
 </div>
@@ -292,29 +294,29 @@
 	  <OPTION VALUE="Cox"> Cox model</OPTION>
 	  <OPTION VALUE="t_limma">t-test (limma)</OPTION>
 	  <OPTION VALUE="t_limma_paired">Paired t-test (limma)</OPTION>
-	  <OPTION VALUE="Anova_limma"> Anova, linear models (limma)</OPTION>   
+	  <OPTION VALUE="Anova_limma"> Anova, linear models (limma)</OPTION>
 	</SELECT>
       </td>
       <td style="width:20%" onMouseOver="help_text(9)" onMouseOut = "help_text(0)">
 	<div id = "Permutation_text">
 	  Number of permutations
       </td>
-      
+
       <td style="width:20%" onMouseOver="help_text(9)" onMouseOut = "help_text(0)">
 	<div id = "Permutation_box">
-	  <input type="text" name="num_permut" size = "15" value = 200000 maxlength ="10"> 
-	</div>			
+	  <input type="text" name="num_permut" size = "15" value = 200000 maxlength ="10">
+	</div>
       </td>
-      
+
     </tr>
   </table>
   <BR>
   </div>
-  
+
 <!--   <div id = "titulo_idconv" class="Title_box" onMouseOver="help_text(3)" onMouseOut = "help_text(0)"> -->
 <!--     ID CONVERTER INFORMATION -->
 <!--   </div> -->
-  
+
 <!--   <div id = "formulario_idconv" class="form_box" > -->
 <!--   		<table style="position:relative ;left:10% ;top:0.7em ;width:80%"> -->
 <!--   		<tr> -->
@@ -372,7 +374,7 @@
 	<input value="Start Pomelo II" type = "SUBMIT" onMouseOver="help_text(7)" onMouseOut = "help_text(0)">
 </center>
 	<div id = "formulario_idconv" class="Help_box">
-		<SPAN style="FONT-WEIGHT: 900; FONT-SIZE: 2em; ">&nbsp;?&nbsp;</SPAN> 
+		<SPAN style="FONT-WEIGHT: 900; FONT-SIZE: 2em; ">&nbsp;?&nbsp;</SPAN>
 		<SPAN style="position:absolute; top:30%; font-size:small ;FONT-WEIGHT: 100;">
 			<div id = "help_text" >
 				Move mouse over item to get added information or click <a href="./help/pomelo2-help.html" target="help_win">here</a> for the long help file. See
@@ -385,11 +387,11 @@
 <br><br>
 
 <div id = "results_title" class = "Title_box">
-Main help  
+Main help
 </div>
 <div id = "results" class = "results2_box" >
 <div class = "actual_text">
-<p>		
+<p>
 <!-- <SPAN style="FONT-WEIGHT: 600; FONT-SIZE: 1em; ">&nbsp;?&nbsp;</SPAN>  -->
 <a href="./help/pomelo2-help.html">Go to main help</a></p>
 </div>
@@ -402,7 +404,7 @@ Main help
     by <a href="http://www2.warwick.ac.uk/fac/sci/sbdtc/students/2006/edward_morrissey/"><b>Edward
 	R. Morrissey</b></a>, currently at the University of Warwick,
     and <a href="http://ligarto.org/rdiaz"><b>Ramon Diaz-Uriarte</b></a>,
-    at IIB and UAM.
+    at IIB and UAM. Pomelo II is maintained (or kept alive) by Ramon Diaz-Uriarte.
 				</font></p>
 
 <p><font size=2>If you use Pomelo II, please cite it in your
@@ -410,33 +412,36 @@ Main help
   <a href="http://nar.oxfordjournals.org/cgi/content/abstract/gkp366">
   Morrissey E, Diaz-Uriarte R. 2009. Pomelo II: finding differentially
   expressed genes. Nucleic Acids Research, 37, No. suppl_2
-  W581-W586</a>.</font></p>
-
-
-
+  W581-W586</a>.</font>
+</p>
 
 	<table border=0 width="100%" celllspacing=0>
-		<tr>
-			<td align=left>
-			</tr>
-			<tr></tr>
-			<tr>
-			<TD align="right" width="200"><a
-		href="http://asterias.bioinfo.cnio.es"><img
-		src="asterias_app.png" width="200" height="40"
-		border="0"></a></td>
+<!-- 		<tr> -->
+<!-- 			<td align=left> -->
+<!-- 			</tr> -->
+<!-- 			<tr></tr> -->
+<!-- 			<tr> -->
+<!-- 			<TD align="right" width="200"><a -->
+<!-- 		href="http://asterias.bioinfo.cnio.es"> -->
 
-		
-			<td align="left"><p><font size=2><b><a
-			href="http://asterias.bioinfo.cnio.es">Asterias</a></b>,
-			a parallelized, web-based suite for the analysis
-			of genomic data, includes applications for class
-			prediction, normalization, survival analysis,
-			aCGH, etc. </font></p>
+<!-- <img src="asterias_app.png" width="200" height="40" -->
+<!-- 		border="0"></a></td> -->
+
+
+<!-- 			<td align="left"><p><font size=2><b><a -->
+<!-- 			href="http://asterias.bioinfo.cnio.es">Asterias</a></b>, -->
+<!-- 			a parallelized, web-based suite for the analysis -->
+<!-- 			of genomic data, includes applications for class -->
+<!-- 			prediction, normalization, survival analysis, -->
+<!-- 			aCGH, etc. -->
+
+
+
+<!-- 			  </font></p> -->
 <!-- 			  See further details in the paper in <a -->
 <!-- 			href="http://nar.oxfordjournals.org/cgi/content/abstract/35/suppl_2/W75">NAR</a></font></p> -->
 
-			</td>
+<!-- 			</td> -->
 </tr>
 	</table>
 </div>

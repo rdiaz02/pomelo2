@@ -2,9 +2,9 @@
 <HEAD>
 <script type="text/javascript" language="javascript">
         function getArrayIndex(arr, val) {
-	  index = -1 
+	  index = -1
 	  for (i = 0; i < arr.length; i++) {
-	      if (arr[i] == val) { index = i; break }   
+	      if (arr[i] == val) { index = i; break }
 	  }
 	  return(index)
 	}
@@ -16,12 +16,12 @@
 
 	function send_request(req_string){
 	var strSubmit = 'tmp_dir=_SUBS_DIR_/&';
-	
+
 	if (req_string == "refresh"){
 		strSubmit = strSubmit + "cgi_option=refresh&"
 	}
 	if (req_string == "class_comp"){
-	
+
 		var option1 = document.table_form.class1
 		var option2 = document.table_form.class2
 		var index1  = option1.selectedIndex
@@ -32,7 +32,7 @@
 
 	}
 	if (req_string == "draw_venn"){
-	
+
 		var radio1 = document.table_form.venn1
 		var radio2 = document.table_form.venn2
 		var radio3 = document.table_form.venn3
@@ -48,9 +48,9 @@
 		strSubmit  = strSubmit + "cgi_option=changeFDR&newFDR=" + newFDR + "&"
 
 	}
-	
+
 	prompt_answer = true
-	if (req_string == "clear_all"){	
+	if (req_string == "clear_all"){
 		prompt_answer = confirm("Are you sure you want to clear all your contrasts?")
 		strSubmit     = strSubmit + "cgi_option=clear_all&"
 
@@ -68,7 +68,7 @@
 		index_contr_tables = getArrayIndex(string_array, "contrast_table")
 		index_radio_opts   = getArrayIndex(string_array, "radio_opt")
 		index_FDR_value    = getArrayIndex(string_array, "FDR")
-			
+
 		if (index_venn_diagr   != -1){
 		      document.getElementById("venn_diagram").innerHTML   = string_array[index_venn_diagr + 1];
 		}
@@ -76,7 +76,7 @@
 		      document.getElementById("table_swap").innerHTML     = string_array[index_indv_tables + 1];
 		}
 		if (index_contr_tables != -1){
-		      document.getElementById("diff_exp_table").innerHTML = string_array[index_contr_tables + 1];      
+		      document.getElementById("diff_exp_table").innerHTML = string_array[index_contr_tables + 1];
 		}
 		if (index_radio_opts   != -1){
 		      document.getElementById("venn_radio").innerHTML     = string_array[index_radio_opts + 1];
@@ -85,9 +85,9 @@
 		      document.getElementById("current_FDR").innerHTML    = string_array[index_FDR_value + 1];
 		}
 		<!--else{document.getElementById("table_swap").innerHTML     = text_string}-->
-				
+
 	}
-	
+
 	function block_buttons(option){
 	        if (option=="block"){
 			document.table_form.draw_venn.disabled      = true
@@ -101,9 +101,9 @@
 			document.table_form.new_FDR_button.disabled = false
 			document.table_form.clear_button.disabled = false
 		}
-		
+
 	}
-		
+
 	function createRequestObject() {
 		var ro;
 		try{
@@ -120,15 +120,15 @@
 				catch(e3){
 					ro = null
 					alert("Please update your web browser to its latest version to use full application functionality")
-				}	
+				}
 			}
 		}
 		return ro;
 
 	}
-	
+
 	var http = createRequestObject();
-		
+
 	function sndReq(form_string) {
 	        block_buttons("block")
 		http.open('post', 'http://pomelo2.iib.uam.es/cgi-bin/Anova_contrasts.cgi',true);
@@ -137,7 +137,7 @@
 		http.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
 		http.send(form_string);
 	}
-		
+
 	function handleResponse() {
 		if(http.readyState == 4){
 			var response = http.responseText;
@@ -145,7 +145,7 @@
 			block_buttons("unblock")
 		}
 	}
-	
+
 function Radio_value(radio) {
 //a variable that will hold the index number of the selected radio button
 var theone
@@ -163,14 +163,14 @@ return(theone)
 	DIV.Main_title
 	{
 		VERTICAL-ALIGN: middle;
-		FONT-WEIGHT: 900; 
+		FONT-WEIGHT: 900;
 		FONT-SIZE: 2em;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT: rgb(34,139,34) 7px solid;
 		BORDER-TOP: rgb(0,139,0) 7px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 7px solid;
 		BORDER-LEFT: rgb(0,139,0) 7px solid;
-		PADDING-RIGHT: 7px;		
+		PADDING-RIGHT: 7px;
 		PADDING-LEFT: 7px;
 		PADDING-BOTTOM: 7px;
 		PADDING-TOP: 7px;
@@ -179,7 +179,7 @@ return(theone)
 		FLOAT: none;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 96%;
 		HEIGHT: 4.4em;
 	}
@@ -189,7 +189,7 @@ return(theone)
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -201,18 +201,18 @@ return(theone)
 		POSITION: relative;
 		BACKGROUND-COLOR: rgb(238,243,226);
 		WIDTH: 98%;
-		HEIGHT: 5%; 
-	
+		HEIGHT: 5%;
+
 	}
 	DIV.Title_box
 	{
-		font-weight: bold; 
+		font-weight: bold;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT: rgb(34,139,34) 3px solid;
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -222,10 +222,10 @@ return(theone)
 		VISIBILITY: visible;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 10em;
 		Z-INDEX:2;
-		
+
 	}
 	DIV.results_box
 	{
@@ -233,7 +233,7 @@ return(theone)
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -251,7 +251,7 @@ return(theone)
 		BORDER-TOP:         rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM:    rgb(34,139,34) 3px solid;
 		BORDER-LEFT:        rgb(0,139,0) 3px solid;
-		PADDING-RIGHT:                         0px;		
+		PADDING-RIGHT:                         0px;
 		PADDING-LEFT:                          38px;
 		PADDING-BOTTOM:                        0px;
 		PADDING-TOP:                           0px;
@@ -263,10 +263,10 @@ return(theone)
 		BACKGROUND-COLOR:         rgb(238,243,226);
 		Z-INDEX:                                 1;
 	}
-	
+
 	IMG.question
 	{
-	        CURSOR: pointer; 
+	        CURSOR: pointer;
 	}
 
 
@@ -283,9 +283,11 @@ return(theone)
 	(THE RETURN OF THE POMELO)
 </span >
 </div>
+<br>
+<br>
 <FORM action="/" method="POST" name="table_form" onsubmit="return false;">
 	<div id = "results_title" class="Title_box">
-	Compare classes		
+	Compare classes
 	</div>
 	<INPUT TYPE="hidden" NAME="Temp_dir" VALUE="_TEMP_DIR_">
 	<div id = "results" class="results_box" >
@@ -293,7 +295,7 @@ return(theone)
 	<table style="position:relative; left:2%">
 	        <tr>
 		<td>
-		<img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+		<img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 		onClick="open_help('class_compare.html')">
 		</td>
 		<td>
@@ -302,31 +304,31 @@ return(theone)
 		</B>
 		</td></tr>
 	</table>
-	
+
 		<br>
 	<Center>
-		Class		
+		Class
 		<SELECT NAME="class1" SIZE="1">
 		_REPLACE_OPTS_
 		</SELECT>
-		
+
 		vs Class
 
 		<SELECT NAME="class2" SIZE="1">
 		_REPLACE_OPTS_
-		</SELECT>		
+		</SELECT>
 		<br>
 		<br>
-		<input type="button" name="comp_button" value=" Calculate comparison " 
+		<input type="button" name="comp_button" value=" Calculate comparison "
 		OnClick="send_request('class_comp');">
-		<input type="button" name="clear_button" value=" Clear all comparisons " 
+		<input type="button" name="clear_button" value=" Clear all comparisons "
 		OnClick="send_request('clear_all');">
-	</center>	
+	</center>
 
 	<table style="position:relative; left:2%">
 	        <tr>
 		<td>
-		<img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+		<img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 		onClick="open_help('results_table_contrast.html')">
 		</td>
 		<td>
@@ -341,24 +343,24 @@ return(theone)
 	<br>
 	<br>
 	</div>
-	
+
 	<div id = "heatmap_title" class="Title_box">
 		Differential expression
 	</div>
-	
+
 	<div id = "contrast_comp" class="results_box" >
 		<br>
 		<table style="position:relative; left:2%">
 		    <tr>
 		    <td>
-		    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+		    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 		    onClick="open_help('FDR_limit.html')">
 		    </td>
 		    <td align="left">
 		    <B>Differntial expession criteria:</B></td></tr>
 		</table>
 		<div id = "current_FDR" style="position:relative; left:2%">
-		</div>		
+		</div>
 
 		<table style="position:relative; left:2%">
 		    <tr><td>
@@ -369,7 +371,7 @@ return(theone)
 		<table style="position:relative; left:2%">
 		    <tr>
 		    <td>
-		    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+		    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 		    onClick="open_help('venn_diagram.html')">
 		    </td>
 		    <td>
@@ -378,13 +380,13 @@ return(theone)
 		</table>
 
 		<center>
-		
-		<div id = "venn_radio">					
+
+		<div id = "venn_radio">
 		Choose contrast 1:<input name="venn1" value="None" type="radio" checked="checked">  None <br>
 		Choose contrast 2:<input name="venn2" value="None" type="radio" checked="checked">  None <br>
-		Choose contrast 2:<input name="venn3" value="None" type="radio" checked="checked">  None <br>		
+		Choose contrast 2:<input name="venn3" value="None" type="radio" checked="checked">  None <br>
 		</div>
-		
+
 		<input type="button" name="draw_venn" value=" Draw Venn diagram " OnClick="send_request('draw_venn');">
 		<br><br>
 		<div id = "venn_diagram">
@@ -398,7 +400,7 @@ return(theone)
 		<table style="position:relative; left:2%">
 		    <tr>
 		    <td>
-		    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+		    <img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 		    onClick="open_help('diff_expresion_table.html')">
 		    </td>
 		    <td>
@@ -406,24 +408,24 @@ return(theone)
 		    </td></tr>
 		</table>
 		<div id = "diff_exp_table" style="position:relative; left:2%">
-		No class contrasts have been calculated yet.		       
+		No class contrasts have been calculated yet.
 		</div>
-		<br><br>	
+		<br><br>
 	</div>
 
 <div id = "results_title" class = "Title_box">
-Main help  
+Main help
 </div>
 <div id = "results" class = "results2_box" >
 <div class = "actual_text">
-<p>		
+<p>
 <a href="http://pomelo2.iib.uam.es/help/pomelo2-help.html">Go to main help</a></p>
 </div>
 </div>
 
 
 	<div style="position:relative;top:2.2em">
-	
+
 		<table border=0 width="100%" cellspacing=0>
 			<tr>
 <!-- 				<td align=left><font size=2> -->
@@ -433,7 +435,7 @@ Main help
 					&nbsp;Send comments to the <a href="mailto:rdiaz02@gmail.com">webmaster</a>.
 					Last rev. Mar 13th, 2008</font>
 				</td>
-				<TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		
+				<!-- <TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		 -->
 			</tr>
 		</table>
 		<br>

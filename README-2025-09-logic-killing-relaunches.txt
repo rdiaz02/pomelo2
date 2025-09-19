@@ -13,6 +13,9 @@ I kill those.
 
 2. And I check for any Pom.running.procs/Pom.[number]@whaterve older than 4 hours, and remove it.
 
+SignS, Tnasas, GeneSrF already to the removal of stale .running.procs files. I add the killing of old processes.
+
+
 
 I also used to allow several attempts at launching MPI. This is not needed anymore, I think. And that breaks the logic above, because runAndCheck.py could relaunch an mpi_run. So I set MAX_NUM_RELAUNCHES = 0 in web_apps_config.py
 

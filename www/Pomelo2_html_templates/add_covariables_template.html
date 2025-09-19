@@ -21,14 +21,14 @@ function snd_form(covar, form){
 	DIV.Main_title
 	{
 		VERTICAL-ALIGN: middle;
-		FONT-WEIGHT: 900; 
+		FONT-WEIGHT: 900;
 		FONT-SIZE: 2em;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT:   rgb(34,139,34) 7px solid;
 		BORDER-TOP:     rgb(0,139,0) 7px solid;
 		BORDER-BOTTOM:  rgb(34,139,34) 7px solid;
 		BORDER-LEFT:    rgb(0,139,0) 7px solid;
-		PADDING-RIGHT: 7px;		
+		PADDING-RIGHT: 7px;
 		PADDING-LEFT: 7px;
 		PADDING-BOTTOM: 7px;
 		PADDING-TOP: 7px;
@@ -37,7 +37,7 @@ function snd_form(covar, form){
 		FLOAT: none;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 96%;
 		HEIGHT: 4.4em;
 	}
@@ -47,7 +47,7 @@ function snd_form(covar, form){
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -59,18 +59,18 @@ function snd_form(covar, form){
 		POSITION: relative;
 		BACKGROUND-COLOR: rgb(238,243,226);
 		WIDTH: 98%;
-		HEIGHT: 5%; 
-	
+		HEIGHT: 5%;
+
 	}
 	DIV.Title_box
 	{
-		font-weight: bold; 
+		font-weight: bold;
 		TEXT-ALIGN: center;
 		BORDER-RIGHT: rgb(34,139,34) 3px solid;
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -80,10 +80,10 @@ function snd_form(covar, form){
 		VISIBILITY: visible;
 		MARGIN: 2px;
 		POSITION: relative;
-		BACKGROUND-COLOR: rgb(154,205,50); 
+		BACKGROUND-COLOR: rgb(154,205,50);
 		WIDTH: 20em;
 		Z-INDEX:2;
-		
+
 	}
 	DIV.results_box
 	{
@@ -91,7 +91,7 @@ function snd_form(covar, form){
 		BORDER-TOP: rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM: rgb(34,139,34) 3px solid;
 		BORDER-LEFT: rgb(0,139,0) 3px solid;
-		PADDING-RIGHT: 3px;		
+		PADDING-RIGHT: 3px;
 		PADDING-LEFT: 3px;
 		PADDING-BOTTOM: 3px;
 		PADDING-TOP: 3px;
@@ -109,7 +109,7 @@ function snd_form(covar, form){
 		BORDER-TOP:         rgb(0,139,0) 3px solid;
 		BORDER-BOTTOM:    rgb(34,139,34) 3px solid;
 		BORDER-LEFT:        rgb(0,139,0) 3px solid;
-		PADDING-RIGHT:                         0px;		
+		PADDING-RIGHT:                         0px;
 		PADDING-LEFT:                          38px;
 		PADDING-BOTTOM:                        0px;
 		PADDING-TOP:                           0px;
@@ -121,10 +121,10 @@ function snd_form(covar, form){
 		BACKGROUND-COLOR:         rgb(238,243,226);
 		Z-INDEX:                                 1;
 	}
-	
+
 	IMG.question
 	{
-	        CURSOR: pointer; 
+	        CURSOR: pointer;
 	}
 
 
@@ -141,33 +141,33 @@ function snd_form(covar, form){
 	(THE RETURN OF THE POMELO)
 </span >
 </div>
-<FORM action = "check_covariables.cgi" enctype = "multipart/form-data" method = "POST" onSubmit = "return false;" name = "table_form"> 
+<br>
+<FORM action = "check_covariables.cgi" enctype = "multipart/form-data" method = "POST" onSubmit = "return false;" name = "table_form">
 
-	<div id = "results_title" class = "Title_box">
-	Add covariables to analysis		
-	</div>
-	<div id = "results" class = "results_box" >
-	<br><br>
-	<table style="position:relative; left:4%">
-	        <tr>
-		<td>
-		<img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
-		onClick="open_help('no_covariables.html')">
-		</td>
-		<td>
-		<B>
-		Continue analysis <u>without</u> adding covariables
-		</B>
-		</td>
-		</tr>
-	</table>
+<div id = "results_title" class = "Title_box">
+Add covariables to analysis
+</div>
+<div id = "results" class = "results_box" >
+<br><br>
+<table style="position:relative; left:4%">
+<tr>
+<td>
+<img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 		onClick="open_help('no_covariables.html')">
+</td>
+<td>
+<B>
+Continue analysis <u>without</u> adding covariables
+</B>
+</td>
+</tr>
+</table>
 	<input type="button" value=" Continue without covariables " OnClick="snd_form('no_covar',form);" style = "position:relative; left:4%">
 	<br><br><br>
 
 	<table style="position:relative; left:4%">
 	        <tr>
 		<td>
-		<img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question" 
+		<img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 		onClick="open_help('add_covariables.html')">
 		</td>
 		<td>
@@ -176,16 +176,16 @@ function snd_form(covar, form){
 		</B>
 		</td>
 		</tr>
-	</table>	
+	</table>
 	<table style="position:relative; left:4%">
 	<tr>
 	<td>
-	Covariables file	
+	Covariables file
 	<INPUT TYPE="file" NAME="covariables">
 	</td>
 	</tr>
 	<tr><td>
-	<input type="button" name="comp_button" value=" Send covariables " 
+	<input type="button" name="comp_button" value=" Send covariables "
 	OnClick="snd_form('send_covar',form);">
 	</td></tr>
 	</table>
@@ -197,17 +197,17 @@ function snd_form(covar, form){
 
 
 <div id = "results_title" class = "Title_box">
-Main help  
+Main help
 </div>
 <div id = "results" class = "results2_box" >
 <div class = "actual_text">
-<p>		
+<p>
 <a href="http://pomelo2.iib.uam.es/help/pomelo2-help.html">Go to main help</a></p>
 </div>
 </div>
 
 	<div style="position:relative;top:2.2em">
-	
+
 		<table border=0 width="100%" cellspacing=0>
 			<tr>
 <!-- 				<td align=left><font size=2> -->
@@ -217,7 +217,7 @@ Main help
 					&nbsp;Send comments to the <a href="mailto:rdiaz02@gmail.com">webmaster</a>.
 					Last rev. Mar 13th, 2008</font>
 				</td>
-				<TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		
+				<!-- <TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		 -->
 			</tr>
 		</table>
 		<br>

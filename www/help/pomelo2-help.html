@@ -5,14 +5,14 @@
         TABLE.example
 	{
 	        WIDTH:                                 90%;
-                MARGIN-LEFT:                           5%;	
+                MARGIN-LEFT:                           5%;
 	}
-        DIV.color 
+        DIV.color
         {
                 BACKGROUND:                        #ff6600;
                 PADDING:                             0.5em;
                 BORDER:                               none;
-                WIDTH:                                 60%;                
+                WIDTH:                                 60%;
                 MARGIN-LEFT:                           14%;
         }
         DIV.actual_text
@@ -27,14 +27,14 @@
         DIV.Main_title
         {
                 VERTICAL-ALIGN:                     middle;
-                FONT-WEIGHT:                           900; 
+                FONT-WEIGHT:                           900;
                 FONT-SIZE:                             2em;
                 TEXT-ALIGN:                         center;
                 BORDER-RIGHT:     rgb(34,139,34) 7px solid;
                 BORDER-TOP:         rgb(0,139,0) 7px solid;
                 BORDER-BOTTOM:    rgb(34,139,34) 7px solid;
                 BORDER-LEFT:        rgb(0,139,0) 7px solid;
-                PADDING-RIGHT:                         7px;                
+                PADDING-RIGHT:                         7px;
                 PADDING-LEFT:                          7px;
                 PADDING-BOTTOM:                        7px;
                 PADDING-TOP:                           7px;
@@ -43,19 +43,19 @@
                 FLOAT:                                none;
                 MARGIN:                                2px;
                 POSITION:                         relative;
-                BACKGROUND-COLOR:          rgb(154,205,50); 
+                BACKGROUND-COLOR:          rgb(154,205,50);
                 WIDTH:                                 96%;
                 HEIGHT:                              4.4em;
         }
         DIV.Title_box
         {
-                FONT-WEIGHT:                          bold; 
+                FONT-WEIGHT:                          bold;
                 TEXT-ALIGN:                         center;
                 BORDER-RIGHT:     rgb(34,139,34) 3px solid;
                 BORDER-TOP:         rgb(0,139,0) 3px solid;
                 BORDER-BOTTOM:    rgb(34,139,34) 3px solid;
                 BORDER-LEFT:        rgb(0,139,0) 3px solid;
-                PADDING-RIGHT:                         3px;                
+                PADDING-RIGHT:                         3px;
                 PADDING-LEFT:                          3px;
                 PADDING-BOTTOM:                        3px;
                 PADDING-TOP:                           3px;
@@ -65,10 +65,10 @@
                 VISIBILITY:                        visible;
                 MARGIN:                                2px;
                 POSITION:                         relative;
-                BACKGROUND-COLOR:          rgb(154,205,50); 
+                BACKGROUND-COLOR:          rgb(154,205,50);
                 WIDTH:                                20em;
                 Z-INDEX:                                 2;
-                
+
         }
         DIV.results_box
         {
@@ -76,7 +76,7 @@
                 BORDER-TOP:         rgb(0,139,0) 3px solid;
                 BORDER-BOTTOM:    rgb(34,139,34) 3px solid;
                 BORDER-LEFT:        rgb(0,139,0) 3px solid;
-                PADDING-RIGHT:                         3px;                
+                PADDING-RIGHT:                         3px;
                 PADDING-LEFT:                          3px;
                 PADDING-BOTTOM:                        3px;
                 PADDING-TOP:                           3px;
@@ -87,12 +87,11 @@
                 POSITION:                         relative;
                 BACKGROUND-COLOR:         rgb(238,243,226);
                 Z-INDEX:                                 1;
-        
+
 	}
         </style>
   <title>POMELO II General help</title>
 </head>
-
 <!-- <body background="http://pomelo2.iib.uam.es/fondo3.jpg"> -->
 
 <div id="titulo_upload" class="Main_title">
@@ -101,7 +100,7 @@ border="0"> <img src="http://pomelo2.iib.uam.es/pomelo2.gif"
 align="right" border="0"> <span style="position:relative; top:15%">POMELO II
 <br>
 (THE RETURN OF THE POMELO)</span></div>
-
+<br>
 <div id="results_title" class="Title_box">
 Help index for Pomelo II</div>
 
@@ -196,7 +195,7 @@ are:</p>
     (unadjusted p-value, FDR-adjusted p-value, ...).</li>
   <li>New non-permutation methods have been added (t-limma, anova-limma and
     paired t-limma).</li>
-  <li>It is now possible to use additional covariables (with anova-limma). 
+  <li>It is now possible to use additional covariables (with anova-limma).
     That is, you can now add more information, such as: subject
     age, sex, country, or any other characteristic that might vary expression
     data.</li>
@@ -336,7 +335,7 @@ gene (or clone) is different among genes (clones).</p>
 
 <p></p>
 
-<h3><a name="toc11" id="toc11"></a><a name="Paired t-test (limma)" 
+<h3><a name="toc11" id="toc11"></a><a name="Paired t-test (limma)"
 				      id="Paired t-test (limma)">Paired t-test
                                       (limma)</a></h3>
 
@@ -645,7 +644,7 @@ data</a></h3>
     <table class="example">
     <tr><td>gene1</td><td>23.4</td><td>45.6</td><td>NA</td><td>76</td><td>85.6</td></tr>
     <tr><td>genW@</td><td>NA</td><td>34</td><td>23</td><td>NA</td><td>13</td></tr>
-    <tr><td>geneX#</td><td>23</td><td>25.6</td><td>29.4</td><td>13.2</td><td>NA</td></tr> 
+    <tr><td>geneX#</td><td>23</td><td>25.6</td><td>29.4</td><td>13.2</td><td>NA</td></tr>
     </table>
     </div>
   </li>
@@ -695,7 +694,7 @@ are using regression or Cox model, your dependent variable must be a number.
 And if you are using a t-test there can only be two classes.</p>
 
 <p>There should be no empty spaces or trailing tabs at the end of the file.
-And we read only <b>a single line</b>, so place all labels in a single line. 
+And we read only <b>a single line</b>, so place all labels in a single line.
 We will silently drop anything beyond the first line!!</p>
 <p>This is a simple example of class labels file:</p>
 
@@ -717,13 +716,13 @@ is an example file:</p>
 <div class="color">
 <table class="example">
   <tr><td>#gene</td><td>c1</td><td>c1</td><td>c2</td><td>c2</td><td>c3</td><td>c3</td></tr>
-  <tr><td>gene1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>        
-  <tr><td>gene2</td><td>NA</td><td>2</td><td>NA</td><td>1</td><td>0</td><td>0</td></tr>        
-  <tr><td>gene3</td><td>NA</td><td>1</td><td>2</td><td>NA</td><td>0</td><td>0</td></tr>        
-  <tr><td>gene4</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td><td>0</td></tr>        
-  <tr><td>gene5</td><td>1</td><td>0</td><td>0</td><td>2</td><td>1</td><td>2</td></tr>        
-  <tr><td>gene6</td><td>2</td><td>1</td><td>1</td><td>2</td><td>0</td><td>0</td></tr>        
-  <tr><td>gene7</td><td>2</td><td>1</td><td>1</td><td>0</td><td>2</td><td>0</td></tr>        
+  <tr><td>gene1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+  <tr><td>gene2</td><td>NA</td><td>2</td><td>NA</td><td>1</td><td>0</td><td>0</td></tr>
+  <tr><td>gene3</td><td>NA</td><td>1</td><td>2</td><td>NA</td><td>0</td><td>0</td></tr>
+  <tr><td>gene4</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td><td>0</td></tr>
+  <tr><td>gene5</td><td>1</td><td>0</td><td>0</td><td>2</td><td>1</td><td>2</td></tr>
+  <tr><td>gene6</td><td>2</td><td>1</td><td>1</td><td>2</td><td>0</td><td>0</td></tr>
+  <tr><td>gene7</td><td>2</td><td>1</td><td>1</td><td>0</td><td>2</td><td>0</td></tr>
   <tr><td>gene8</td><td>2</td><td>2</td><td>0</td><td>0</td><td>NA</td><td>NA</td></tr>
 </table>
 </div>
@@ -892,7 +891,7 @@ time consuming step was displaying the actual results (an HTML file with
 should expect to wait between a few minutes and a couple of hours, unless
 your data set is really huge. But, in the later case, most of your waiting
 time will be spent uploading the data and receiving back the results.</p>
-  
+
 </div>
 <br>
 <br>
@@ -927,7 +926,7 @@ page</a> there are a few examples and data sets to play with Pomelo II.</p>
 
 
 <div class="actual_text">
-It is now possible to view video tutorials of pomelo tests. 
+It is now possible to view video tutorials of pomelo tests.
 <br>
 You can find the video tutorials <a href="http://pomelo2.iib.uam.es/help/flash_tutorials/video_tutorials.html">here</a>.
 </div>
@@ -1017,9 +1016,9 @@ href="http://www.rticcc.org/">RTICCC</a>.</p>
 <ul>
   <li>You acknowledge that this Software is experimental in nature and is
     supplied "AS IS", without obligation by the authors
-    or the CNIO to provide accompanying services or
+    or their institutions to provide accompanying services or
     support. The entire risk as to the quality and performance of the
-    Software is with you. The CNIO and the authors expressly disclaim any and
+    Software is with you. The  authors expressly disclaim any and
     all warranties regarding the software, whether express or implied,
     including but not limited to warranties pertaining to merchantability or
     fitness for a particular purpose.</li>
@@ -1069,7 +1068,7 @@ href="http://www.rticcc.org/">RTICCC</a>.</p>
 <p>Uploaded data set are saved in temporary directories in the server.
 These data are accessible from the internet until they are erased (five days now).
 The same as you do, anybody can access those directories, <em>if</em> they known
-their names, which are made of 20 random digits, so they should not be easy to 
+their names, which are made of 20 random digits, so they should not be easy to
 guess. </p>
 
 <p>In any case, you should keep in mind that communications between the
@@ -1206,11 +1205,11 @@ rdf:resource="http://web.resource.org/cc/ShareAlike"
 <!--       <td align="left"><font size="2"><a -->
 <!--         href="http://bioinfo.cnio.es">Bioinformatics Unit</a></font></td> -->
       <td align="right"><font size="2"> Send comments to the <a
-        href="mailto:rdiaz02@gmail.com">webmaster</a>. Last rev. 8-April-2009</font></td>
-      <td align="right" width="200"><a
-        href="http://asterias.bioinfo.cnio.es"><img
-        src="http://pomelo2.iib.uam.es/asterias_app.png" width="200"
-        height="40" border="0"></a></td>
+        href="mailto:rdiaz02@gmail.com">webmaster</a>. Last rev. 9-April-2009</font></td>
+      <!-- <td align="right" width="200"><a -->
+      <!--   href="http://asterias.bioinfo.cnio.es"><img -->
+      <!--   src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" -->
+      <!--   height="40" border="0"></a></td> -->
     </tr>
   </tbody>
 </table>
