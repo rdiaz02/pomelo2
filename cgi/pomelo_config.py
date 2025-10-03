@@ -3,7 +3,7 @@
 # R_pomelo_bin = ROOT_APPS_DIR + '/R-3.1.1-patched-2014-08-21/bin/R'
 # w3mPath = '/usr/bin/w3m'
 # python_path = "/usr/bin/python"
-# pomelo_url = "http://pomelo2.iib.uam.es"
+# pomelo_url = "https://pomelo2.iib.uam.es"
 
 # ROOT_POMELO_DIR = ROOT_APPS_DIR + "/pomelo2"
 ## web_apps_common_dir = ROOT_APPS_DIR + '/web-apps-common'

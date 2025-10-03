@@ -159,11 +159,11 @@ def getQualifiedURL(uri = None):
     """ Return a full URL starting with schema, servername and port.
         *uri* -- append this server-rooted uri (must start with a slash)
     """
-    schema, stdport = ('http', '80')
+    schema, stdport = ('https', '443')
     host = os.environ.get('HTTP_HOST')
     if not host:
         host = os.environ.get('SERVER_NAME')
-        port = os.environ.get('SERVER_PORT', '80')
+        port = os.environ.get('SERVER_PORT', '443')
         if port != stdport: host = host + ":" + port
     result = "%s://%s" % (schema, host)
     if uri: result = result + uri
@@ -399,7 +399,7 @@ if test_type == 't_limma_paired':
 ## FIXME
 if(fs.getfirst("covariate2")!= None):
     prep_tmpdir = fs.getfirst("covariate2")
-    urlretr = urllib.urlretrieve('http://prep.bioinfo.cnio.es/tmp/' +
+    urlretr = urllib.urlretrieve('https://prep.bioinfo.cnio.es/tmp/' +
                                  prep_tmpdir + '/outdata.txt',
                                  filename = tmpDir + '/covariate')
 # Selenium if *********

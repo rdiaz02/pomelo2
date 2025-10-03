@@ -65,7 +65,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=exact:http://pomelo2.bioinfo.cnio.es/cgi-bin/pomelo_checkdone.cgi?newDir=6681301095702711546853371917</td>
+	<td>link=exact:https://pomelo2.bioinfo.cnio.es/cgi-bin/pomelo_checkdone.cgi?newDir=6681301095702711546853371917</td>
 	<td></td>
 </tr>
 <tr>

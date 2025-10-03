@@ -104,9 +104,9 @@ def makePalsurl(tmp_dir):
 		url_org_id = "org=" + organism + "&idtype=" + idtype + "&"
 	else:
 		url_org_id = ""
-	gene_list_file = "http://pomelo2.bioinfo.cnio.es/tmp/" + tmp_dir + "/gene.list.txt"
+	gene_list_file = "https://pomelo2.bioinfo.cnio.es/tmp/" + tmp_dir + "/gene.list.txt"
 	data_file = "datafile=" + gene_list_file
-	Pals_main_url = "http://pals.bioinfo.cnio.es?" + url_org_id + data_file
+	Pals_main_url = "https://pals.bioinfo.cnio.es?" + url_org_id + data_file
 	return(Pals_main_url)
 	
 ##################################################################################
@@ -126,7 +126,7 @@ if not form.has_key("ajax"):
       pals_url = makePalsurl(tmp_dir)
       template_Pals = template_Pals.replace("_POMELO_PALS_REPLACE_",pals_url)
       template_Pals = template_Pals.replace("_TEMP_DIR_",tmp_dir)
-      _tmp_route_ = "http://pomelo2.bioinfo.cnio.es/tmp/" + tmp_dir #+ "/pomelo2.GeneList.zip"
+      _tmp_route_ = "https://pomelo2.bioinfo.cnio.es/tmp/" + tmp_dir #+ "/pomelo2.GeneList.zip"
       template_Pals = template_Pals.replace("_TMP_ROUTE_", _tmp_route_)
       print "Content-type: text/html;charset=utf-8\n\n"
       print template_Pals

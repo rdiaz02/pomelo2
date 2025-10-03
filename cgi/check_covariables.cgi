@@ -27,11 +27,11 @@ def getQualifiedURL(uri = None):
     """ Return a full URL starting with schema, servername and port.
         *uri* -- append this server-rooted uri (must start with a slash)
     """
-    schema, stdport = ('http', '80')
+    schema, stdport = ('https', '443')
     host = os.environ.get('HTTP_HOST')
     if not host:
         host = os.environ.get('SERVER_NAME')
-        port = os.environ.get('SERVER_PORT', '80')
+        port = os.environ.get('SERVER_PORT', '443')
         if port != stdport: host = host + ":" + port
     result = "%s://%s" % (schema, host)
     if uri: result = result + uri
@@ -56,7 +56,7 @@ def cgi_error_page(error_type, error_text):
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TEXT_" , error_text)
     add_to_log("Pomelo II", tmpDir, error_type, error_text)
-    err_templ_hmtl = "Content-type: text/html\n\n" + err_templ_hmtl 
+    err_templ_hmtl = "Content-type: text/html\n\n" + err_templ_hmtl
     print err_templ_hmtl
 
 
@@ -98,7 +98,7 @@ def fileUpload(fieldName,fs,tmpDir):
 def numeric_table(table):
     covar_name = table[0].strip()
     summary_values = table[3].split()
-    
+
     # CSS defs
     CSS_chkbox     = "<span style=\"position:relative;left:5%\">"
     CSS_covar_name = "<span style=\"position:relative;left:8%;font-weight:bold;font-size:large\">"
@@ -109,7 +109,7 @@ def numeric_table(table):
     html_covar_name = CSS_covar_name + covar_name + "</span>"
     html_type       = CSS_type + " (NUMERIC COVARIABLE)</span>"
     html_header     = html_chkbox + html_covar_name + html_type
-    
+
     # Table
     table_start  = "<table>" #style=\"position:relative;left:7%\">"
     table_mean   = "<tr><td>Mean Value:</td><td>&nbsp;</td><td align=\"right\">"    + summary_values[3] + "</td></tr>"
@@ -121,17 +121,17 @@ def numeric_table(table):
     html_table   =  table_start +  table_min + table_max +  table_mean + table_1qurt + table_median + table_3qurt
 
     # In the end
-    #html_numeric_summary = html_header + html_table 
+    #html_numeric_summary = html_header + html_table
     html_table_foto_and_summary  = "<table style=\"position:relative;left:7%\"><tr><td style=\"width:15%\" valign=\"top\">" + html_table  + "</td></tr><tr><td style=\"width:30%\"><img border=1 src='" + pomelo_url + "/tmp/" + newDir + "/COVARIABLES/" + covar_name.strip() +".png'></td></tr></table>\n<br><br><br>"
     html_numeric_summary = html_header + html_table_foto_and_summary
-    
+
     return html_numeric_summary
-    
-    
+
+
 def non_numeric_table(table):
     covar_name = table[0].strip()
     summary_values = table[2:]
-    
+
     # CSS defs
     CSS_chkbox     = "<span style=\"position:relative;left:5%\">"
     CSS_covar_name = "<span style=\"position:relative;left:8%;font-weight:bold;font-size:large\">"
@@ -142,7 +142,7 @@ def non_numeric_table(table):
     html_covar_name = CSS_covar_name + covar_name + "</span>"
     html_type       = CSS_type + " (NON-NUMERIC COVARIABLE)</span>"
     html_header     = html_chkbox + html_covar_name + html_type
-    
+
     # Table
     table_start  = "<table>"# style=\"position:relative;left:15%\">"
     table_html = []
@@ -156,17 +156,17 @@ def non_numeric_table(table):
             df = df + 1
             table_row   = "<tr><td>" + i_name + "</td><td>" + i_freq + "</td></tr>\n"
             table_html.append(table_row)
-    
+
     html_table   =  table_start + '\n'.join(table_html)  + "</table>\n"
-    
-    
+
+
     # In the end
     #html_non_numeric_summary = html_header + html_table
     html_table_foto_and_summary  = "<table style=\"position:relative;left:7%\"><tr><td style=\"width:15%\" valign=\"top\">" + html_table  + "</td></tr><tr><td style=\"width:30%\"><img border=1 src='" + pomelo_url + "/tmp/" + newDir + "/COVARIABLES/" + covar_name.strip() +".png'></td></tr></table>\n<br><br><br>"
     html_header = html_header.replace("_number_",str(df))
     html_non_numeric_summary = html_header + html_table_foto_and_summary
     return html_non_numeric_summary
-    
+
 
 def parse_summary(summary, names_covar):
     html_list = []
@@ -198,11 +198,11 @@ def parse_summary(summary, names_covar):
 #     # Debug the inputs
 #     os.system('echo "names_covar length: %d" >> %s/sentinel_parse_summary' % (len(names_covar), tmpDir))
 #     os.system('echo "summary length: %d" >> %s/sentinel_parse_summary' % (len(str(summary)), tmpDir))
-    
+
 #     # Add dummy to list to get a with find -1
 #     names_covar.append("dummy")
 #     os.system('echo parse_summary_step_2 >> ' + tmpDir + '/sentinel_parse_summary')
-    
+
 #     try:
 #         for i in range(len(names_covar)-1):
 #             os.system('echo "Processing index %d" >> %s/sentinel_parse_summary' % (i, tmpDir))
@@ -218,7 +218,7 @@ def parse_summary(summary, names_covar):
 #     except Exception as e:
 #         os.system('echo "Exception in loop: %s" >> %s/sentinel_parse_summary' % (str(e), tmpDir))
 #         raise
-        
+
 #     os.system('echo parse_summary_step_3 >> ' + tmpDir + '/sentinel_parse_summary')
 #     html_sum = ''.join(html_list)
 #     os.system('echo parse_summary_step_4 >> ' + tmpDir + '/sentinel_parse_summary')
@@ -231,34 +231,34 @@ def parse_summary(summary, names_covar):
 #     line_start = 0
 #     os.system('echo parse_summary_step_1 >> ' + tmpDir + '/sentinel_parse_summary')
 #     os.system('echo parse_summary_step_1b ' + str(names_covar) + ' >> ' + tmpDir + '/sentinel_parse_summary')
-    
+
 #     # Debug the inputs
 #     os.system('echo "names_covar length: %d" >> %s/sentinel_parse_summary' % (len(names_covar), tmpDir))
 #     os.system('echo "summary length: %d" >> %s/sentinel_parse_summary' % (len(str(summary)), tmpDir))
-    
+
 #     # Work with a COPY of the list to avoid modifying the original
 #     names_covar_copy = names_covar[:]
 #     os.system('echo "Working with copy: %s" >> %s/sentinel_parse_summary' % (str(names_covar_copy), tmpDir))
-    
+
 #     # Add dummy to COPY, not original
 #     names_covar_copy.append("dummy")
 #     os.system('echo parse_summary_step_2 >> ' + tmpDir + '/sentinel_parse_summary')
-    
+
 #     try:
 #         for i in range(len(names_covar_copy)-1):
 #             os.system('echo "Processing index %d, looking for: %s" >> %s/sentinel_parse_summary' % (i, names_covar_copy[i + 1], tmpDir))
-            
+
 #             line_finish = summary.find(names_covar_copy[i + 1])
 #             os.system('echo "line_finish for index %d: %d" >> %s/sentinel_parse_summary' % (i, line_finish, tmpDir))
-            
+
 #             # Handle case where covariate name is not found
 #             if line_finish == -1:
 #                 os.system('echo "Covariate %s not found in summary, using end of string" >> %s/sentinel_parse_summary' % (names_covar_copy[i + 1], tmpDir))
 #                 line_finish = len(summary)
-            
+
 #             text = summary[line_start:line_finish]
 #             os.system('echo "Extracted text length: %d" >> %s/sentinel_parse_summary' % (len(text), tmpDir))
-            
+
 #             if text.find("TRUE") != -1:
 #                 os.system('echo "Found TRUE in text for index %d" >> %s/sentinel_parse_summary' % (i, tmpDir))
 #                 text_line = text.split("\n")
@@ -269,7 +269,7 @@ def parse_summary(summary, names_covar):
 #                 except Exception as e:
 #                     os.system('echo "non_numeric_table failed for index %d: %s" >> %s/sentinel_parse_summary' % (i, str(e), tmpDir))
 #                     raise
-                    
+
 #             elif text.find("FALSE") != -1:
 #                 os.system('echo "Found FALSE in text for index %d" >> %s/sentinel_parse_summary' % (i, tmpDir))
 #                 text_line = text.split("\n")
@@ -282,14 +282,14 @@ def parse_summary(summary, names_covar):
 #                     raise
 #             else:
 #                 os.system('echo "Found neither TRUE nor FALSE in text for index %d" >> %s/sentinel_parse_summary' % (i, tmpDir))
-                
+
 #             line_start = line_finish
 #             os.system('echo "Updated line_start to: %d" >> %s/sentinel_parse_summary' % (line_start, tmpDir))
-            
+
 #     except Exception as e:
 #         os.system('echo "Exception in loop: %s" >> %s/sentinel_parse_summary' % (str(e), tmpDir))
 #         raise
-        
+
 #     os.system('echo parse_summary_step_3 >> ' + tmpDir + '/sentinel_parse_summary')
 #     html_sum = ''.join(html_list)
 #     os.system('echo parse_summary_step_4 >> ' + tmpDir + '/sentinel_parse_summary')
@@ -312,7 +312,7 @@ def r2html(tmp_dir, newDir):
         error_msg = error_msg + "<br><br><input type='button' value=' Back to add covariables ' OnClick='document.location=\"add_covariables.cgi?newDir=" + newDir + " \"'>"
         err_template = err_template.replace("_ERROR_TEXT_", error_msg)
         html_output  = err_template.replace("_ERROR_TITLE_", "Covariables Error")
-        
+
     except:
         os.system('echo add_cov_step_3 >> ' + tmpDir + '/sentinel_r2html')
         # Note for me: watch new lines \n
@@ -352,10 +352,10 @@ def r2html(tmp_dir, newDir):
         html_templ  = html_templ.replace("_MAX_DF_"        , str(max_df))
 
         html_output = html_templ.replace("_SUMMARY_TABLE_" , html_summary)
-        
+
     return html_output
 
-		
+
 ##################################################################################
 #************  SELENIUM STUFF **************
 ## Pomelo_covariable_sel_file ="/http/pomelo2/www/selenium-core-0.7.1/TEST_DATA/covariables.anova"
@@ -370,7 +370,7 @@ except:
     sys.exit()
 os.chdir(tmp_dir)
 cgi_option = form['cgi_option'].value
-f = open("testtype");test_type = f.read().strip();f.close()  
+f = open("testtype");test_type = f.read().strip();f.close()
 num_permut = 10000  ## this should be irrelevant here; these are limma tests so no permut.
 newDir = tmp_dir.split("/")[-1]
 tmpDir = tmp_dir
@@ -388,9 +388,9 @@ if cgi_option == "continue":
        dummyi, dummyo, dummye = os.popen3("rm COVARIABLES/*")
     except:
        pass
-   
+
     os.system('echo check_cov_step_6_1 >> ' + tmpDir + '/sentinel_check_covariables')
-    the_r_a_c_call = Pomelo_cgi_dir + '/runAndCheck.py'   
+    the_r_a_c_call = Pomelo_cgi_dir + '/runAndCheck.py'
     run_and_check = os.spawnv(os.P_NOWAIT, the_r_a_c_call, #Pomelo_cgi_dir + '/runAndCheck.py',
                               ['', tmpDir])
     os.system('echo check_cov_step_6_2 >> ' + tmpDir + '/sentinel_check_covariables')
@@ -471,9 +471,7 @@ if cgi_option=="covar_launch":
                   '">> ' + tmpDir + '/run_and_checkPID')
     ##############    Redirect to results.html    ##################
     print "Location: "+ getQualifiedURL("/tmp/" + newDir + "/results.html"), "\n\n"
-    
+
 #     tryrrun = os.system('/http/mpi.log/pomelo_run.py ' + tmp_dir + ' ' + test_type + ' ' + str(num_permut) +'&')
 #     ##############    Redirect to checkdone.cgi    ##################
 #     print "Location: "+ getQualifiedURL("/cgi-bin/pomelo_checkdone.cgi") + "?newDir=" + newDir, "\n\n"
-
-

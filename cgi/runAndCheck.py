@@ -292,7 +292,7 @@ while True:  ## we repeat until done or unrecoverale crash
         issue_echo2("Out of time")
         #close_lam_env()
         printPomKilled()
-#         print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/'+ \
+#         print 'Location: https://pomelo2.bioinfo.cnio.es/tmp/'+ \
 #             newDir + '/results.html \n\n'
         break
 
@@ -323,7 +323,7 @@ while True:  ## we repeat until done or unrecoverale crash
             printOKRun()
 	    issue_echo2("       after printOKRun")
             ## this AIN'T a CGI. None of this print stuff should be here!!
-#            print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
+#            print 'Location: https://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
             break
 
         ## zz-new-checks-runs: 2025-09 : MAX_NUM_RELAUNCHES set to 0.
@@ -351,14 +351,14 @@ while True:  ## we repeat until done or unrecoverale crash
                 issue_echo2("not mpi_worked")
                 #close_lam_env()
                 mpi_error()
-#                print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
+#                print 'Location: https://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
                 break
 
             elif not results_exist:
                 issue_echo2("not results_exist")
                 #close_lam_env()
                 multest_error()
-#                print 'Location: http://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
+#                print 'Location: https://pomelo2.bioinfo.cnio.es/tmp/' + newDir + '/results.html \n\n'
                 break
 
     time.sleep(TIME_BETWEEN_CHECKS)

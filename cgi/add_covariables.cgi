@@ -2,8 +2,8 @@
 # -*- mode: python ; -*-
 
 ####  Copyright (C)  2003-2005, Ramon Diaz-Uriarte <rdiaz02@gmail.com>,
-####                 2005-2009, Edward R. Morrissey and 
-####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com> 
+####                 2005-2009, Edward R. Morrissey and
+####                            Ramon Diaz-Uriarte <rdiaz02@gmail.com>
 
 #### This program is free software; you can redistribute it and/or
 #### modify it under the terms of the Affero General Public License
@@ -49,19 +49,19 @@ from web_apps_config import web_apps_common_dir, \
 
 def getQualifiedURL(uri = None):
     """ Return a full URL starting with schema, servername and port.
-    
+
     *uri* -- append this server-rooted uri (must start with a slash)
     """
-    schema, stdport = ('http', '80')
+    schema, stdport = ('https', '443')
     host = os.environ.get('HTTP_HOST')
     if not host:
         host = os.environ.get('SERVER_NAME')
-        port = os.environ.get('SERVER_PORT', '80')
+        port = os.environ.get('SERVER_PORT', '443')
         if port != stdport: host = host + ":" + port
-	
+
     result = "%s://%s" % (schema, host)
     if uri: result = result + uri
-    
+
     return result
 
 def getScriptname():
@@ -90,7 +90,7 @@ def cgi_error_page(error_type, error_text, tmpDir):
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TITLE_", error_type)
     err_templ_hmtl = err_templ_hmtl.replace("_ERROR_TEXT_" , error_text)
     add_to_log("Pomelo II", tmpDir, error_type, error_text)
-    err_templ_hmtl = "Content-type: text/html\n\n" + err_templ_hmtl 
+    err_templ_hmtl = "Content-type: text/html\n\n" + err_templ_hmtl
     print err_templ_hmtl
 
 def commonOutput():
@@ -101,9 +101,9 @@ def commonOutput():
     <title>Pomelo II results</title>
     </head>
     <body>
-    """    
+    """
 
-        
+
 # End of functions ****************************************************************************************
 #**********************************************************************************************************
 
@@ -166,7 +166,7 @@ if os.path.exists(tmpDir + '/COVARIABLES/added-example-covariables'):
                                 name_example_added_covs + '</span>')
 
 os.system('echo add_cov_step_4 >> ' + tmpDir + '/sentinel_add_covariables')
-   
+
 templ_hmtl = "Content-type: text/html\n\n" + template
 
 ## print >> sys.stderr, "DEBUG: in x255", templ_hmtl
@@ -177,4 +177,3 @@ os.system('echo add_cov_step_5 >> ' + tmpDir + '/sentinel_add_covariables')
 print templ_hmtl
 
 os.system('echo add_cov_step_6 >> ' + tmpDir + '/sentinel_add_covariables')
-

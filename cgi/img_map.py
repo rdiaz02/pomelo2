@@ -10,7 +10,7 @@ def id_converter_lite_link (geneName, idtype, organism):
 # 		return "#"
 # 	else:
 # 		geneName = geneName.split("(")[0].strip()
-# 		return ''.join(['http://idclight.bioinfo.cnio.es/IDClight.prog?idtype=', idtype, '&id=', geneName, '&internal=0&org=', organism,'" target="icl_window'])
+# 		return ''.join(['https://idclight.bioinfo.cnio.es/IDClight.prog?idtype=', idtype, '&id=', geneName, '&internal=0&org=', organism,'" target="icl_window'])
 
 def change_image (file_name, last_pixel, idtype, organism):
 	# Read html file

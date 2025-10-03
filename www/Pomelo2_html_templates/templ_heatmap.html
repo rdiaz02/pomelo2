@@ -1,7 +1,7 @@
  <html>
 	<script type="text/javascript" language="javascript">
 	        function open_help(help_html){
-	               var page_URL = "http://pomelo2.iib.uam.es/help/" + help_html
+	               var page_URL = "https://pomelo2.iib.uam.es/help/" + help_html
 		       window.open(page_URL, "help", "width=750, height=600, scrollbars=YES, resizable=YES")
 		}
 		function clickDraw(docForm){
@@ -51,7 +51,7 @@
 		var http = createRequestObject();
 
 		function sndReq(form_string) {
-			http.open('post', 'http://pomelo2.iib.uam.es/cgi-bin/draw_heatmap.cgi',true);
+			http.open('post', 'https://pomelo2.iib.uam.es/cgi-bin/draw_heatmap.cgi',true);
 			http.onreadystatechange = handleResponse;
 			var browser = navigator.appName;
 // 			if(browser == "Microsoft Internet Explorer"){
@@ -147,10 +147,10 @@
 </style>
 <TITLE> Pomelo II: modify heatmap </TITLE>
 
-<!-- <Body background="http://pomelo2.iib.uam.es/fondo3.jpg"> -->
+<!-- <Body background="https://pomelo2.iib.uam.es/fondo3.jpg"> -->
 	<div id = "titulo_upload" class="Main_title">
-		<img SRC="http://pomelo2.iib.uam.es/pomelo2.gif" align=left border=0>
-		<img SRC="http://pomelo2.iib.uam.es/pomelo2.gif" align=right border=0>
+		<img SRC="https://pomelo2.iib.uam.es/pomelo2.gif" align=left border=0>
+		<img SRC="https://pomelo2.iib.uam.es/pomelo2.gif" align=right border=0>
 		<span style="position:relative; top:15%">
 		POMELO II <br>
 		(THE RETURN OF THE POMELO)
@@ -166,7 +166,7 @@
 		<table style="position:relative; left:4%">
 	        <tr>
 		<td>
-		<img SRC="http://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
+		<img SRC="https://pomelo2.iib.uam.es/question_mark_cut.png" border=0 class="question"
 		onClick="open_help('redraw_heatmap.html')">
 		</td>
 		<td>
@@ -291,7 +291,7 @@
 			 	Last rev. Jan 11th, 2008
 			     </font>
 			</td>
-			<!-- <TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="http://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		 -->
+			<!-- <TD align="right" width="200"><a href="http://asterias.bioinfo.cnio.es"><img src="https://pomelo2.iib.uam.es/asterias_app.png" width="200" height="40" border="0"></a></TD>		 -->
 		</tr>
 	</table>
 	<br>
